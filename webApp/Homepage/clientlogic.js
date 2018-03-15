@@ -9,7 +9,6 @@
 
 $(document).ready(function(){
 	caricaAnagrafica();
-	// ciao sono bello
 });
 
 function cancellaCampi(){
@@ -49,6 +48,10 @@ function redimContainer(){
 	document.getElementById("container").style.marginRight = "0";
 }
 
+function giraData(date){
+	return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
+}
+
 
 
 
@@ -84,7 +87,7 @@ function caricaAnagrafica() {
 			var riga = "";
 			for (var a = 0; a < persone.length; a ++)
 			{
-				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Nome + "</td><td>" + persone [a].Cognome + "</td><td>" + persone [a].DataNascita + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].Provenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Contatti + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaDocumenti(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-th-list\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
+				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Nome + "</td><td>" + persone [a].Cognome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].Provenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
 			}
 			$("#tblAnagraficaBody").html(riga);
         },
@@ -98,26 +101,7 @@ function cercaPersona ()
 {
 	var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
 
-	$.post ("serverlogic.php?command=cercaPersona",
-		{
-			"persona": ricerca
-		},
-		function (data)
-		{
-			var persone = JSON.parse (data);
-			var t = $('#tblAnagrafica').DataTable ();
-			t.clear ();
-			
-
-			for (var a = 0; a < persone.length; a ++)
-			{
-				var d = [persone [a].ID,persone [a].nome, persone [a].cognome,persone [a].DataNascita,persone [a].LuogoNascita,persone [a].Provenienza,persone [a].Residenza,persone [a].Indirizzo,persone [a].CAP,persone [a].Telefono1,persone [a].Contatti,persone [a].Motivo,persone [a].Osservazioni,persone [a].CodiceFiscale];
-				t.row.add (d);
-			}
-			t.draw (false);
-
-		}
-	);
+	
 
 	$.ajax({  
         type: "POST", 
@@ -125,7 +109,7 @@ function cercaPersona ()
         data: {persona: ricerca,azione: "cercaPersona"},
         success: function(response) {
         	var persone = JSON.parse (response);
-			var t = $('#tblAnagrafica').DataTable ();
+			var t = $('#tblAnagraficaBody').DataTable ();
 			t.clear ();
 
 			for (var a = 0; a < persone.length; a ++)
@@ -151,6 +135,15 @@ function cercaPersona ()
     });
 }
 
+function visualizzaAnamnesi(id) {
+	
+
+
+
+
+
+}
+
 function visualizzaDocumenti(id) {
 	
 
@@ -161,12 +154,21 @@ function visualizzaDocumenti(id) {
 }
 
 function generaCodice(id) {
-	
-
-
-
-
-
+	var codice = Math.floor(Math.random() * 100000) + 1;
+	$("#lblCodice").val(codice);
+	$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaCodice", codice:codice, idPersona:id},
+        success: function(response) {
+        	if(!response){
+        		alert("Questo utente è già registrato...");
+        	}
+        },
+        error: function(){
+        	alert("Errore");
+        }
+    });
 }
 
 function mostraSituazionePaziente(i) {
@@ -216,13 +218,25 @@ function caricaContabilita(){
         url: "../Contabilita/index.html", 
         success: function(response) {
 			var i;
-			var riga="<table class=\"table table-hover table-bordered\" id=\"tblContabilita\"><thead id=\"tblIntestazione\"><tr><th>Nome</th><th>Cognome</th><th>Data</th><th>Importo</th></tr></thead><tbody id=\"bodyTblContabilita\">";
-			for(i=0;i<10;i++){ 
-				//Indice formato da ID + data
-				riga += "<tr onclick=\"mostraPagamento(" + i + ");\"> <td>Esempio</td> <td>Esempio</td><td>Esempio</td><td>50 &euro;</td></tr>";
+			$("#container").html(response);          
+        },
+        error: function(){
+        	alert("Errore");
+        }
+    });
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "cercaContabilita", nomePersona:""},
+        success: function(response) {
+        	console.log(response);
+        	var persone = JSON.parse (response);
+			var riga = "";
+			for (var a = 0; a < persone.length; a ++)
+			{
+				riga += "<tr onclick=\"mostraPagamento(" +  persone[a].ID + ");\"> <td>" + persone[a].ID + "</td> <td>" + persone[a].ID + "</td><td>" + persone[a].ID + "</td><td>" + persone[a].ID + "&euro;</td></tr>";
 			}
-			riga += "</tbody></table>";
-			$("#container").html(riga + response);          
+			$("#tblContabilitaBody").html(riga);
         },
         error: function(){
         	alert("Errore");
