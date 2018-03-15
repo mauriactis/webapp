@@ -11,7 +11,7 @@
          <th>Indirizzo</th>
          <th>CAP</th>
          <th>Telefono</th>
-         <th>Telefono2</th>
+         <th>Telefono 2</th>
          <th>Motivo</th>
          <th>Codice fiscale</th>
          <th>Anamesi</th>
@@ -48,4 +48,19 @@
       <button type="button" class="btn btn-default" id="btnContabilitaSituazionePaziente">Visualizza contabilità</button>
       <button type="button" class="btn btn-default" id="btnStoricoInterventiSituazionePaziente">Visualizza storico interventi</button>
    </div>
+</div>
+
+<!-- Popup per aggiungere un nuovo paziente -->
+<div class="modal fade" id="popupAggiungiNuovo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div>Il codice &egrave;:</div>
+            <label id="lblCodice"></label>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+    </div>
 </div>
