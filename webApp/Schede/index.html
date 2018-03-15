@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html> 
+   <head> 
+      <title>Schede</title> 
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="../cssEsterno/bootstrap.min.css" rel="stylesheet">
+      <link id="styleCss" href="style.css" rel="stylesheet" type="text/css"/>
+      <script language="javascript" src="clientlogic.js"></script>
+
+
+
+
+
+
+
+   </head> 
+   <body>
+      <script src="../jsEsterno/jquery.js"></script>
+      <script src="../jsEsterno/bootstrap.min.js"></script>
+      <script src="../jsEsterno/jquery-3.3.1.min.js"></script>
+
+    	<div class="container">
+			<ul class="nav nav-tabs" id="barraNavigazione"> 
+			   <li class="active"><a href="#" id="linkGambe">Gambe</a></li>
+            <!--Quando premi su una finestra chiamata ajax??-->
+			   <li><a href="#" id="linkBraccia">Braccia</a></li>
+			   <li><a href="#" id="linkDorso">Dorso</a></li>
+			   <li><a href="#" id="linkTuttoCorpo">Tutto il corpo</a></li>
+			</ul>
+
+         <div class="row" id="mainRow"> 
+            <div class="col-sm-6 col-md-3"> 
+               <div class="thumbnail"> 
+                  <img src="../imgs/Schede/esercizio1.jpg" alt="Esercizio" id="imgEs1"> 
+               </div> 
+               <div class="caption">
+                  <h3 id="nomeEsercizio1">Esercizio 1
+                     <a href="#" class="btn btn-default" role="button" id="btnStampaEs1"> 
+                        Stampa
+                     </a>
+                  </h3> 
+               </div> 
+            </div> 
+            <div class="col-sm-6 col-md-3"> 
+               <div class="thumbnail"> 
+                  <img src="../imgs/Schede/esercizio1.jpg"  alt="Esercizio" id="imgEs2"> 
+               </div> 
+               <div class="caption">
+                  <h3 id="nomeEsercizio2">Esercizio 2
+                     <a href="#" class="btn btn-default" role="button" id="btnStampaEs2"> 
+                        Stampa
+                     </a>
+                  </h3>
+               </div> 
+            </div> 
+            <div class="col-sm-6 col-md-3"> 
+               <div class="thumbnail"> 
+                  <img src="../imgs/Schede/esercizio1.jpg" alt="Esercizio" id="imgEs3"> 
+               </div> 
+               <div class="caption">
+                  <h3 id="nomeEsercizio3">Esercizio 3
+                     <a href="#" class="btn btn-default" role="button" id="btnStampaEs3"> 
+                        Stampa
+                     </a>
+                  </h3> 
+               </div> 
+            </div> 
+         </div> 
+ 
+         <div class="text center">
+            <ul class="pagination" id="btnPagine"> 
+               <li><a href="#">&laquo;</a></li> 
+               <li class="active"><a href="#">1</a></li> 
+               <li><a href="#">2</a></li> 
+               <li><a href="#">3</a></li> 
+               <li><a href="#">4</a></li> 
+               <li><a href="#">5</a></li> 
+               <li><a href="#">&raquo;</a></li> 
+            </ul> 
+         </div>
+ 
+		</div>
+
+   </body> 
+</html> 

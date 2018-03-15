@@ -1,0 +1,127 @@
+#header{
+	margin: 1em;
+}
+
+#barraNavigazione{
+	margin-top: 1em;
+	margin-left: 1em;
+}
+
+#btnSchede{
+	margin-left: 1em;
+}
+
+#lblAppuntamento1{
+	margin-left: 1.5em;
+}
+
+#lblAppuntamento2{
+    margin-left: 0.25em;
+}
+
+#lblProxAppuntamento1{
+	margin-left: 1.5em;
+}
+
+#lblProxAppuntamento2{
+    margin-left: 0.25em;
+}
+
+#btnAppuntamenti{
+	margin-left: 1em;
+}
+
+td #btn {
+	margin-left: 3em;
+}
+
+#chkLblPagaAdesso{
+    margin-top: 2em;
+}
+
+#chkPagato{
+    margin-right: 1em;
+    float: left;
+    display: inline;
+}
+
+.tblPopupAggiungiNuovo tr{
+    margin-top: 5em;
+}
+.tblPopupAggiungiNuovo tr td{
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+#txtCodiceFiscalePopupAggiungiNuovo{
+	width: 30em;
+}
+
+#txtOsservazioniPopupAggiungiNuovo{
+	width: 30em;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgb(236, 236, 236);
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: rgb(255, 255, 255);
+    border-left:1px solid rgb(127, 127, 127);
+    border-top:1px solid rgb(127, 127, 127);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration: none;
+    color: black;
+}
+
+#corpoSituazionePaziente{
+	margin-left: 0.25em;
+	margin-right: 0.25em;
+}
+
+.sidenav button {
+    margin-top: 1em;
+}
+
+#mainDiv {
+    transition: margin-left 0.5s;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+}
+
+
+/*Elementi relativi al div dinamico che gestiscono le barre laterali aperte dopo il click su una riga*/
+
+/*Anagrafica*/
+
+/*Contabilità*/
+#lblNomeCognome{
+    margin-right: 3em;
+}
+
+#corpoPagamento{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#divBottoniPagamento{
+    float: right;
+}
