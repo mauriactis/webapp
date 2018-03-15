@@ -9,6 +9,7 @@
 
 $(document).ready(function(){
 	caricaAnagrafica();
+	// ciao sono bello
 });
 
 function cancellaCampi(){
