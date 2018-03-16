@@ -2,8 +2,8 @@
    <thead>
       <tr>
          <th>ID</th>
-         <th>Nome</th>
          <th>Cognome</th>
+         <th>Nome</th>
          <th>Data di nascita</th>
          <th>Luogo di nascita</th>
          <th>Medico di provenienza</th>
@@ -50,13 +50,28 @@
    </div>
 </div>
 
-<!-- Popup per aggiungere un nuovo paziente -->
+<!-- Popup per visualizzare un codice associato ad un paziente -->
 <div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
          <div class="modal-body">
             <div>Il codice &egrave;:</div>
             <b><h2 id="lblCodice"></h2></b>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup per visualizzare l' anamnesi di un paziente -->
+<div class="modal fade" id="popupAnamnesiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div><label>Motivo:</label></div>
+            <div id="divAnamnesi"></div>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
