@@ -111,6 +111,9 @@ td #btn {
 /*Elementi relativi al div dinamico che gestiscono le barre laterali aperte dopo il click su una riga*/
 
 /*Anagrafica*/
+#lblCodice{
+    text-align: center;
+}
 
 /*Contabilità*/
 #lblNomeCognome{
