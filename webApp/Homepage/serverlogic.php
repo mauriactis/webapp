@@ -21,9 +21,9 @@
 					$persona = $_POST['nomePersona'];
 					cercaContabilita($conn,$persona);
 					break;
-				case 'caricaAnagrafica' :
+				/*case 'caricaAnagrafica' :
 					caricaAnagrafica($conn);
-					break;	
+					break;*/
 				case 'caricaUltimoIntervento' :
 					$idPersona = $_POST['id'];
 					caricaUltimoIntervento($conn,$id);
@@ -60,45 +60,16 @@
 					$idPersona = $_POST['id'];
 					visualizzaContabilitaPersona($conn,$idPersona);
 					break;
-				case 'visualizzaPagamentoContabilita' :
-					$idPersona = $_POST['id'];
-					$data = $_POST['dataIntervento'];
-					contabilitaVisualizzaPagamento($conn,$idPersona,$dataIntervento);
-					break;
-				case 'aggiornaPagamento' :
-					$idPersona = $_POST['id'];
-					$importo = $_POST['importo'];
-					$data = $_POST['dataIntervento'];
-					aggiornaPagamento($conn,$idPersona,$data,$importo);
-					break;
-				case 'pagaInterventoPassato' :
-					$idPersona = $_POST['id'];
-					$data = $_POST['dataIntervento'];
-					pagaInterventoPassato($conn,$idPersona,$dataIntervento);
-					break;
-				case 'pagaTuttiInterventiPassati' :
-					$idPersona = $_POST['id'];
-					pagaTuttiInterventiPassati($conn,$idPersona);
-					break;
 				}
 			}
 	
 		$conn=null;
 
-
-		function local_encode ($var){  //funzione usate per passare i dati
-			if (is_string ($var))
-				return utf8_encode ($var);
-			if (is_array ($var))
-				return array_map ('local_encode', $var);
-			return $var;
-		}
-
-		function cercaPersona($conn,$persona){   //la funzione che permette di fare una ricerca nella scheda anagrafica
+		function cercaPersona($conn,$persona){   //Il cerca nella scheda anagrafica
 
 			$persona = strtoupper($persona);
-			$persona = "%".$persona."%";
-			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,Provenienza,Residenza,Indirizzo,CAP,Telefono1,Contatti,Motivo,Osservazioni1,CodiceFiscale FROM anagrafica WHERE upper(Nome) LIKE ? or upper(Cognome) LIKE ? ORDER BY Cognome,Nome";
+			$persona = $persona."%";
+			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc FROM anagrafica where upper(Nome) Like ? or upper(Cognome) Like ? order by Cognome,Nome LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -114,11 +85,11 @@
 		}
 
 
-		function cercaContabilita($conn,$persona){   ///la funzione che permette di fare una ricerca nella scheda contabilita
+		function cercaContabilita($conn,$persona){   //Il cerca nella scheda contabilita
 
 			$persona = strtoupper($persona);   
-			$persona = "%".$persona."%";             //ricerca se c'e $persona dentro alla stringa che scriviamo nel textbox cerca
-			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM anagrafica,pagamenti WHERE anagrafica.ID = pagamenti.AnaID AND upper(Nome) LIKE ? or upper(Cognome) LIKE ? ORDER BY Cognome,Nome,Data";
+			$persona = "%".$persona."%";             //ricerca se c e persona dentro alla stringa che scriviamo
+			$query="select AnaID,Nome,Cognome,Data,Pagamento,Pagato from anagrafica,pagamenti where anagrafica.ID = pagamenti.AnaID AND upper(Nome) Like ? or upper(Cognome) Like ? order by Cognome,Nome,Data";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -133,10 +104,10 @@
 
 		}
 
-		function caricaAnagrafica($conn){   //funzione che viene richiamata appena viene startata la pagina
+		/*function caricaAnagrafica($conn){   //funzione che viene richiamata appena viene startata la pagina
 			
 			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc FROM anagrafica ORDER BY
-			Cognome,Nome";
+			Cognome,Nome LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
 			$ret= array();
@@ -147,12 +118,19 @@
 			
 		echo json_encode(local_encode($ret));
 
-		}
+		}*/
 
+		function local_encode ($var){
+			if (is_string ($var))
+				return utf8_encode ($var);
+			if (is_array ($var))
+				return array_map ('local_encode', $var);
+			return $var;
+		}
 
 		function caricaUltimoIntervento($conn,$idPersona){   //carica l ultimo intervento da mettere nella casella a destra per far vedere cosa è stato fatto la volta precedente
 
-			$query="SELECT Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY Data DESC";
+			$query="select Data,Descrizione from interventi where AnaID = ? order by Data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -169,7 +147,7 @@
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 
-			$query="INSERT INTO pagamenti VALUES(?,?,?,?,?)";
+			$query="insert into pagamenti values(?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $data);
@@ -185,7 +163,7 @@
 
 		function inserisciNuovoPaziente($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
 
-			$query="INSERT INTO anagrafica VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			$query="insert into anagrafica values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $nome);
@@ -210,7 +188,7 @@
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
 
-			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="select AnaId,Data,Importo,Descrizione,Pagato from interventi where AnaID = ? order by data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -226,7 +204,7 @@
 
 		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i record riguardati la contabilita del paziente dal menu a scorrimento a destra
 
-			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="select AnaId,Data,Importo,Descrizione,Pagato from interventi where AnaID = ? order by data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -240,64 +218,7 @@
 
 		}
 
-		function visualizzaPagamentoContabilita($conn,$idPersona,$dataIntervento){  //visualizza l'ultimo intervento fatto insieme al prezzo da pagare nella scheda contabilità
-
-			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? AND Data = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$stmSql ->bindParam(2, $dataIntervento);
-			$result = $stmSql ->execute();
-			$ret= array();
-
-			while ($row = $stmSql->fetch()){
-					array_push ($ret, $row);
-			}
-			
-		echo json_encode(local_encode($ret));
-
-		}
-
-		function aggiornaPagamento($conn,$idPersona,$data,$importo){   //bottone paga che permette di modificare l'importo di un intervento
-
-			$query="UPDATE pagamenti SET Pagamento= ? WHERE AnaID = ? AND Data = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $importo);
-			$stmSql ->bindParam(2, $idPersona);
-			$stmSql ->bindParam(3, $data);
 		
-			$result = $stmSql ->execute();
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
-
-		}		
-
-		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato
-
-			$query="SELECT Importo FROM interventi WHERE AnaID = ? AND Data = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$stmSql ->bindParam(2, $dataIntervento);
-			$result = $stmSql ->execute();
-			$ret= array();
-
-			while ($row = $stmSql->fetch()){
-					array_push ($ret, $row);
-			}
-			
-		echo json_encode(local_encode($ret));
-
-		}
-
-		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
-
-			$query="SELECT SUM(Importo) FROM interventi WHERE AnaID = ? AND Pagato=0 GROUP BY AnaID";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$result = $stmSql ->execute();
-			$ret=$stmSql->fetch();
-					
-		echo $ret[0]; //restituisco la prima cella del array perche tanto restituisce solo un dato
-		}
 
 ?>
 

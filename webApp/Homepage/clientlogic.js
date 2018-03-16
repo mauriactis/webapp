@@ -8,7 +8,7 @@
 
 
 $(document).ready(function(){
-	caricaAnagrafica();
+	cercaPersona();
 });
 
 function cancellaCampi(){
@@ -60,7 +60,7 @@ function giraData(date){
 
 
 
-function caricaAnagrafica() {
+/*function caricaAnagrafica() {
 	if(document.getElementById("pagamento") != null){
 	 	nascondiPagamento();
 	}
@@ -95,39 +95,40 @@ function caricaAnagrafica() {
         	alert("Errore");
         }
     });
-}
+}*/
 
 function cercaPersona ()
 {
-	var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
-
-	
-
+	if(document.getElementById("pagamento") != null){
+	 	nascondiPagamento();
+	}
+	if(document.getElementById("situazionePaziente") != null){
+	 	nascondiSituazionePaziente();
+	}
 	$.ajax({  
+        type: "GET", 
+        url: "../Anagrafica/index.html", 
+        success: function(response) {
+			var i;
+			$("#container").html(response);          
+        },
+        error: function(){
+        	alert("Errore");
+        }
+    });
+	var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {persona: ricerca,azione: "cercaPersona"},
+        data: {azione: "cercaPersona", nomePersona:ricerca},
         success: function(response) {
         	var persone = JSON.parse (response);
-			var t = $('#tblAnagraficaBody').DataTable ();
-			t.clear ();
-
+			var riga = "";
 			for (var a = 0; a < persone.length; a ++)
 			{
-				var d = [persone [a].ID,persone [a].Nome, persone [a].Cognome,persone [a].DataNascita,persone [a].LuogoNascita,persone [a].Provenienza,persone [a].Residenza,persone [a].Indirizzo,persone [a].CAP,persone [a].Telefono1,persone [a].Contatti,persone [a].Motivo,persone [a].Osservazioni,persone [a].CodiceFiscale];
-				t.row.add (d);
+				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Nome + "</td><td>" + persone [a].Cognome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].MedicoProvenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" data-toggle=\"modal\" data-target=\"#popupCodicePaziente\" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
 			}
-			t.draw (false);
-
-
-
-			//var riga="<table class=\"table table-hover table-bordered\" id=\"tblAnagrafica\"><thead id=\"tblIntestazione\"><tr><th>Nome</th><th>Cognome</th><th>Data di nascita</th><th>Luogo di nascita</th><th>Provenienza</th><th>Residenza</th><th>Indirizzo</th><th>CAP</th><th>Telefono</th><th>Contatti</th><th>Motivo</th><th>Osservazioni</th><th>Codice fiscale</th><th>Documenti</th></tr></thead><tbody id=\"bodyTblAnagrafica\">";
-			/*for(i=0;i<10;i++){ 
-				//Indice formato da ID
-				riga += "<tr onclick=\"mostraSituazionePaziente(" + i + ");\"> <td>Esempio</td> <td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td>Esempio</td><td><button type=\"button\" class=\"btn btn-danger\" id=\"btnDocumentiPaziente\"><span class=\"glyphicon glyphicon-list\"></span></button></td></tr>";
-			}*/
-			//riga += "</tbody></table>";
-			$("#container").html(riga + response);         
+			$("#tblAnagraficaBody").html(riga);
         },
         error: function(){
         	alert("Errore");
@@ -155,8 +156,9 @@ function visualizzaDocumenti(id) {
 
 function generaCodice(id) {
 	var codice = Math.floor(Math.random() * 100000) + 1;
-	$("#lblCodice").val(codice);
-	$.ajax({  
+	console.log(codice);
+	$("#lblCodice").html(codice);
+	/*$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "caricaCodice", codice:codice, idPersona:id},
@@ -168,17 +170,15 @@ function generaCodice(id) {
         error: function(){
         	alert("Errore");
         }
-    });
+    });*/
 }
 
 function mostraSituazionePaziente(i) {
 	if(document.getElementById("situazionePaziente").style.width == "500px"){
 	 	nascondiSituazionePaziente();
 	}else{
-		console.log(i);
     	document.getElementById("situazionePaziente").style.width = "500px";
     	document.getElementById("situazionePaziente").style.marginTop = "55px";
-    	document.getElementById("container").style.marginRight = "500px";
 	}
 }
 
@@ -187,7 +187,6 @@ function nascondiSituazionePaziente() {
 	$("#txtImportoSituazionePaziente").val("");
 	document.getElementById ("chkPagato").checked = false;
     document.getElementById("situazionePaziente").style.width = "0";
-    redimContainer();
 }
 
 function checkButton(){
@@ -251,12 +250,10 @@ function mostraPagamento(i) {
 		console.log(i);
     	document.getElementById("pagamento").style.width = "500px";
     	document.getElementById("pagamento").style.marginTop = "55px";
-    	document.getElementById("container").style.marginRight = "500px";
 	}
 }
 
 function nascondiPagamento() {
 	$("#txtImportoPagamento").val("");
     document.getElementById("pagamento").style.width = "0";
-    redimContainer();
 }
