@@ -2,11 +2,6 @@
 	margin: 1em;
 }
 
-#barraNavigazione{
-	margin-top: 1em;
-	margin-left: 1em;
-}
-
 #btnSchede{
 	margin-left: 1em;
 }
@@ -33,16 +28,6 @@
 
 td #btn {
 	margin-left: 3em;
-}
-
-#chkLblPagaAdesso{
-    margin-top: 2em;
-}
-
-#chkPagato{
-    margin-right: 1em;
-    float: left;
-    display: inline;
 }
 
 .modal-dialog{
@@ -93,6 +78,10 @@ td #btn {
     padding-top: 60px;
 }
 
+.sidenav button {
+    margin-top: 1em;
+}
+
 .sidenav .closebtn {
     position: absolute;
     top: 0;
@@ -101,15 +90,6 @@ td #btn {
     margin-left: 50px;
     text-decoration: none;
     color: black;
-}
-
-#corpoSituazionePaziente{
-	margin-left: 0.25em;
-	margin-right: 0.25em;
-}
-
-.sidenav button {
-    margin-top: 1em;
 }
 
 #mainDiv {
@@ -123,12 +103,50 @@ td #btn {
 
 /*Elementi relativi al div dinamico che gestiscono le barre laterali aperte dopo il click su una riga*/
 
+
+
+
+
 /*Anagrafica*/
+
+
+
+
+
+#corpoSituazionePaziente{
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
 #lblCodice{
     text-align: center;
 }
 
+#chkLblPagaAdesso{
+    margin-top: 2em;
+}
+
+#chkPagato{
+    margin-right: 1em;
+    float: left;
+    display: inline;
+}
+
+#txtSituazionePazienteOggi{
+    width: 34em;
+    resize: none;
+}
+
+
+
+
+
 /*Contabilità*/
+
+
+
+
+
 #lblNomeCognome{
     margin-right: 3em;
 }
