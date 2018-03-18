@@ -30,7 +30,6 @@
 
       <h3><label>L' ultima volta...</label></h3>
       <div id="situazionePazienteUltimaVolta">
-         QUESTO VA RIEMPITO CON QUALCOSA DAL DATABASE Lorem ipsum  dolor sit amet e ceccerecerecerrecerece
       </div>
 
       <h3><label>Oggi</label></h3>
@@ -44,9 +43,10 @@
       <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente">Salva</button>
       <button type="button" class="btn btn-default" onclick="nascondiSituazionePaziente();">Annulla</button>
       <br>
-      <button type="button" class="btn btn-default" id="btnEserciziSituazionePaziente">Assegna esercizi</button>
-      <button type="button" class="btn btn-default" id="btnContabilitaSituazionePaziente">Visualizza contabilità</button>
-      <button type="button" class="btn btn-default" id="btnStoricoInterventiSituazionePaziente">Visualizza storico interventi</button>
+      <button type="button" class="btn btn-default" id="btnEserciziSituazionePaziente" onclick="assegnaEsercizi();">Assegna esercizi</button>
+      <button type="button" class="btn btn-default" id="btnContabilitaSituazionePaziente" onclick="visualizzaContabilita();">Visualizza contabilità</button>
+      <button type="button" class="btn btn-default" id="btnStoricoInterventiSituazionePaziente" data-toggle="modal" data-target="#popupStoricoInterventiPaziente" onclick="visualizzaStoricoInterventi();">Visualizza storico interventi</button>
+      <input type="hidden" id="idPersona" value="">
    </div>
 </div>
 
@@ -54,8 +54,10 @@
 <div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
-         <div class="modal-body">
+         <div class="modal-header">
             <div>Il codice &egrave;:</div>
+         </div>
+         <div class="modal-body">
             <b><h2 id="lblCodice"></h2></b>
          </div>
          <div class="modal-footer">
@@ -78,4 +80,29 @@
          </div>
       </div>
     </div>
+</div>
+
+<!-- Popup per visualizzare lo storico interventi di un paziente -->
+<div class="modal fade" id="popupStoricoInterventiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            <table class="table table-hover table-bordered admin">
+               <thead>
+                  <tr>
+                     <th>ID Paziente</th>
+                     <th>Data</th>
+                     <th>Importo</th>
+                     <th>Descrizione</th>
+                  </tr>
+               </thead>
+               <tbody id="tblStoricoInterventiPazienteBody">
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+   </div>
 </div>
