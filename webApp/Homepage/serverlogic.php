@@ -4,10 +4,10 @@
 		try{
 			// connessione
 			$conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
-			// abilita gestione errORi tramite try … catch  (Exception)
+			// abilita gestione errori tramite try … catch  (Exception)
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch(PDOException $ex){
-		   $risposta = "ErrORe connessione: ".$ex->getMessage();
+		   $risposta = "Errore connessione: ".$ex->getMessage();
 	}
 	
 	if(isset($_POST['azione']) && !empty($_POST['azione'])) {   //variabili tutte con minuscole con upper su prima lettere della seconda parola
@@ -27,10 +27,10 @@
 					break;
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
-					$impORto = $_POST['impORto'];
+					$importo = $_POST['importo'];
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
-					inserisciPagamentoDesc($conn,$idPersona,$impORto,$pagato,$descrizione,$data);
+					inserisciPagamentoDesc($conn,$idPersona,$importo,$pagato,$descrizione,$data);
 					break;
 				case 'inserisciNuovoPaziente' :
 					$idPersona = $_POST['id'];
@@ -49,9 +49,9 @@
 					$codFisc = $_POST['codFisc'];
 					inserisciNuovoPaziente($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
 					break;
-				case 'visualizzaStORicoInterventi' :
+				case 'visualizzaStoricoInterventi' :
 					$idPersona = $_POST['id'];
-					visualizzaStORicoInterventi($conn,$idPersona);
+					visualizzaStoricoInterventi($conn,$idPersona);
 					break;
 				case 'visualizzaContabilitaPersona' :
 					$idPersona = $_POST['id'];
@@ -59,9 +59,9 @@
 					break;
 				case 'aggiornaPagamento' :
 					$idPersona = $_POST['id'];
-					$impORto = $_POST['impORto'];
+					$importo = $_POST['importo'];
 					$data = $_POST['dataIntervento'];
-					aggiornaPagamento($conn,$idPersona,$data,$impORto);
+					aggiornaPagamento($conn,$idPersona,$data,$importo);
 					break;
 				case 'pagaInterventoPassato' :
 					$idPersona = $_POST['id'];
@@ -110,7 +110,7 @@
 
 			$persona = strtoupper($persona);
 			$persona = $persona."%";
-			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
+			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? or upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -160,13 +160,13 @@
 
 		}
 
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$impORto,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 
 			$query="INSERT INTO pagamenti VALUES(?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $data);
-			$stmSql ->bindParam(3, $impORto);
+			$stmSql ->bindParam(3, $importo);
 			$stmSql ->bindParam(4, $descrizione);
 			$stmSql ->bindParam(5, $pagato);
 			
@@ -201,9 +201,9 @@
 
 		}
 
-		function visualizzaStORicoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
+		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
 
-			$query="SELECT AnaId,Data,ImpORto,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -217,9 +217,9 @@
 
 		}
 
-		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i recORd riguardati la contabilita del paziente dal menu a scORrimento a destra
+		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i record riguardati la contabilita del paziente dal menu a scorrimento a destra
 
-			$query="SELECT AnaId,Data,ImpORto,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -233,10 +233,10 @@
 
 		}
 
-		function aggiornaPagamento($conn,$idPersona,$data,$impORto){   //bottone paga che permette di modificare l'impORto di un intervento
+		function aggiornaPagamento($conn,$idPersona,$data,$importo){   //bottone paga che permette di modificare l'importo di un intervento
 			$query="UPDATE pagamenti SET Pagamento= ? WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $impORto);
+			$stmSql ->bindParam(1, $importo);
 			$stmSql ->bindParam(2, $idPersona);
 			$stmSql ->bindParam(3, $data);
 		
@@ -246,7 +246,7 @@
 		}		
 		
 		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato
-			$query="SELECT ImpORto FROM interventi WHERE AnaID = ? AND Data = ?";
+			$query="SELECT Importo FROM interventi WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $dataIntervento);
@@ -260,8 +260,8 @@
 		echo json_encode(local_encode($ret));
 		}
 		
-		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'impORto di tutte le sessioni passate per pagare tutte in una sola volta
-			$query="SELECT SUM(ImpORto) FROM interventi WHERE AnaID = ? AND Pagato=0 GROUP BY AnaID";
+		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
+			$query="SELECT SUM(Importo) FROM interventi WHERE AnaID = ? AND Pagato=0 GROUP BY AnaID";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -269,7 +269,6 @@
 					
 		echo $ret[0]; //restituisco la prima cella del array perche tanto restituisce solo un dato
 		}
-
 
 
 
@@ -284,7 +283,7 @@
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-			
+			or
 		echo json_encode(local_encode($ret)); 
 		}
 
