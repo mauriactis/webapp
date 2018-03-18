@@ -60,43 +60,6 @@ function giraData(date){
 
 
 
-/*function caricaAnagrafica() {
-	if(document.getElementById("pagamento") != null){
-	 	nascondiPagamento();
-	}
-	if(document.getElementById("situazionePaziente") != null){
-	 	nascondiSituazionePaziente();
-	}
-	$.ajax({  
-        type: "GET", 
-        url: "../Anagrafica/index.html", 
-        success: function(response) {
-			var i;
-			$("#container").html(response);          
-        },
-        error: function(){
-        	alert("Errore");
-        }
-    });
-	$.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "caricaAnagrafica"},
-        success: function(response) {
-        	var persone = JSON.parse (response);
-			var riga = "";
-			for (var a = 0; a < persone.length; a ++)
-			{
-				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Nome + "</td><td>" + persone [a].Cognome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].Provenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
-			}
-			$("#tblAnagraficaBody").html(riga);
-        },
-        error: function(){
-        	alert("Errore");
-        }
-    });
-}*/
-
 function cercaPersona ()
 {
 	if(document.getElementById("pagamento") != null){
@@ -126,7 +89,7 @@ function cercaPersona ()
 			var riga = "";
 			for (var a = 0; a < persone.length; a ++)
 			{
-				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Nome + "</td><td>" + persone [a].Cognome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].MedicoProvenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" data-toggle=\"modal\" data-target=\"#popupCodicePaziente\" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
+				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Cognome + "</td><td>" + persone [a].Nome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].MedicoProvenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" data-toggle=\"modal\" data-target=\"#popupCodicePaziente\" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
 			}
 			$("#tblAnagraficaBody").html(riga);
         },
@@ -137,26 +100,35 @@ function cercaPersona ()
 }
 
 function visualizzaAnamnesi(id) {
-	
-
-
-
-
-
+	$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaAnamnesi", idPersona:id},
+        success: function(response) {
+        	$("#lblCodice").html(response);
+        },
+        error: function(){
+        	alert("Errore");
+        }
+    });
 }
 
 function visualizzaDocumenti(id) {
-	
-
-
-
-
-
+	$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaDocumenti", idPersona:id},
+        success: function(response) {
+        	// TO DO Popup che visualizza documenti
+        },
+        error: function(){
+        	alert("Errore");
+        }
+    });
 }
 
 function generaCodice(id) {
-	var codice = Math.floor(Math.random() * 100000) + 1;
-	console.log(codice);
+	var codice = Math.floor(Math.random() * 1000000) + 1;
 	$("#lblCodice").html(codice);
 	/*$.ajax({  
         type: "POST", 
