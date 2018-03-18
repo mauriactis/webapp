@@ -45,20 +45,33 @@ td #btn {
     display: inline;
 }
 
-.tblPopupAggiungiNuovo tr{
-    margin-top: 5em;
-}
-.tblPopupAggiungiNuovo tr td{
-    margin-left: 3em;
-    margin-right: 3em;
+.modal-dialog{
+    width: 50em;
 }
 
-#txtCodiceFiscalePopupAggiungiNuovo{
-	width: 30em;
+.tblPopupAggiungiNuovo tr{
+    padding-top: 1em;
+}
+
+.form-control{
+   width: 15em;
+   margin-left: 0.5em;
+}
+
+.inputMore{
+   width: 36em;
+}
+
+.popupAggiungiNuovo3Col{
+    margin-left: 1em;
+}
+
+.tblPopupAggiungiNuovoRow{
+    height: 3em;
 }
 
 #txtOsservazioniPopupAggiungiNuovo{
-	width: 30em;
+    resize: none;
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
