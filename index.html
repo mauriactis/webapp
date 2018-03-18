@@ -10,12 +10,11 @@
       <script src="../jsEsterno/jquery.js"></script>
       <script src="../jsEsterno/bootstrap.min.js"></script>
       <script src="../jsEsterno/jquery-3.3.1.min.js"></script>
-      <script src="../jsEsterno/DataTable/DataTables-1.10.16/js/jquery.dataTables.min.js"></script>
       <script language="javascript" src="clientlogic.js"></script>
 
       <div id="mainDiv">
          <div id="header">
-               <button class="btn btn-default" onclick="cercaPersona();" id="lngAnagrafica"><span class="glyphicon glyphicon-home"></span> Anagrafica</button>
+               <button class="btn btn-default" onclick="caricaAnagrafica();" id="lngAnagrafica"><span class="glyphicon glyphicon-home"></span> Anagrafica</button>
                <button class="btn btn-default" onclick="caricaContabilita();" id="lngContabilita"><span class="glyphicon glyphicon-euro"></span> Contabilit&agrave;</button>
                <input type="hidden" id="boolCaricaPagina" value="0"> 
    
@@ -109,7 +108,7 @@ aria-labelledby="myModalLabel" aria-hidden="true">
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupAggiungiNuovo" onclick="changeArrow();"    value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
-            <button type="button" class="btn btn-primary" id="btnConfermaPopupAggiungiNuovo" onclick="cancellaCampi();">   Conferma</button>
+            <button type="button" class="btn btn-primary" id="btnConfermaPopupAggiungiNuovo" onclick="inserisciNuovoPaziente();">Conferma</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
          </div>
       </div>
