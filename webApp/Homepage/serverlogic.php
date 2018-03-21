@@ -30,10 +30,10 @@
 					$importo = $_POST['importo'];
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
+					$data = $_POST['data'];
 					inserisciPagamentoDesc($conn,$idPersona,$importo,$pagato,$descrizione,$data);
 					break;
 				case 'inserisciNuovoPaziente' :
-					$idPersona = $_POST['id'];
 					$nome = $_POST['nome'];
 					$cognome = $_POST['cognome'];
 					$dataNascita = $_POST['dataNascita'];
@@ -43,11 +43,11 @@
 					$indirizzo = $_POST['indirizzo'];
 					$cap = $_POST['cap'];
 					$telefono1 = $_POST['telefono1'];
-					$telefono2 = $_POST['pagato'];
+					$telefono2 = $_POST['telefono2'];
 					$motivo = $_POST['motivo'];
 					$anamnesi = $_POST['anamnesi'];
 					$codFisc = $_POST['codFisc'];
-					inserisciNuovoPaziente($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
+					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
 					break;
 				case 'visualizzaStoricoInterventi' :
 					$idPersona = $_POST['id'];
@@ -59,8 +59,8 @@
 					break;
 				case 'aggiornaPagamento' :
 					$idPersona = $_POST['id'];
-					$importo = $_POST['importo'];
 					$data = $_POST['dataIntervento'];
+					$importo = $_POST['importo'];
 					aggiornaPagamento($conn,$idPersona,$data,$importo);
 					break;
 				case 'pagaInterventoPassato' :
@@ -87,11 +87,11 @@
 					$indirizzo = $_POST['indirizzo'];
 					$cap = $_POST['cap'];
 					$telefono1 = $_POST['telefono1'];
-					$telefono2 = $_POST['pagato'];
+					$telefono2 = $_POST['telefono2'];
 					$motivo = $_POST['motivo'];
 					$anamnesi = $_POST['anamnesi'];
 					$codFisc = $_POST['codFisc'];
-					aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
+					aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
 					break;
 				}
 			}
@@ -106,11 +106,11 @@
 			return $var;
 		}
 
-		function cercaPersona($conn,$persona){   //Il cerca nella scheda anagrafica
+		function cercaPersona($conn,$persona){   //La funzione che permette di usare la barra di ricerca con la scheda anagrafica attiva
 
 			$persona = strtoupper($persona);
 			$persona = $persona."%";
-			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? or upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
+			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -125,11 +125,11 @@
 
 		}
 
-		function cercaContabilita($conn,$persona){   //Il cerca nella scheda contabilita
+		function cercaContabilita($conn,$persona){  //La funzione che permette di usare la barra di ricerca con la scheda contabilita attiva
 
 			$persona = strtoupper($persona);   
 			$persona = "%".$persona."%";             //ricerca se c e persona dentro alla stringa che scriviamo
-			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM anagrafica,pagamenti WHERE anagrafica.ID = pagamenti.AnaID AND upper(Nome) LIKE ? OR upper(Cognome) LIKE ? ORDER BY Cognome,Nome,Data";
+			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM anagrafica,pagamenti WHERE anagrafica.ID = pagamenti.AnaID AND upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome,Data";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -176,24 +176,23 @@
 
 		}
 
-		function inserisciNuovoPaziente($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
+		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
 
-			$query="INSERT INTO anagrafica VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			$query="INSERT INTO anagrafica (Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$stmSql ->bindParam(2, $nome);
-			$stmSql ->bindParam(3, $cognome);
-			$stmSql ->bindParam(4, $datanascita);
-			$stmSql ->bindParam(5, $luogoNascita);
-			$stmSql ->bindParam(6, $medicoProv);
-			$stmSql ->bindParam(7, $residenza);
-			$stmSql ->bindParam(8, $indirizzo);
-			$stmSql ->bindParam(9, $cap);
-			$stmSql ->bindParam(10, $telefono1);
-			$stmSql ->bindParam(11, $telefono2);
-			$stmSql ->bindParam(12, $motivo);
-			$stmSql ->bindParam(13, $anamnesi);
-			$stmSql ->bindParam(14, $codFisc);
+			$stmSql ->bindParam(1, $nome);
+			$stmSql ->bindParam(2, $cognome);
+			$stmSql ->bindParam(3, $datanascita);
+			$stmSql ->bindParam(4, $luogoNascita);
+			$stmSql ->bindParam(5, $medicoProv);
+			$stmSql ->bindParam(6, $residenza);
+			$stmSql ->bindParam(7, $indirizzo);
+			$stmSql ->bindParam(8, $cap);
+			$stmSql ->bindParam(9, $telefono1);
+			$stmSql ->bindParam(10, $telefono2);
+			$stmSql ->bindParam(11, $motivo);
+			$stmSql ->bindParam(12, $anamnesi);
+			$stmSql ->bindParam(13, $codFisc);
 			
 			$result = $stmSql ->execute();
 			
@@ -219,7 +218,7 @@
 
 		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i record riguardati la contabilita del paziente dal menu a scorrimento a destra
 
-			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="SELECT pagamenti.AnaId,pagamenti.Data,Pagamento,pagamenti.Descrizione,Pagato FROM interventi,pagamenti WHERE pagamenti.AnaID=interventi.AnaID AND pagamenti.Data=interventi.Data AND pagamenti.AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -246,22 +245,18 @@
 		}		
 		
 		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato
-			$query="SELECT Importo FROM interventi WHERE AnaID = ? AND Data = ?";
+			$query="SELECT Pagamento FROM pagamenti WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $dataIntervento);
 			$result = $stmSql ->execute();
-			$ret= array();
+			$ret=$stmSql->fetch();
 
-			while ($row = $stmSql->fetch()){
-					array_push ($ret, $row);
-			}
-			
-		echo json_encode(local_encode($ret));
+		echo $ret[0];
 		}
 		
 		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
-			$query="SELECT SUM(Importo) FROM interventi WHERE AnaID = ? AND Pagato=0 GROUP BY AnaID";
+			$query="SELECT SUM(Pagamento) FROM pagamenti WHERE AnaID = ? AND Pagato=0 ";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -274,7 +269,7 @@
 
 		function aggiornaAnagraficaRequest($conn,$idPersona){   //funzione che restituisce tutti i dati di una persona per metterli nel pop-up che permette di modificare i dati del paziente
 			
-			$query="SELECT Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc FROM anagrafica WHERE AnaID = ? ";
+			$query="SELECT Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc FROM anagrafica WHERE ID = ? ";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -283,11 +278,11 @@
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-			or
+
 		echo json_encode(local_encode($ret)); 
 		}
 
-		function aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$datanascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //funzione che esegue l update dopo che e stato cliccato il pulsante aggiorna campi nel pop-up del aggirona campi del paziente
+		function aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //funzione che esegue l update dopo che e stato cliccato il pulsante aggiorna campi nel pop-up del aggirona campi del paziente
 
 			$query="UPDATE anagrafica SET Nome = ? AND Cognome = ? AND DataNascita = ? AND LuogoNascita = ? AND MedicoProvenienza = ? AND Residenza = ? AND Indirizzo = ? AND CAP = ? AND Telefono1 = ? AND Telefono2 = ? AND Motivo = ? AND Anamnesi = ? AND CodFisc = ?";
 			
