@@ -23,9 +23,20 @@ function cancellaCampi(){
 	 $("#txtProvenienzaPopupAggiungiNuovo").val("");
 	 $("#txtMotivoPopupAggiungiNuovo").val("");
 	 $("#txtTelefono2PopupAggiungiNuovo").val("");
-	 $("#txtContattiPopupAggiungiNuovo").val("");
 	 $("#txtCodiceFiscalePopupAggiungiNuovo").val("");
 	 $("#txtOsservazioniPopupAggiungiNuovo").val("");
+
+     document.getElementById("txtNomePopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtCognomePopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtDataNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtIndirizzoPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtResidenzaPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtCapPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtTelefonoPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtMotivoPopupAggiungiNuovo").style.backgroundColor = "white";
+     document.getElementById("txtCodiceFiscalePopupAggiungiNuovo").style.backgroundColor = "white";
+
 
 	 if($("#campiAggiuntiviPopupAggiungiNuovo").is(":visible")){
 	 	changeArrow();
@@ -59,6 +70,11 @@ function giraData(date){
 
 
 
+
+function caricaAnagrafica(){
+    $("#txtRicercaAnagrafica").val("");
+    cercaPersona();
+}
 
 function cercaPersona ()
 {
@@ -100,7 +116,7 @@ function cercaPersona ()
 }
 
 function visualizzaAnamnesi(id) {
-	$.ajax({  
+	/*$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaAnamnesi", idPersona:id},
@@ -110,7 +126,7 @@ function visualizzaAnamnesi(id) {
         error: function(){
         	alert("Errore");
         }
-    });
+    });*/
 }
 
 function visualizzaDocumenti(id) {
@@ -169,7 +185,111 @@ function checkButton(){
 	}
 }
 
+function visualizzaStoricoInterventi(){
+    nascondiSituazionePaziente();
+}
 
+function visualizzaContabilita(){
+    nascondiSituazionePaziente();
+}
+
+function assegnaEsercizi(){
+    nascondiSituazionePaziente();
+}
+
+function aggiungiNuovoPaziente(){
+    if(checkfields()){
+        alert("Alcuni campi obbligatori non sono stati compilati correttamente.");
+    }else{
+        var nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
+        var cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
+        var luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
+        var dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
+        var residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
+        var indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
+        var cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
+        var telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
+        var telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
+        var codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
+        var motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
+        var osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
+        var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
+
+        $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
+                medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
+                motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
+        success: function(response) {
+            alert("Nuovo paziente inserito con successo!");
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+    }
+}
+
+/*Ritorna false se è andato tutto bene*/
+function checkfields(){
+    var ret = false;
+    var txtNome = $("#txtNomePopupAggiungiNuovo");
+    var txtCognome = $("#txtCognomePopupAggiungiNuovo");
+    var txtLuogoNascita = $("#txtLuogoNascitaPopupAggiungiNuovo");
+    var txtDataNascita = $("#txtDataNascitaPopupAggiungiNuovo");
+    var txtResidenza = $("#txtResidenzaPopupAggiungiNuovo");
+    var txtIndirizzo = $("#txtIndirizzoPopupAggiungiNuovo");
+    var txtCap = $("#txtCapPopupAggiungiNuovo");
+    var txtCodFisc = $("#txtCodiceFiscalePopupAggiungiNuovo");
+    var txtTelefono = $("#txtTelefonoPopupAggiungiNuovo");
+    var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
+
+    //var regexNome = '/w3Schools/i';
+
+    if(txtNome.val() == str.search(regexNome);){
+        txtNome.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtCognome.val() == ""){
+        txtCognome.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtLuogoNascita.val() == ""){
+        txtLuogoNascita.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtDataNascita.val() == ""){
+        txtDataNascita.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtResidenza.val() == ""){
+        txtResidenza.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtIndirizzo.val() == ""){
+        txtIndirizzo.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtCap.val() == ""){
+        txtCap.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtCodFisc.val() == ""){
+        txtCodFisc.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtTelefono.val() == ""){
+        txtTelefono.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+    if(txtMotivo.val() == ""){
+        txtMotivo.css("background-color", "rgb(255,147,147)");
+        ret = true;
+    }
+
+    return ret;
+}
 
 
 /*-------------------Funzioni relative a contabilità-------------------*/
@@ -200,7 +320,6 @@ function caricaContabilita(){
         url: "./serverlogic.php",
         data: {azione: "cercaContabilita", nomePersona:""},
         success: function(response) {
-        	console.log(response);
         	var persone = JSON.parse (response);
 			var riga = "";
 			for (var a = 0; a < persone.length; a ++)

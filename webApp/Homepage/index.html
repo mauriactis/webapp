@@ -14,7 +14,7 @@
 
       <div id="mainDiv">
          <div id="header">
-               <button class="btn btn-default" onclick="cercaPersona();" id="lngAnagrafica"><span class="glyphicon glyphicon-home"></span> Anagrafica</button>
+               <button class="btn btn-default" onclick="caricaAnagrafica();" id="lngAnagrafica"><span class="glyphicon glyphicon-home"></span> Anagrafica</button>
                <button class="btn btn-default" onclick="caricaContabilita();" id="lngContabilita"><span class="glyphicon glyphicon-euro"></span> Contabilit&agrave;</button>
                <input type="hidden" id="boolCaricaPagina" value="0"> 
    
@@ -91,10 +91,6 @@ aria-labelledby="myModalLabel" aria-hidden="true">
                         <td><input type="text" class="form-control inputMore" id="txtTelefono2PopupAggiungiNuovo"></td>
                      </tr>
                      <tr class="tblPopupAggiungiNuovoRow">
-                        <td><label>Contatti</label></td>
-                        <td><input type="text" class="form-control inputMore" id="txtContattiPopupAggiungiNuovo"></td>
-                     </tr>
-                     <tr class="tblPopupAggiungiNuovoRow">
                         <td><label>Medico di provenienza</label></td>
                         <td><input type="text" class="form-control inputMore" id="txtProvenienzaPopupAggiungiNuovo"></td>
                      </tr>
@@ -108,7 +104,7 @@ aria-labelledby="myModalLabel" aria-hidden="true">
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupAggiungiNuovo" onclick="changeArrow();"    value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
-            <button type="button" class="btn btn-primary" id="btnConfermaPopupAggiungiNuovo" onclick="cancellaCampi();">   Conferma</button>
+            <button type="button" class="btn btn-primary" id="btnConfermaPopupAggiungiNuovo" onclick="aggiungiNuovoPaziente();">Conferma</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
          </div>
       </div>

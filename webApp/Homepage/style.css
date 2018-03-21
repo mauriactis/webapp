@@ -128,6 +128,11 @@ td #btn {
     text-align: center;
 }
 
+#txtSituazionePazienteOggi{
+    resize: none;
+    width: 34em;
+}
+
 /*Contabilità*/
 #lblNomeCognome{
     margin-right: 3em;
