@@ -1,3 +1,12 @@
+/*
+anagrafica
+carica nuovo
+salva intervento-pagamento
+cerca persona
+visualizza storico interventi
+*/
+
+
 
 
 
@@ -133,7 +142,7 @@ function visualizzaDocumenti(id) {
 	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "visualizzaDocumenti", idPersona:id},
+        data: {azione: "visualizzaDocumenti", id:id},
         success: function(response) {
         	// TO DO Popup che visualizza documenti
         },
@@ -162,6 +171,18 @@ function generaCodice(id) {
 }
 
 function mostraSituazionePaziente(i) {
+    $("#idPersona").val(i);
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaUltimoIntervento", id:i},
+        success: function(response) {
+            $("#situazionePazienteUltimaVolta").html(response);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 	if(document.getElementById("situazionePaziente").style.width == "500px"){
 	 	nascondiSituazionePaziente();
 	}else{
@@ -184,6 +205,53 @@ function checkButton(){
 		document.getElementById ("chkPagato").checked = true;
 	}
 }
+
+function salvaIntervento(){
+    var descrizione = $("#txtSituazionePazienteOggi").val();
+    var importo = $("#txtImportoSituazionePaziente").val();
+    var pagato = $("#chkPagato").val();
+    var today = new Date();
+    var d = today.getDay();
+    var m = today.getMonth();
+    var y = today.getFullYear();
+    if(d<10){
+        d= "0" + d;
+    }
+    if(m<10){
+        m= "0" + m;
+    }
+
+
+    var oggi = y + "-" + m + "-" + d;
+    var id = $("#idPersona").val();
+
+
+
+    if(pagato=="on"){
+        pagato=1;
+    }else{
+        pagato=0;
+    }
+
+
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
+                data:oggi},
+        success: function(response) {
+            console.log(response);
+            alert("Intervento registrato!");
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+
+
+}
+
+
 
 function visualizzaStoricoInterventi(){
     nascondiSituazionePaziente();
@@ -222,6 +290,7 @@ function aggiungiNuovoPaziente(){
                 medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
+            console.log(response);
             alert("Nuovo paziente inserito con successo!");
         },
         error: function(){
@@ -247,7 +316,7 @@ function checkfields(){
 
     //var regexNome = '/w3Schools/i';
 
-    if(txtNome.val() == str.search(regexNome);){
+    if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
         ret = true;
     }

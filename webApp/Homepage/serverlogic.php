@@ -23,7 +23,7 @@
 					break;
 				case 'caricaUltimoIntervento' :
 					$idPersona = $_POST['id'];
-					caricaUltimoIntervento($conn,$id);
+					caricaUltimoIntervento($conn,$idPersona);
 					break;
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
@@ -31,7 +31,8 @@
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
 					$data = $_POST['data'];
-					inserisciPagamentoDesc($conn,$idPersona,$importo,$pagato,$descrizione,$data);
+					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione);
+
 					break;
 				case 'inserisciNuovoPaziente' :
 					$nome = $_POST['nome'];
@@ -109,7 +110,7 @@
 		function cercaPersona($conn,$persona){   //La funzione che permette di usare la barra di ricerca con la scheda anagrafica attiva
 
 			$persona = strtoupper($persona);
-			$persona = $persona."%";
+			$persona = "%".$persona."%";
 			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
@@ -146,29 +147,32 @@
 
 		function caricaUltimoIntervento($conn,$idPersona){   //carica l ultimo intervento da mettere nella casella a destra per far vedere cosa è stato fatto la volta precedente
 
-			$query="SELECT Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY Data DESC";
+			$query="SELECT Descrizione FROM interventi WHERE AnaID = ? ORDER BY Data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
-			$ret= array();
+			$ret=$stmSql->fetch();
 
-			while ($row = $stmSql->fetch()){
-					array_push ($ret, $row);
-			}
-			
-		echo json_encode(local_encode($ret));
+		echo $ret[0];
 
 		}
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+			$query = "INSERT INTO interventi VALUES(?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $descrizione);
 
-			$query="INSERT INTO pagamenti VALUES(?,?,?,?,?)";
+			$result = $stmSql ->execute();
+
+
+			$query="INSERT INTO pagamenti VALUES(?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $data);
 			$stmSql ->bindParam(3, $importo);
-			$stmSql ->bindParam(4, $descrizione);
-			$stmSql ->bindParam(5, $pagato);
+			$stmSql ->bindParam(4, $pagato);
 			
 			$result = $stmSql ->execute();
 			
@@ -178,11 +182,11 @@
 
 		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
 
-			$query="INSERT INTO anagrafica (Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,Anamnesi,CodFisc) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
 			$stmSql ->bindParam(2, $cognome);
-			$stmSql ->bindParam(3, $datanascita);
+			$stmSql ->bindParam(3, $dataNascita);
 			$stmSql ->bindParam(4, $luogoNascita);
 			$stmSql ->bindParam(5, $medicoProv);
 			$stmSql ->bindParam(6, $residenza);
