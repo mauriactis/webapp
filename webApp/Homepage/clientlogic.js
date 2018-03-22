@@ -68,8 +68,33 @@ function redimContainer(){
 	document.getElementById("container").style.marginRight = "0";
 }
 
-function giraData(date){
+function giraDataUmano(date){
 	return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
+}
+
+function giraDataDb(date){
+    return date.substring(6,10) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
+}
+
+function caricaComuni(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "cercaPersona", nomePersona:ricerca},
+        success: function(response) {
+            var comuni = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < comuni.length; a ++)
+            {
+                riga += "<li role=\"presentation\"><a role=\"menuitem\" tabindex=\"-1\" id=\"" + comuni[a].ID + "\">" + comuni[a].Comune + "</a></li>";
+            }
+            $("#cmbResidenza").html(riga);
+            $("#cmbLuogoNascita").html(riga);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 
@@ -114,7 +139,7 @@ function cercaPersona ()
 			var riga = "";
 			for (var a = 0; a < persone.length; a ++)
 			{
-				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Cognome + "</td><td>" + persone [a].Nome + "</td><td>" + giraData(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].MedicoProvenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" data-toggle=\"modal\" data-target=\"#popupCodicePaziente\" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
+				riga += "<tr onclick=\"mostraSituazionePaziente(" + persone [a].ID + ");\"><td>" + persone [a].ID + "</td><td>" + persone [a].Cognome + "</td><td>" + persone [a].Nome + "</td><td>" + giraDataUmano(persone [a].DataNascita) + "</td><td>" + persone [a].LuogoNascita + "</td><td>" + persone [a].MedicoProvenienza + "</td><td>" + persone [a].Residenza + "</td><td>" + persone [a].Indirizzo + "</td><td>" + persone [a].CAP + "</td><td>" + persone [a].Telefono1 + "</td><td>" + persone [a].Telefono2 + "</td><td>" + persone [a].Motivo + "</td><td>" + persone [a].CodFisc + "</td><td><button class=\"btn btn-danger\" onclick=\"visualizzaAnamnesi(" + persone [a].id + ");\"><span class=\"glyphicon glyphicon-file\"></span></button></td><td>" + '<button class="btn btn-danger" onclick="visualizzaDocumenti(' + persone [a].id + ');"><span class="glyphicon glyphicon-th-list"></span></button>' + "</td><td>" + '<button class="btn btn-danger" data-toggle=\"modal\" data-target=\"#popupCodicePaziente\" onclick="generaCodice(' + persone [a].id + ');"><span class="glyphicon glyphicon-qrcode"></span></button>' + "</td></tr>";
 			}
 			$("#tblAnagraficaBody").html(riga);
         },
@@ -259,7 +284,30 @@ function salvaIntervento(){
 
 
 function visualizzaStoricoInterventi(){
+    var id = $("#idPersona").val();
     nascondiSituazionePaziente();
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaStoricoInterventi", id:id},
+        success: function(response) {
+            var interventi = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < interventi.length; a ++)
+            {
+                if(interventi[a].pagato){
+                    riga += "<tr class=\"table-success\">"
+                }else{
+                    riga += "<tr class=\"table-danger\">"
+                }
+                riga += "<td>" + interventi[a].AnaId + "</td><td>" + interventi[a].data + "</td><td>" + interventi[a].importo + "&euro;</td><td>" + interventi[a].descrizione + "</td></tr>";
+            }
+            $("#tblContabilitaBody").html(riga);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 function visualizzaContabilita(){
@@ -319,7 +367,7 @@ function checkfields(){
     var txtTelefono = $("#txtTelefonoPopupAggiungiNuovo");
     var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
 
-    //var regexNome = '/w3Schools/i';
+    var regexCap = new RegExp("[0-9]{5}");
 
     if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
@@ -345,7 +393,7 @@ function checkfields(){
         txtIndirizzo.css("background-color", "rgb(255,147,147)");
         ret = true;
     }
-    if(txtCap.val() == ""){
+    if(txtCap.val() == "" && regexCap.test(txtCap.val())){
         txtCap.css("background-color", "rgb(255,147,147)");
         ret = true;
     }
