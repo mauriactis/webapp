@@ -177,7 +177,11 @@ function mostraSituazionePaziente(i) {
         url: "./serverlogic.php",
         data: {azione: "caricaUltimoIntervento", id:i},
         success: function(response) {
-            $("#situazionePazienteUltimaVolta").html(response);
+            console.log(response);
+            $("#situazionePazienteUltimaVolta").html("Non è presente nessun intervento passato.");
+            if(response == -1){
+                $("#situazionePazienteUltimaVolta").html(response);
+            }
         },
         error: function(){
             alert("Errore");
@@ -241,6 +245,7 @@ function salvaIntervento(){
                 data:oggi},
         success: function(response) {
             console.log(response);
+            nascondiSituazionePaziente();
             alert("Intervento registrato!");
         },
         error: function(){
