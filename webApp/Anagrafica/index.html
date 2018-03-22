@@ -50,22 +50,6 @@
    </div>
 </div>
 
-<!-- Popup per visualizzare un codice associato ad un paziente -->
-<div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div>Il codice &egrave;:</div>
-         </div>
-         <div class="modal-body">
-            <b><h2 id="lblCodice"></h2></b>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-         </div>
-      </div>
-    </div>
-</div>
 
 <!-- Popup per visualizzare l' anamnesi di un paziente -->
 <div class="modal fade" id="popupAnamnesiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -105,4 +89,19 @@
          </div>
       </div>
    </div>
+</div>
+
+<!-- Popup per chiedere se si vuole stampare la ricevuta o meno -->
+<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div><label>Si desidera stampare la ricevuta?</label></div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal">Stampa</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+         </div>
+      </div>
+    </div>
 </div>
