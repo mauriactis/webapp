@@ -2,11 +2,6 @@
 	margin: 1em;
 }
 
-#barraNavigazione{
-	margin-top: 1em;
-	margin-left: 1em;
-}
-
 #btnSchede{
 	margin-left: 1em;
 }
@@ -29,20 +24,6 @@
 
 #btnAppuntamenti{
 	margin-left: 1em;
-}
-
-td #btn {
-	margin-left: 3em;
-}
-
-#chkLblPagaAdesso{
-    margin-top: 2em;
-}
-
-#chkPagato{
-    margin-right: 1em;
-    float: left;
-    display: inline;
 }
 
 .modal-dialog{
@@ -103,11 +84,6 @@ td #btn {
     color: black;
 }
 
-#corpoSituazionePaziente{
-	margin-left: 0.25em;
-	margin-right: 0.25em;
-}
-
 .sidenav button {
     margin-top: 1em;
 }
@@ -119,6 +95,11 @@ td #btn {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
 }
+
+
+
+
+
 
 
 /*Elementi relativi al div dinamico che gestiscono le barre laterali aperte dopo il click su una riga*/
@@ -133,7 +114,39 @@ td #btn {
     width: 34em;
 }
 
+td #btn {
+    margin-left: 3em;
+}
+
+#chkLblPagaAdesso{
+    margin-top: 2em;
+}
+
+#chkPagato{
+    margin-right: 1em;
+    float: left;
+    display: inline;
+}
+
+#corpoSituazionePaziente{
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+}
+
+
+
+
+
+
+
+
 /*Contabilità*/
+
+
+
+
+
+
 #lblNomeCognome{
     margin-right: 3em;
 }

@@ -14,9 +14,8 @@
          <th>Telefono 2</th>
          <th>Motivo</th>
          <th>Codice fiscale</th>
-         <th>Anamesi</th>
          <th>Documenti</th>
-         <th>Codice app</th>
+         <th>Situazione paziente</th>
       </tr>
    </thead>
    <tbody id="tblAnagraficaBody">
@@ -40,7 +39,12 @@
          <input type="checkbox" id="chkPagato"><h3><label onclick="checkButton();">Paga adesso</label></h3>
       </div>
 
-      <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente">Salva</button>
+      <div>
+         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popupAnamnesiPaziente" id="btnAnamnesi" onclick="visualizzaAnamnesi();">Visualizza anamnesi <span class="glyphicon glyphicon-file"></span></button>
+         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#popupCodicePaziente" id="btnGeneraCodiceApp" onclick="generaCodice();">Genera codice app <span class="glyphicon glyphicon-qrcode"></span></button>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente" onclick="salvaIntervento();">Salva</button>
       <button type="button" class="btn btn-default" onclick="nascondiSituazionePaziente();">Annulla</button>
       <br>
       <button type="button" class="btn btn-default" id="btnEserciziSituazionePaziente" onclick="assegnaEsercizi();">Assegna esercizi</button>
@@ -50,29 +54,13 @@
    </div>
 </div>
 
-<!-- Popup per visualizzare un codice associato ad un paziente -->
-<div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-         <div class="modal-header">
-            <div>Il codice &egrave;:</div>
-         </div>
-         <div class="modal-body">
-            <b><h2 id="lblCodice"></h2></b>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-         </div>
-      </div>
-    </div>
-</div>
 
 <!-- Popup per visualizzare l' anamnesi di un paziente -->
 <div class="modal fade" id="popupAnamnesiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
          <div class="modal-body">
-            <div><label>Motivo:</label></div>
+            <div><label>Anamnesi:</label></div>
             <div id="divAnamnesi"></div>
          </div>
          <div class="modal-footer">
@@ -86,13 +74,11 @@
 <div class="modal fade" id="popupStoricoInterventiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
-         <div class="modal-body">
+         <div class="modal-body" id="divStoricoInterventiPaziente">
             <table class="table table-hover table-bordered admin">
                <thead>
                   <tr>
-                     <th>ID Paziente</th>
                      <th>Data</th>
-                     <th>Importo</th>
                      <th>Descrizione</th>
                   </tr>
                </thead>
@@ -105,4 +91,35 @@
          </div>
       </div>
    </div>
+</div>
+
+<!-- Popup per chiedere se si vuole stampare la ricevuta o meno -->
+<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div>Si desidera stampare la ricevuta?</div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal"><span class="glyphicon glyphicon-print"></span> Stampa</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup per che visualizza il codice utente -->
+<div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header">Il codice è:
+         </div>
+         <div class="modal-body">
+            <div><h2 id="lblCodice"></h2></div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+    </div>
 </div>
