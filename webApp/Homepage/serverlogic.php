@@ -94,6 +94,11 @@
 					$codFisc = $_POST['codFisc'];
 					aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
 					break;
+				case 'inserisciCodApp' :
+					$user = $_POST['codice'];
+					$idPersona = $_POST['id'];
+					inserisciCodApp($conn,$user,$idPersona);
+					break;
 				}
 			}
 	
@@ -130,7 +135,7 @@
 
 			$persona = strtoupper($persona);   
 			$persona = "%".$persona."%";             //ricerca se c e persona dentro alla stringa che scriviamo
-			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM anagrafica,pagamenti WHERE anagrafica.ID = pagamenti.AnaID AND upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome,Data";
+			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM contabilita WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome,Data";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -315,7 +320,20 @@
 
 		}
 
-		
+		function inserisciCodApp($conn,$user,$idPersona){ //inserisce per un ana id lo user(codice)
+
+			$query="INSERT INTO utenti VALUES(?,?,'') WHERE AnaID = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $user);
+
+			$result = $stmSql ->execute();
+			
+		echo $result;
+
+		}
+
+
 
 ?>
 
