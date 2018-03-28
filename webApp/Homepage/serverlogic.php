@@ -153,6 +153,10 @@
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 
+			if($ret == NULL){
+				echo 1;
+			}
+
 		echo $ret[0];
 
 		}
@@ -196,7 +200,7 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, $codFisc);
+			$stmSql ->bindParam(13, strtoupper($codFisc));
 			
 			$result = $stmSql ->execute();
 			
