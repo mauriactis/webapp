@@ -181,9 +181,11 @@ function caricaAnagrafica(){
     cercaPersona();
 }
 
+
 function cercaPersona ()
 {
     var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
+    console.log(anagraficaShown);
     /*Se è vera è mostrata anagrafica, altrimenti è mostrata contabilità*/
     if(anagraficaShown){
         if(document.getElementById("situazionePaziente") != null){
@@ -239,13 +241,19 @@ function cercaPersona ()
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
-            data: {azione: "cercaContabilita", nomePersona:""},
+            data: {azione: "cercaContabilita", nomePersona:ricerca},
             success: function(response) {
                 var persone = JSON.parse (response);
                 var riga = "";
                 for (var a = 0; a < persone.length; a ++)
                 {
-                    riga += "<tr onclick=\"mostraPagamento(" +  persone[a].ID + ");\"> <td>" + persone[a].ID + "</td> <td>" + persone[a].ID + "</td><td>" + persone[a].ID + "</td><td>" + persone[a].ID + "&euro;</td></tr>";
+                    riga += "<tr onclick=\"mostraPagamento(" +  persone[a].ID + ");\"> <td>" + 
+                    persone[a].AnaID +
+                    "</td> <td>" + persone[a].Nome + 
+                    "</td> <td>" + persone[a].Cognome + 
+                    "</td><td>" + giraDataUmano(persone[a].Data) + 
+                    "</td><td>" + persone[a].Pagamento + 
+                    " €</td></tr>"; 
                 }
                 $("#tblContabilitaBody").html(riga);
             },
@@ -261,7 +269,7 @@ function visualizzaAnamnesi() {
 	/*$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "visualizzaAnamnesi", idPersona:id},
+        data: {azione: "visualizzaAnamnesi", id:id},
         success: function(response) {
         	$("#lblCodice").html(response);
         },
@@ -292,7 +300,7 @@ function generaCodice() {
 	/*$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "caricaCodice", codice:codice, idPersona:id},
+        data: {azione: "caricaCodice", codice:codice, id:id},
         success: function(response) {
         	if(!response){
         		alert("Questo utente è già registrato...");
@@ -314,7 +322,6 @@ function mostraSituazionePaziente(i) {
             url: "./serverlogic.php",
             data: {azione: "caricaUltimoIntervento", id:i},
             success: function(response) {
-                console.log(response);
                 //Il server mi restituisce 1 al posto di nulla
                 if(response != 1){
                     $("#situazionePazienteUltimaVolta").html(response);
@@ -551,6 +558,7 @@ function checkfields(){
 
 
 function caricaContabilita(){
+    $("#txtRicercaAnagrafica").val("");
 	if(document.getElementById("situazionePaziente") != null){
 	 	nascondiSituazionePaziente();
 	}
@@ -574,7 +582,6 @@ function caricaContabilita(){
         url: "./serverlogic.php",
         data: {azione: "cercaContabilita", nomePersona:""},
         success: function(response) {
-            console.log(response);
         	var persone = JSON.parse (response);
 			var riga = "";
 			for (var a = 0; a < persone.length; a ++)
