@@ -215,7 +215,7 @@
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
 
-			$query="SELECT AnaId,Data,Importo,Descrizione,Pagato FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="SELECT AnaId,Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -322,7 +322,7 @@
 
 		function inserisciCodApp($conn,$user,$idPersona){ //inserisce per un ana id lo user(codice)
 
-			$query="INSERT INTO utenti VALUES(?,?,'') WHERE AnaID = ?";
+			$query="INSERT INTO utenti VALUES(?,?,'')";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $user);
@@ -330,10 +330,11 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;
-
-		}
-
-
+		
+		
+		
+		
+		
 
 ?>
 
