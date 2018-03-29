@@ -6,6 +6,7 @@
          <th>Cognome</th>
          <th>Data</th>
          <th>Importo</th>
+         <th>Mostra</th>
       </tr>
    </thead>
    <tbody id="tblContabilitaBody">
@@ -13,7 +14,7 @@
 </table>
 
 
-<div id="pagamento" class="sidenav">
+<div id="sidePagamento" class="sidenav">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiPagamento();">&times;</a>
    <div id="corpoPagamento">
 
@@ -24,12 +25,14 @@
          QUESTO VA RIEMPITO CON QUALCOSA DAL DATABASE Lorem ipsum  dolor sit amet e ceccerecerecerrecerece
       </div><br>
 
-      <h3><label>Importo</label></h3><input type="text" class="form-control" id="txtImportoPagamento">
+      <h3><label>Importo</label></h3><input type="text" class="form-control" id="txtImportoPagamento"> <h3><label> €</label></h3>
       
       <div id="divBottoniPagamento">
-         <button type="button" class="btn btn-success" id="btnPaga">Aggiorna</button>
-         <button type="button" class="btn btn-primary" id="btnStampa">Paga <span class="glyphicon glyphicon-euro"></span></button>
+         <button type="button" class="btn btn-success" onclick="aggiornaPagamento();" id="btnAggiornaPagamento">Aggiorna</button>
+         <button type="button" class="btn btn-primary" onclick="confermaPagamento();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
+         <button type="button" class="btn btn-default" onclick="stampaRicevuta();" id="btnPaga">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>
          <button type="button" class="btn btn-default" onclick="nascondiPagamento();">Annulla</button>
       </div>
+      <input type="hidden" id="idPagamento" value="">
    </div>
 </div>
