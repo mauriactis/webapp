@@ -3,18 +3,18 @@
    <head> 
       <title>Anagrafica</title> 
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link href="../cssEsterno/bootstrap.min.css" rel="stylesheet">
       <link href="../cssEsterno/jquery-ui.css" rel="stylesheet">
+      <link href="../cssEsterno/bootstrap.min.css" rel="stylesheet">
       <link id="styleCss" href="style.css" rel="stylesheet" type="text/css"/>
    </head> 
    <body>
       <script src="../jsEsterno/jquery.js"></script>
       <script src="../jsEsterno/jquery-3.3.1.min.js"></script>
-      <script src="../jsEsterno/bootstrap.min.js"></script>
       <script src="../jsEsterno/jquery-1.12.4.js"></script>
       <script src="../jsEsterno/jquery-ui.js"></script>
       <script src="../jsEsterno/jspdf.min.js"></script>
       <script src="../jsEsterno/jquery.ui.datepicker-it.js"></script>
+      <script src="../jsEsterno/bootstrap.min.js"></script>
       <script language="javascript" src="clientlogic.js"></script>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -37,7 +37,7 @@
                   </div>
                </div>
    
-               <button type="button" class="btn btn-danger" id="btnAggiungiPersona" data-toggle="modal" data-target="#popupAggiungiNuovo" onclick="caricaComuni();"><span class="glyphicon glyphicon-user"></span> Aggiungi nuovo</button>
+               <button type="button" class="btn btn-danger" id="btnAggiungiPersona" data-toggle="modal" data-target="#popupAggiungiNuovo" onclick="initPopupAggiungiNuovo();"><span class="glyphicon glyphicon-user"></span> Aggiungi nuovo</button>
    
                <button type="button" class="btn btn-success" id="btnSchede" onclick="window.open('../Schede/index.html');"><span class="glyphicon glyphicon-list-alt"></span> Schede</button>
    
