@@ -677,7 +677,10 @@ function checkfields(){
     var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
 
     var regexCap = new RegExp("^[0-9]{4}$");
-    //var regexNomeCognome = new RegExp("^[[a-z] ,.'-]+$");
+    /*Da testare*/
+    var regexNome = new RegExp("^[A-Za-zàèéìòùç]+[\ \,\.\'\-]{0-1}");
+    var regexCodiceFiscale = new RegExp("/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i");
+    var regexTelefono = new RegExp("[\+|00]*[0-9]{1}*[0-9]+");
 
     if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
