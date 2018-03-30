@@ -30,10 +30,6 @@
     width: 50em;
 }
 
-.tblPopupAggiungiNuovo tr{
-    padding-top: 1em;
-}
-
 .form-control{
    width: 15em;
    margin-left: 0.5em;
@@ -51,7 +47,7 @@
     height: 3em;
 }
 
-#txtOsservazioniPopupAggiungiNuovo{
+.txtOsservazioniPopup{
     resize: none;
 }
 
@@ -128,10 +124,24 @@ td #btn {
     display: inline;
 }
 
-#corpoSituazionePaziente{
+.corpoSidenav{
     margin-left: 0.25em;
     margin-right: 0.25em;
 }
+
+#manualFileNuovoDocumento{
+    display: inline-block;
+    margin-left: 2em; 
+}
+
+.tblPopupModificaPazienteRow{
+    height: 3em;
+}
+
+
+
+
+
 
 
 
