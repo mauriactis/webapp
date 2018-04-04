@@ -997,8 +997,6 @@ ALTER TABLE `interventi`
 --
 -- Indici per le tabelle `inviati`
 --
-ALTER TABLE `inviati`
-  ADD PRIMARY KEY (`AnaID`,`DataOraInvio`,`DataOraRicevuto`);
 
 --
 -- Indici per le tabelle `motivi`
@@ -1015,8 +1013,7 @@ ALTER TABLE `pagamenti`
 --
 -- Indici per le tabelle `ricevuti`
 --
-ALTER TABLE `ricevuti`
-  ADD PRIMARY KEY (`AnaID`,`DataOraRicevuto`);
+
 
 --
 -- Indici per le tabelle `richieste`
@@ -1093,8 +1090,6 @@ ALTER TABLE `pagamenti`
 --
 -- Limiti per la tabella `ricevuti`
 --
-ALTER TABLE `ricevuti`
-  ADD CONSTRAINT `ricevuti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `inviati` (`AnaID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `richieste`
