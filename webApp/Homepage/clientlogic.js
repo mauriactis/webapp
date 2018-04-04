@@ -152,6 +152,21 @@ function initPopupAggiungiNuovo(){
             alert("Errore");
         }
     });*/
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaMotivi"},
+        success: function(response) {
+            var motivi = JSON.parse (response);
+            for (var a = 0; a < motivi.length; a ++){
+                var cmbMotivi = document.getElementById("#txtMotivoPopupAggiungiNuovo");
+                cmbMotivi.options[motivi.length] = new Option(motivi[i], i);
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
 }
 
 function stampaFoglioPrivacy(){
@@ -249,8 +264,13 @@ function cercaPersona ()
             url: "./serverlogic.php",
             data: {azione: "cercaPersona", nomePersona:ricerca},
             success: function(response) {
+                //controlla se non è undefined
+                //console.log(persone[a].Motivo);
                 var persone = JSON.parse (response);
                 var riga = "";
+                /*if(persone[a].Motivo == "NULL"){
+                    persone[a].Motivo = "Nessun motivo registrato.";
+                }*/
                 for (var a = 0; a < persone.length; a ++)
                 {
                     riga += "<tr><td>" + 
