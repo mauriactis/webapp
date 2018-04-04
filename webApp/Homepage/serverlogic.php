@@ -116,7 +116,7 @@
 
 			$persona = strtoupper($persona);
 			$persona = "%".$persona."%";
-			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,Motivo,CodFisc FROM anagrafica WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
+			$query="SELECT ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,Residenza,Indirizzo,CAP,Telefono1,Telefono2,motivi.Descrizione,CodFisc FROM anagrafica,motivi WHERE motivi.ID=motivo AND upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -231,7 +231,7 @@
 
 		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i record riguardati la contabilita del paziente dal menu a scorrimento a destra
 
-			$query="SELECT pagamenti.AnaId,pagamenti.Data,Pagamento,pagamenti.Descrizione,Pagato FROM interventi,pagamenti WHERE pagamenti.AnaID=interventi.AnaID AND pagamenti.Data=interventi.Data AND pagamenti.AnaID = ? ORDER BY data DESC";
+			$query="SELECT * FROM contabilita WHERE AnaID=?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -297,7 +297,7 @@
 
 		function aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //funzione che esegue l update dopo che e stato cliccato il pulsante aggiorna campi nel pop-up del aggirona campi del paziente
 
-			$query="UPDATE anagrafica SET Nome = ? AND Cognome = ? AND DataNascita = ? AND LuogoNascita = ? AND MedicoProvenienza = ? AND Residenza = ? AND Indirizzo = ? AND CAP = ? AND Telefono1 = ? AND Telefono2 = ? AND Motivo = ? AND Anamnesi = ? AND CodFisc = ?";
+			$query="UPDATE anagrafica SET Nome = ?, Cognome = ?, DataNascita = ?, LuogoNascita = ?, MedicoProvenienza = ?, Residenza = ?, Indirizzo = ?, CAP = ?, Telefono1 = ?, Telefono2 = ?, Motivo = ?, Anamnesi = ?, CodFisc = ?";
 			
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -312,7 +312,7 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, $codFisc);
+			$stmSql ->bindParam(13, strtoupper($codFisc));
 			
 			$result = $stmSql ->execute();
 			
@@ -330,11 +330,7 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;
-		
-		
-		
-		
-		
+	}
 
 ?>
 
