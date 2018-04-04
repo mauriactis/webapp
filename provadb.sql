@@ -838,13 +838,13 @@ INSERT INTO `interventi` (`AnaID`, `Data`, `Descrizione`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `inviati`
+-- Struttura della tabella `messaggi`
 --
 
-CREATE TABLE `inviati` (
+CREATE TABLE `richiesteAppuntamenti` (
   `AnaID` int(11) NOT NULL,
   `DataOraInvio` datetime NOT NULL,
-  `DataOraRicevuto` datetime NOT NULL,
+  `Richiesta` tinyint(1) NOT NULL,
   `DataOra1` datetime DEFAULT NULL,
   `DataOra2` datetime DEFAULT NULL,
   `DataOra3` datetime DEFAULT NULL,
@@ -903,10 +903,10 @@ INSERT INTO `pagamenti` (`AnaID`, `Data`, `Pagamento`, `Pagato`) VALUES
 -- Struttura della tabella `ricevuti`
 --
 
-CREATE TABLE `ricevuti` (
+CREATE TABLE `messaggi` (
   `AnaID` int(11) NOT NULL,
-  `DataOraRicevuto` datetime NOT NULL,
-  `Tipo` char(1) NOT NULL,
+  `DataOraInvio` datetime NOT NULL,
+  `Richiesta` tinyint(1) NOT NULL,
   `Note` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -940,7 +940,7 @@ CREATE TABLE `utenti` (
 --
 
 INSERT INTO `utenti` (`AnaID`, `User`, `Password`) VALUES
-(3521, 'test', 'test');
+(3521, 'maurizio@test.com', 'test');
 
 -- --------------------------------------------------------
 
