@@ -3,23 +3,77 @@
    <head> 
       <title>Appuntamenti</title> 
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="../cssEsterno/jquery-ui.css" rel="stylesheet">
       <link href="../cssEsterno/bootstrap.min.css" rel="stylesheet">
       <link id="styleCss" href="style.css" rel="stylesheet" type="text/css"/>
-      <script language="javascript" src="clientlogic.js"></script>
-   </head> 
-   <body onload="startTime();">
+
+
+
       <script src="../jsEsterno/jquery.js"></script>
-      <script src="../jsEsterno/bootstrap.min.js"></script>
       <script src="../jsEsterno/jquery-3.3.1.min.js"></script>
+      <script src="../jsEsterno/jquery-1.12.4.js"></script>
+      <script src="../jsEsterno/jquery-ui.js"></script>
+      <script src="../jsEsterno/jquery.ui.datepicker-it.js"></script>
+      <script src="../jsEsterno/bootstrap.min.js"></script>
+      <script language="javascript" src="clientlogic.js"></script>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   </head> 
+   <body onload="initForm();">
+      
 
       <div id="divUpper">
-         <label id="lblOraAttuale"></label>
-         <div id="upperBtnNuovoAppuntamento">
-            <button type="button" class="btn btn-success" id="btnNuovoAppuntamento">Nuovo appuntamento</button>
-         </div>
+         <table id="headerTbl">
+            <tr><td class="headerCol">
+               <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();">Richieste appuntamento</button>
+            </td><td class="headerCol">
+               <label id="lblOraAttuale"></label>
+            </td><td class="headerCol">
+               <button type="button" class="btn btn-success" id="btnNuovoAppuntamento" onclick="nuovoAppuntamento();">Nuovo appuntamento</button>
+            </td></tr>
+         </table>
       </div>
-      <div class="container">
+      <div class="container" id="body">
+         <div id="divDatepicker">
+            <input type="text" class="form-control" id="txtDataAppuntamento">
+            <button type="button" class="btn btn-default" id="" onclick="">Ok</button>
+         </div>
+         <div id="divAppuntamenti">
+            <ul class="nav nav-pills">
+               <li class="active"><a href="" onclick="cercaLun();">Lun</a></li>
+               <li><a href="">Mar</a></li>
+               <li><a href="">Mer</a></li>
+               <li><a href="">Gio</a></li>
+               <li><a href="">Ven</a></li>
+               <li><a href="">Sab</a></li>
+               <li><a href="">Dom</a></li>
+            </ul>
+            <table>
+
+            </table>
+         </div>
+         
+         <!--Aggiungo il sidenav????-->
 
       </div>
+
+
+      <div id="dettagliAppuntamento" class="sidenav">
+         <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
+         <div class="corpoSidenav">
+      
+            <h3><label>L' ultima volta...</label></h3>
+            <div id="dettagliAppuntamentoUltimaVolta">
+            </div>
+      
+            <h3><label>Da fare</label></h3>
+            <div id="dettagliAppuntamentoDaFare"></div>
+      
+            <h3><label>Appunti:</label></h3>
+            <textarea class="form-control" rows="7" id="txtAppuntiDettagliAppuntamento"></textarea>
+      
+            <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente" onclick="salvaDettagliAppuntamento();">Salva</button>
+            <button type="button" class="btn btn-default" onclick="nascondiDettagliAppuntamento();">Annulla</button>
+         </div>
+      </div>
    </body> 
-</html> 
+</html>
