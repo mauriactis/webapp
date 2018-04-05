@@ -1,6 +1,7 @@
 function initForm(){
-    $.datepicker.setDefaults($.datepicker.regional['it']); 
-    $('#txtDataAppuntamento').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
+    $.datepicker.setDefaults($.datepicker.regional['it']);
+    $('#pckrDataAppuntamento').datepicker({minDate: new Date()});
+    $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
 
     startTime();
 }
@@ -21,12 +22,15 @@ function checkTime(i) {
     return i;
 }
 
-function mostraDettagliAppuntamento() {
-    document.getElementById("dettagliAppuntamento").style.width = "500px";
-    document.getElementById("dettagliAppuntamento").style.marginTop = "55px";
+function giraDataUmano(date){
+    return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
 }
 
-function nascondiDettagliAppuntamento() {
-    document.getElementById("dettagliAppuntamento").style.width = "0";
+function giraDataDb(date){
+    return date.substring(6,10) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
 }
 
+function stampaData(){
+    var data = document.getElementById ("pckrDataAppuntamento").value;
+    console.log(data);
+}

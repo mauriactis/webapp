@@ -1,14 +1,14 @@
 #divUpper{
-	width: 100%;
-    text-align: center;
-    line-height: 150%;
     font-size: 3em;
-    display: inline-block;
+}
+
+#btnRichiesteAppuntamento{
+	margin-right: 20em;
 }
 
 /*Non mi piace con gli em*/
 #headerTbl{
-	margin-left: 15em;
+	margin-left: 8em;
 }
 
 .headerCol{
@@ -16,20 +16,38 @@
 }
 
 #body{
-	display: inline-block;
+	display: inline;
 }
 
 #divDatepicker{
 	float: left;
-	width: 10em;
-	margin-left: 10em;
-	margin-right: 20em;
+	margin-left: 20em;
+	margin-right: 4em;
+	margin-top: 10em;
 }
 
 #divAppuntamenti{
 	margin-left: 10em;
+	margin-top: 1em;
+	display: inline-block;
+}
+
+#tblAppuntamenti{
+	margin-top: 2em;
+	width: 20%;
+}
+
+#divDettagliAppuntamento{
+	float: right;
+	display: inline-block;
+	margin-right: 5em;
+	width: 30%
 }
 
 #txtAppuntiDettagliAppuntamento{
 	resize: none;
+}
+
+#btnSalvaSituazionePaziente{
+	margin-top: 0.25em;
 }
