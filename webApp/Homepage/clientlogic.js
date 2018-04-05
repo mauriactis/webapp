@@ -176,10 +176,10 @@ function stampaFoglioPrivacy(){
     //Coordinate dell' immagine sul pdf(in questo caso in alto a sinistra), gli altri 2 numeri sono le dimensioni dell' immagine in mm
     doc.addImage(imgData, 'JPEG',0,0,210,297);
     
-    var nome;
-    var cognome;
-    var luogoNascita;
-    var dataNascita;
+    var nome = "sos";
+    var cognome = "sos";
+    var luogoNascita = "sos";
+    var dataNascita = "sos";
     var residenza;
     var indirizzo; 
     var cap;
@@ -190,9 +190,9 @@ function stampaFoglioPrivacy(){
     var osservazioni;
     var provenienza;
 
-    initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza);
+    //initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza);
     
-    doc.setFontSize(26);
+    doc.setFontSize(20);
     doc.setTextColor(92, 76, 76);
     
     /*Seleziono le coordinate e dico cosa posizionare*/
@@ -376,7 +376,6 @@ function aggiornaPaziente(){
         var motivo = $("#txtMotivoPopupModificaPaziente").val();
         var osservazioni = $("#txtOsservazioniPopupModificaPaziente").val();
         var provenienza = $("#txtProvenienzaPopupModificaPaziente").val();
-        console.log(dataNascita);
 
     $.ajax({  
         type: "POST", 
@@ -397,7 +396,7 @@ function aggiornaPaziente(){
 
 function visualizzaAnamnesi() {
     var id = $("#idPersonaModifiche").val();
-	/*$.ajax({  
+	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaAnamnesi", id:id},
@@ -409,14 +408,14 @@ function visualizzaAnamnesi() {
         error: function(){
         	alert("Errore");
         }
-    });*/
+    });
 }
 
 function visualizzaDocumenti(id) {
     //Mostra documento:
     //https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded/4459419#4459419
     //var id = $("#idPersonaModifiche").val();
-	/*$.ajax({  
+	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaDocumenti", id:id},
@@ -426,10 +425,9 @@ function visualizzaDocumenti(id) {
             for (var a = 0; a < documenti.length; a ++)
             {
                 riga += "<tr><td>" + 
-                    documenti[a].AnaID + "</td><td>" + 
                     documenti[a].Data + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
-                    documenti[a].Documento + "</td></tr>"; 
+                    '<button class="btn btn-danger" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-user"></span></button>' + "</td></tr>"; 
             }
             if(response != 1){
                 $("#tblDocumentiPazienteBody").html(response);
@@ -440,14 +438,15 @@ function visualizzaDocumenti(id) {
         error: function(){
         	alert("Errore");
         }
-    });*/
+    });
 }
 
+/*Metodo che stampa l'immagine creandone il tag e mettendolo da qualche parte*/
+function mostraDocumento(id){
 
-0 insert
--1 problema serverlogic
--2 manualFileNuovoDocumentol
-codice
+}
+
+//sia che abbia una mail che solo il codice restituisce -2
 function generaCodice() {
     var id = $("#idPersonaModifiche").val();
 	var codice = Math.floor(Math.random() * 1000000) + 1;
@@ -458,18 +457,16 @@ function generaCodice() {
         data: {azione: "inserisciCodApp", codice:codice, id:id},
         //mal che vada restituisce quello vecchio
         success: function(response) {
-        	switch(response) {
-                case 0:
-                    alert("Utente inserito con successo!");
-                    break;
-                case -1:
-                    alert("C'è stato un problema al server...");
-                    break;
-                case -2:
-                    alert("Questo utente è già registrato con una mail.");
-                    break;
-                default:
-                    $("#lblCodice").html(response);
+        	if(response == 0) {        
+                alert("Utente inserito con successo!");
+            }
+            if(response == -1) {        
+                alert("C'è stato un problema al server...");
+                $("#lblCodice").html(response);         
+            }
+            if(response == -2) {        
+                alert("Questo utente è già registrato con una mail.");
+                $("#lblCodice").html(response);
             }
         },
         error: function(){
@@ -685,6 +682,8 @@ function aggiungiNuovoPaziente(){
                 medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
+            //va in errore, bisogna testarlo con luogo nascita residenza e motivo
+            console.log(response);
             alert("Nuovo paziente inserito con successo!");
             cercaPersona();
             $('#popupStampaFoglioPrivacy').modal('show');
@@ -712,11 +711,11 @@ function checkfields(){
 
     var regexCap = new RegExp("^[0-9]{4}$");
     /*Da testare*/
-    var regexNome = new RegExp("^[A-Za-zàèéìòùç]+[\ \,\.\'\-]{0-1}");
-    var regexCodiceFiscale = new RegExp("/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i");
-    var regexTelefono = new RegExp("[\+|00]*[0-9]{1}*[0-9]+");
+    //var regexNome = new RegExp("^[A-Za-zàèéìòùç]+[\ \,\.\'\-]{0-1}");
+    //var regexCodiceFiscale = new RegExp("/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i");
+    //var regexTelefono = new RegExp("[\+|00]*[0-9]{1}*[0-9]+");
 
-    if(txtNome.val() == ""){
+    /*if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
@@ -755,7 +754,7 @@ function checkfields(){
     if(txtMotivo.val() == ""){
         txtMotivo.css("background-color", "rgb(255,147,147)");
         ret = false;
-    }
+    }*/
 
     return ret;
 }
