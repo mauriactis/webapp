@@ -1,3 +1,3 @@
 # webapp
 
-scambiare telefono1-telefono2 db
+replace luogo di nascita con codice comune
