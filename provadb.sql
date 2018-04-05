@@ -38,8 +38,8 @@ CREATE TABLE `anagrafica` (
   `Residenza` int(11) NOT NULL DEFAULT '1',
   `Indirizzo` varchar(200) NOT NULL,
   `CAP` char(5) NOT NULL,
-  `Telefono1` varchar(70) NOT NULL,
   `Telefono2` varchar(70) DEFAULT NULL,
+  `Telefono1` varchar(70) NOT NULL,
   `Motivo` int(11) DEFAULT NULL,
   `Anamnesi` varchar(1000) DEFAULT NULL,
   `CodFisc` char(16) NOT NULL
