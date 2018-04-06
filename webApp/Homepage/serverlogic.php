@@ -327,7 +327,7 @@
 		}
 
 		function inserisciCodApp($conn,$user,$idPersona){ //inserisce il codice richiamando la funzione sotto per fare controlli se e presente/modificato/null
-			$risposta = visualizzaCodiceApp($conn,$idPersona);
+			$risposta = visualizzaCodApp($conn,$idPersona);
 			if($risposta==-1){
 				$query="INSERT INTO utenti VALUES(?,?,'')";
 				$stmSql = $conn->prepare($query);
@@ -358,18 +358,19 @@
 			$result = $stmSql ->execute();
 
 			$row = $stmSql->fetch();
-			if(is_numeric($row)){
-				echo $row;
+			
+			if(is_numeric($row[0])){
+				return $row[0];
 			}elseif(empty($row)){
-				echo -1;
+				return -1;
 			}else{
-				echo -2;
+				return -2;
 			}		
 		}
 
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
 
-			$query="SELECT Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
+			$query="SELECT AnaId,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -385,13 +386,17 @@
 
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
 
-			$query="SELECT Anamnesi FROM anagrafica WHERE AnaID = ?";
+			$query="SELECT Anamnesi FROM anagrafica WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
+			
+			$row = $stmSql->fetch();
 
-			echo $result;
+			echo local_encode($row['Anamnesi']);
 		}
+
+
 
 ?>
 
