@@ -266,6 +266,7 @@ function cercaPersona ()
                 //controlla se non è undefined
                 //console.log(persone[a].Motivo);
                 var persone = JSON.parse (response);
+                console.log(ricerca);
                 var riga = "";
                 /*if(persone[a].Motivo == "NULL"){
                     persone[a].Motivo = "Nessun motivo registrato.";
@@ -892,7 +893,7 @@ function nascondiPagamento() {
 
 /*Aggiorna l' importo di un pagamento*/
 function aggiornaPagamento(){
-    var idPagamento = $("#idPagamento").val();
+    var id = $("#idPagamento").val();
 
     $.ajax({  
         type: "POST", 
