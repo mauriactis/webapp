@@ -450,7 +450,6 @@ function mostraDocumento(id){
 function generaCodice() {
     var id = $("#idPersonaModifiche").val();
 	var codice = Math.floor(Math.random() * 1000000) + 1;
-	$("#lblCodice").html(codice);
 	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -459,14 +458,13 @@ function generaCodice() {
         success: function(response) {
         	if(response == 0) {        
                 alert("Utente inserito con successo!");
-            }
-            if(response == -1) {        
-                alert("C'è stato un problema al server...");
-                $("#lblCodice").html(response);         
-            }
-            if(response == -2) {        
-                alert("Questo utente è già registrato con una mail.");
                 $("#lblCodice").html(response);
+            }else if(response == -1) {        
+                alert("C'è stato un problema al server...");       
+            }else if(response == -2) {        
+                $("#lblCodice").html("Questo utente è già registrato con una mail.");
+            }else{
+                $("#lblCodice").html("Il codice già registrato è: " + response);
             }
         },
         error: function(){
