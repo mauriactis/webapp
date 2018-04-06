@@ -105,7 +105,7 @@
 					break;
 				case 'visualizzaAnamnesi' :
 					$idPersona = $_POST['id'];
-					visualizzaAnamnesi($conn,$idPersona)
+					visualizzaAnamnesi($conn,$idPersona);
 					break;
 				}
 			}
