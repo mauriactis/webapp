@@ -139,34 +139,40 @@ function dataDiOggi(){
 function initPopupAggiungiNuovo(){
     $.datepicker.setDefaults($.datepicker.regional['it']); 
     $('#txtDataNascitaPopupAggiungiNuovo').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
-    /*$.ajax({  
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "caricaComuni"},
         success: function(response) {
+            console.log("ciao");
             var comuni = JSON.parse (response);
-            $("#cmbResidenza").autocomplete(comuni);
-            $("#cmbLuogoNascita").autocomplete(comuni);
+            console.log(comuni);
+            var cmbLuogoNascita = document.getElementById("txtLuogoNascitaPopupAggiungiNuovo");
+            var cmbResidenza = document.getElementById("txtResidenzaPopupAggiungiNuovo");
+            for (var a = 0; a < comuni.length; a ++){
+                cmbResidenza.options[a] = new Option(comuni[a].Comune, comuni[a].ID);
+                cmbLuogoNascita.options[a] = new Option(comuni[a].Comune, comuni[a].ID);
+            }
         },
         error: function(){
             alert("Errore");
         }
-    });*/
-    /*$.ajax({  
+    });
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "caricaMotivi"},
         success: function(response) {
             var motivi = JSON.parse (response);
             for (var a = 0; a < motivi.length; a ++){
-                var cmbMotivi = document.getElementById("#txtMotivoPopupAggiungiNuovo");
-                cmbMotivi.options[motivi.length] = new Option(motivi[i], i);
+                var cmbMotivi = document.getElementById("txtMotivoPopupAggiungiNuovo");
+                cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
             }
         },
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 }
 
 function stampaFoglioPrivacy(){
@@ -206,21 +212,7 @@ function stampaFoglioPrivacy(){
 }
 
 function initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza){
-    nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
-    cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
-    luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
-    dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
-    residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
-    indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
-    cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
-    telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
-    telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
-    codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
-    motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
-    osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
-    provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
-
-    dataNascita = giraDataDb(dataNascita);
+    
 }
 
 
@@ -672,8 +664,24 @@ function aggiungiNuovoPaziente(){
         var osservazioni;
         var provenienza;
 
-        initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza);
+        nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
+        cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
+        luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
+        dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
+        residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
+        indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
+        cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
+        telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
+        telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
+        codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
+        motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
+        osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
+        provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
+        dataNascita = giraDataDb(dataNascita);
+        console.log(motivo);
+        console.log(luogoNascita);
+        console.log(residenza);
         $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
