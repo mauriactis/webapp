@@ -107,9 +107,15 @@
 					$idPersona = $_POST['id'];
 					visualizzaAnamnesi($conn,$idPersona);
 					break;
+				case 'caricaComuni' :
+					caricaComuni($conn);
+					break;
+				case 'caricaMotivi' :
+					caricaMotivi($conn);
+					break;
 				}
 			}
-	
+
 		$conn=null;
 
 		function local_encode ($var){
@@ -223,7 +229,7 @@
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
 
-			$query="SELECT AnaId,Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY data DESC";
+			$query="SELECT AnaID,Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -370,7 +376,7 @@
 
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
 
-			$query="SELECT AnaId,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
+			$query="SELECT AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -392,11 +398,46 @@
 			$result = $stmSql ->execute();
 			
 			$row = $stmSql->fetch();
+			if(empty($row)){
+				$row['Anamnesi']=0;
+			}
 
 			echo local_encode($row['Anamnesi']);
 		}
 
+		function caricaComuni($conn){  //restituisce l elenco dei comuni
 
+			$query="SELECT * FROM comuni";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
+
+			$ret= array();
+
+			while($row = $stmSql->fetch()){
+					array_push ($ret, $row);
+			}
+
+		echo json_encode(local_encode($ret)); 
+		}
+
+
+		function caricaMotivi($conn){  //restituisce l elenco dei motivi
+
+			$query="SELECT * FROM motivi";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
+
+			$ret= array();
+
+			while($row = $stmSql->fetch()){
+					array_push ($ret, $row);
+			}
+
+		echo json_encode(local_encode($ret)); 
+		}
+		
+
+// e carica motivi
 
 ?>
 
