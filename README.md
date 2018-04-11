@@ -9,7 +9,7 @@ legenda:
 
 -------homepage-------
 
-!! - popup aggiungi nuovo non salva non ti dice che alcuni campi mancano non fa un cazzo
+!! - popup aggiungi nuovo non ti dice che alcuni campi mancano
 
 replace luogo di nascita con codice comune
 
@@ -20,8 +20,6 @@ pdf foglio privacy
 
 -------situazione paziente-------
 
-logo euro a destra della inputbox non sotto
-
 (?) - che si chiuda il sidenav se doppio click fuori
 
 
@@ -30,8 +28,6 @@ logo euro a destra della inputbox non sotto
 combobox per luogo di nascita e residenza nel popup aggiorna (le stesse di aggiungi nuovo)
 
 !! - modifica non salva le modifiche
-
-popup visualizza documenti e visualizza contabilità cambiare nome colonna da "ID paziente" a "ID"
 
 ~ - assegna esercizi da fare
 
@@ -53,13 +49,9 @@ popup visualizza documenti e visualizza contabilità cambiare nome colonna da "I
 
 -------contabilità-------
 
-cambiare glyphicon del pulsante mostra con la stessa che mostra il sidenav in anagrafica (l'occhio)
-
 !! - nome cognome data pagamento al posto di esempio esempio 01/01/01
 
 prendere descrizione da descrizione intervento con stesso anaid e stessa data
-
-logo euro a destra della inputbox non sotto
 
 rimuovere tasto annulla
 
@@ -70,3 +62,20 @@ rimuovere tasto annulla
 modifica pagamento non salva
 
 paga pagamento non salva
+
+------Aggiuntivi-------
+
+popupAggiungiNuovo:
+
+(?) local_encode inverso Es per osservazioni ci potrebbero essere è é ò à
+
+da testare funzionamento di txtResidenza e txtLuogoNascita con keyup
+
+
+Anagrafica:
+
+nella tebella ci deve essere il luogo nascita non la sua sigla
+
+visualizzaAnamnesi:
+
+il server non restituisce 0 se la riga non ha nulla
