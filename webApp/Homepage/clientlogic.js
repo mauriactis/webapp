@@ -142,25 +142,6 @@ function initPopupAggiungiNuovo(){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "caricaComuni"},
-        success: function(response) {
-            console.log("ciao");
-            var comuni = JSON.parse (response);
-            console.log(comuni);
-            var cmbLuogoNascita = document.getElementById("txtLuogoNascitaPopupAggiungiNuovo");
-            var cmbResidenza = document.getElementById("txtResidenzaPopupAggiungiNuovo");
-            for (var a = 0; a < comuni.length; a ++){
-                cmbResidenza.options[a] = new Option(comuni[a].Comune, comuni[a].ID);
-                cmbLuogoNascita.options[a] = new Option(comuni[a].Comune, comuni[a].ID);
-            }
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
         data: {azione: "caricaMotivi"},
         success: function(response) {
             var motivi = JSON.parse (response);
@@ -168,6 +149,34 @@ function initPopupAggiungiNuovo(){
                 var cmbMotivi = document.getElementById("txtMotivoPopupAggiungiNuovo");
                 cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
             }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+function caricaResidenza(){
+    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
+    caricaComuni(ricerca);
+}
+
+function caricaLuogoNascita(){
+    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
+    caricaComuni(ricerca);
+}
+
+function caricaComuni(ricerca){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaComuni", ricerca:ricerca},
+        success: function(response) {
+            var comuni = JSON.parse (response);
+            for (var a = 0; a < comuni.length; a ++){
+                $("#divElenco").html(comnuni[a].Comune, comuni[a].ID);
+            }
+            ricerca = "";
         },
         error: function(){
             alert("Errore");
@@ -195,8 +204,6 @@ function stampaFoglioPrivacy(){
     var motivo;
     var osservazioni;
     var provenienza;
-
-    //initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza);
     
     doc.setFontSize(20);
     doc.setTextColor(92, 76, 76);
@@ -209,10 +216,6 @@ function stampaFoglioPrivacy(){
 
     /*Salvo il pdf*/
     doc.save('FoglioPrivacy' + cognome + nome + dataNascita + '.pdf');
-}
-
-function initVarPopupAggiungiNuovo(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1, telefono2, codfisc, motivo, osservazioni, provenienza){
-    
 }
 
 
@@ -255,16 +258,14 @@ function cercaPersona ()
             url: "./serverlogic.php",
             data: {azione: "cercaPersona", nomePersona:ricerca},
             success: function(response) {
-                //controlla se non è undefined
-                //console.log(persone[a].Motivo);
                 var persone = JSON.parse (response);
                 console.log(ricerca);
                 var riga = "";
-                /*if(persone[a].Motivo == "NULL"){
-                    persone[a].Motivo = "Nessun motivo registrato.";
-                }*/
                 for (var a = 0; a < persone.length; a ++)
                 {
+                    if(persone[a].Motivo == "NULL"){
+                        persone[a].Motivo = "Nessun motivo registrato.";
+                    }
                     riga += "<tr><td>" + 
                                 persone [a].ID + "</td><td>" + 
                                 persone [a].Cognome + "</td><td>" + 
@@ -439,7 +440,7 @@ function mostraDocumento(id){
 
 }
 
-//sia che abbia una mail che solo il codice restituisce -2
+
 function generaCodice() {
     var id = $("#idPersonaModifiche").val();
 	var codice = Math.floor(Math.random() * 1000000) + 1;
@@ -447,7 +448,6 @@ function generaCodice() {
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "inserisciCodApp", codice:codice, id:id},
-        //mal che vada restituisce quello vecchio
         success: function(response) {
         	if(response == 0) {        
                 alert("Utente inserito con successo!");
@@ -650,38 +650,21 @@ function aggiungiNuovoPaziente(){
     if(!checkfields()){
         alert("Alcuni campi obbligatori non sono stati compilati correttamente.");
     }else{
-        var nome;
-        var cognome;
-        var luogoNascita;
-        var dataNascita;
-        var residenza;
-        var indirizzo; 
-        var cap;
-        var telefono1;
-        var telefono2;
-        var codfisc;
-        var motivo;
-        var osservazioni;
-        var provenienza;
-
-        nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
-        cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
-        luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
-        dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
-        residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
-        indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
-        cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
-        telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
-        telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
-        codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
-        motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
-        osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
-        provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
+        var nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
+        var cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
+        var luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
+        var dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
+        var residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
+        var indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
+        var cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
+        var telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
+        var telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
+        var codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
+        var motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
+        var osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
+        var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
         dataNascita = giraDataDb(dataNascita);
-        console.log(motivo);
-        console.log(luogoNascita);
-        console.log(residenza);
         $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -689,8 +672,6 @@ function aggiungiNuovoPaziente(){
                 medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
-            //va in errore, bisogna testarlo con luogo nascita residenza e motivo
-            console.log(response);
             alert("Nuovo paziente inserito con successo!");
             cercaPersona();
             $('#popupStampaFoglioPrivacy').modal('show');
@@ -852,7 +833,7 @@ function caricaContabilita(){
                     "</td><td>" + pagamenti[a].Cognome + 
                     "</td><td>" + giraDataUmano(pagamenti[a].Data) + 
                     "</td><td>" + pagamenti[a].Pagamento + " €" +
-                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].AnaID + ');"><span class="glyphicon glyphicon-user"></span></button>' + "</td></tr>";			
+                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].AnaID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";			
             }
 			$("#tblContabilitaBody").html(riga);
         },
