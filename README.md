@@ -20,12 +20,15 @@ pdf foglio privacy
 
 -------situazione paziente-------
 
-(?) - che si chiuda il sidenav se doppio click fuori
+!! - quando non scrivo niente e premo salva le textbox diventano rosse, quando ci scrivo qualcosa rimangono rosse(togliere il fuoco quando perdono il focus e hanno qualcosa di scritto)
 
+!! - quando le textbox sono rosse se chiudo il sidenav e apro quello di un altro rimangono rosse
+
+tutti i sidenav quando lo apri per la prima volta si vede che parte dall'angolo in alto a destra e poi scende, farlo partire direttamente dall'altezza giusta
 
 -------info-------
 
-combobox per luogo di nascita e residenza nel popup aggiorna (le stesse di aggiungi nuovo)
+combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse di aggiungi nuovo)
 
 !! - modifica non salva le modifiche
 
@@ -46,16 +49,13 @@ combobox per luogo di nascita e residenza nel popup aggiorna (le stesse di aggiu
 
 ~ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
 
+(?) - a me non piace il sidenav che si apre nella tabella, stona col resto della pagina. secondo me sarebbe bello fosse un div semplice (magari con una riga che lo divide dalla tabella, stessa che dovrebbe esserci
+tra tabella e calendario). se no si può fare col sidenav ma senza la croce in alto a destra, farlo comparire all'altezza della tabella e sarebbe bello senza bordo
+
 
 -------contabilità-------
 
-!! - nome cognome data pagamento al posto di esempio esempio 01/01/01
-
-prendere descrizione da descrizione intervento con stesso anaid e stessa data
-
-rimuovere tasto annulla
-
-quando cerco in contabilità mancano i colori pagato/non pagato
+!! - aggiorna è bloccato in qualsiasi caso, deve essere bloccato solo quando è bloccato anche paga€
 
 paga fa aggiorna e paga
 
@@ -65,12 +65,7 @@ paga pagamento non salva
 
 ------Aggiuntivi-------
 
-popupAggiungiNuovo:
-
-(?) local_encode inverso Es per osservazioni ci potrebbero essere è é ò à
-
-da testare funzionamento di txtResidenza e txtLuogoNascita con keyup
-
+txtResidenza e txtLuogoNascita con keyup richiedono i primi dieci comuni con quelle lettere
 
 Anagrafica:
 
