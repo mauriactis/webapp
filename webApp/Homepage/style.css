@@ -67,7 +67,7 @@
     border-top:1px solid rgb(127, 127, 127);
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    padding-top: 5px;
 }
 
 .sidenav .closebtn {

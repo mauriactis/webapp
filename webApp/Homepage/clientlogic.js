@@ -15,6 +15,17 @@ $(document).ready(function(){
     $('#txtRicercaAnagrafica').keypress(function(e){
       if(e.keyCode==13) $('#btnCerca').click();
     });
+    $( "#vsblPage" ).dblclick(function() {
+        if(anagraficaShown){
+            if(document.getElementById("situazionePaziente").style.width == "500px"){
+                nascondiSituazionePaziente();
+            }
+        }else{
+            if(document.getElementById("sidePagamento").style.width == "500px"){
+                nascondiPagamento();
+            }
+        }
+    });
 });
 
 function svuotaNome(){
@@ -158,15 +169,15 @@ function initPopupAggiungiNuovo(){
 
 function caricaResidenza(){
     var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
-    caricaComuni(ricerca);
+    caricaComuni(ricerca, 0);
 }
 
 function caricaLuogoNascita(){
     var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
-    caricaComuni(ricerca);
+    caricaComuni(ricerca, 1);
 }
 
-function caricaComuni(ricerca){
+function caricaComuni(ricerca, luogoNascita){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -174,9 +185,12 @@ function caricaComuni(ricerca){
         success: function(response) {
             var comuni = JSON.parse (response);
             for (var a = 0; a < comuni.length; a ++){
-                $("#divElenco").html(comnuni[a].Comune, comuni[a].ID);
+                if(luogoNascita){
+                    $("#txtLuogoNascitaPopupAggiungiNuovo").html(comuni[a].Comune, comuni[a].ID);
+                }else{
+                    $("#txtResidenzaPopupAggiungiNuovo").html(comuni[a].Comune, comuni[a].ID);
+                }
             }
-            ricerca = "";
         },
         error: function(){
             alert("Errore");
@@ -259,7 +273,6 @@ function cercaPersona ()
             data: {azione: "cercaPersona", nomePersona:ricerca},
             success: function(response) {
                 var persone = JSON.parse (response);
-                console.log(ricerca);
                 var riga = "";
                 for (var a = 0; a < persone.length; a ++)
                 {
