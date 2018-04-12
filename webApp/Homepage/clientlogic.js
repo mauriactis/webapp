@@ -303,31 +303,7 @@ function cercaPersona ()
             }
         });
     }else{
-        if(document.getElementById("sidePagamento") != null){
-            nascondiPagamento();
-        }
-        $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "cercaContabilita", nomePersona:ricerca},
-        success: function(response) {
-            var pagamenti = JSON.parse (response);
-            var riga = "";
-            for (var a = 0; a < pagamenti.length; a ++)
-            {
-                riga += "<tr><td>" + pagamenti[a].AnaID +
-                    "</td><td>" + pagamenti[a].Nome + 
-                    "</td><td>" + pagamenti[a].Cognome + 
-                    "</td><td>" + giraDataUmano(pagamenti[a].Data) + 
-                    "</td><td>" + pagamenti[a].Pagamento + " €" +
-                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].ID + ');"><span class="glyphicon glyphicon-user"></span></button>' + "</td></tr>";         
-            }
-            $("#tblContabilitaBody").html(riga);
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+        caricaContabilita(ricerca);
     }
 }
 
@@ -489,8 +465,11 @@ function mostraSituazionePaziente(i) {
             url: "./serverlogic.php",
             data: {azione: "caricaUltimoIntervento", id:i},
             success: function(response) {
+                console.log(response);
                 if(response != 1){
-                    $("#situazionePazienteUltimaVolta").html(response);
+                    var dati = JSON.parse (response);
+                    console.log(dati.Descrizione);
+                    $("#situazionePazienteUltimaVolta").html(dati.Descrizione);
                 }else{
                     $("#situazionePazienteUltimaVolta").html("Non è presente nessun intervento passato.");
                 }
@@ -807,7 +786,7 @@ function inserisciNuovoFile(){
 /*
 * Funzione che carica la tabella contabilità all' interno del div che costituisce il body della homepage.
 */
-function caricaContabilita(){
+function caricaContabilita(nomePersona){
     $("#txtRicercaAnagrafica").val("");
 	if(document.getElementById("situazionePaziente") != null){
 	 	nascondiSituazionePaziente();
@@ -830,7 +809,7 @@ function caricaContabilita(){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "cercaContabilita", nomePersona:""},
+        data: {azione: "cercaContabilita", nomePersona:nomePersona},
         success: function(response) {
         	var pagamenti = JSON.parse (response);
 			var riga = "";
@@ -841,13 +820,18 @@ function caricaContabilita(){
                 }else{
                     riga += "<tr class=\"danger\">";
                 }
+                var anno = pagamenti[a].Data.substring(0,4);
+                var mese = pagamenti[a].Data.substring(5,7);
+                var giorno = pagamenti[a].Data.substring(8,10);
                 riga += "<td>" + pagamenti[a].AnaID +
                     "</td><td>" + pagamenti[a].Nome + 
                     "</td><td>" + pagamenti[a].Cognome + 
                     "</td><td>" + giraDataUmano(pagamenti[a].Data) + 
                     "</td><td>" + pagamenti[a].Pagamento + " €" +
-                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].AnaID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";			
+                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].AnaID + ',' + anno + ',' + mese + ',' + giorno +');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";			
+                console.log(anno);
             }
+
 			$("#tblContabilitaBody").html(riga);
         },
         error: function(){
@@ -859,24 +843,34 @@ function caricaContabilita(){
 /*
 * Richiama una funzione ajax e riempie il sidenav contenente le informazioni riguardo un pagamento specifico
 */
-function mostraPagamento(i) {
+function mostraPagamento(i,anno, mese, giorno) {
     document.getElementById("sidePagamento").style.width = "500px";
     document.getElementById("sidePagamento").style.marginTop = "55px";
-
+    if (mese<10){
+        mese = "0" + mese;
+    }
+    if (giorno<10){
+        giorno = "0" + giorno;
+    }
+    data = anno + "-" + mese + "-" + giorno;
     $("#idPagamento").val(i);
-
-    /*$.ajax({  
+    console.log(data);
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "caricaPagamento", id:i},
+        data: {azione: "caricaUltimoIntervento", id:i , data:data},
         success: function(response) {
+            console.log(response);
             var pagamento = JSON.parse (response);
-            $("#descrizioneIntervento").html(pagamento[0].Descrizione);
-            $("#lblNomeCognome").html(pagamento[0].Cognome + " " + pagamento[0].Nome);
-            $("#lblDataIntervento").html(pagamento[0].DataIntervento);
-            
+
+            $("#descrizioneIntervento").html(pagamento.Descrizione);
+            $("#lblNomeCognome").html(pagamento.Cognome + " " + pagamento.Nome);
+            $("#lblDataIntervento").html(giraDataUmano(pagamento.Data));
+            $("#txtImportoPagamento").val(pagamento.Pagamento);
+
             if(pagamento.Pagato == 1){
                 document.getElementById("btnPaga").disabled = true;
+                document.getElementById("btnAggiornaPagamento").disabled = true;
             }else{
                 document.getElementById("btnPaga").disabled = false;
             }
@@ -884,7 +878,7 @@ function mostraPagamento(i) {
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 }
 
 /*Fa scomparire il sidenav contente le informazioni del pagamento*/

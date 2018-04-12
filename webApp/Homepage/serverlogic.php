@@ -23,7 +23,8 @@
 					break;
 				case 'caricaUltimoIntervento' :
 					$idPersona = $_POST['id'];
-					caricaUltimoIntervento($conn,$idPersona);
+					$data = $_POST['data'];
+					caricaUltimoIntervento($conn,$idPersona,$data);
 					break;
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
@@ -108,7 +109,8 @@
 					visualizzaAnamnesi($conn,$idPersona);
 					break;
 				case 'caricaComuni' :
-					caricaComuni($conn);
+					$ricerca = $_POST['ricerca'];
+					caricaComuni($conn,$ricerca);
 					break;
 				case 'caricaMotivi' :
 					caricaMotivi($conn);
@@ -164,20 +166,20 @@
 
 		}
 
-		function caricaUltimoIntervento($conn,$idPersona){   //carica l ultimo intervento da mettere nella casella a destra per far vedere cosa è stato fatto la volta precedente
+		function caricaUltimoIntervento($conn,$idPersona,$data){   //carica i dati dell'ultimo intervento sia per anagrafica e per contabilità
 
-			$query="SELECT Descrizione FROM interventi WHERE AnaID = ? ORDER BY Data DESC";
+			$query="SELECT anagrafica.Nome,anagrafica.Cognome,interventi.Descrizione,interventi.Data,pagamenti.Pagamento,pagamenti.Pagato FROM interventi,anagrafica,pagamenti WHERE anagrafica.ID=interventi.AnaID AND interventi.AnaID=pagamenti.AnaID AND interventi.Data=pagamenti.Data AND interventi.AnaID=? AND interventi.Data=? ORDER BY Data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 
 			if($ret == NULL){
 				echo 1;
+			}else{
+				echo json_encode(local_encode($ret)); 
 			}
-
-		echo $ret[0];
-
 		}
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
@@ -405,10 +407,11 @@
 			echo local_encode($row['Anamnesi']);
 		}
 
-		function caricaComuni($conn){  //restituisce l elenco dei comuni
-
-			$query="SELECT * FROM comuni";
+		function caricaComuni($conn,$ricerca){  //restituisce l elenco dei comuni
+			$ricerca = $ricerca."%";
+			$query="SELECT * FROM comuni WHERE Comune LIKE ?";
 			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $ricerca);
 			$result = $stmSql ->execute();
 
 			$ret= array();
