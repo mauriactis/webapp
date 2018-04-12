@@ -55,9 +55,9 @@ prendere descrizione da descrizione intervento con stesso anaid e stessa data
 
 rimuovere tasto annulla
 
+quando cerco in contabilità mancano i colori pagato/non pagato
 
-(?) - dati i pochi campi della tabella mettere i tre pulsanti modifica, paga e stampa ricevuta direttamente nella tabella
-
+paga fa aggiorna e paga
 
 modifica pagamento non salva
 
