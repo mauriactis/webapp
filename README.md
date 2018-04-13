@@ -20,10 +20,6 @@ pdf foglio privacy
 
 -------situazione paziente-------
 
-!! - quando non scrivo niente e premo salva le textbox diventano rosse, quando ci scrivo qualcosa rimangono rosse(togliere il fuoco quando perdono il focus e hanno qualcosa di scritto)
-
-!! - quando le textbox sono rosse se chiudo il sidenav e apro quello di un altro rimangono rosse
-
 tutti i sidenav quando lo apri per la prima volta si vede che parte dall'angolo in alto a destra e poi scende, farlo partire direttamente dall'altezza giusta
 
 -------info-------
