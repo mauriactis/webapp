@@ -1,0 +1,302 @@
+<table id="tblAnagrafica" class="table table-hover table-bordered admin">
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Cognome</th>
+         <th>Nome</th>
+         <th>Data di nascita</th>
+         <th>Luogo di nascita</th>
+         <th>Medico di provenienza</th>
+         <th>Residenza</th>
+         <th>Indirizzo</th>
+         <th>CAP</th>
+         <th>Telefono</th>
+         <th>Telefono 2</th>
+         <th>Motivo</th>
+         <th>Codice fiscale</th>
+         <th>Info</th>
+         <th>Situazione paziente</th>
+      </tr>
+   </thead>
+   <tbody id="tblAnagraficaBody">
+   </tbody>
+</table>
+
+
+<div id="situazionePaziente" class="sidenav" style="margin-top: 55px">
+   <a href="javascript:void(0)" class="closebtn" onclick="nascondiSituazionePaziente();">&times;</a>
+   <div class="corpoSidenav">
+
+      <h3><label>L' ultima volta...</label></h3>
+      <div id="situazionePazienteUltimaVolta">
+      </div>
+
+      <h3><label>Oggi</label></h3>
+      <textarea onclick="svuotaOggi();" class="form-control" rows="3" id="txtSituazionePazienteOggi"></textarea>
+
+      <h3><label>Importo</label></h3>
+      <table>
+         <tr>
+            <td>
+               <input onclick="svuotaImporto();" type="text" class="form-control" id="txtImportoSituazionePaziente">
+            </td>
+            <td>
+               <h3><label class="lblEuro"> €</label></h3>
+            </td>
+         </tr>
+      </table>
+      <div id="chkLblPagaAdesso">
+         <input type="checkbox" id="chkPagato"><h3><label onclick="checkButton();">Paga adesso</label></h3>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente" onclick="salvaIntervento();">Salva</button>
+   </div>
+</div>
+
+
+<div id="modifiche" class="sidenav" style="margin-top: 55px">
+   <a href="javascript:void(0)" class="closebtn" onclick="nascondiModifiche();">&times;</a>
+   <div class="corpoSidenav" style="display: block;">
+
+      <button type="button" class="btn btn-danger" style="display: block;" data-toggle="modal" data-target="#popupModificaPaziente" onclick="initPopupModifica();">Modifica</button>
+
+
+      <button type="button" class="btn btn-warning" style="display: block;" data-toggle="modal" data-target="#popupDocumentiPaziente" onclick="visualizzaDocumenti();">Visualizza documenti <span class="glyphicon glyphicon-folder-open"></span></button>
+      <button type="button" class="btn btn-danger" style="display: block;" data-toggle="modal" data-target="#popupAnamnesiPaziente" id="btnAnamnesi" onclick="visualizzaAnamnesi();">Visualizza anamnesi <span class="glyphicon glyphicon-list-alt"></span></button>
+
+
+
+      <button type="button" class="btn btn-success" style="display: block;" data-toggle="modal" data-target="#popupCodicePaziente" id="btnGeneraCodiceApp" onclick="generaCodice();">Genera codice app <span class="glyphicon glyphicon-qrcode"></span></button>
+      <button type="button" class="btn btn-warning" style="display: block;" data-toggle="modal" data-target="#popupNuovoDocumento" id="btnNuovoDocumento" onclick="nuovoDocumento();">Nuovo documento <span class="glyphicon glyphicon-file"></span></button>
+      <button type="button" class="btn btn-default" style="display: block;" onclick="assegnaEsercizi();">Assegna esercizi</button>
+      <button type="button" class="btn btn-default" style="display: block;" data-toggle="modal" data-target="#popupContabilitaPaziente" onclick="visualizzaContabilita();">Visualizza contabilità</button>
+      <button type="button" class="btn btn-default" style="display: block;" data-toggle="modal" data-target="#popupStoricoInterventiPaziente" onclick="visualizzaStoricoInterventi();">Visualizza storico interventi</button>
+      <input type="hidden" id="idPersonaModifiche" value="">
+   </div>
+</div>
+
+
+<!-- Popup per visualizzare l' anamnesi di un paziente -->
+<div class="modal fade" id="popupAnamnesiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header">
+            <div><label>Anamnesi:</label></div>
+         </div>
+         <div id="divAnamnesi" class="modal-body">
+            Non è presente nessuna osservazione.
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup per aggiungere un nuovo paziente -->
+<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-body">
+            <table class="tblPopupModificaPaziente">
+               <tbody>
+                  <tr class="tblPopupModificaPazienteRow">
+                     <td><label>Nome</label></td>
+                     <td><input type="text" class="form-control" id="txtNomePopupModificaPaziente"></td>
+                     <td><label class="PopupModificaPaziente3Col">Cognome</label></td>
+                     <td><input type="text" class="form-control" id="txtCognomePopupModificaPaziente"></td>
+                  </tr>
+                  <tr class="tblPopupModificaPazienteRow">
+                     <td><label>Luogo di nascita</label></td>
+                     <td><input type="text" class="form-control autocomplete" id="txtLuogoNascitaPopupModificaPaziente"></td>
+                     <td><label  class="PopupModificaPaziente3Col">Data di nascita</label></td>
+                     <td><input type="text" class="form-control" id="txtDataNascitaPopupModificaPaziente"></td>
+                  </tr>
+                  <tr class="tblPopupModificaPazienteRow">
+                     <td><label>Residenza</label></td>
+                     <td><input type="text" class="form-control autocomplete" id="txtResidenzaPopupModificaPaziente"></td>
+                     <td><label class="PopupModificaPaziente3Col">Indirizzo</label></td>
+                     <td><input type="text" class="form-control" id="txtIndirizzoPopupModificaPaziente"></td>
+                  </tr>
+                  <tr class="tblPopupModificaPazienteRow">
+                     <td><label>CAP</label></td>
+                     <td><input type="text" class="form-control" id="txtCapPopupModificaPaziente"></td>
+                     <td><label  class="PopupModificaPaziente3Col">Codice fiscale</label></td>
+                     <td><input type="text" class="form-control" style="text-transform:uppercase" id="txtCodiceFiscalePopupModificaPaziente"></td>
+                  </tr>
+                  <tr class="tblPopupModificaPazienteRow">
+                     <td><label>Telefono</label></td>
+                     <td><input type="text" class="form-control" id="txtTelefonoPopupModificaPaziente"></td>
+                     <td><label  class="PopupModificaPaziente3Col">Motivo</label></td>
+                     <td><input type="text" class="form-control" id="txtMotivoPopupModificaPaziente"></td>
+                  </tr>
+               </tbody>
+            </table>
+            <div id="campiAggiuntiviPopupModificaPaziente" class="collapse">
+               <table class="tblPopupModificaPaziente">
+                  <tbody>
+                     <tr class="tblPopupModificaPazienteRow">
+                        <td><label>Telefono 2</label></td>
+                        <td><input type="text" class="form-control inputMore" id="txtTelefono2PopupModificaPaziente"></td>
+                     </tr>
+                     <tr class="tblPopupModificaPazienteRow">
+                        <td><label>Medico di provenienza</label></td>
+                        <td><input type="text" class="form-control inputMore" id="txtProvenienzaPopupModificaPaziente"></td>
+                     </tr>
+                     <tr class="tblPopupModificaPazienteRow">
+                        <td><label>Osservazioni</label></td><br>
+                        <td><textarea class="form-control inputMore txtOsservazioniPopup" rows="7" id="txtOsservazioniPopupModificaPaziente"></textarea></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupModificaPaziente" onclick="changeArrow();" value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
+            <button type="button" class="btn btn-success" id="btnConfermaPopupModificaPaziente" data-dismiss="modal" onclick="aggiornaPaziente();">Aggiorna</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
+         </div>
+      </div>
+   </div>
+
+      <!-- Popup per chiedere se si vuole stampare il foglio privacy o meno -->
+      <div class="modal fade" id="popupStampaFoglioPrivacy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <div>Si desidera stampare il foglio privacy?</div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="stampaFoglioPrivacy();" data-dismiss="modal"><span class="glyphicon glyphicon-print"></span> Stampa</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+               </div>
+            </div>
+          </div>
+      </div>
+   </div>
+
+<!-- Popup per visualizzare lo storico interventi di un paziente -->
+<div class="modal fade" id="popupStoricoInterventiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body" id="divStoricoInterventiPaziente">
+            <table class="table table-hover table-bordered admin">
+               <thead>
+                  <tr>
+                     <th>Data</th>
+                     <th>Descrizione</th>
+                  </tr>
+               </thead>
+               <tbody id="tblStoricoInterventiPazienteBody">
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Popup per visualizzare la contabilità di un paziente -->
+<div class="modal fade" id="popupContabilitaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body" id="divContabilitaPaziente">
+            <table class="table table-hover table-bordered admin">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Nome</th>
+                     <th>Cognome</th>
+                     <th>Data</th>
+                     <th>Pagamento</th>
+                  </tr>
+               </thead>
+               <tbody id="tblContabilitaPazienteBody">
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Popup per visualizzare i documenti di un paziente -->
+<div class="modal fade" id="popupDocumentiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body" id="divDocumentiPaziente">
+            <table class="table table-hover table-bordered admin">
+               <thead>
+                  <tr>
+                     <th style="width: 20%">ID</th>
+                     <th>Data</th>
+                     <th>Descrizione</th>
+                     <th>Documento</th>
+                  </tr>
+               </thead>
+               <tbody id="tblDocumentiPazienteBody">
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Popup per chiedere se si vuole stampare la ricevuta o meno -->
+<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            <div>Si desidera stampare la ricevuta?</div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal"><span class="glyphicon glyphicon-print"></span> Stampa</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup che visualizza il codice utente -->
+<div class="modal fade" id="popupCodicePaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header"><label>Il codice è:</label>
+         </div>
+         <div class="modal-body">
+            <div><h2 id="lblCodice"></h2></div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup per inserire un nuovo documento -->
+<div class="modal fade" id="popupNuovoDocumento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header">
+            <label>Seleziona il file</label>
+         </div>
+         <div class="modal-body">
+            <div>
+               <input id="manualFileNuovoDocumento" type="file">
+            </div>
+            <input type="hidden" id="idPersonaNuovoDocumento" value="">
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="inserisciNuovoFile();" data-dismiss="modal">Fatto</button>
+         </div>
+      </div>
+    </div>
+</div>

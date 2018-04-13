@@ -1,0 +1,49 @@
+<table id="tblContabilita" class="table table-hover table-bordered admin">
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Nome</th>
+         <th>Cognome</th>
+         <th>Data</th>
+         <th>Importo</th>
+         <th>Mostra</th>
+      </tr>
+   </thead>
+   <tbody id="tblContabilitaBody">
+   </tbody>
+</table>
+
+
+<div id="sidePagamento" class="sidenav" style="margin-top: 55px">
+   <a href="javascript:void(0)" class="closebtn" onclick="nascondiPagamento();">&times;</a>
+   <div id="corpoPagamento">
+
+      <h3><label id="lblNomeCognome">Esempio esempio</label><label id="lblDataIntervento">01/01/01</label></h3>
+
+      <h3><label>Descrizione</label></h3>
+      <div id="descrizioneIntervento">
+         QUESTO VA RIEMPITO CON QUALCOSA DAL DATABASE Lorem ipsum  dolor sit amet e ceccerecerecerrecerece
+      </div><br>
+
+      <h3><label>Importo</label></h3>
+      <table>
+         <tr>
+            <td>
+               <input type="text" class="form-control" id="txtImportoPagamento">
+            </td>
+            <td>
+               <h3><label class="lblEuro"> €</label></h3>
+            </td>
+         </tr>
+      </table>
+
+
+      <div id="divBottoniPagamento">
+         <button type="button" class="btn btn-success" onclick="aggiornaPagamento();" id="btnAggiornaPagamento">Aggiorna</button>
+         <button type="button" class="btn btn-primary" onclick="confermaPagamento();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
+         <button type="button" class="btn btn-default" onclick="stampaRicevuta();" id="btnPaga">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>
+      </div>
+      <input type="hidden" id="idPagamento" value="">
+      <input type="hidden" id="dataPagamento" value="">
+   </div>
+</div>

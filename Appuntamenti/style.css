@@ -1,0 +1,99 @@
+#divUpper{
+    font-size: 3em;
+}
+
+#btnRichiesteAppuntamento{
+	margin-right: 20em;
+}
+
+/*Non mi piace con gli em*/
+#headerTbl{
+	margin-left: 8em;
+}
+
+.headerCol{
+	width: 30%
+}
+
+#body{
+	display: inline;
+}
+
+#divDatepicker{
+	float: left;
+	margin-left: 18em;
+	margin-right: 4em;
+	margin-top: 10em;
+}
+
+#divAppuntamenti{
+	margin-left: 3em;
+	margin-top: 1em;
+	display: inline-block;
+}
+
+#giorniAppuntamenti{
+	margin-left: 10.35em;
+}
+
+#tblAppuntamenti{
+	margin-top: 2em;
+	width: 50em;
+}
+
+#divDettagliAppuntamento{
+	float: right;
+	display: inline-block;
+	margin-right: 5em;
+	width: 30%
+}
+
+#txtAppuntiDettagliAppuntamento{
+	resize: none;
+}
+
+#btnSalvaSituazionePaziente{
+	margin-top: 0.25em;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: rgb(255, 255, 255);
+    border-left:1px solid rgb(127, 127, 127);
+    border-top:1px solid rgb(127, 127, 127);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 5px;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration: none;
+    color: black;
+}
+
+.sidenav button {
+    margin-top: 1em;
+}
+
+#mainDiv {
+    transition: margin-left 0.5s;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+}
+
+#sidenavBody{
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
