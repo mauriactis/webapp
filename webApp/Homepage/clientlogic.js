@@ -29,6 +29,18 @@ $(document).ready(function(){
             }
         }
     });
+    $("#txtResidenzaPopupAggiungiNuovo").keypress(function(){
+        caricaResidenza();
+    });
+    $("#txtResidenzaPopupAggiungiNuovo").click(function(){
+        caricaResidenza();
+    });
+    $("#txtLuogoNascitaPopupAggiungiNuovo").keypress(function(){
+        caricaLuogoNascita();
+    });
+    $("#txtLuogoNascitaPopupAggiungiNuovo").click(function(){
+        caricaLuogoNascita();
+    });
 });
 
 //svuota il campo nome del popup aggiungi nuovo
@@ -174,30 +186,34 @@ function initPopupAggiungiNuovo(){
 
 
 function caricaResidenza(){
-    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
+    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').html();
     caricaComuni(ricerca, 0);
 }
 
 function caricaLuogoNascita(){
-    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
+    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').html();
     caricaComuni(ricerca, 1);
 }
 
 //carica i comuni a seconda di cosa scrivo in luogonascita o residenza
 function caricaComuni(ricerca, luogoNascita){
+    console.log(ricerca);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "caricaComuni", ricerca:ricerca},
         success: function(response) {
+            console.log(response);
             var comuni = JSON.parse (response);
+            var riga= "";
             for (var a = 0; a < comuni.length; a ++){
-                if(luogoNascita){
-                    $("#txtLuogoNascitaPopupAggiungiNuovo").html(comuni[a].Comune, comuni[a].ID);
-                }else{
-                    $("#txtResidenzaPopupAggiungiNuovo").html(comuni[a].Comune, comuni[a].ID);
-                }
+                riga += "<option value='"+ comuni[a].ID + "'>" + comuni[a].Comune + "</option>";
             }
+            if(luogoNascita){
+                    $("#txtLuogoNascitaPopupAggiungiNuovo").html(riga);
+                }else{
+                    $("#txtResidenzaPopupAggiungiNuovo").html(riga);
+                }
         },
         error: function(){
             alert("Errore");
