@@ -26,6 +26,10 @@
 					$data = $_POST['data'];
 					caricaUltimoIntervento($conn,$idPersona,$data);
 					break;
+				case 'caricaUltimoInterventoAnagrafica' :
+					$idPersona = $_POST['id'];
+					caricaUltimoIntervento($conn,$idPersona);
+					break;
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
 					$importo = $_POST['importo'];
@@ -33,7 +37,6 @@
 					$descrizione = $_POST['descrizione'];
 					$data = $_POST['data'];
 					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione);
-
 					break;
 				case 'inserisciNuovoPaziente' :
 					$nome = $_POST['nome'];
@@ -166,7 +169,7 @@
 
 		}
 
-		function caricaUltimoIntervento($conn,$idPersona,$data){   //carica i dati dell'ultimo intervento sia per anagrafica e per contabilità
+		function caricaUltimoIntervento($conn,$idPersona,$data){   //carica i dati dell'ultimo intervento e per contabilità
 
 			$query="SELECT anagrafica.Nome,anagrafica.Cognome,interventi.Descrizione,interventi.Data,pagamenti.Pagamento,pagamenti.Pagato FROM interventi,anagrafica,pagamenti WHERE anagrafica.ID=interventi.AnaID AND interventi.AnaID=pagamenti.AnaID AND interventi.Data=pagamenti.Data AND interventi.AnaID=? AND interventi.Data=? ORDER BY Data DESC";
 			$stmSql = $conn->prepare($query);
@@ -181,6 +184,22 @@
 				echo json_encode(local_encode($ret)); 
 			}
 		}
+
+		function caricaUltimoInterventoAnagrafica($conn,$idPersona){   //carica i dati dell'ultimo intervento per anagrafica
+
+			$query="SELECT Descrizione FROM interventi WHERE AnaID=? ORDER BY Data DESC";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$result = $stmSql ->execute();
+			$ret=$stmSql->fetch();
+
+			if($ret == NULL){
+				echo 1;
+			}else{
+				echo json_encode(local_encode($ret)); 
+			}
+		}
+
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
@@ -285,7 +304,7 @@
 		}
 		
 		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
-			$query="SELECT SUM(Pagamento) FROM pagamenti WHERE AnaID = ? AND Pagato=0 ";
+			$query="SELECT SUM(Pagamento) FROM pagamenti WHERE AnaID = ? AND Pagato=0";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -408,15 +427,17 @@
 		}
 
 		function caricaComuni($conn,$ricerca){  //restituisce l elenco dei comuni
+			$i=0;
 			$ricerca = $ricerca."%";
-			$query="SELECT * FROM comuni WHERE Comune LIKE ?";
+			$query="SELECT * FROM comuni WHERE Comune LIKE ? ORDER BY Comune";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $ricerca);
 			$result = $stmSql ->execute();
 
 			$ret= array();
 
-			while($row = $stmSql->fetch()){
+			while($i<10 && $row = $stmSql->fetch()){
+					$i=$i+1;
 					array_push ($ret, $row);
 			}
 
@@ -438,9 +459,8 @@
 
 		echo json_encode(local_encode($ret)); 
 		}
-		
 
-// e carica motivi
+
 
 ?>
 
