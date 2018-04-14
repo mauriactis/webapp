@@ -429,7 +429,7 @@
 		function caricaComuni($conn,$ricerca){  //restituisce l elenco dei comuni
 			$i=0;
 			$ricerca = $ricerca."%";
-			$query="SELECT * FROM comuni WHERE Comune LIKE ? ORDER BY Comune";
+			$query="SELECT * FROM comuni WHERE Comune LIKE upper(?) ORDER BY Comune";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $ricerca);
 			$result = $stmSql ->execute();
@@ -438,7 +438,8 @@
 
 			while($i<10 && $row = $stmSql->fetch()){
 					$i=$i+1;
-					array_push ($ret, $row);
+					$stringa = $row['Comune'].", ".$row['ID'];
+					array_push ($ret, $stringa);
 			}
 
 		echo json_encode(local_encode($ret)); 

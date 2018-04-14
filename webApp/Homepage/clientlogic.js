@@ -29,16 +29,10 @@ $(document).ready(function(){
             }
         }
     });
-    $("#txtResidenzaPopupAggiungiNuovo").keypress(function(){
+    $("#txtResidenzaPopupAggiungiNuovo").keyup(function(){
         caricaResidenza();
     });
-    $("#txtResidenzaPopupAggiungiNuovo").click(function(){
-        caricaResidenza();
-    });
-    $("#txtLuogoNascitaPopupAggiungiNuovo").keypress(function(){
-        caricaLuogoNascita();
-    });
-    $("#txtLuogoNascitaPopupAggiungiNuovo").click(function(){
+    $("#txtLuogoNascitaPopupAggiungiNuovo").keyup(function(){
         caricaLuogoNascita();
     });
 });
@@ -48,52 +42,42 @@ function svuotaNome(){
     $("#txtNomePopupAggiungiNuovo").val("");
     document.getElementById("txtNomePopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaCognome(){
     $("#txtCognomePopupAggiungiNuovo").val("");
     document.getElementById("txtCognomePopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaDataNascita(){
     $("#txtDataNascitaPopupAggiungiNuovo").val("");
     document.getElementById("txtDataNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaIndirizzo(){
     $("#txtIndirizzoPopupAggiungiNuovo").val("");
     document.getElementById("txtIndirizzoPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaResidenza(){
     $("#txtResidenzaPopupAggiungiNuovo").val("");
     document.getElementById("txtResidenzaPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaCap(){
     $("#txtCapPopupAggiungiNuovo").val("");
     document.getElementById("txtCapPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaLuogoNascita(){
     $("#txtLuogoNascitaPopupAggiungiNuovo").val("");
     document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
-}   
-
+}
 function svuotaTelefono(){
     $("#txtTelefonoPopupAggiungiNuovo").val("");
     document.getElementById("txtTelefonoPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaMotivo(){
     $("#txtMotivoPopupAggiungiNuovo").val("");
     document.getElementById("txtMotivoPopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 function svuotaCodFisc(){
     $("#txtCodiceFiscalePopupAggiungiNuovo").val("");
     document.getElementById("txtCodiceFiscalePopupAggiungiNuovo").style.backgroundColor = "white";
 }
-
 //svuota tutti i campi del popup aggiungiNuovo
 function cancellaCampi(){
 	 svuotaNome();
@@ -114,7 +98,6 @@ function cancellaCampi(){
 	 	changeArrow();
 	 }
 }
-
 //cambia il comtenuto quando è premuto il bottone campi aggiuntivi
 function changeArrow(){
 	if(document.getElementById("btnAggiungiCampiPopupAggiungiNuovo").value == "Aggiungi"){
@@ -136,18 +119,14 @@ function changeArrow(){
         $("#btnAggiungiCampiPopupModificaPaziente").html("Aggiungi campi <span class=\"glyphicon glyphicon-chevron-down\">");
     }
 }
-
 //gira data in gg-mm-aaaa
 function giraDataUmano(date){
 	return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
 }
-
 //gira data in aaaa-mm-gg
 function giraDataDb(date){
     return date.substring(6,10) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
 }
-
-
 /*
 restituisce la data odierna nel formato YYYY-MM-DD
 */
@@ -162,7 +141,6 @@ function dataDiOggi(){
     var oggi = y + "-" + m + "-" + d;
     return oggi;
 }
-
 //inizializza il calendario che spunta dalla textbox datanascita e carica i motivi nel dropdown
 function initPopupAggiungiNuovo(){
     $.datepicker.setDefaults($.datepicker.regional['it']); 
@@ -184,14 +162,13 @@ function initPopupAggiungiNuovo(){
     });
 }
 
-
 function caricaResidenza(){
-    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').html();
+    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
     caricaComuni(ricerca, 0);
 }
 
 function caricaLuogoNascita(){
-    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').html();
+    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
     caricaComuni(ricerca, 1);
 }
 
@@ -205,20 +182,40 @@ function caricaComuni(ricerca, luogoNascita){
         success: function(response) {
             console.log(response);
             var comuni = JSON.parse (response);
-            var riga= "";
-            for (var a = 0; a < comuni.length; a ++){
-                riga += "<option value='"+ comuni[a].ID + "'>" + comuni[a].Comune + "</option>";
-            }
+            var riga= "<table>";
+            console.log(comuni);
             if(luogoNascita){
-                    $("#txtLuogoNascitaPopupAggiungiNuovo").html(riga);
-                }else{
-                    $("#txtResidenzaPopupAggiungiNuovo").html(riga);
+                for (var a = 0; a < comuni.length; a ++){
+                    riga += "<tr><td onclick='riportaNome1(" + comuni[a] + ");'>"+ comuni[a] + "</td></tr>";
                 }
+                riga+="</table>";
+                $("#elencoComuni1").html(riga);
+            }else{
+                for (var a = 0; a < comuni.length; a ++){
+                    riga += "<tr><td onclick='riportaNome2(" + comuni[a] + ");'>"+ comuni[a] + "</td></tr>";
+                }
+                riga+="</table>";
+                $("#elencoComuni2").html(riga);
+            }
+            
+            
         },
         error: function(){
             alert("Errore");
         }
     });
+}
+
+function riportaNome1(nome) {
+        document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
+        $("#elencoComuni1").html("");
+        $("#elencoComuni1").hide();
+}
+
+function riportaNome2(nome) {
+        document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
+        $("#elencoComuni2").html("");
+        $("#elencoComuni2").hide();
 }
 
 //FIXARE
