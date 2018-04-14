@@ -70,3 +70,5 @@ nella tebella ci deve essere il luogo nascita non la sua sigla
 visualizzaAnamnesi:
 
 il server non restituisce 0 se la riga non ha nulla
+
+submit(), z-index, overlay
