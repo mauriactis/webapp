@@ -29,7 +29,7 @@
                   </td><td class="headerCol">
                      <label id="lblOraAttuale"></label>
                   </td><td class="headerCol">
-                     <button type="button" class="btn btn-success" id="btnNuovoAppuntamento" onclick="nuovoAppuntamento();">Nuovo appuntamento</button>
+                     <button type="button" class="btn btn-success" id="btnNuovoAppuntamento" onclick="nuovoAppuntamento();" data-toggle="modal" data-target="#popupNuovoAppuntamento">Nuovo appuntamento</button>
                   </td></tr>
                </table>
             </div>
@@ -101,5 +101,34 @@
             </div>
          </div>
       </div>
+
+
+      <div class="modal fade" id="popupNuovoAppuntamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+           <div class="modal-content">
+              <div class="modal-body">
+                 <table>
+                     <tbody>
+                        <tr>
+                            <td><label>Per chi desideri registrare il nuovo appuntamento?</label></td>
+                            <td><select class="form-control" id="txtPersonaNuovoAppuntamento"></select></td>
+                        </tr>
+                        <tr>
+                            <td><label>Data: </label></td>
+                            <td><input type="text" class="form-control" id="txtDataNuovoAppuntamento"></td>
+                         </tr>
+                         <tr>
+                             <td><label>Note:</label></td>
+                            <td><textarea class="form-control inputMore" rows="7" id="txtNoteNuovoAppuntamento"></textarea></td>
+                         </tr>
+                     </tbody>
+                 </table>
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              </div>
+           </div>
+         </div>
+     </div>
    </body> 
 </html>

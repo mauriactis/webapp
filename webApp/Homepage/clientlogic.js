@@ -512,7 +512,6 @@ function mostraSituazionePaziente(i) {
         });
 
     	document.getElementById("situazionePaziente").style.width = "500px";
-    	document.getElementById("situazionePaziente").style.marginTop = "55px";
 	}
 }
 
@@ -553,48 +552,25 @@ function salvaIntervento(){
     }else{
         var pagato = $("#chkPagato").val();
         var id = $("#idPersonaSituazionePaziente").val();
-        console.log(id);
         var oggi = dataDiOggi();
     
-        if(pagato=="on"){ // se la checkbox è checkata o no
+        if(pagato=="on") // se la checkbox è checkata o no
             pagato=1;
-        }else{            
+        else
             pagato=0;
-        }
     
-        if(pagato == 1){
-            $("#idPazientePopupPagaTutto").val(id);
-            //initpopup per il costo complessivo
-            $.ajax({  
-                type: "POST", 
-                url: "./serverlogic.php",
-                data: {azione: "pagamentoComplessivo", id:id},
-                success: function(response) {
-                    importo=parseInt(importo);
-                    response=parseInt(response);
-                    var complessivo = importo + response;
-                    $("#costoComplessivo").html(complessivo);
-                },
-                error: function(){
-                    alert("Errore");
-                }
-            });
-            $('#popupPagaTutto').modal('show');
-        }else{
-            $.ajax({  
-                type: "POST", 
-                url: "./serverlogic.php",
-                data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                        data:oggi},
-                success: function(response) {
-                    alert("Intervento registrato!");
-                    
-                },
-                error: function(){
-                    alert("Errore");
-                }
-            });
-        }
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
+                    data:oggi},
+            success: function(response) {
+                alert("Intervento registrato!");
+            },
+            error: function(){
+                alert("Errore");
+            }
+        });
     }
 }
 
@@ -1001,25 +977,6 @@ function confermaPagamento(){
             console.log(response);
             if(response){
                 alert("Pagamento confermato!");
-            }
-            caricaContabilita();
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
-}
-
-function pagaTuttiInterventiPassati(){
-    var id = $("#idPazientePopupPagaTutto").val();
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "pagaTuttiInterventiPassati", id:id},
-        success: function(response) {
-            console.log(response);
-            if(response){
-                alert("Pagamenti confermati!");
             }
             caricaContabilita();
         },

@@ -88,3 +88,23 @@ function checkfieldsDettagliAppuntamento(appunti){
 function svuotaAppunti(){
     document.getElementById("txtAppuntiDettagliAppuntamento").style.backgroundColor = "white";
 }
+
+function nuovoAppuntamento(){
+    $.datepicker.setDefaults($.datepicker.regional['it']); 
+    $('#txtDataNuovoAppuntamento').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaNomiPersone"},
+        success: function(response) {
+            var persone = JSON.parse (response);
+            var cmbPersone = document.getElementById("txtPersonaNuovoAppuntamento");
+            for (var a = 0; a < persone.length; a ++){
+                cmbPersone.options[a] = new Option(persone[a].NomeCognome, persone[a].ID);
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}

@@ -28,7 +28,7 @@
 					break;
 				case 'caricaUltimoInterventoAnagrafica' :
 					$idPersona = $_POST['id'];
-					caricaUltimoInterventoAnagrafica($conn,$idPersona);
+					caricaUltimoIntervento($conn,$idPersona);
 					break;
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
@@ -200,29 +200,6 @@
 			}
 		}
 
-		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
-
-			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $nome);
-			$stmSql ->bindParam(2, $cognome);
-			$stmSql ->bindParam(3, $dataNascita);
-			$stmSql ->bindParam(4, $luogoNascita);
-			$stmSql ->bindParam(5, $medicoProv);
-			$stmSql ->bindParam(6, $residenza);
-			$stmSql ->bindParam(7, $indirizzo);
-			$stmSql ->bindParam(8, $cap);
-			$stmSql ->bindParam(9, $telefono1);
-			$stmSql ->bindParam(10, $telefono2);
-			$stmSql ->bindParam(11, $motivo);
-			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, strtoupper($codFisc));
-			
-			$result = $stmSql ->execute();
-			
-		echo $result;			//faccio restituire solo vero o falso se riesce eseguire la query da echo vero
-
-		}
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
@@ -244,6 +221,30 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+
+		}
+
+		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
+
+			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $nome);
+			$stmSql ->bindParam(2, $cognome);
+			$stmSql ->bindParam(3, $dataNascita);
+			$stmSql ->bindParam(4, $luogoNascita);
+			$stmSql ->bindParam(5, $medicoProv);
+			$stmSql ->bindParam(6, $residenza);
+			$stmSql ->bindParam(7, $indirizzo);
+			$stmSql ->bindParam(8, $cap);
+			$stmSql ->bindParam(9, $telefono1);
+			$stmSql ->bindParam(10, $telefono2);
+			$stmSql ->bindParam(11, $motivo);
+			$stmSql ->bindParam(12, $anamnesi);
+			$stmSql ->bindParam(13, strtoupper($codFisc));
+			
+			$result = $stmSql ->execute();
+			
+		echo $result;			//faccio restituire solo vero o falso se riesce eseguire la query da echo vero
 
 		}
 
@@ -279,27 +280,6 @@
 
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//aggiorna il prezzo #1
-//aggiorna il prezzo #1
-//aggiorna il prezzo #1   controllata
-//aggiorna il prezzo #1
-
 		function aggiornaPagamento($conn,$idPersona,$data,$importo){   //bottone paga che permette di modificare l'importo di un intervento
 			$query="UPDATE pagamenti SET Pagamento= ? WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
@@ -311,15 +291,9 @@
 			
 		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
 		}		
-
-
-//paga il singolo importo sia per anagrafica che per contabilita #2
-//paga il singolo importo sia per anagrafica che per contabilita #2
-//paga il singolo importo sia per anagrafica che per contabilita #2   controllato
-//paga il singolo importo sia per anagrafica che per contabilita #2
 		
-		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato singolo
-			$query="SELECT Pagamento FROM contabilita WHERE AnaID = ? AND Data = ?";
+		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato
+			$query="SELECT Pagamento FROM pagamenti WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $dataIntervento);
@@ -328,94 +302,16 @@
 
 		echo $ret[0];
 		}
-
-
-//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
-//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
-//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3  controllato
-//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
 		
-		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
-			$query="SELECT SUM(Pagamento) FROM contabilita WHERE AnaID = ? AND Pagato=0";
+		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
+			$query="SELECT SUM(Pagamento) FROM pagamenti WHERE AnaID = ? AND Pagato=0";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 					
-		echo $ret[0]; //restituisco il totale
+		echo $ret[0]; //restituisco la prima cella del array perche tanto restituisce solo un dato
 		}
-
-//controllo se ci sono piu pagamenti in sopeso #4
-//controllo se ci sono piu pagamenti in sopeso #4
-//controllo se ci sono piu pagamenti in sopeso #4  controllato
-//controllo se ci sono piu pagamenti in sopeso #4
-
-		function controlloPiuPagamenti($conn,$idPersona){   //controlla per vedere se il paziente ha piu di 1 pagamento in sopeso (per anagrafica e per contabilita)
-			$query="SELECT Pagamento FROM contabilita WHERE AnaID = ? AND Pagato=0";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$result = $stmSql ->execute();
-			$ret=$stmSql->fetch();
-			if($ret=$stmSql->fetch()){
-				$ret=0;    //       -------------------------->>>>>>>>>>>>>>>> c'e piu di un pagamento da pagare
-			}else{
-				$ret=1;	   //       -------------------------->>>>>>>>>>>>>>>> c'e solo un pagamento da effetture
-			}
-		echo $ret; //restituisco 0 o 1
-		}
-
-
-//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
-//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
-//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5  controllato
-//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
-
-
-
-		function aggiornaPagamentoPagatoFatturaSingolo($conn,$idPersona,$data,$importo){   
-			$query="UPDATE pagamenti SET Pagamento= ? , Pagato=1 WHERE AnaID = ? AND Data = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $importo);
-			$stmSql ->bindParam(2, $idPersona);
-			$stmSql ->bindParam(3, $data);
-		
-			$result = $stmSql ->execute();
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
-		}		
-
-
-
-//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
-//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
-//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6 controllato
-//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
-
-
-		function aggiornaPagatoFatturaMultipla($conn,$idPersona){   
-			$query="UPDATE pagamenti SET Pagato=1 WHERE AnaID = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			
-			$result = $stmSql ->execute();
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
-		}		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		function aggiornaAnagraficaRequest($conn,$idPersona){   //funzione che restituisce tutti i dati di una persona per metterli nel pop-up che permette di modificare i dati del paziente
 			
