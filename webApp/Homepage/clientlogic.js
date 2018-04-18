@@ -550,11 +550,11 @@ function salvaIntervento(){
     if(checkfieldsIntervento(descrizione, importo)){
         alert("Alcuni campi non sono stati compilati correttamente");
     }else{
-        var pagato = $("#chkPagato").val();
+        var pagato = $("#chkPagato").is(':checked');
         var id = $("#idPersonaSituazionePaziente").val();
         var oggi = dataDiOggi();
     
-        if(pagato=="on") // se la checkbox è checkata o no
+        if(pagato) // se la checkbox è checkata o no
             pagato=1;
         else
             pagato=0;
@@ -565,7 +565,13 @@ function salvaIntervento(){
             data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
                     data:oggi},
             success: function(response) {
-                alert("Intervento registrato!");
+                if(response){
+                    alert("Intervento registrato!");
+                    nascondiSituazionePaziente();
+                }else{
+                    alert("L'utente ha già un intervento registrato nella data odierna...");
+                    nascondiSituazionePaziente();
+                }
             },
             error: function(){
                 alert("Errore");
@@ -795,7 +801,8 @@ function checkfields(){
 
 //inizializza il campo hidden nel popup che memorizza un documento relativo ad una persina
 function nuovoDocumento(){
-    $("#idPersonaNuovoDocumento").val($("#idPersonaSituazionePaziente").val());
+    var id = $("#idPersonaModifiche").val();
+    $("#idPersonaNuovoDocumento").val(id);
 }
 
 
@@ -803,26 +810,52 @@ function nuovoDocumento(){
 
 //fa l'upload del documento in una cartella della webapp
 function inserisciNuovoFile(){
+    var ok = false;
     var id = $("#idPersonaNuovoDocumento").val();
 
     var image = document.getElementById("manualFileNuovoDocumento");
     if (image.files.length > 0) {
-            // RUN A LOOP TO CHECK EACH SELECTED FILE.
-            for (var i = 0; i <= image.files.length - 1; i++) {
-                var size = image.files.item(i).size;
+        var size = image.files.item(0).size;
+        //Se la size è minore di 10 Mb
+        if(size<10000000){
+            ok = true;
+        }
+    }
+    
+    if(ok){
+        //Prendo il nome del file selezionandolo dal percors completo
+        var fullPath = image.value;
+        if (fullPath) {
+            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+            var filename = fullPath.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                filename = filename.substring(1);
             }
         }
+        //seleziono l' estensione
+        var estensione = filename.split('.').pop();
+        estensione = estensione.toLowerCase();
     
-    //Se la size è minore di 10 Mb
-    if(size>10000000){
-        document.getElementById("frmFile").submit();
+        //Ad upload .php fai restituire il path di dove è salvato il file
+        if(estensione == "jpg" || estensione == "jpeg" || estensione == "pdf" || estensione == "png"){
+            document.getElementById("frmFile").submit();
+            var descrizione = $("#txtDescrizioneDocumento").val();
+            var data = dataDiOggi();
+            var path = ;
+
+            $.ajax({  
+                type: "POST", 
+                url: "./serverlogic.php",
+                data: {azione: "inserisciDocumento",id:id,data:data,path:path,descrizione:descrizione},
+                success: function(response) {
+                    alert("File caricato con successo!");
+                },
+                error: function(){
+                    alert("Errore");
+                }
+            });
+        }
     }
-
-    //document.getElementById("frmFile").submit();
-
-
-
-    
 }
 
 
