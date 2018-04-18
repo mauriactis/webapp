@@ -93,6 +93,22 @@
     margin-bottom: 0.5em;
 }
 
+.tabellaComuni{
+    margin-left: 1em;
+    border-collapse: collapse;
+}
+
+.rowComuni{
+    padding: 2em;
+    text-align: left;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.divElencoComuni{
+    z-index: 2;
+}
+
 
 
 
