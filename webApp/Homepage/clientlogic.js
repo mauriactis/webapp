@@ -35,6 +35,7 @@ $(document).ready(function(){
     $("#txtLuogoNascitaPopupAggiungiNuovo").keyup(function(){
         caricaLuogoNascita();
     });
+    
 });
 
 //svuota il campo nome del popup aggiungi nuovo
@@ -174,46 +175,51 @@ function caricaLuogoNascita(){
 
 //carica i comuni a seconda di cosa scrivo in luogonascita o residenza
 function caricaComuni(ricerca, luogoNascita){
-    console.log(ricerca);
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "caricaComuni", ricerca:ricerca},
-        success: function(response) {
-            console.log(response);
-            var comuni = JSON.parse (response);
-            var riga= "<table>";
-            console.log(comuni);
-            if(luogoNascita){
-                for (var a = 0; a < comuni.length; a ++){
-                    riga += "<tr><td onclick='riportaNome1(" + comuni[a] + ");'>"+ comuni[a] + "</td></tr>";
+    if(ricerca == ""){
+        $("#elencoComuni1").html("");
+        $("#elencoComuni2").html("");
+    }else{
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "caricaComuni", ricerca:ricerca},
+            success: function(response) {
+                var comuni = JSON.parse (response);
+                var riga= '<table class="tabellaComuni">';
+                if(luogoNascita){
+                    for (var a = 0; a < comuni.length; a ++){
+                        console.log(comuni[a]);
+                        riga += '<tr class="rowComuni" ><td onclick="riportaNome1(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
+                    }
+                    riga+="</table>";
+                   
+                    console.log(riga);
+                    $("#elencoComuni1").html(riga);
+                    
+                    $("#elencoComuni1").show();
+                }else{
+                    for (var a = 0; a < comuni.length; a ++){
+                        riga += '<tr ><td onclick="riportaNome2(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
+                    }
+                    riga+="</table>";
+                    $("#elencoComuni2").html(riga);
                 }
-                riga+="</table>";
-                $("#elencoComuni1").html(riga);
-            }else{
-                for (var a = 0; a < comuni.length; a ++){
-                    riga += "<tr><td onclick='riportaNome2(" + comuni[a] + ");'>"+ comuni[a] + "</td></tr>";
-                }
-                riga+="</table>";
-                $("#elencoComuni2").html(riga);
+            },
+            error: function(){
+                alert("Errore");
             }
-            
-            
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+        });
+    }
 }
 
 function riportaNome1(nome) {
-        document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
+        document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni1").html("");
         $("#elencoComuni1").hide();
 }
 
 function riportaNome2(nome) {
-        document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
+        document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni2").html("");
         $("#elencoComuni2").hide();
 }

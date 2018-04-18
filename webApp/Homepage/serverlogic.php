@@ -438,11 +438,12 @@
 
 			while($i<10 && $row = $stmSql->fetch()){
 					$i=$i+1;
+					$row['Comune'] = str_replace("'", "&#39;", $row['Comune']);
 					$stringa = $row['Comune'].", ".$row['ID'];
 					array_push ($ret, $stringa);
 			}
 
-		echo json_encode(local_encode($ret)); 
+			echo json_encode(local_encode($ret)); 
 		}
 
 
