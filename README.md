@@ -69,3 +69,5 @@ submit(), z-index, overlay
 mettere a posto serverlogic per quanto riguarda pagamenti singoli e multipli e cambiare nomi alle funzioni pls
 
 quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la finestra che chiede se voglio pagare tutti gli interventi passati ma il prezzo non è aggiornato
+
+parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
