@@ -568,6 +568,7 @@ function salvaIntervento(){
             data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
                     data:oggi},
             success: function(response) {
+                console.log(response);
                 if(response){
                     alert("Intervento registrato!");
                     nascondiSituazionePaziente();
@@ -818,35 +819,40 @@ function inserisciNuovoFile(){
 
     var image = document.getElementById("manualFileNuovoDocumento");
     if (image.files.length > 0) {
-        var size = image.files.item(0).size;
-        //Se la size è minore di 10 Mb
-        if(size<10000000){
+        var dim = image.files.item(0).dim;
+        //Se la dimensione è minore di 10 Mb
+        if(dim<10000000){
             ok = true;
         }
     }
     
     if(ok){
         //Prendo il nome del file selezionandolo dal percors completo
-        var fullPath = image.value;
-        if (fullPath) {
-            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-            var filename = fullPath.substring(startIndex);
-            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-                filename = filename.substring(1);
+        var percorso = image.value;
+        if (percorso) {
+            var indicePartenza = (percorso.indexOf('\\') >= 0 ? percorso.lastIndexOf('\\') : percorso.lastIndexOf('/'));
+            var nomeFile = percorso.substring(indicePartenza);
+            if (nomeFile.indexOf('\\') === 0 || nomeFile.indexOf('/') === 0) {
+                nomeFile = nomeFile.substring(1);
             }
         }
         //seleziono l' estensione
-        var estensione = filename.split('.').pop();
+        var estensione = nomeFile.split('.').pop();
         estensione = estensione.toLowerCase();
     
-        //Ad upload .php fai restituire il path di dove è salvato il file
+        //Ad upload .php fai restituire il path di dove è salvato il file --> come lo ricevo????
         if(estensione == "jpg" || estensione == "jpeg" || estensione == "pdf" || estensione == "png"){
             document.getElementById("frmFile").submit();
             var descrizione = $("#txtDescrizioneDocumento").val();
             var data = dataDiOggi();
-            var path = ;
 
-            $.ajax({  
+            //da testare
+            var path = "imgs/docs/" + id + "/" + nomeFile;
+            console.log(path);
+            console.log(data);
+            console.log(descrizione);
+
+            /*$.ajax({  
                 type: "POST", 
                 url: "./serverlogic.php",
                 data: {azione: "inserisciDocumento",id:id,data:data,path:path,descrizione:descrizione},
@@ -856,7 +862,7 @@ function inserisciNuovoFile(){
                 error: function(){
                     alert("Errore");
                 }
-            });
+            });*/
         }
     }
 }
@@ -999,21 +1005,72 @@ function aggiornaPagamento(){
             alert("Errore");
         }
     });
+}
 
+//mettere a posto serverlogic
+function popupTuttiInterventiCosto(){
+    var id = $("#idPagamento").val();
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "pagaTuttiInterventiPassati", id:id},
+        success: function(response) {
+            $('#costoComplessivo').html(response);
+            $('#popupCostoTuttiInterventi').modal('show');
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 /*Se un pagamento non era ancora stato pagato lo conferma*/
 function confermaPagamento(){
     var id = $("#idPagamento").val();
     var data = $("#dataPagamento").val();
+    var importo = $("#txtImportoPagamento").val();
     
-    aggiornaPagamento();
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "pagaInterventoPassato", id:id, dataIntervento:data},
+        data: {azione: "aggiornaPagamentoPagatoFatturaSingolo", id:id, importo:importo, dataIntervento:data},
         success: function(response) {
-            console.log(response);
+            if(response){
+                alert("Pagamento confermato!");
+            }
+            caricaContabilita();
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+function initPopupCostoTuttiInterventi(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "aggiornaPagamentoPagatoFatturaSingolo", id:id},
+        success: function(response) {
+            if(response){
+                alert("Pagamento confermato!");
+            }
+            caricaContabilita();
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+function pagaTuttiInterventiPassati(){
+    var id = $("#idPagamento").val();
+    
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "aggiornaPagatoFatturaMultipla", id:id},
+        success: function(response) {
             if(response){
                 alert("Pagamento confermato!");
             }

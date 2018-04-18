@@ -293,8 +293,9 @@ aria-labelledby="myModalLabel" aria-hidden="true">
             <form id="frmFile" action="upload.php" method="post" enctype="multipart/form-data">
                <input id="manualFileNuovoDocumento" name="manualFileNuovoDocumento" type="file">
                <input type="hidden" id="idPersonaNuovoDocumento" name="idPersonaNuovoDocumento" value="">
-            </form>
-            <textarea class="form-control" rows="3" id="txtDescrizioneDocumento"></textarea>
+            </form><br>
+            <label>Descrizione</label>
+            <textarea class="form-control txtOsservazioniPopup" style="width: 47em;" rows="3" id="txtDescrizioneDocumento"></textarea>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" onclick="inserisciNuovoFile();" data-dismiss="modal">Fatto</button>
