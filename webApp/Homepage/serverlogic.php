@@ -176,7 +176,7 @@
 		function cercaContabilita($conn,$persona){  //La funzione che permette di usare la barra di ricerca con la scheda contabilita attiva
 			$persona = strtoupper($persona);   
 			$persona = "%".$persona."%";             //ricerca se c e persona dentro alla stringa che scriviamo
-			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM contabilita WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome,Data";
+			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM contabilita WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Data DESC,Cognome,Nome";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
@@ -241,6 +241,11 @@
 			$stmSql ->bindParam(2, $data);
 			$stmSql ->bindParam(3, $descrizione);
 			$result = $stmSql ->execute();
+
+			if(!$result){
+				echo 0;
+			}
+
 			$query="INSERT INTO pagamenti VALUES(?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -249,6 +254,7 @@
 			$stmSql ->bindParam(4, $pagato);
 			
 			$result = $stmSql ->execute();
+
 			
 		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
 		}
@@ -489,7 +495,7 @@
 //----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 //----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 //----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
-//----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+
 
 
 		function caricaComuni($conn,$ricerca){  //restituisce l elenco dei comuni
@@ -516,6 +522,13 @@
 			}
 		echo json_encode(local_encode($ret)); 
 		}
+
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+
+
+
 
 
 
