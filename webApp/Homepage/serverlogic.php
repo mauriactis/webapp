@@ -508,7 +508,7 @@
 			$ret= array();
 			while($i<10 && $row = $stmSql->fetch()){
 					$i=$i+1;
-					$row['Comune'] = str_replace("'", "&#39;", $row['Comune']);
+					$row['Comune'] = str_replace("'", "\'", $row['Comune']);
 					$stringa = $row['Comune'].", ".$row['ID'];
 					array_push ($ret, $stringa);
 			}

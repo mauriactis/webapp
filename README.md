@@ -9,8 +9,6 @@ legenda:
 
 -------homepage-------
 
-!! - popup aggiungi nuovo non ti dice che alcuni campi mancano
-
 replace luogo di nascita con codice comune
 
 popup stampa foglio privacy
@@ -20,11 +18,12 @@ pdf foglio privacy
 
 -------situazione paziente-------
 
-tutti i sidenav quando lo apri per la prima volta si vede che parte dall'angolo in alto a destra e poi scende, farlo partire direttamente dall'altezza giusta
 
 -------info-------
 
 combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse di aggiungi nuovo)
+
+togliere nome e cognome dal visualizza contabilità
 
 !! - modifica non salva le modifiche
 
@@ -54,17 +53,9 @@ paga pagamento non salva
 
 ------Aggiuntivi-------
 
-txtResidenza e txtLuogoNascita con keyup richiedono i primi dieci comuni con quelle lettere
-
 Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
-
-visualizzaAnamnesi:
-
-il server non restituisce 0 se la riga non ha nulla
-
-submit(), z-index, overlay
 
 mettere a posto serverlogic per quanto riguarda pagamenti singoli e multipli e cambiare nomi alle funzioni pls
 
