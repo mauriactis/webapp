@@ -60,34 +60,34 @@
                         <tbody>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Nome</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaNome();" id="txtNomePopupAggiungiNuovo"/></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtNomePopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtNomePopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtNomePopupAggiungiNuovo"/></td>
 
                               <td><label class="popupAggiungiNuovo3Col">Cognome</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaCognome();" id="txtCognomePopupAggiungiNuovo"/></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtCogomePopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtCognomePopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtCognomePopupAggiungiNuovo"/></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Luogo di nascita</label></td>
-                              <td><input type="text" class="form-control" id="txtLuogoNascitaPopupAggiungiNuovo"/><div id="elencoComuni1" class="divElencoComuni"></div></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtLuogoNascitaPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtLuogoNascitaPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtLuogoNascitaPopupAggiungiNuovo"/><div id="elencoComuni1"></div></td>
 
                               <td><label  class="popupAggiungiNuovo3Col">Data di nascita</label></td>
-                              <td><input type="text" class="form-control" id="txtDataNascitaPopupAggiungiNuovo"></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtDataNascitaPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtDataNascitaPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtDataNascitaPopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Residenza</label></td>
-                              <td><input type="text" class="form-control" id="txtResidenzaPopupAggiungiNuovo"/><div id="elencoComuni2"></div></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtResidenzaPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtResidenzaPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtResidenzaPopupAggiungiNuovo"/><div id="elencoComuni2"></div></td>
 
                               <td><label class="popupAggiungiNuovo3Col">Indirizzo</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaIndirizzo();" id="txtIndirizzoPopupAggiungiNuovo"></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtIndirizzoPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtIndirizzoPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtIndirizzoPopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>CAP</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaCap();" id="txtCapPopupAggiungiNuovo"></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtCapPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtCapPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtCapPopupAggiungiNuovo"></td>
                               <td><label  class="popupAggiungiNuovo3Col">Codice fiscale</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaCodFisc();" style="text-transform:uppercase" id="txtCodiceFiscalePopupAggiungiNuovo"></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtCodiceFiscalePopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtCodiceFiscalePopupAggiungiNuovo').style.backgroundColor = 'white';" style="text-transform:uppercase" id="txtCodiceFiscalePopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Telefono</label></td>
-                              <td><input type="text" class="form-control" onclick="svuotaTelefono();" id="txtTelefonoPopupAggiungiNuovo"></td>
+                              <td><input type="text" class="form-control" onclick="document.getElementById('txtTelefonoPopupAggiungiNuovo').style.backgroundColor = 'white';" onfocus="document.getElementById('txtTelefonoPopupAggiungiNuovo').style.backgroundColor = 'white';" id="txtTelefonoPopupAggiungiNuovo"></td>
                               <td><label  class="popupAggiungiNuovo3Col">Motivo</label></td>
                               <td><select class="form-control" id="txtMotivoPopupAggiungiNuovo"></select></td>
                            </tr>
@@ -114,7 +114,7 @@
                   </div>
                   <div class="modal-footer">
                      <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupAggiungiNuovo" onclick="changeArrow();"    value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
-                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnConfermaPopupAggiungiNuovo" onclick="aggiungiNuovoPaziente();">Conferma</button>
+                     <button type="button" class="btn btn-primary" id="btnConfermaPopupAggiungiNuovo" onclick="aggiungiNuovoPaziente();">Conferma</button>
                      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
                   </div>
                </div>

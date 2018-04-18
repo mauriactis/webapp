@@ -144,6 +144,7 @@ function dataDiOggi(){
 }
 //inizializza il calendario che spunta dalla textbox datanascita e carica i motivi nel dropdown
 function initPopupAggiungiNuovo(){
+    cancellaCampi();
     $.datepicker.setDefaults($.datepicker.regional['it']); 
     $('#txtDataNascitaPopupAggiungiNuovo').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
     $.ajax({  
@@ -189,17 +190,17 @@ function caricaComuni(ricerca, luogoNascita){
                 if(luogoNascita){
                     for (var a = 0; a < comuni.length; a ++){
                         console.log(comuni[a]);
-                        riga += '<tr class="rowComuni" ><td onclick="riportaNome1(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
+                        riga += '<tr class="rowComuni"><td onclick="riportaNome1(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
                     }
                     riga+="</table>";
                    
                     console.log(riga);
                     $("#elencoComuni1").html(riga);
-                    
+                    console.log($("#elencoComuni1").html());
                     $("#elencoComuni1").show();
                 }else{
                     for (var a = 0; a < comuni.length; a ++){
-                        riga += '<tr ><td onclick="riportaNome2(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
+                        riga += '<tr class="rowComuni"><td onclick="riportaNome2(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
                     }
                     riga+="</table>";
                     $("#elencoComuni2").html(riga);
@@ -216,12 +217,13 @@ function riportaNome1(nome) {
         document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni1").html("");
         $("#elencoComuni1").hide();
+        $("#txtDataNascitaPopupAggiungiNuovo").focus();
 }
-
 function riportaNome2(nome) {
         document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni2").html("");
         $("#elencoComuni2").hide();
+        $("#txtIndirizzoPopupAggiungiNuovo").focus();
 }
 
 //FIXARE
@@ -721,6 +723,8 @@ function aggiungiNuovoPaziente(){
         var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
         dataNascita = giraDataDb(dataNascita);
+        luogoNascita = luogoNascita.split(", ")[1];
+        residenza = residenza.split(", ")[1];
         $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -759,7 +763,7 @@ function checkfields(){
     //var regexCodiceFiscale = new RegExp("/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i");
     //var regexTelefono = new RegExp("[\+|00]*[0-9]{1}*[0-9]+");
 
-    /*if(txtNome.val() == ""){
+    if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
@@ -798,7 +802,7 @@ function checkfields(){
     if(txtMotivo.val() == ""){
         txtMotivo.css("background-color", "rgb(255,147,147)");
         ret = false;
-    }*/
+    }
 
     return ret;
 }
