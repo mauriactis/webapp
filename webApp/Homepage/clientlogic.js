@@ -807,22 +807,25 @@ function nuovoDocumento(){
 //fa l'upload del documento in una cartella della webapp
 function inserisciNuovoFile(){
     var id = $("#idPersonaNuovoDocumento").val();
-    /*Contiene l' indirizzo del file*/
-    var file = $("#manualFileNuovoDocumento").val();
 
-
-
-    /*$.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inserisciNuovoFile", id:id, file:file},
-        success: function(response) {
-
-        },
-        error: function(){
-            alert("Errore");
+    var image = document.getElementById("manualFileNuovoDocumento");
+    if (image.files.length > 0) {
+            // RUN A LOOP TO CHECK EACH SELECTED FILE.
+            for (var i = 0; i <= image.files.length - 1; i++) {
+                var size = image.files.item(i).size;
+            }
         }
-    });*/
+    
+    //Se la size è minore di 10 Mb
+    if(size>10000000){
+        document.getElementById("frmFile").submit();
+    }
+
+    //document.getElementById("frmFile").submit();
+
+
+
+    
 }
 
 

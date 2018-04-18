@@ -21,6 +21,10 @@
 					$persona = $_POST['nomePersona'];
 					cercaContabilita($conn,$persona);
 					break;
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
 				case 'caricaUltimoIntervento' :
 					$idPersona = $_POST['id'];
 					$data = $_POST['data'];
@@ -28,8 +32,12 @@
 					break;
 				case 'caricaUltimoInterventoAnagrafica' :
 					$idPersona = $_POST['id'];
-					caricaUltimoIntervento($conn,$idPersona);
+					caricaUltimoInterventoAnagrafica($conn,$idPersona);
 					break;
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
 				case 'inserisciPagamentoDesc' :
 					$idPersona = $_POST['id'];
 					$importo = $_POST['importo'];
@@ -62,6 +70,10 @@
 					$idPersona = $_POST['id'];
 					visualizzaContabilitaPersona($conn,$idPersona);
 					break;
+				//-----pagamento-----//
+				//-----pagamento-----//
+				//-----pagamento-----//
+				//-----pagamento-----//
 				case 'aggiornaPagamento' :
 					$idPersona = $_POST['id'];
 					$data = $_POST['dataIntervento'];
@@ -77,6 +89,24 @@
 					$idPersona = $_POST['id'];
 					pagaTuttiInterventiPassati($conn,$idPersona);
 					break;
+				case 'controlloPiuPagamenti' :
+					$idPersona = $_POST['id'];
+					controlloPiuPagamenti($conn,$idPersona);
+					break;
+				case 'aggiornaPagamentoPagatoFatturaSingolo' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['dataIntervento'];
+					$importo = $_POST['importo'];
+					aggiornaPagamentoPagatoFatturaSingolo($conn,$idPersona,$data,$importo);
+				 	break;
+				 case 'aggiornaPagatoFatturaMultipla' :
+					$idPersona = $_POST['id'];
+				 	aggiornaPagatoFatturaMultipla($conn,$idPersona);
+				 	break;
+					//-----pagamento-----//
+					//-----pagamento-----//
+					//-----pagamento-----//
+					//-----pagamento-----//
 				case 'aggiornaAnagraficaRequest' :
 					$idPersona = $_POST['id'];
 					aggiornaAnagraficaRequest($conn,$idPersona);
@@ -120,9 +150,7 @@
 					break;
 				}
 			}
-
 		$conn=null;
-
 		function local_encode ($var){
 			if (is_string ($var))
 				return utf8_encode ($var);
@@ -130,9 +158,7 @@
 				return array_map ('local_encode', $var);
 			return $var;
 		}
-
 		function cercaPersona($conn,$persona){   //La funzione che permette di usare la barra di ricerca con la scheda anagrafica attiva
-
 			$persona = strtoupper($persona);
 			$persona = "%".$persona."%";
 			$query="SELECT anagrafica.ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,comuni.Comune AS Residenza,Indirizzo,CAP,Telefono1,Telefono2,motivi.Descrizione AS Motivo, Anamnesi, CodFisc FROM anagrafica LEFT JOIN motivi ON (anagrafica.Motivo = motivi.ID) JOIN comuni ON(anagrafica.Residenza = comuni.ID) WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100 ";
@@ -141,91 +167,53 @@
 			$stmSql ->bindParam(2, $persona);
 			$result = $stmSql ->execute();
 			$ret= array();
-
 			while($row = $stmSql->fetch()){
 				array_push ($ret, $row);
 			}
 			
 		echo json_encode(local_encode($ret)); //tommy prendi questo e costruisci la tabella (ho modificato il js ed ho aggiunto una funzione che mi passava il nomePersona con ajax)
-
 		}
-
 		function cercaContabilita($conn,$persona){  //La funzione che permette di usare la barra di ricerca con la scheda contabilita attiva
-
 			$persona = strtoupper($persona);   
 			$persona = "%".$persona."%";             //ricerca se c e persona dentro alla stringa che scriviamo
-			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM contabilita WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome,Data";
+			$query="SELECT AnaID,Nome,Cognome,Data,Pagamento,Pagato FROM contabilita WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Data DESC,Cognome,Nome";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
 			$result = $stmSql ->execute();
 			$ret= array();
-
 			while ($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
 			
 		echo json_encode(local_encode($ret)); 
-
 		}
-
 		function caricaUltimoIntervento($conn,$idPersona,$data){   //carica i dati dell'ultimo intervento e per contabilità
-
 			$query="SELECT anagrafica.Nome,anagrafica.Cognome,interventi.Descrizione,interventi.Data,pagamenti.Pagamento,pagamenti.Pagato FROM interventi,anagrafica,pagamenti WHERE anagrafica.ID=interventi.AnaID AND interventi.AnaID=pagamenti.AnaID AND interventi.Data=pagamenti.Data AND interventi.AnaID=? AND interventi.Data=? ORDER BY Data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $data);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
-
 			if($ret == NULL){
 				echo 1;
 			}else{
 				echo json_encode(local_encode($ret)); 
 			}
 		}
-
 		function caricaUltimoInterventoAnagrafica($conn,$idPersona){   //carica i dati dell'ultimo intervento per anagrafica
-
 			$query="SELECT Descrizione FROM interventi WHERE AnaID=? ORDER BY Data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
-
 			if($ret == NULL){
 				echo 1;
 			}else{
 				echo json_encode(local_encode($ret)); 
 			}
 		}
-
-
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
-			$query = "INSERT INTO interventi VALUES(?,?,?)";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$stmSql ->bindParam(2, $data);
-			$stmSql ->bindParam(3, $descrizione);
-
-			$result = $stmSql ->execute();
-
-
-			$query="INSERT INTO pagamenti VALUES(?,?,?,?)";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idPersona);
-			$stmSql ->bindParam(2, $data);
-			$stmSql ->bindParam(3, $importo);
-			$stmSql ->bindParam(4, $pagato);
-			
-			$result = $stmSql ->execute();
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
-
-		}
-
 		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
-
 			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -245,41 +233,66 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;			//faccio restituire solo vero o falso se riesce eseguire la query da echo vero
-
 		}
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+			$query = "INSERT INTO interventi VALUES(?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $descrizione);
+			$result = $stmSql ->execute();
 
+			if(!$result){
+				echo 0;
+			}
+
+			$query="INSERT INTO pagamenti VALUES(?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $importo);
+			$stmSql ->bindParam(4, $pagato);
+			
+			$result = $stmSql ->execute();
+
+			
+		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+		}
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
-
 			$query="SELECT AnaID,Data,Descrizione FROM interventi WHERE AnaID = ? ORDER BY data DESC";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret= array();
-
 			while ($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
 			
 		echo json_encode(local_encode($ret));
-
 		}
-
 		function visualizzaContabilitaPersona($conn,$idPersona){  //restituisce i record riguardati la contabilita del paziente dal menu a scorrimento a destra
-
 			$query="SELECT * FROM contabilita WHERE AnaID=?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret= array();
-
 			while ($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
 			
 		echo json_encode(local_encode($ret));
-
 		}
 
+
+//--------------------------inizio funzioni pagamento--------------------------------//
+//--------------------------inizio funzioni pagamento--------------------------------//
+//--------------------------inizio funzioni pagamento--------------------------------//
+
+
+//aggiorna il prezzo #1
+//aggiorna il prezzo #1
+//aggiorna il prezzo #1   controllata
+//aggiorna il prezzo #1
 		function aggiornaPagamento($conn,$idPersona,$data,$importo){   //bottone paga che permette di modificare l'importo di un intervento
 			$query="UPDATE pagamenti SET Pagamento= ? WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
@@ -291,27 +304,88 @@
 			
 		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
 		}		
+//paga il singolo importo sia per anagrafica che per contabilita #2
+//paga il singolo importo sia per anagrafica che per contabilita #2
+//paga il singolo importo sia per anagrafica che per contabilita #2   controllato
+//paga il singolo importo sia per anagrafica che per contabilita #2
 		
-		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato
-			$query="SELECT Pagamento FROM pagamenti WHERE AnaID = ? AND Data = ?";
+		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato singolo
+			$query="SELECT Pagamento FROM contabilita WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$stmSql ->bindParam(2, $dataIntervento);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
-
 		echo $ret[0];
 		}
+//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
+//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
+//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3  controllato
+//paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
 		
-		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per pagare tutte in una sola volta
-			$query="SELECT SUM(Pagamento) FROM pagamenti WHERE AnaID = ? AND Pagato=0";
+		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
+			$query="SELECT SUM(Pagamento) FROM contabilita WHERE AnaID = ? AND Pagato=0";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 					
-		echo $ret[0]; //restituisco la prima cella del array perche tanto restituisce solo un dato
+		echo $ret[0]; //restituisco il totale
 		}
+//controllo se ci sono piu pagamenti in sopeso #4
+//controllo se ci sono piu pagamenti in sopeso #4
+//controllo se ci sono piu pagamenti in sopeso #4  controllato
+//controllo se ci sono piu pagamenti in sopeso #4
+		function controlloPiuPagamenti($conn,$idPersona){   //controlla per vedere se il paziente ha piu di 1 pagamento in sopeso (per anagrafica e per contabilita)
+			$query="SELECT Pagamento FROM contabilita WHERE AnaID = ? AND Pagato=0";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$result = $stmSql ->execute();
+			$ret=$stmSql->fetch();
+			if($ret=$stmSql->fetch()){
+				$ret=0;    //       -------------------------->>>>>>>>>>>>>>>> c'e piu di un pagamento da pagare
+			}else{
+				$ret=1;	   //       -------------------------->>>>>>>>>>>>>>>> c'e solo un pagamento da effetture
+			}
+		echo $ret; //restituisco 0 o 1
+		}
+//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
+//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
+//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5  controllato
+//funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
+		function aggiornaPagamentoPagatoFatturaSingolo($conn,$idPersona,$data,$importo){   
+			$query="UPDATE pagamenti SET Pagamento= ? , Pagato=1 WHERE AnaID = ? AND Data = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $importo);
+			$stmSql ->bindParam(2, $idPersona);
+			$stmSql ->bindParam(3, $data);
+		
+			$result = $stmSql ->execute();
+			
+		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
+		}		
+//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
+//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
+//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6 controllato
+//funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
+
+		function aggiornaPagatoFatturaMultipla($conn,$idPersona){   
+			$query="UPDATE pagamenti SET Pagato=1 WHERE AnaID = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			
+			$result = $stmSql ->execute();
+			
+		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
+		}		
+
+//--------------------------fine funzioni pagamento--------------------------------//
+//--------------------------fine funzioni pagamento--------------------------------//
+//--------------------------fine funzioni pagamento--------------------------------//
+
+//---------------------funzionipop-up aggiungi nuovo paziente----------------------//
+//---------------------funzionipop-up aggiungi nuovo paziente----------------------//
+//---------------------funzionipop-up aggiungi nuovo paziente----------------------//
 
 		function aggiornaAnagraficaRequest($conn,$idPersona){   //funzione che restituisce tutti i dati di una persona per metterli nel pop-up che permette di modificare i dati del paziente
 			
@@ -320,16 +394,13 @@
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
 			$ret= array();
-
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-
 		echo json_encode(local_encode($ret)); 
 		}
-
 		function aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //funzione che esegue l update dopo che e stato cliccato il pulsante aggiorna campi nel pop-up del aggirona campi del paziente
-
+			
 			$query="UPDATE anagrafica SET Nome = ?, Cognome = ?, DataNascita = ?, LuogoNascita = ?, MedicoProvenienza = ?, Residenza = ?, Indirizzo = ?, CAP = ?, Telefono1 = ?, Telefono2 = ?, Motivo = ?, Anamnesi = ?, CodFisc = ?";
 			
 			$stmSql = $conn->prepare($query);
@@ -350,8 +421,11 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;			//faccio restituire solo vero o falso se riesce eseguire la query da echo vero
-
 		}
+
+//----------------------------funzioni codice app--------------------------//
+//----------------------------funzioni codice app--------------------------//
+//----------------------------funzioni codice app--------------------------//
 
 		function inserisciCodApp($conn,$user,$idPersona){ //inserisce il codice richiamando la funzione sotto per fare controlli se e presente/modificato/null
 			$risposta = visualizzaCodApp($conn,$idPersona);
@@ -360,7 +434,6 @@
 				$stmSql = $conn->prepare($query);
 				$stmSql ->bindParam(1, $idPersona);
 				$stmSql ->bindParam(2, $user);
-
 				$result = $stmSql ->execute();
 			
 				if($result){
@@ -368,22 +441,17 @@
 				}else{
 					echo-1;
 				}
-
 			}elseif($risposta== -2){
 				echo -2;
 			}else{
 				echo $risposta;
 			}
 		}
-
 		function visualizzaCodApp($conn,$idPersona){   //funzione che controlla se un pazienete ha gia un codice generato o se ha gia inserito la propria mail al posto di questo codice
-
 			$query="SELECT user FROM utenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
-
 			$result = $stmSql ->execute();
-
 			$row = $stmSql->fetch();
 			
 			if(is_numeric($row[0])){
@@ -395,24 +463,22 @@
 			}		
 		}
 
-		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
+//---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
+//---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
+//---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 
+		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
 			$query="SELECT AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
-
 			$ret= array();
-
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-
 		echo json_encode(local_encode($ret)); 
 		}
-
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
-
 			$query="SELECT Anamnesi FROM anagrafica WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -422,9 +488,15 @@
 			if(empty($row)){
 				$row['Anamnesi']=0;
 			}
-
 			echo local_encode($row['Anamnesi']);
 		}
+
+
+//----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+
+
 
 		function caricaComuni($conn,$ricerca){  //restituisce l elenco dei comuni
 			$i=0;
@@ -433,36 +505,33 @@
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $ricerca);
 			$result = $stmSql ->execute();
-
 			$ret= array();
-
 			while($i<10 && $row = $stmSql->fetch()){
 					$i=$i+1;
 					$row['Comune'] = str_replace("'", "&#39;", $row['Comune']);
 					$stringa = $row['Comune'].", ".$row['ID'];
 					array_push ($ret, $stringa);
 			}
-
 			echo json_encode(local_encode($ret)); 
 		}
-
-
 		function caricaMotivi($conn){  //restituisce l elenco dei motivi
-
 			$query="SELECT * FROM motivi";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
-
 			$ret= array();
-
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-
 		echo json_encode(local_encode($ret)); 
 		}
+
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+//----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
+
+
+
 
 
 
 ?>
-

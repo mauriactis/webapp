@@ -30,9 +30,6 @@ combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse d
 
 ~ - assegna esercizi da fare
 
-(?) - visualizza contabilità potrebbe permettere di pagare quelli in rosso 
-
-
 -------appuntamenti-------
 
 !! - btn richieste appuntamento
@@ -51,11 +48,7 @@ tra tabella e calendario). se no si può fare col sidenav ma senza la croce in a
 
 -------contabilità-------
 
-!! - aggiorna è bloccato in qualsiasi caso, deve essere bloccato solo quando è bloccato anche paga€
-
 paga fa aggiorna e paga
-
-modifica pagamento non salva
 
 paga pagamento non salva
 
