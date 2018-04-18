@@ -45,6 +45,7 @@
             </td>
          </tr>
       </table>
+      <input type="hidden" id="idPersonaSituazionePaziente" value="">
       <div id="chkLblPagaAdesso">
          <input type="checkbox" id="chkPagato"><h3><label onclick="checkButton();">Paga adesso</label></h3>
       </div>
@@ -289,10 +290,11 @@ aria-labelledby="myModalLabel" aria-hidden="true">
             <label>Seleziona il file</label>
          </div>
          <div class="modal-body">
-            <div>
-               <input id="manualFileNuovoDocumento" type="file">
-            </div>
-            <input type="hidden" id="idPersonaNuovoDocumento" value="">
+            <form id="frmFile" action="upload.php" method="post" enctype="multipart/form-data">
+               <input id="manualFileNuovoDocumento" name="manualFileNuovoDocumento" type="file">
+               <input type="hidden" id="idPersonaNuovoDocumento" name="idPersonaNuovoDocumento" value="">
+            </form>
+            <textarea class="form-control" rows="3" id="txtDescrizioneDocumento"></textarea>
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" onclick="inserisciNuovoFile();" data-dismiss="modal">Fatto</button>
