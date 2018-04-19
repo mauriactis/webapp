@@ -11,8 +11,6 @@ legenda:
 
 replace luogo di nascita con codice comune
 
-popup stampa foglio privacy
-
 pdf foglio privacy
 
 
@@ -22,8 +20,6 @@ pdf foglio privacy
 -------info-------
 
 combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse di aggiungi nuovo)
-
-togliere nome e cognome dal visualizza contabilità
 
 !! - modifica non salva le modifiche
 
@@ -57,8 +53,12 @@ Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
 
-mettere a posto serverlogic per quanto riguarda pagamenti singoli e multipli e cambiare nomi alle funzioni pls
-
 quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la finestra che chiede se voglio pagare tutti gli interventi passati ma il prezzo non è aggiornato
 
 parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
+
+!! CAP è derivabile da residenza
+
+visuailizza contabilità se non ha interventi fa schifo
+
+genera codice app se è appena stato registrato stampa come codice 0
