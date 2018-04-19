@@ -94,9 +94,8 @@
     </div>
 </div>
 
-<!-- Popup per aggiungere un nuovo paziente -->
-<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog"
-aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Popup per modificare i dati del paziente -->
+<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-body">
@@ -105,32 +104,37 @@ aria-labelledby="myModalLabel" aria-hidden="true">
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Nome</label></td>
                      <td><input type="text" class="form-control" id="txtNomePopupModificaPaziente"></td>
+                     
                      <td><label class="PopupModificaPaziente3Col">Cognome</label></td>
                      <td><input type="text" class="form-control" id="txtCognomePopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Luogo di nascita</label></td>
-                     <td><input type="text" class="form-control autocomplete" id="txtLuogoNascitaPopupModificaPaziente"></td>
+                     <td><input type="text" class="form-control" id="txtLuogoNascitaPopupModificaPaziente"><div id="elencoComuniModifica1"></div></td>
+                     
                      <td><label  class="PopupModificaPaziente3Col">Data di nascita</label></td>
                      <td><input type="text" class="form-control" id="txtDataNascitaPopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Residenza</label></td>
-                     <td><input type="text" class="form-control autocomplete" id="txtResidenzaPopupModificaPaziente"></td>
+                     <td><input type="text" class="form-control" id="txtResidenzaPopupModificaPaziente"><div id="elencoComuniModifica2"></div></td>
+                     
                      <td><label class="PopupModificaPaziente3Col">Indirizzo</label></td>
                      <td><input type="text" class="form-control" id="txtIndirizzoPopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>CAP</label></td>
                      <td><input type="text" class="form-control" id="txtCapPopupModificaPaziente"></td>
+                     
                      <td><label  class="PopupModificaPaziente3Col">Codice fiscale</label></td>
                      <td><input type="text" class="form-control" style="text-transform:uppercase" id="txtCodiceFiscalePopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Telefono</label></td>
                      <td><input type="text" class="form-control" id="txtTelefonoPopupModificaPaziente"></td>
+                     
                      <td><label  class="PopupModificaPaziente3Col">Motivo</label></td>
-                     <td><input type="text" class="form-control" id="txtMotivoPopupModificaPaziente"></td>
+                     <td><select class="form-control" id="txtMotivoPopupModificaPaziente"></select></td>
                   </tr>
                </tbody>
             </table>
