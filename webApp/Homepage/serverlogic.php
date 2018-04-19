@@ -80,14 +80,14 @@
 					$importo = $_POST['importo'];
 					aggiornaPagamento($conn,$idPersona,$data,$importo);
 					break;
-				case 'pagaInterventoPassato' :
+				case 'selezionaImportoInterventoPassato' :
 					$idPersona = $_POST['id'];
 					$data = $_POST['dataIntervento'];
-					pagaInterventoPassato($conn,$idPersona,$dataIntervento);
+					selezionaImportoInterventoPassato($conn,$idPersona,$data);
 					break;
-				case 'pagaTuttiInterventiPassati' :
+				case 'selezionaImportoTuttiInterventiPassati' :
 					$idPersona = $_POST['id'];
-					pagaTuttiInterventiPassati($conn,$idPersona);
+					selezionaImportoTuttiInterventiPassati($conn,$idPersona);
 					break;
 				case 'controlloPiuPagamenti' :
 					$idPersona = $_POST['id'];
@@ -309,7 +309,7 @@
 //paga il singolo importo sia per anagrafica che per contabilita #2   controllato
 //paga il singolo importo sia per anagrafica che per contabilita #2
 		
-		function pagaInterventoPassato($conn,$idPersona,$dataIntervento){  //bottone 'paga' nella scheda di contabilità che permette di pagare un intervento passato singolo
+		function selezionaImportoInterventoPassato($conn,$idPersona,$dataIntervento){  //selezione l'importo da inserire nella ricevuta dopo aver cliccato sul bottona che si è sicuri di fare il pagamento
 			$query="SELECT Pagamento FROM contabilita WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -323,7 +323,7 @@
 //paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3  controllato
 //paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
 		
-		function pagaTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
+		function selezionaImportoTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
 			$query="SELECT SUM(Pagamento) FROM contabilita WHERE AnaID = ? AND Pagato=0";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -353,6 +353,8 @@
 //funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
 //funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5  controllato
 //funzione che aggiorna il pagato e l'importo con un pagamento unico(di una sola fattura di un singolo intervento) #5
+	
+/*
 		function aggiornaPagamentoPagatoFatturaSingolo($conn,$idPersona,$data,$importo){   
 			$query="UPDATE pagamenti SET Pagamento= ? , Pagato=1 WHERE AnaID = ? AND Data = ?";
 			$stmSql = $conn->prepare($query);
@@ -363,13 +365,16 @@
 			$result = $stmSql ->execute();
 			
 		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
-		}		
+		}	
+*/
+
+
 //funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
 //funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
 //funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6 controllato
 //funzione che aggiorna il pagato per tutti i record di una persona(pagamento multiplo) #6
 
-		function aggiornaPagatoFatturaMultipla($conn,$idPersona){   
+		function aggiornaPagatoFatturaMultipla($conn,$idPersona){   //funzione che aggiorna la variabile pagato da 0 a 1(e stato pagato l'intervento) 
 			$query="UPDATE pagamenti SET Pagato=1 WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
