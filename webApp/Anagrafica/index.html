@@ -95,8 +95,7 @@
 </div>
 
 <!-- Popup per aggiungere un nuovo paziente -->
-<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog"
-aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-body">
@@ -160,22 +159,7 @@ aria-labelledby="myModalLabel" aria-hidden="true">
          </div>
       </div>
    </div>
-
-      <!-- Popup per chiedere se si vuole stampare il foglio privacy o meno -->
-      <div class="modal fade" id="popupStampaFoglioPrivacy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-               <div class="modal-body">
-                  <div>Si desidera stampare il foglio privacy?</div>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="stampaFoglioPrivacy();" data-dismiss="modal"><span class="glyphicon glyphicon-print"></span> Stampa</button>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-               </div>
-            </div>
-          </div>
-      </div>
-   </div>
+</div>
 
 <!-- Popup per visualizzare lo storico interventi di un paziente -->
 <div class="modal fade" id="popupStoricoInterventiPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -204,22 +188,22 @@ aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal fade" id="popupContabilitaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
-         <div class="modal-header" id="divContabilitaPaziente">
+         <div class="modal-header">
             <label id="nomeCognomePaziente"></label>
          </div>
-         <div class="modal-body" id="divContabilitaPaziente">
-            <table class="table table-hover table-bordered admin">
-               <thead>
-                  <tr>
-                     <th>ID</th>
-                     <th>Data</th>
-                     <th>Pagamento</th>
-                  </tr>
-               </thead>
-               <tbody id="tblContabilitaPazienteBody">
-               </tbody>
-            </table>
-         </div>
+            <div class="modal-body" id="divContabilitaPaziente">
+               <table class="table table-hover table-bordered admin">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Pagamento</th>
+                     </tr>
+                  </thead>
+                  <tbody id="tblContabilitaPazienteBody">
+                  </tbody>
+               </table>
+            </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
          </div>
