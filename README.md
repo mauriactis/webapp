@@ -62,3 +62,5 @@ quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la f
 parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
 
 !! CAP è derivabile da residenza
+
+visuailizza contabilità se non ha interventi fa schifo
