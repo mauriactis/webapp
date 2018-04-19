@@ -21,8 +21,6 @@ pdf foglio privacy
 
 combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse di aggiungi nuovo)
 
-togliere nome e cognome dal visualizza contabilità
-
 !! - modifica non salva le modifiche
 
 ~ - assegna esercizi da fare
