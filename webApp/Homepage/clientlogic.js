@@ -620,18 +620,6 @@ function svuotaImporto(){
     document.getElementById("txtImportoSituazionePaziente").style.backgroundColor = "white";
 }
 
-function stampaRicevuta(){
-
-
-
-
-
-
-
-
-
-}
-
 /*
 * visualizza un popup con una tabella con tutti gli interventi effettuati e la relativa data
 * nel caso non ci siano stati ancora interventi lo comunica
@@ -670,7 +658,6 @@ function visualizzaContabilita(){
         url: "./serverlogic.php",
         data: {azione: "visualizzaContabilitaPersona", id:id},
         success: function(response) {
-            console.log(response);
             var contabilita = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < contabilita.length; a ++)
@@ -682,12 +669,13 @@ function visualizzaContabilita(){
                 }
                 riga += "<td>" + 
                     contabilita[a].AnaID +
-                    "</td><td>" + contabilita[a].Nome + 
-                    "</td><td>" + contabilita[a].Cognome + 
                     "</td><td>" + giraDataUmano(contabilita[a].Data) + 
                     "</td><td>" + contabilita[a].Pagamento + 
                     " €</td></tr>";       
             }
+            var nome = contabilita[0].Nome;
+            var cognome = contabilita[1].Cognome;
+            $("#nomeCognomePaziente").html(cognome + " " + nome);
             $("#tblContabilitaPazienteBody").html(riga);
             if(riga == ""){
                 $("#divContabilitaPaziente").html("Il paziente non ha nessun pagamento registrato!");
@@ -1011,13 +999,33 @@ function aggiornaPagamento(){
     });
 }
 
+function controlloPiuPagamenti(){
+    var id = $("#idPagamento").val();
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "controlloPiuPagamenti", id:id},
+        success: function(response) {
+            console.log(response);
+            if(response != 0){
+                popupTuttiInterventiCosto();
+            }else{
+                confermaPagamento();
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
 //mettere a posto serverlogic
 function popupTuttiInterventiCosto(){
     var id = $("#idPagamento").val();
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "pagaTuttiInterventiPassati", id:id},
+        data: {azione: "selezionaImportoTuttiInterventiPassati", id:id},
         success: function(response) {
             $('#costoComplessivo').html(response);
             $('#popupCostoTuttiInterventi').modal('show');
@@ -1028,60 +1036,64 @@ function popupTuttiInterventiCosto(){
     });
 }
 
-/*Se un pagamento non era ancora stato pagato lo conferma*/
+/*IOmposta il pagamento singolo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
 function confermaPagamento(){
-    var id = $("#idPagamento").val();
-    var data = $("#dataPagamento").val();
-    var importo = $("#txtImportoPagamento").val();
-    
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "aggiornaPagamentoPagatoFatturaSingolo", id:id, importo:importo, dataIntervento:data},
-        success: function(response) {
-            if(response){
-                alert("Pagamento confermato!");
-            }
-            caricaContabilita();
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+    $('#pagamentoSingolo').val("0");
+    $('#popupStampaRicevuta').modal('show');
 }
 
-function initPopupCostoTuttiInterventi(){
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "aggiornaPagamentoPagatoFatturaSingolo", id:id},
-        success: function(response) {
-            if(response){
-                alert("Pagamento confermato!");
-            }
-            caricaContabilita();
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
-}
-
+/*IOmposta il pagamento multiplo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
 function pagaTuttiInterventiPassati(){
+    $('#pagamentoSingolo').val("1");
+    $('#popupStampaRicevuta').modal('show');
+}
+
+// funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 
+function aggiornaImporti(){
+    var pagamentoMultiplo = $("#pagamentoSingolo").val();
     var id = $("#idPagamento").val();
-    
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "aggiornaPagatoFatturaMultipla", id:id},
-        success: function(response) {
-            if(response){
-                alert("Pagamento confermato!");
+
+    if(pagamentoMultiplo != 0){
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "aggiornaPagatoFatturaMultipla", id:id},
+            success: function(response) {
+                caricaContabilita();
+                if(response){
+                    alert("Pagamento confermato!");
+                }
+            },
+            error: function(){
+                alert("Errore");
             }
-            caricaContabilita();
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+        });
+    }else{
+        var data = $("#dataPagamento").val();
+        var importo = $("#txtImportoPagamento").val();
+        aggiornaPagamento();
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "aggiornaPagatoFatturaSingolo", id:id, importo:importo, dataIntervento:data},
+            success: function(response) {
+                caricaContabilita();
+                if(response){
+                    alert("Pagamento confermato!");
+                }
+            },
+            error: function(){
+                alert("Errore");
+            }
+        });
+    }
+}
+
+//Funzione che stampa la ricevuta con gli importi aggiornati
+function stampaRicevuta(){
+    aggiornaImporti();
+
+    //stampa ricevuta
+
+    
 }
