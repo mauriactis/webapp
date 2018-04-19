@@ -40,7 +40,7 @@
 
       <div id="divBottoniPagamento">
          <button type="button" class="btn btn-success" onclick="aggiornaPagamento();" id="btnAggiornaPagamento">Aggiorna</button>
-         <button type="button" class="btn btn-primary" onclick="popupTuttiInterventiCosto();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
+         <button type="button" class="btn btn-primary" onclick="controlloPiuPagamenti();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
          <button type="button" class="btn btn-default" onclick="stampaRicevuta();" id="btnPaga">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>
       </div>
       <input type="hidden" id="idPagamento" value="">
@@ -53,13 +53,29 @@
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
          <div class="modal-body">
-            Il paziente ha degli interventi non pagati. Il costo complessivo è di: <label id="costoComplessivo"></label><b> €</b>.
-            Si desidera pagarli tutti adesso?
+            <h3>Il paziente ha degli interventi non pagati. Il costo complessivo è di: <label id="costoComplessivo"></label><b> €</b>.
+            Si desidera pagarli tutti adesso?</h3>
             <input type="hidden" id="idPazientePopupCostoTuttiInterventi" value="">
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="pagaTuttiInterventiPassati();" data-dismiss="modal">Paga tutti</button>
             <button type="button" class="btn btn-default" onclick="confermaPagamento();" data-dismiss="modal">Paga quello corrente</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup che richiede e i deidera stampare la ricevuta -->
+<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            Si desidera stampare la ricevuta? In caso negativo la procedura varrà interrotta.
+            <input type="hidden" id="pagamentoSingolo" value="">
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
          </div>
       </div>
     </div>
