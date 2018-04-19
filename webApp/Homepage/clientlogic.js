@@ -226,40 +226,11 @@ function riportaNome2(nome) {
         $("#txtIndirizzoPopupAggiungiNuovo").focus();
 }
 
-//FIXARE
 //scarica il foglio della privacy
 function stampaFoglioPrivacy(){
-    var doc = new jsPDF();
-    /*Immagine salvata in codifica base64, salva l' immagine in formato stringa*/
-    var imgData = '';
-    //Coordinate dell' immagine sul pdf(in questo caso in alto a sinistra), gli altri 2 numeri sono le dimensioni dell' immagine in mm
-    doc.addImage(imgData, 'JPEG',0,0,210,297);
-    
-    var nome = "sos";
-    var cognome = "sos";
-    var luogoNascita = "sos";
-    var dataNascita = "sos";
-    var residenza;
-    var indirizzo; 
-    var cap;
-    var telefono1;
-    var telefono2;
-    var codfisc;
-    var motivo;
-    var osservazioni;
-    var provenienza;
-    
-    doc.setFontSize(20);
-    doc.setTextColor(92, 76, 76);
-    
-    /*Seleziono le coordinate e dico cosa posizionare*/
-    doc.text(23, 81, nome);
-    doc.text(23, 122, cognome);
-    doc.text(23, 162, luogoNascita);
-    doc.text(23, 202, dataNascita);
+ 
+    //conpletare la pagina in samples e convertirla con il programma
 
-    /*Salvo il pdf*/
-    doc.save('FoglioPrivacy' + cognome + nome + dataNascita + '.pdf');
 }
 
 
@@ -657,27 +628,28 @@ function visualizzaContabilita(){
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaContabilitaPersona", id:id},
-        success: function(response) {
-            var contabilita = JSON.parse (response);
-            var riga = "";
-            for (var a = 0; a < contabilita.length; a ++)
-            {
-                if(contabilita[a].Pagato == 1){
-                    riga += "<tr class=\"success\">";
-                }else{
-                    riga += "<tr class=\"danger\">";
+        success: function(response){
+            if(response != "-1"){
+                var contabilita = JSON.parse (response);
+                var riga = "";
+                for (var a = 0; a < contabilita.length; a ++)
+                {
+                    if(contabilita[a].Pagato == 1){
+                        riga += "<tr class=\"success\">";
+                    }else{
+                        riga += "<tr class=\"danger\">";
+                    }
+                    riga += "<td>" + 
+                        contabilita[a].AnaID +
+                        "</td><td>" + giraDataUmano(contabilita[a].Data) + 
+                        "</td><td>" + contabilita[a].Pagamento + 
+                        " €</td></tr>";       
                 }
-                riga += "<td>" + 
-                    contabilita[a].AnaID +
-                    "</td><td>" + giraDataUmano(contabilita[a].Data) + 
-                    "</td><td>" + contabilita[a].Pagamento + 
-                    " €</td></tr>";       
-            }
-            var nome = contabilita[0].Nome;
-            var cognome = contabilita[1].Cognome;
-            $("#nomeCognomePaziente").html(cognome + " " + nome);
-            $("#tblContabilitaPazienteBody").html(riga);
-            if(riga == ""){
+                var nome = contabilita[0].Nome;
+                var cognome = contabilita[1].Cognome;
+                $("#nomeCognomePaziente").html(cognome + " " + nome);
+                $("#tblContabilitaPazienteBody").html(riga);
+            }else{
                 $("#divContabilitaPaziente").html("Il paziente non ha nessun pagamento registrato!");
             }
         },
