@@ -64,3 +64,5 @@ parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
 !! CAP è derivabile da residenza
 
 visuailizza contabilità se non ha interventi fa schifo
+
+genera codice app se è appena stato registrato stampa come codice 0
