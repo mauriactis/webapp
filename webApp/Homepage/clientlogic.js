@@ -145,6 +145,8 @@ function dataDiOggi(){
 //inizializza il calendario che spunta dalla textbox datanascita e carica i motivi nel dropdown
 function initPopupAggiungiNuovo(){
     cancellaCampi();
+    $("#elencoComuni1").html("");
+    $("#elencoComuni2").html("");
     $.datepicker.setDefaults($.datepicker.regional['it']); 
     $('#txtDataNascitaPopupAggiungiNuovo').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
     $.ajax({  
@@ -164,46 +166,64 @@ function initPopupAggiungiNuovo(){
     });
 }
 
-function caricaResidenza(){
-    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
+function caricaLuogoNascita(){
+    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
     caricaComuni(ricerca, 0);
 }
 
-function caricaLuogoNascita(){
-    var ricerca = $('#txtLuogoNascitaPopupAggiungiNuovo').val();
+function caricaResidenza(){
+    var ricerca = $('#txtResidenzaPopupAggiungiNuovo').val();
     caricaComuni(ricerca, 1);
 }
 
-//carica i comuni a seconda di cosa scrivo in luogonascita o residenza
-function caricaComuni(ricerca, luogoNascita){
+function caricaLuogoNascitaModifica(){
+    var ricerca = $('#txtLuogoNascitaPopupModificaPaziente').val();
+    console.log(ricerca);
+    caricaComuni(ricerca, 2);
+}
+
+function caricaResidenzaModifica(){
+    var ricerca = $('#txtResidenzaPopupModificaPaziente').val();
+    caricaComuni(ricerca, 3);
+}
+
+function caricaComuni(ricerca, chiamante){
     if(ricerca == ""){
         $("#elencoComuni1").html("");
         $("#elencoComuni2").html("");
+        $("#elencoComuniModifica1").html("");
+        $("#elencoComuniModifica2").html("");
     }else{
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
             data: {azione: "caricaComuni", ricerca:ricerca},
             success: function(response) {
+                console.log(response);
                 var comuni = JSON.parse (response);
                 var riga= '<table class="tabellaComuni">';
-                if(luogoNascita){
-                    for (var a = 0; a < comuni.length; a ++){
-                        console.log(comuni[a]);
-                        riga += '<tr class="rowComuni"><td onclick="riportaNome1(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
-                    }
-                    riga+="</table>";
-                   
-                    console.log(riga);
-                    $("#elencoComuni1").html(riga);
-                    console.log($("#elencoComuni1").html());
-                    $("#elencoComuni1").show();
-                }else{
-                    for (var a = 0; a < comuni.length; a ++){
-                        riga += '<tr class="rowComuni"><td onclick="riportaNome2(\'' + comuni[a] + '\');">'+ comuni[a] + '</td></tr>';
-                    }
-                    riga+="</table>";
-                    $("#elencoComuni2").html(riga);
+                for (var a = 0; a < comuni.length; a ++){
+                    riga += '<tr class="rowComuni"><td onclick="riportaNome(\'' + comuni[a] + '\',' + chiamante + ');">'+ comuni[a] + '</td></tr>';
+                }
+                riga+="</table>";
+                console.log(riga);
+                switch(chiamante){
+                    case 0:
+                        $("#elencoComuni1").html(riga);
+                        $("#elencoComuni1").show();
+                        break;
+                    case 1:
+                        $("#elencoComuni2").html(riga);
+                        $("#elencoComuni2").show();
+                        break;
+                    case 2:
+                        $("#elencoComuniModifica1").html(riga);
+                        $("#elencoComuniModifica1").show();
+                        break;
+                    case 3:
+                        $("#elencoComuniModifica2").html(riga);
+                        $("#elencoComuniModifica2").show();
+                        break;
                 }
             },
             error: function(){
@@ -213,18 +233,32 @@ function caricaComuni(ricerca, luogoNascita){
     }
 }
 
-function riportaNome1(nome) {
+function riportaNome(nome,dove){
+    switch(dove){
+        case 0:
         document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni1").html("");
         $("#elencoComuni1").hide();
-        $("#txtDataNascitaPopupAggiungiNuovo").focus();
-}
-function riportaNome2(nome) {
+        break;
+        case 1:
         document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
         $("#elencoComuni2").html("");
         $("#elencoComuni2").hide();
-        $("#txtIndirizzoPopupAggiungiNuovo").focus();
+        break;
+        case 2:
+        document.getElementById("txtLuogoNascitaPopupModificaPaziente").value=nome;
+        $("#elencoComuniModifica1").html("");
+        $("#elencoComuniModifica1").hide();
+        break;
+        case 3:
+        document.getElementById("txtResidenzaPopupModificaPaziente").value=nome;
+        $("#elencoComuniModifica2").html("");
+        $("#elencoComuniModifica2").hide();
+        break;
+    }
 }
+
+
 
 //FIXARE
 //scarica il foglio della privacy
@@ -275,12 +309,18 @@ function caricaAnagrafica(){
     $("#txtRicercaAnagrafica").val("");
     anagraficaShown = true;
     cercaPersona();
+    
 }
 
 //cerca persona in base alla casella di ricerca in anagrafica on i9n contabilità a seconda di cosa è mostrato
-function cercaPersona ()
-{
+function cercaPersona (){
     var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
+    $("#txtResidenzaPopupModificaPaziente").keyup(function(){
+        caricaResidenzaModifica();
+    });
+    $("#txtLuogoNascitaPopupModificaPaziente").keyup(function(){
+        caricaLuogoNascitaModifica();
+    });
     /*Se è vera è mostrata anagrafica, altrimenti è mostrata contabilità*/
     if(anagraficaShown){
         if(document.getElementById("situazionePaziente") != null){
@@ -339,31 +379,55 @@ function cercaPersona ()
 
 //inizializza i campi del popup modifica a quelli presenti sul server
 function initPopupModifica(){
+    $("#elencoComuniModifica1").html("");
+    $("#elencoComuniModifica2").html("");
+    $("#txtResidenzaPopupModificaPaziente").keyup(function(){
+        caricaResidenzaModifica();
+    });
+    $("#txtLuogoNascitaPopupModificaPaziente").keyup(function(){
+        caricaLuogoNascitaModifica();
+    });
     var id = $("#idPersonaModifiche").val();
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "aggiornaAnagraficaRequest", id:id},
         success: function(response) {
+            console.log(response);
             var datiPaziente = JSON.parse (response);
             var riga = "";
 
             $.datepicker.setDefaults($.datepicker.regional['it']); 
             $('#txtDataNascitaPopupModificaPaziente').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
-
-            $("#txtNomePopupModificaPaziente").val(datiPaziente[0].Nome);
-            $("#txtCognomePopupModificaPaziente").val(datiPaziente[0].Cognome);
-            $("#txtDataNascitaPopupModificaPaziente").val(giraDataUmano(datiPaziente[0].DataNascita));
-            $("#txtLuogoNascitaPopupModificaPaziente").val(datiPaziente[0].LuogoNascita);
-            $("#txtMotivoPopupModificaPaziente").val(datiPaziente[0].Motivo);
-            $("#txtResidenzaPopupModificaPaziente").val(datiPaziente[0].Residenza);
-            $("#txtIndirizzoPopupModificaPaziente").val(datiPaziente[0].Indirizzo);
-            $("#txtCapPopupModificaPaziente").val(datiPaziente[0].CAP);
-            $("#txtCodiceFiscalePopupModificaPaziente").val(datiPaziente[0].CodFisc);
-            $("#txtTelefonoPopupModificaPaziente").val(datiPaziente[0].Telefono1);
-            $("#txtTelefono2PopupModificaPaziente").val(datiPaziente[0].Telefono2);
-            $("#txtProvenienzaPopupModificaPaziente").val(datiPaziente[0].MedicoProvenienza);
-            $("#txtOsservazioniPopupModificaPaziente").val(datiPaziente[0].Anamnesi);
+            $.ajax({  
+                type: "POST", 
+                url: "./serverlogic.php",
+                data: {azione: "caricaMotivi"},
+                success: function(response) {
+                    var motivi = JSON.parse (response);
+                    for (var a = 0; a < motivi.length; a ++){
+                        var cmbMotivi = document.getElementById("txtMotivoPopupModificaPaziente");
+                        cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
+                    }
+                    document.getElementById("txtMotivoPopupModificaPaziente").selectedIndex = datiPaziente.Motivo-1;
+                    console.log(document.getElementById("txtMotivoPopupModificaPaziente").selectedIndex);
+                },
+                error: function(){
+                    alert("Errore");
+                }
+            });
+            $("#txtNomePopupModificaPaziente").val(datiPaziente.Nome);
+            $("#txtCognomePopupModificaPaziente").val(datiPaziente.Cognome);
+            $("#txtDataNascitaPopupModificaPaziente").val(giraDataUmano(datiPaziente.DataNascita));
+            $("#txtLuogoNascitaPopupModificaPaziente").val(datiPaziente.LuogoNascita[0]);
+            $("#txtResidenzaPopupModificaPaziente").val(datiPaziente.Residenza[0]);
+            $("#txtIndirizzoPopupModificaPaziente").val(datiPaziente.Indirizzo);
+            $("#txtCapPopupModificaPaziente").val(datiPaziente.CAP);
+            $("#txtCodiceFiscalePopupModificaPaziente").val(datiPaziente.CodFisc);
+            $("#txtTelefonoPopupModificaPaziente").val(datiPaziente.Telefono1);
+            $("#txtTelefono2PopupModificaPaziente").val(datiPaziente.Telefono2);
+            $("#txtProvenienzaPopupModificaPaziente").val(datiPaziente.MedicoProvenienza);
+            $("#txtOsservazioniPopupModificaPaziente").val(datiPaziente.Anamnesi);
         },
         error: function(){
             alert("Errore");
@@ -371,7 +435,6 @@ function initPopupModifica(){
     });
 }
 
-//TO DO MODO PER SAPERE SE HA MODIFICATO DEI QUALCOSAA
 //aggiorna i dati del paziente dopo una modifica
 function aggiornaPaziente(){
     //if(!checkfieldsModifiche()){
@@ -391,7 +454,9 @@ function aggiornaPaziente(){
         var motivo = $("#txtMotivoPopupModificaPaziente").val();
         var osservazioni = $("#txtOsservazioniPopupModificaPaziente").val();
         var provenienza = $("#txtProvenienzaPopupModificaPaziente").val();
-
+        luogoNascita = luogoNascita.split(", ")[1];
+        residenza = residenza.split(", ")[1];
+        console.log(dataNascita);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -399,6 +464,7 @@ function aggiornaPaziente(){
                 medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
+            console.log(response);
             alert("Informazioni paziente aggiornate!");
             caricaAnagrafica();
         },
