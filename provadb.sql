@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2018 alle 12:00
+-- Generation Time: Apr 20, 2018 alle 08:15
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -11324,11 +11324,12 @@ CREATE TABLE IF NOT EXISTS `contabilita` (
 --
 
 CREATE TABLE IF NOT EXISTS `documenti` (
+`ID` int(11) NOT NULL,
   `AnaID` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Allegato` varchar(400) NOT NULL,
   `Descrizione` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -11387,7 +11388,8 @@ CREATE TABLE IF NOT EXISTS `messaggi` (
   `AnaID` int(11) NOT NULL,
   `DataOraInvio` datetime NOT NULL,
   `Richiesta` tinyint(1) NOT NULL,
-  `Note` varchar(1000) NOT NULL
+  `Note` varchar(1000) NOT NULL,
+  `Letto` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -11432,7 +11434,7 @@ CREATE TABLE IF NOT EXISTS `pagamenti` (
 
 INSERT INTO `pagamenti` (`AnaID`, `Data`, `Pagamento`, `Pagato`) VALUES
 (3521, '2018-03-01', 50, 1),
-(3521, '2018-03-08', 60, 0),
+(3521, '2018-03-08', 200, 0),
 (3521, '2018-03-15', 25, 0),
 (3521, '2018-03-22', 100, 1);
 
@@ -11449,7 +11451,8 @@ CREATE TABLE IF NOT EXISTS `richiesteappuntamenti` (
   `DataOra1` datetime DEFAULT NULL,
   `DataOra2` datetime DEFAULT NULL,
   `DataOra3` datetime DEFAULT NULL,
-  `Note` varchar(1000) NOT NULL
+  `Note` varchar(1000) NOT NULL,
+  `Letto` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -11506,7 +11509,7 @@ ALTER TABLE `comuni`
 -- Indexes for table `documenti`
 --
 ALTER TABLE `documenti`
- ADD PRIMARY KEY (`AnaID`,`Data`);
+ ADD PRIMARY KEY (`ID`), ADD KEY `AnaID` (`AnaID`);
 
 --
 -- Indexes for table `esercizi`
@@ -11565,6 +11568,11 @@ ALTER TABLE `utenti`
 --
 ALTER TABLE `anagrafica`
 MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3528;
+--
+-- AUTO_INCREMENT for table `documenti`
+--
+ALTER TABLE `documenti`
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `esercizi`
 --
