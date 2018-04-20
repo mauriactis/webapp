@@ -95,8 +95,10 @@ function cancellaCampi(){
 	 $("#txtTelefono2PopupAggiungiNuovo").val("");
 	 $("#txtOsservazioniPopupAggiungiNuovo").val("");
 
+     //vedi bottone annulla
 	 if($("#campiAggiuntiviPopupAggiungiNuovo").is(":visible")){
 	 	changeArrow();
+        $("#campiAggiuntiviPopupAggiungiNuovo").hide();
 	 }
 }
 //cambia il comtenuto quando è premuto il bottone campi aggiuntivi
@@ -261,9 +263,29 @@ function riportaNome(nome,dove){
 
 //FIXARE
 //scarica il foglio della privacy
-function stampaFoglioPrivacy(){
- 
-    //conpletare la pagina in samples e convertirla con il programma
+function stampaFoglioPrivacy(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1,codfisc){
+    $('#popupStampaFoglioPrivacy').modal('show');
+    $("#foglioPrivacy").hide();
+    var dataOggi = giraDataUmano(dataDiOggi());
+    $.ajax({  
+            type: "GET", 
+            url: "../samples/sampleFoglioPrivacy.html", 
+            success: function(response) {
+                $("#foglioPrivacy").html(response);
+                $("#cognomeNome").html(cognome + " " + nome);
+                $("#luogoNascita").html(luogoNascita);
+                $("#dataNascita").html(dataNascita);
+                $("#indirizzo").html(indirizzo);
+                $("#cap").html(cap);
+                $("#cfisc").html(codfisc.toUpperCase());
+                $("#telefono").html(telefono1);
+                $("#dataOggi").html(dataOggi);
+            },
+            error: function(){
+                alert("Errore");
+            }
+        });
+    //completare la pagina in samples e convertirla con il programma
 
 }
 
@@ -513,7 +535,7 @@ function generaCodice() {
         success: function(response) {
         	if(response == 0) {        
                 alert("Utente inserito con successo!");
-                $("#lblCodice").html(response);
+                $("#lblCodice").html(codice);
             }else if(response == -1) {        
                 alert("C'è stato un problema al server...");       
             }else if(response == -2) {        
@@ -676,9 +698,12 @@ function visualizzaStoricoInterventi(){
                 "</td><td>" + interventi[a].Descrizione + 
                 "</td></tr>";
             }
+            $("#divStoricoInterventiPaziente").show();
+            $("#divNessunIntervento").hide();
             $("#tblStoricoInterventiPazienteBody").html(riga);
             if(riga == ""){
-                $("#divStoricoInterventiPaziente").html("Il paziente non ha nessun intervento registrato!");
+                $("#divStoricoInterventiPaziente").hide();
+                $("#divNessunIntervento").show();
             }
         },
         error: function(){
@@ -712,11 +737,16 @@ function visualizzaContabilita(){
                         " €</td></tr>";       
                 }
                 var nome = contabilita[0].Nome;
-                var cognome = contabilita[1].Cognome;
+                var cognome = contabilita[0].Cognome;
                 $("#nomeCognomePaziente").html(cognome + " " + nome);
+                $("#headerContabilita").show();
+                $("#divContabilitaPaziente").show();
+                $("#divNessunInterventoContabilita").hide();
                 $("#tblContabilitaPazienteBody").html(riga);
             }else{
-                $("#divContabilitaPaziente").html("Il paziente non ha nessun pagamento registrato!");
+                $("#headerContabilita").hide();
+                $("#divContabilitaPaziente").hide();
+                $("#divNessunInterventoContabilita").show();
             }
         },
         error: function(){
@@ -749,6 +779,8 @@ function aggiungiNuovoPaziente(){
         var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
         dataNascita = giraDataDb(dataNascita);
+        luogoNascitaFP = luogoNascita.split(", ")[0];
+        residenzaFP = residenza.split(", ")[0];
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
         $.ajax({  
@@ -758,9 +790,10 @@ function aggiungiNuovoPaziente(){
                 medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
+            stampaFoglioPrivacy(nome, cognome, luogoNascitaFP, giraDataUmano(dataNascita), residenzaFP, indirizzo, cap, telefono1,codfisc);
             alert("Nuovo paziente inserito con successo!");
             cercaPersona();
-            $('#popupStampaFoglioPrivacy').modal('show');
+            
         },
         error: function(){
             alert("Errore");

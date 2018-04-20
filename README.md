@@ -57,14 +57,5 @@ quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la f
 
 parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
 
-!! CAP è derivabile da residenza
-
 visuailizza contabilità se non ha interventi fa schifo
 
-genera codice app se è appena stato registrato stampa come codice 0
-
-
----garro--
-
-nuovo documento non salva niente nella cartella docs
-genera codice ogni tanto fa vedere 0 al posto del codice
