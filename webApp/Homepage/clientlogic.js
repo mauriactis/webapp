@@ -720,6 +720,7 @@ function visualizzaContabilita(){
         url: "./serverlogic.php",
         data: {azione: "visualizzaContabilitaPersona", id:id},
         success: function(response){
+            console.log(response);
             if(response != "-1"){
                 var contabilita = JSON.parse (response);
                 var riga = "";
@@ -1077,7 +1078,6 @@ function controlloPiuPagamenti(){
         url: "./serverlogic.php",
         data: {azione: "controlloPiuPagamenti", id:id},
         success: function(response) {
-            console.log(response);
             if(response != 0){
                 popupTuttiInterventiCosto();
             }else{
@@ -1093,12 +1093,16 @@ function controlloPiuPagamenti(){
 //mettere a posto serverlogic
 function popupTuttiInterventiCosto(){
     var id = $("#idPagamento").val();
+    var data = $("#lblDataIntervento").html();
+    data = giraDataDb(data);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "selezionaImportoTuttiInterventiPassati", id:id},
+        data: {azione: "selezionaImportoTuttiInterventiPassati", id:id, data:data},
         success: function(response) {
-            $('#costoComplessivo').html(response);
+            var importo = parseInt(response);
+            var importoAgg = importo + parseInt($("#txtImportoPagamento").val());
+            $('#costoComplessivo').html(importoAgg);
             $('#popupCostoTuttiInterventi').modal('show');
         },
         error: function(){
