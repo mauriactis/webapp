@@ -177,6 +177,9 @@
                </tbody>
             </table>
          </div>
+         <div class="modal-body" id="divNessunIntervento">
+            Il paziente non ha nessun intervento registrato...
+         </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
          </div>
@@ -188,22 +191,25 @@
 <div class="modal fade" id="popupContabilitaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
-         <div class="modal-header">
+         <div class="modal-header" id="headerContabilita">
             <label id="nomeCognomePaziente"></label>
          </div>
-            <div class="modal-body" id="divContabilitaPaziente">
-               <table class="table table-hover table-bordered admin">
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Pagamento</th>
-                     </tr>
-                  </thead>
-                  <tbody id="tblContabilitaPazienteBody">
-                  </tbody>
-               </table>
-            </div>
+         <div class="modal-body" id="divContabilitaPaziente">
+            <table class="table table-hover table-bordered admin">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Data</th>
+                     <th>Pagamento</th>
+                  </tr>
+               </thead>
+               <tbody id="tblContabilitaPazienteBody">
+               </tbody>
+            </table>
+         </div>
+         <div class="modal-body" id="divNessunInterventoContabilita">
+            Il paziente non ha nessun intervento registrato...
+         </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
          </div>
