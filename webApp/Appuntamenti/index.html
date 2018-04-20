@@ -48,13 +48,6 @@
                </div>
                <div id="divAppuntamenti">
                   <ul id="giorniAppuntamenti" class="nav nav-pills">
-                     <li class="active"><a href="" onclick="cercaLun();">Lun</a></li>
-                     <li><a href="">Mar</a></li>
-                     <li><a href="">Mer</a></li>
-                     <li><a href="">Gio</a></li>
-                     <li><a href="">Ven</a></li>
-                     <li><a href="">Sab</a></li>
-                     <li><a href="">Dom</a></li>
                   </ul>
                   <table id="tblAppuntamenti" class="table table-hover table-bordered admin">
                      <thead>
@@ -104,25 +97,18 @@
 
 
       <div class="modal fade" id="popupNuovoAppuntamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog">
            <div class="modal-content">
-              <div class="modal-body">
-                 <table>
-                     <tbody>
-                        <tr>
-                            <td><label>Per chi desideri registrare il nuovo appuntamento?</label></td>
-                            <td><select class="form-control" id="txtPersonaNuovoAppuntamento"></select></td>
-                        </tr>
-                        <tr>
-                            <td><label>Data: </label></td>
-                            <td><input type="text" class="form-control" id="txtDataNuovoAppuntamento"></td>
-                         </tr>
-                         <tr>
-                             <td><label>Note:</label></td>
-                            <td><textarea class="form-control inputMore" rows="7" id="txtNoteNuovoAppuntamento"></textarea></td>
-                         </tr>
-                     </tbody>
-                 </table>
+              <div class="modal-body"><label>Per chi desideri registrare il nuovo appuntamento?</label>
+                <select class="form-control" id="txtPersonaNuovoAppuntamento"></select>
+                        
+                        
+                <label>Data: </label>
+                <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
+                       
+                       
+                <label>Note:</label>
+                <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
                  <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>

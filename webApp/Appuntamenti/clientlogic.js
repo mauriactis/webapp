@@ -7,9 +7,44 @@ $(document).ready(function(){
 });
 
 function initForm(){
+    var oggi = new Date();
     $.datepicker.setDefaults($.datepicker.regional['it']);
-    $('#pckrDataAppuntamento').datepicker({minDate: new Date()});
+    $('#pckrDataAppuntamento').datepicker({minDate: oggi});
     $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
+
+    var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+    var giornoSett = oggi.getDay() - 1;
+    var nomeGiorno = giorni[giornoSett];
+    var riga = "";
+    var offsetNeg = giornoSett;
+    var offsetPos = 1;
+    //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+    for(var i = 0;i < 7;i++){
+        if(giorni[i] == nomeGiorno){
+            riga += '<li class="active"><a href="" id="' + oggi + '" onclick="cerca'+nomeGiorno+'();">' + nomeGiorno + '</a></li>';
+        }else{
+            //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+            //facendo la setDate viene poi sballata il giro dopo
+            var data = new Date();
+            //Siamo in una data precedente ad oggi
+            if(i<giornoSett){
+                var id = new Date(data.setDate(data.getDate() - offsetNeg));
+                offsetNeg--;
+            }else{
+                var id = new Date(data.setDate(data.getDate() + offsetPos));
+                offsetPos++;
+            }
+            console.log("Neg "+ offsetNeg + " data " + id);
+            console.log("Pos "+ offsetPos + " data " + id);
+            riga += '<li><a href="" id="' + id + '" onclick="cerca' + giorni[i] + '();">' + giorni[i] + '</a></li>';
+            
+            
+        }
+        
+    }
+    $("#giorniAppuntamenti").html(riga);
+
+    //caricaAppuntamenti di oggi
 
     startTime();
 }
@@ -91,7 +126,7 @@ function svuotaAppunti(){
 
 function nuovoAppuntamento(){
     $.datepicker.setDefaults($.datepicker.regional['it']); 
-    $('#txtDataNuovoAppuntamento').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
+    $('#txtDataNuovoAppuntamento').datepicker({minDate: new Date});
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
