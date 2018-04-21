@@ -58,6 +58,7 @@
                         </tr>
                      </thead>
                      <tbody id="tblAppuntamentiBody">
+
                         <tr>
                            <td>
                               hh:hh
@@ -88,7 +89,7 @@
                </div>
    
                <h3><label>Appunti:</label></h3>
-               <textarea class="form-control" onclick="svuotaAppunti();" rows="7" id="txtAppuntiDettagliAppuntamento"></textarea>
+               <textarea class="form-control" rows="7" id="txtAppuntiDettagliAppuntamento"></textarea>
    
                <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente" onclick="salvaDettagliAppuntamento();">Salva</button>
             </div>
@@ -101,12 +102,10 @@
            <div class="modal-content">
               <div class="modal-body"><label>Per chi desideri registrare il nuovo appuntamento?</label>
                 <select class="form-control" id="txtPersonaNuovoAppuntamento"></select>
-                        
-                        
+
                 <label>Data: </label>
                 <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
-                       
-                       
+
                 <label>Note:</label>
                 <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
               <div class="modal-footer">
