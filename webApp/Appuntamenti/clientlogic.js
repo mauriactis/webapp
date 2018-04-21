@@ -6,6 +6,8 @@ $(document).ready(function(){
     });
 });
 
+
+//da rivedere i nomi
 function initForm(){
     var oggi = new Date();
     $.datepicker.setDefaults($.datepicker.regional['it']);
@@ -21,24 +23,26 @@ function initForm(){
     //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
     for(var i = 0;i < 7;i++){
         if(giorni[i] == nomeGiorno){
-            riga += '<li class="active"><a href="" id="' + oggi + '" onclick="cerca'+nomeGiorno+'();">' + nomeGiorno + '</a></li>';
+            riga += '<li class="active"><a href="" id="' + formattaData(oggi) + '" onclick="caricaAppuntamenti(' + formattaData(oggi) + ');">' + nomeGiorno + '</a></li>';
         }else{
             //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
             //facendo la setDate viene poi sballata il giro dopo
             var data = new Date();
             //Siamo in una data precedente ad oggi
             if(i<giornoSett){
-                var id = new Date(data.setDate(data.getDate() - offsetNeg));
+                var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
                 offsetNeg--;
             }else{
-                var id = new Date(data.setDate(data.getDate() + offsetPos));
+                var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
                 offsetPos++;
             }
-            console.log("Neg "+ offsetNeg + " data " + id);
-            console.log("Pos "+ offsetPos + " data " + id);
-            riga += '<li><a href="" id="' + id + '" onclick="cerca' + giorni[i] + '();">' + giorni[i] + '</a></li>';
-            
-            
+
+            var anno = id.substring(0,4);
+            var mese= id.substring(5,7);
+            var giorno= id.substring(8,10);
+
+            //problema, passa la data ma poi fa la sotrazione sto bau bau
+            riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
         }
         
     }
@@ -49,6 +53,20 @@ function initForm(){
     startTime();
 }
 
+//restituisce la data nel formato yyyy-mm-dd
+function formattaData(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+//fa iniziare l' orologio in cima alla pagina
 function startTime() {
     var today = new Date();
     var h = today.getHours();
@@ -60,35 +78,60 @@ function startTime() {
     var t = setTimeout(startTime, 500);
 }
 
+//controlla se il numero è minore di 10 ne aggiunge uno 0 davanti
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
 
+//gira la data in gg/mm/aaaa
 function giraDataUmano(date){
     return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
 }
 
+//gira la data in aaaa/mm/gg
 function giraDataDb(date){
     return date.substring(6,10) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
 }
 
-function stampaData(){
-    var data = document.getElementById ("pckrDataAppuntamento").value;
-    console.log(data);
-}
+//Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
+function mostraDettagliAppuntamento(i){
+    svuotaAppunti();
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "mostraDettagliAppuntamento", id:i},
+        success: function(response) {
+            var dettagli = JSON.parse (response);
 
-function mostraDettagliAppuntamento(){
+
+
+
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].ultimaVolta);
+            $("#dettagliAppuntamentoDaFare").html(dettagli[0].daFare);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
+
     document.getElementById("sideDettagliAppuntamento").style.width = "500px";
     document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
 }
 
+//svuota il campo appunti presente nel sidenav dettagliAppuntamento
+function svuotaAppunti(){
+    $("#txtAppuntiDettagliAppuntamento").val("");
+}
+
+//nasconde il sidenav
 function nascondiDettagliAppuntamento(){
     $("#txtAppuntiDettagliAppuntamento").val("");
     svuotaAppunti();
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
 
+//salva gli appunti presi durante un' appuntamento
 function salvaDettagliAppuntamento(){
     var appunti = $("#txtAppuntiDettagliAppuntamento");
     if(checkfieldsDettagliAppuntamento(appunti)){
@@ -109,7 +152,7 @@ function salvaDettagliAppuntamento(){
 }
 
 //Restituisce vero se va tutto bene
-function checkfieldsDettagliAppuntamento(appunti){
+/*function checkfieldsDettagliAppuntamento(appunti){
     var ret = true;
 
     if(appunti.val() == ""){
@@ -118,12 +161,9 @@ function checkfieldsDettagliAppuntamento(appunti){
     }
 
     return ret;
-}
+}*/
 
-function svuotaAppunti(){
-    document.getElementById("txtAppuntiDettagliAppuntamento").style.backgroundColor = "white";
-}
-
+//funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
     $.datepicker.setDefaults($.datepicker.regional['it']); 
     $('#txtDataNuovoAppuntamento').datepicker({minDate: new Date});
@@ -142,4 +182,48 @@ function nuovoAppuntamento(){
             alert("Errore");
         }
     });
+}
+
+//salva un nuovo appuntamento
+function salvaAppuntamento(){
+    var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value;
+    var data = giraDataDb(document.getElementById("txtDataNuovoAppuntamento").value);
+    var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
+
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "salvaNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
+        success: function(response) {
+            alert("Appuntamento salvato con successo!");
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
+}
+
+//carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
+function caricaAppuntamenti(anno, mese, giorno){
+    var data = anno + "-" + mese + "-" + giorno;
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "salvaNuovoAppuntamento", data:data},
+        success: function(response) {
+            var appuntamenti = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < appuntamenti.length; a ++)
+            {
+                riga += "<tr><td>" + 
+                    appuntamenti[a].Ora + "</td><td>" +
+                    appuntamenti[a].Cognome + appuntamenti[a].Nome + "</td><td>" +
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].AnaID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+            }
+            $("#tblAppuntamentiBody").html(riga);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
 }
