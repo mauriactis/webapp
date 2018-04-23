@@ -19,10 +19,6 @@ pdf foglio privacy
 
 -------info-------
 
-combobox per luogo di nascita residenza e motivo nel popup aggiorna (le stesse di aggiungi nuovo)
-
-!! - modifica non salva le modifiche
-
 ~ - assegna esercizi da fare
 
 -------appuntamenti-------
@@ -51,6 +47,8 @@ paga pagamento non salva
 
 ------Aggiuntivi-------
 
+CAMBIAMO TEMA https://bootswatch.com/3/
+
 Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
@@ -59,5 +57,5 @@ quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la f
 
 parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
 
-visuailizza contabilità se non ha interventi fa schifo
+visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
