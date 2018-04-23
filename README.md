@@ -16,6 +16,7 @@ pdf foglio privacy
 
 -------situazione paziente-------
 
+aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funzione checkbutton() da js
 
 -------info-------
 
