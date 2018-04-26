@@ -96,7 +96,6 @@ function giraDataDb(date){
 
 //Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
 function mostraDettagliAppuntamento(i){
-    svuotaAppunti();
     /*$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -119,49 +118,12 @@ function mostraDettagliAppuntamento(i){
     document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
 }
 
-//svuota il campo appunti presente nel sidenav dettagliAppuntamento
-function svuotaAppunti(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-}
+
 
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-    svuotaAppunti();
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
-
-//salva gli appunti presi durante un' appuntamento
-function salvaDettagliAppuntamento(){
-    var appunti = $("#txtAppuntiDettagliAppuntamento");
-    if(checkfieldsDettagliAppuntamento(appunti)){
-        /*$.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciAppuntiAppuntamento", appunti:appunti},
-            success: function(response) {
-                alert("Memorizzazione avvenuta con successo!");
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });*/
-    }else{
-        alert("Alcuni campi non sono stati completati correttamente...");
-    }
-}
-
-//Restituisce vero se va tutto bene
-/*function checkfieldsDettagliAppuntamento(appunti){
-    var ret = true;
-
-    if(appunti.val() == ""){
-        appunti.css("background-color", "rgb(255,147,147)");
-        ret = false;
-    }
-
-    return ret;
-}*/
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
