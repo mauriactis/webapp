@@ -60,3 +60,9 @@ parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
 
 visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
+--- sample ---
+
+replace span con tags 
+php -> replace tags con dati passati
+salva tutto su file html
+salva html su pdf
