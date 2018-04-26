@@ -95,29 +95,39 @@ function giraDataDb(date){
 }
 
 //Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
 function mostraDettagliAppuntamento(i){
     svuotaAppunti();
-    /*$.ajax({  
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i},
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
-
-
-
-            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].ultimaVolta);
-            $("#dettagliAppuntamentoDaFare").html(dettagli[0].daFare);
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
+            $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 
     document.getElementById("sideDettagliAppuntamento").style.width = "500px";
     document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
 }
+
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 
 //svuota il campo appunti presente nel sidenav dettagliAppuntamento
 function svuotaAppunti(){
@@ -131,25 +141,7 @@ function nascondiDettagliAppuntamento(){
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
 
-//salva gli appunti presi durante un' appuntamento
-function salvaDettagliAppuntamento(){
-    var appunti = $("#txtAppuntiDettagliAppuntamento");
-    if(checkfieldsDettagliAppuntamento(appunti)){
-        /*$.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciAppuntiAppuntamento", appunti:appunti},
-            success: function(response) {
-                alert("Memorizzazione avvenuta con successo!");
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });*/
-    }else{
-        alert("Alcuni campi non sono stati completati correttamente...");
-    }
-}
+
 
 //Restituisce vero se va tutto bene
 /*function checkfieldsDettagliAppuntamento(appunti){

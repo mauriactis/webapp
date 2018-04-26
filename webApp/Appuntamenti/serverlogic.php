@@ -16,6 +16,11 @@
             case 'caricaNomiPersone' : 
                 caricaNomiPersone($conn);
             break;
+            case 'mostraDettagliAppuntamento' :
+                $idPersona = $_POST['id'];
+                $data = $_POST['data'];
+                mostraDettagliAppuntamento($conn,$idPersona,$data);
+            break;
         }
     }
 
@@ -46,4 +51,68 @@
     }
 
 
+
+// #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
+// #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
+// #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
+// #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
+
+    function mostraDettagliAppuntamento($conn,$idPersona,$data){
+        $query="SELECT Descrizione FROM interventi WHERE AnaID=? ORDER BY Data DESC";
+        $stmSql = $conn->prepare($query);
+        $stmSql ->bindParam(1, $idPersona);
+        $result = $stmSql ->execute();
+        $row=$stmSql->fetch();
+        if($row == NULL || empty($row))     // DA TESTARE SE ($row == NULL  FA QUALCOSA)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $row['Descrizione']="Nessun intervento passato";
+
+        $query="SELECT Note FROM appuntamenti WHERE AnaID=? AND DataOra=?";
+        $stmSql = $conn->prepare($query);
+        $stmSql ->bindParam(1, $idPersona);
+        $stmSql ->bindParam(2, $data);
+        $result = $stmSql ->execute();
+        $row2=$stmSql->fetch();
+        $ret= array();
+
+        if($row2 == NULL || empty($row2))
+            $row2['Note']="Nessuna nota";
+
+        array_push ($ret, $row);
+        array_push ($ret, $row2);     
+        
+        echo json_encode(local_encode($ret)); 
+        
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
+
+
+
+
+
+
+
+
+
+
+
+/* #1  funzione che restituisce l ultimo appuntamwento di interventi
+
+
+#2
