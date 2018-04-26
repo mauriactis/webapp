@@ -598,15 +598,6 @@ function nascondiModifiche() {
     document.getElementById("modifiche").style.width = "0";
 }
 
-//richiamato quando clicco sulla label paga ora, mi attiva il checkbutton
-function checkButton(){
-	if(document.getElementById ("chkPagato").checked == true){
-		document.getElementById ("chkPagato").checked = false;
-	}else{
-		document.getElementById ("chkPagato").checked = true;
-	}
-}
-
 //salva importo e osservazioni di cosa è stato fatto oggi
 function salvaIntervento(){
     var descrizione = $("#txtSituazionePazienteOggi").val();
