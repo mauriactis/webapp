@@ -11,7 +11,7 @@ legenda:
 
 replace luogo di nascita con codice comune
 
-pdf foglio privacy
+pdf foglio privacy (quasi fatto)
 
 
 -------situazione paziente-------
@@ -26,7 +26,7 @@ aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funz
 
 !! - btn richieste appuntamento
 
-!! - btn nuovo appuntamento
+!! - btn nuovo appuntamento (manca php)
 
 ~ - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
 
@@ -34,7 +34,7 @@ aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funz
 
 ~ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
 
-nel sidenav gli appunti sono obbligatori????????
+nel sidenav gli appunti sono obbligatori???????? NO
 
 (?) - a me non piace il sidenav che si apre nella tabella, stona col resto della pagina. secondo me sarebbe bello fosse un div semplice (magari con una riga che lo divide dalla tabella, stessa che dovrebbe esserci
 tra tabella e calendario). se no si può fare col sidenav ma senza la croce in alto a destra, farlo comparire all'altezza della tabella e sarebbe bello senza bordo
@@ -42,9 +42,7 @@ tra tabella e calendario). se no si può fare col sidenav ma senza la croce in a
 
 -------contabilità-------
 
-paga fa aggiorna e paga
-
-paga pagamento non salva
+manca stampa fattura
 
 ------Aggiuntivi-------
 
