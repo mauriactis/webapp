@@ -92,8 +92,8 @@
     text-align: left;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    border-left: 1em solid #fff;
-    border-right: 1em solid #fff;
+    border-left: 0.5em solid #fff;
+    border-right: 0.5em solid #fff;
 }
 
 .rowComuni:hover{background-color: #f5f5f5;}
