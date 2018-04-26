@@ -87,7 +87,8 @@
 					break;
 				case 'selezionaImportoTuttiInterventiPassati' :
 					$idPersona = $_POST['id'];
-					selezionaImportoTuttiInterventiPassati($conn,$idPersona);
+					$data = $_POST['data'];
+					selezionaImportoTuttiInterventiPassati($conn,$idPersona,$data);
 					break;
 				case 'controlloPiuPagamenti' :
 					$idPersona = $_POST['id'];
@@ -287,7 +288,7 @@
 					array_push ($ret, $row);
 			}
 
-			if(empty($row)){
+			if(empty($ret)){
 				echo -1;
 			}else{
 				echo json_encode(local_encode($ret));
@@ -335,10 +336,11 @@
 //paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3  controllato
 //paga molteplici pagamenti(serve per controllare anche quanto ci sarebbe da pagare eventualmente se si paga tutto) #3
 		
-		function selezionaImportoTuttiInterventiPassati($conn,$idPersona){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
-			$query="SELECT SUM(Pagamento) FROM contabilita WHERE AnaID = ? AND Pagato=0";
+		function selezionaImportoTuttiInterventiPassati($conn,$idPersona,$data){  // funzione che permette di sommar el'importo di tutte le sessioni passate per controllare (quanto dovrei pagare se pago tutto in una volta) e per (dare il totale da mettere nella fattura)
+			$query="SELECT SUM(Pagamento) FROM contabilita WHERE AnaID = ? AND Data<>? AND Pagato=0";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 					
@@ -355,9 +357,9 @@
 			$result = $stmSql ->execute();
 			$ret=$stmSql->fetch();
 			if($ret=$stmSql->fetch()){
-				$ret=0;    //       -------------------------->>>>>>>>>>>>>>>> c'e piu di un pagamento da pagare
+				$ret=1;    //       -------------------------->>>>>>>>>>>>>>>> c'e piu di un pagamento da pagare
 			}else{
-				$ret=1;	   //       -------------------------->>>>>>>>>>>>>>>> c'e solo un pagamento da effetture
+				$ret=0;	   //       -------------------------->>>>>>>>>>>>>>>> c'e solo un pagamento da effetture
 			}
 		echo $ret; //restituisco 0 o 1
 		}

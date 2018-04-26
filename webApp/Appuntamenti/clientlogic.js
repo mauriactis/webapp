@@ -95,35 +95,61 @@ function giraDataDb(date){
 }
 
 //Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
 function mostraDettagliAppuntamento(i){
-    /*$.ajax({  
+
+    svuotaAppunti();
+    $.ajax({  
+
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i},
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
-
-
-
-            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].ultimaVolta);
-            $("#dettagliAppuntamentoDaFare").html(dettagli[0].daFare);
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
+            $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 
     document.getElementById("sideDettagliAppuntamento").style.width = "500px";
     document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
 }
 
 
+//svuota il campo appunti presente nel sidenav dettagliAppuntamento
+function svuotaAppunti(){
+    $("#txtAppuntiDettagliAppuntamento").val("");
+}
+
 
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
+
+
+
+
+//Restituisce vero se va tutto bene
+/*function checkfieldsDettagliAppuntamento(appunti){
+    var ret = true;
+
+    if(appunti.val() == ""){
+        appunti.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+
+    return ret;
+}*/
+
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
