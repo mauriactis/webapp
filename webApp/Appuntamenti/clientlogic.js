@@ -101,8 +101,10 @@ function giraDataDb(date){
 //   #1111111111111111111111
 //   #1111111111111111111111
 function mostraDettagliAppuntamento(i){
+
     svuotaAppunti();
     $.ajax({  
+
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
@@ -121,25 +123,18 @@ function mostraDettagliAppuntamento(i){
     document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
 }
 
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 
 //svuota il campo appunti presente nel sidenav dettagliAppuntamento
 function svuotaAppunti(){
     $("#txtAppuntiDettagliAppuntamento").val("");
 }
 
+
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-    svuotaAppunti();
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
+
 
 
 
@@ -154,6 +149,7 @@ function nascondiDettagliAppuntamento(){
 
     return ret;
 }*/
+
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
