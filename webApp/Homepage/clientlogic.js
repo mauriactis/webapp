@@ -775,22 +775,48 @@ function aggiungiNuovoPaziente(){
         residenzaFP = residenza.split(", ")[0];
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
+
+        var foglioPrivacy;
+
         $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
-                medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
-                motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
-        success: function(response) {
-            stampaFoglioPrivacy(nome, cognome, luogoNascitaFP, giraDataUmano(dataNascita), residenzaFP, indirizzo, cap, telefono1,codfisc);
-            alert("Nuovo paziente inserito con successo!");
-            cercaPersona();
-            
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+            type: "GET", 
+            url: "../samples/sampleFoglioPrivacy.html", 
+            success: function(response) {
+                foglioPrivacy = response;
+
+                $.ajax({  
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
+                            medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
+                            motivo:motivo, anamnesi:osservazioni, codFisc:codfisc, foglioPrivacy:foglioPrivacy},
+                    success: function(response2) {
+
+
+
+
+
+
+
+                        
+                        //mi restituisce il documento non compilato
+                        console.log(response2);
+                        alert("Nuovo paziente inserito con successo!");
+                        cercaPersona();
+                    },
+                    error: function(){
+                        alert("Errore");
+                    }
+                });
+            },
+            error: function(){
+                alert("Errore");
+            }
+        });
+
+        
+
+    
     }
 }
 
