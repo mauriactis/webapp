@@ -9,48 +9,108 @@ $(document).ready(function(){
 
 //da rivedere i nomi
 function initForm(){
-    var oggi = new Date();
-    $.datepicker.setDefaults($.datepicker.regional['it']);
-    $('#pckrDataAppuntamento').datepicker({minDate: oggi});
-    $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
-
-    var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-    var giornoSett = oggi.getDay() - 1;
-    var nomeGiorno = giorni[giornoSett];
-    var riga = "";
-    var offsetNeg = giornoSett;
-    var offsetPos = 1;
-    //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-    for(var i = 0;i < 7;i++){
-        if(giorni[i] == nomeGiorno){
-            riga += '<li class="active"><a href="" id="' + formattaData(oggi) + '" onclick="caricaAppuntamenti(' + formattaData(oggi) + ');">' + nomeGiorno + '</a></li>';
-        }else{
-            //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
-            //facendo la setDate viene poi sballata il giro dopo
-            var data = new Date();
-            //Siamo in una data precedente ad oggi
-            if(i<giornoSett){
-                var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
-                offsetNeg--;
-            }else{
-                var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
-                offsetPos++;
-            }
-
-            var anno = id.substring(0,4);
-            var mese= id.substring(5,7);
-            var giorno= id.substring(8,10);
-
-            //problema, passa la data ma poi fa la sotrazione sto bau bau
-            riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
-        }
-        
-    }
-    $("#giorniAppuntamenti").html(riga);
-
-    //caricaAppuntamenti di oggi
-
+    initPillsGiorni();
     startTime();
+}
+
+function initPillsGiorni(caricaPagina = 1){
+
+    if(caricaPagina == 1){
+        laDataEOggi();
+    }else{
+        console.log("passo di qua");
+        laDataEStataSelezionata(caricaPagina);
+    }
+
+
+
+}
+
+
+function laDataEOggi(){
+        var oggi = new Date();
+        $.datepicker.setDefaults($.datepicker.regional['it']);
+        $('#pckrDataAppuntamento').datepicker({minDate: oggi});
+        $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
+    
+        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+        //permette di vedere anche la domenica
+        var giornoSett = (oggi.getDay() + 6) % 7;
+        var nomeGiorno = giorni[giornoSett];
+        var riga = "";
+        var offsetNeg = giornoSett;
+        var offsetPos = 1;
+        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+        for(var i = 0;i < 7;i++){
+            if(giorni[i] == nomeGiorno){
+                riga += '<li class="active"><a href="" id="' + formattaData(oggi) + '" onclick="caricaAppuntamenti(' + formattaData(oggi) + ');">' + nomeGiorno + '</a></li>';
+            }else{
+                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+                //facendo la setDate viene poi sballata il giro dopo
+                var data = new Date();
+                //Siamo in una data precedente ad oggi
+                if(i<giornoSett){
+                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
+                    offsetNeg--;
+                }else{
+                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
+                    offsetPos++;
+                }
+    
+                var anno = id.substring(0,4);
+                var mese= id.substring(5,7);
+                var giorno= id.substring(8,10);
+    
+                //problema, passa la data ma poi fa la sotrazione sto bau bau
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
+            }
+            
+        }
+        $("#giorniAppuntamenti").html(riga);
+    
+        //caricaAppuntamenti di oggi
+}
+
+function laDataEStataSelezionata(caricaPagina){
+        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+        //permette di vedere anche la domenica
+        //se carica pagina non ha valore allora si sta ricaricando la pagina altrimenti la funzione è stata evocata
+        //da btnOK sotto al datepicker e aggiorna le pills di conseguenza
+        var giornoSett = (caricaPagina.getDay() + 6) % 7;
+        var nomeGiorno = giorni[giornoSett];
+        var riga = "";
+        var offsetNeg = giornoSett;
+        var offsetPos = 1;
+        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+        for(var i = 0;i < 7;i++){
+            if(giorni[i] == nomeGiorno){
+                riga += '<li class="active"><a href="" id="' + formattaData(caricaPagina) + '" onclick="caricaAppuntamenti(' + formattaData(caricaPagina) + ');">' + nomeGiorno + '</a></li>';
+            }else{
+                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+                //facendo la setDate viene poi sballata il giro dopo
+                var data = new Date(caricaPagina);
+                //Siamo in una data precedente ad oggi
+                if(i<giornoSett){
+                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
+                    offsetNeg--;
+                }else{
+                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
+                    offsetPos++;
+                }
+                console.log(id);
+    
+                var anno = id.substring(0,4);
+                var mese= id.substring(5,7);
+                var giorno= id.substring(8,10);
+    
+                //problema, passa la data ma poi fa la sotrazione sto bau bau
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
+            }
+            
+        }
+        $("#giorniAppuntamenti").html(riga);
+    
+        //caricaAppuntamenti di oggi
 }
 
 //restituisce la data nel formato yyyy-mm-dd
@@ -101,8 +161,9 @@ function giraDataDb(date){
 //   #1111111111111111111111
 //   #1111111111111111111111
 function mostraDettagliAppuntamento(i){
+    //Data è l' id della tab attiva, come faccio a prenderlo??
 
-    svuotaAppunti();
+    //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
     $.ajax({  
 
         type: "POST", 
@@ -124,32 +185,10 @@ function mostraDettagliAppuntamento(i){
 }
 
 
-//svuota il campo appunti presente nel sidenav dettagliAppuntamento
-function svuotaAppunti(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-}
-
-
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
     document.getElementById("sideDettagliAppuntamento").style.width = "0";
 }
-
-
-
-
-//Restituisce vero se va tutto bene
-/*function checkfieldsDettagliAppuntamento(appunti){
-    var ret = true;
-
-    if(appunti.val() == ""){
-        appunti.css("background-color", "rgb(255,147,147)");
-        ret = false;
-    }
-
-    return ret;
-}*/
-
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
@@ -214,4 +253,10 @@ function caricaAppuntamenti(anno, mese, giorno){
             alert("Errore");
         }
     });*/
+}
+
+function visualizzaAppuntamentiData(){
+    var selezione = $(pckrDataAppuntamento).val();
+    selezione = new Date(giraDataDb(selezione));
+    initPillsGiorni(selezione);
 }
