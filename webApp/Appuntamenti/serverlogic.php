@@ -46,7 +46,7 @@
             array_push ($ret, $row);
         }
         
-    echo json_encode(local_encode($ret)); //tommy prendi questo e costruisci la tabella (ho modificato il js ed ho aggiunto una funzione che mi passava il nomePersona con ajax)
+    echo json_encode(local_encode($ret)); 
 
     }
 
@@ -83,11 +83,16 @@
         echo json_encode(local_encode($ret)); 
         
     }
+    function inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+            $query = "INSERT INTO interventi VALUES(?,?,?,?)";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $dataOra);
+            $stmSql ->bindParam(3, $descrizione);
+            $result = $stmSql ->execute();
 
-    
-
-
-
+            echo $result;
+    }     
 
 
 
@@ -101,18 +106,3 @@
 
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-/* #1  funzione che restituisce l ultimo appuntamwento di interventi
-
-
-#2
