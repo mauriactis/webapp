@@ -523,8 +523,7 @@ function generaCodice() {
         url: "./serverlogic.php",
         data: {azione: "inserisciCodApp", codice:codice, id:id},
         success: function(response) {
-        	if(response == 0) {        
-                alert("Utente inserito con successo!");
+        	if(response == 0) {
                 $("#lblCodice").html(codice);
             }else if(response == -1) {        
                 alert("C'è stato un problema al server...");       
@@ -600,30 +599,31 @@ function salvaIntervento(){
         var oggi = dataDiOggi();
     
         if(pagato) // se la checkbox è checkata o no
-            pagato=1;
+            $('#popupStampaRicevuta').modal('show');
         else
-            pagato=0;
-    
-        $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                    data:oggi},
-            success: function(response) {
-                console.log(response);
-                if(response){
-                    alert("Intervento registrato!");
-                    nascondiSituazionePaziente();
-                }else{
-                    alert("L'utente ha già un intervento registrato nella data odierna...");
-                    nascondiSituazionePaziente();
-                }
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });
+            ricevutaAnagrafica(0);
     }
+}
+
+function ricevutaAnagrafica(pagato){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
+                data:oggi},
+        success: function(response) {
+            if(response){
+                alert("Intervento registrato!");
+                nascondiSituazionePaziente();
+            }else{
+                alert("L'utente ha già un intervento registrato nella data odierna...");
+                nascondiSituazionePaziente();
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 /*Restituisce true se qualcosa non è statop completato correttamente*/
