@@ -64,3 +64,12 @@ replace span con tags
 php -> replace tags con dati passati
 salva tutto su file html
 salva html su pdf
+
+
+
+
+
+
+
+Quando fai salva intervento chiede se vuoi stampare la ricevuta
+togliere alert
