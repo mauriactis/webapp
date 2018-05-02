@@ -263,29 +263,19 @@ function riportaNome(nome,dove){
 
 //FIXARE
 //scarica il foglio della privacy
-function stampaFoglioPrivacy(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1,codfisc){
-    $('#popupStampaFoglioPrivacy').modal('show');
-    $("#foglioPrivacy").hide();
-    var dataOggi = giraDataUmano(dataDiOggi());
+function stampaFoglioPrivacy(){
     $.ajax({  
-            type: "GET", 
-            url: "../samples/sampleFoglioPrivacy.html", 
-            success: function(response) {
-                $("#foglioPrivacy").html(response);
-                $("#cognomeNome").html(cognome + " " + nome);
-                $("#luogoNascita").html(luogoNascita);
-                $("#dataNascita").html(dataNascita);
-                $("#indirizzo").html(indirizzo);
-                $("#cap").html(cap);
-                $("#cfisc").html(codfisc.toUpperCase());
-                $("#telefono").html(telefono1);
-                $("#dataOggi").html(dataOggi);
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });
-    //completare la pagina in samples e convertirla con il programma
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "convertToPDF"},
+        success: function(response) {
+            $('#popupStampaFoglioPrivacy').modal('hide');
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+    //download del pdf
 
 }
 
@@ -770,11 +760,14 @@ function aggiungiNuovoPaziente(){
         var osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
         var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
+        dataNascitaFP = dataNascita;
         dataNascita = giraDataDb(dataNascita);
         luogoNascitaFP = luogoNascita.split(", ")[0];
         residenzaFP = residenza.split(", ")[0];
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
+
+        console.log(luogoNascitaFP + " " + residenzaFP);
 
         var foglioPrivacy;
 
@@ -787,20 +780,27 @@ function aggiungiNuovoPaziente(){
                 $.ajax({  
                     type: "POST", 
                     url: "./serverlogic.php",
-                    data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
-                            medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
+                    data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita,
+                            dataNascitaFP:dataNascitaFP, luogoNascita:luogoNascita, luogoNascitaFP:luogoNascitaFP, 
+                            medicoProv:provenienza, residenza:residenza, residenzaFP:residenzaFP, 
+                            indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                             motivo:motivo, anamnesi:osservazioni, codFisc:codfisc, foglioPrivacy:foglioPrivacy},
-                    success: function(response2) {
+                    success: function(foglioPrivacy) {
+
+                        $.ajax({  
+                            type: "POST", 
+                            url: "./serverlogic.php",
+                            data: {azione: "foglioToHTML", foglioPrivacy:foglioPrivacy},
+                            success: function(response) {
+                                $('#popupAggiungiNuovo').modal('hide');
+                                $('#popupStampaFoglioPrivacy').modal('show');
+                            },
+                            error: function(){
+                                alert("Errore");
+                            }
+                        });
 
 
-
-
-
-
-
-                        
-                        //mi restituisce il documento non compilato
-                        console.log(response2);
                         alert("Nuovo paziente inserito con successo!");
                         cercaPersona();
                     },

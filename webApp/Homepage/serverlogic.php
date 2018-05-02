@@ -51,8 +51,11 @@
 					$cognome = $_POST['cognome'];
 					$dataNascita = $_POST['dataNascita'];
 					$luogoNascita = $_POST['luogoNascita'];
+					$dataNascitaFP = $_POST['dataNascitaFP'];
+					$luogoNascitaFP = $_POST['luogoNascitaFP'];
 					$medicoProv = $_POST['medicoProv'];
 					$residenza = $_POST['residenza'];
+					$residenzaFP = $_POST['residenzaFP'];
 					$indirizzo = $_POST['indirizzo'];
 					$cap = $_POST['cap'];
 					$telefono1 = $_POST['telefono1'];
@@ -61,7 +64,7 @@
 					$anamnesi = $_POST['anamnesi'];
 					$codFisc = $_POST['codFisc'];
 					$foglioPrivacy = $_POST['foglioPrivacy'];
-					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy);
+					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy);
 					break;
 				case 'visualizzaStoricoInterventi' :
 					$idPersona = $_POST['id'];
@@ -100,7 +103,7 @@
 					$data = $_POST['dataIntervento'];
 					aggiornaPagatoFatturaSingolo($conn,$idPersona,$data);
 				 	break;
-				 case 'aggiornaPagatoFatturaMultipla' :
+				case 'aggiornaPagatoFatturaMultipla' :
 					$idPersona = $_POST['id'];
 				 	aggiornaPagatoFatturaMultipla($conn,$idPersona);
 				 	break;
@@ -148,6 +151,13 @@
 					break;
 				case 'caricaMotivi' :
 					caricaMotivi($conn);
+					break;
+				case 'foglioToHTML' :
+					$doc = $_POST['foglioPrivacy'];
+					foglioToHTML($conn,$doc);
+					break;
+					case 'convertToPDF' :
+					convertToPDF($conn);
 					break;
 				}
 			}
@@ -219,7 +229,7 @@
 			}
 		}
 
-		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy){   //inserisce un nuovo utente nel db
+		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy){   //inserisce un nuovo utente nel db
 			$codFisc = strtoupper($codFisc);
 			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
@@ -240,15 +250,15 @@
 			$result = $stmSql ->execute();
 
 
-			str_replace("@cognomeNome@",$cognome . " " . $nome,$foglioPrivacy);
-			str_replace("@luogoNascita@",$luogoNascita,$foglioPrivacy);
-			str_replace("@dataNascita@",$dataNascita,$foglioPrivacy);
-			str_replace("@residenza@",$residenza,$foglioPrivacy);
-			str_replace("@indirizzo@",$indirizzo,$foglioPrivacy);
-			str_replace("@cap@",$cap,$foglioPrivacy);
-			str_replace("@cfisc@",$codFisc,$foglioPrivacy);
-			str_replace("@telefono@",$telefono1,$foglioPrivacy);
-			str_replace("@dataOggi@","ASASASASASA",$foglioPrivacy);
+			$foglioPrivacy = str_replace("@cognomeNome@",$cognome . " " . $nome,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@luogoNascita@",$luogoNascitaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@dataNascita@",$dataNascitaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@residenza@",$residenzaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@indirizzo@",$indirizzo,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@cap@",$cap,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@cfisc@",$codFisc,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@telefono@",$telefono1,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@dataOggi@",date("d/m/Y"),$foglioPrivacy);
 			
 			echo $foglioPrivacy;			
 		}
@@ -572,6 +582,21 @@
 					array_push ($ret, $row);
 			}
 		echo json_encode(local_encode($ret)); 
+		}
+
+		function foglioToHTML($conn, $doc){
+			$fileHtml = fopen("../tmp/tmpFoglioPrivacy.html", "w");
+			fwrite($fileHtml, $doc);
+			fclose($fileHtml);
+
+			$cmd = "pathwkhtmltopdf pathFolgioPrivacy fp.pdf";
+			shell_exec($cmd);
+		}
+
+		function convertToPDF($conn){
+
+			$cmd = "pathwkhtmltopdf pathFolgioPrivacy fp.pdf";
+			shell_exec($cmd);
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
