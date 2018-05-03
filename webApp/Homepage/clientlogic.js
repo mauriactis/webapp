@@ -346,8 +346,8 @@ function cercaPersona (){
                                 persone [a].Telefono2 + "</td><td>" + 
                                 persone [a].Motivo + "</td><td>" + 
                                 persone [a].CodFisc + "</td><td>" + 
-                                '<button class="btn btn-primary" onclick="mostraModifiche(' + persone [a].ID + ');"><span class="glyphicon glyphicon-th"></span></button>' + "</td><td>" +
-                                '<button class="btn btn-danger" onclick="mostraSituazionePaziente(' + persone [a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
+                                '<button class="btn btn-primary" onclick="mostraModifiche(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-th"></span></button>' + "</td><td>" +
+                                '<button class="btn btn-danger" onclick="mostraSituazionePaziente(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
                 }
                 $("#tblAnagraficaBody").html(riga);
             },
@@ -540,12 +540,13 @@ function generaCodice() {
 }
 
 //gestione del sidenav relativo al paziente
-function mostraSituazionePaziente(i) {
+function mostraSituazionePaziente(i, cognome, nome) {
     svuotaCampiSituazionePaziente();
     if(document.getElementById("situazionePaziente").style.width == "500px"){
         nascondiSituazionePaziente();
     }else{
         $("#idPersonaSituazionePaziente").val(i);
+        $("#lblCognomeNomeSituazionePaziente").html(cognome + " " + nome);
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
@@ -576,8 +577,9 @@ function nascondiSituazionePaziente() {
 }
 
 //visualizza il sidenav con i bottoni
-function mostraModifiche(i) {
+function mostraModifiche(i, cognome, nome) {
     $("#idPersonaModifiche").val(i);
+    $("#lblCognomeNomeModifiche").html(cognome + " " + nome);
     document.getElementById("modifiche").style.width = "500px";
     document.getElementById("modifiche").style.marginTop = "55px";
 }
