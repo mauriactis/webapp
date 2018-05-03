@@ -52,10 +52,6 @@ Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
 
-quando nel sidePagamento cambio il valore alla textbox e premo su paga esce la finestra che chiede se voglio pagare tutti gli interventi passati ma il prezzo non è aggiornato
-
-parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
-
 visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
 --- sample ---
