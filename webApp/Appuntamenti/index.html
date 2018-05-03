@@ -95,13 +95,13 @@
       <div class="modal fade" id="popupNuovoAppuntamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
            <div class="modal-content">
-              <div class="modal-body"><label>Per chi desideri registrare il nuovo appuntamento?</label>
-                <select class="form-control" id="txtPersonaNuovoAppuntamento"></select>
+              <div class="modal-body"><label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
+                <select class="form-control autocomplete" id="txtPersonaNuovoAppuntamento"></select>
 
-                <label>Data: </label>
+                <label for="txtDataNuovoAppuntamento">Data: </label>
                 <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
 
-                <label>Note:</label>
+                <label for="txtNoteNuovoAppuntamento">Note:</label>
                 <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
               <div class="modal-footer">
                  <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>

@@ -45,10 +45,8 @@
     }
 
     function caricaNomiPersone($conn){
-        $query="SELECT anagrafica.ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
+        $query="SELECT ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
         $stmSql = $conn->prepare($query);
-        $stmSql ->bindParam(1, $persona);
-        $stmSql ->bindParam(2, $persona);
         $result = $stmSql ->execute();
         $ret= array();
 
@@ -114,8 +112,9 @@
         $ret= array();
           
         while ($row = $stmSql->fetch()){
-                    array_push ($ret, $row);
-            }
+            array_push ($ret, $row);
+        }
+
             
         echo json_encode(local_encode($ret)); 
     }
