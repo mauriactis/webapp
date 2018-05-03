@@ -54,7 +54,7 @@
             array_push ($ret, $row);
         }
         
-    	echo json_encode(local_encode($ret)); 
+    echo json_encode(local_encode($ret)); 
 
     }
 
@@ -114,6 +114,7 @@
         while ($row = $stmSql->fetch()){
             array_push ($ret, $row);
         }
+
             
         echo json_encode(local_encode($ret)); 
     }

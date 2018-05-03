@@ -11,8 +11,7 @@ legenda:
 
 pdf foglio privacy (quasi fatto)
 
-
--------situazione paziente------
+-------situazione paziente-------
 
 -------info-------
 
@@ -22,11 +21,11 @@ pdf foglio privacy (quasi fatto)
 
 !! - btn nuovo appuntamento (manca php)
 
-~ - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
+ - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
 
-~ - tabella al centro
+ - tabella al centro
 
-~ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
+ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
 
 nel sidenav gli appunti sono obbligatori???????? NO
 
@@ -41,8 +40,6 @@ CAMBIAMO TEMA https://bootswatch.com/3/
 Anagrafica:
 
 parametro intermedio wkhtmltopdf?? ok che è la mia pagina ma il path???
-
-visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
 --- sample ---
 
