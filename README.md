@@ -9,14 +9,9 @@ legenda:
 
 -------homepage-------
 
-replace luogo di nascita con codice comune
-
 pdf foglio privacy (quasi fatto)
 
-
 -------situazione paziente-------
-
-aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funzione checkbutton() da js
 
 -------info-------
 
