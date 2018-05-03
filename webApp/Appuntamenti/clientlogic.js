@@ -1,8 +1,6 @@
 $(document).ready(function(){
     $("#vsblPage").dblclick(function() {
-        if(document.getElementById("sideDettagliAppuntamento").style.width == "500px"){
-            nascondiDettagliAppuntamento();
-        }
+        nascondiDettagliAppuntamento();
     });
 });
 
@@ -16,6 +14,7 @@ function initForm(){
 function initPillsGiorni(caricaPagina = 1){
 
     if(caricaPagina == 1){
+        console.log("dataOggi");
         laDataEOggi();
     }else{
         console.log("passo di qua");
@@ -68,7 +67,7 @@ function laDataEOggi(){
         }
         $("#giorniAppuntamenti").html(riga);
     
-        //caricaAppuntamenti di oggi
+        caricaAppuntamenti(2018,12,12);
 }
 
 function laDataEStataSelezionata(caricaPagina){
@@ -110,7 +109,7 @@ function laDataEStataSelezionata(caricaPagina){
         }
         $("#giorniAppuntamenti").html(riga);
     
-        //caricaAppuntamenti di oggi
+        //caricaAppuntamenti(2018,12,12);
 }
 
 //restituisce la data nel formato yyyy-mm-dd
@@ -164,7 +163,7 @@ function mostraDettagliAppuntamento(i){
     //Data è l' id della tab attiva, come faccio a prenderlo??
 
     //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
-    $.ajax({  
+    /*9$.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
@@ -178,16 +177,15 @@ function mostraDettagliAppuntamento(i){
         error: function(){
             alert("Errore");
         }
-    });
+    });*/
 
-    document.getElementById("sideDettagliAppuntamento").style.width = "500px";
-    document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
+    $("#divDettagliAppuntamento").fadeIn();
 }
 
 
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
-    document.getElementById("sideDettagliAppuntamento").style.width = "0";
+    $("#divDettagliAppuntamento").fadeOut();
 }
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
@@ -211,6 +209,29 @@ function nuovoAppuntamento(){
     });
 }
 
+function eliminaAppuntamento(){
+    //Data è l' id della tab attiva, come faccio a prenderlo??
+
+    //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
+    /*$.ajax({  
+
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
+        success: function(response) {
+            var dettagli = JSON.parse (response);
+
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
+            $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
+
+    $("#divDettagliAppuntamento").fadeIn();
+}
+
 //salva un nuovo appuntamento
 function salvaAppuntamento(){
     var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value;
@@ -232,12 +253,15 @@ function salvaAppuntamento(){
 
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
 function caricaAppuntamenti(anno, mese, giorno){
-    var data = anno + "-" + mese + "-" + giorno;
-    /*$.ajax({  
+    //var data = anno + "-" + mese + "-" + giorno;
+    var data = "2018-05-03";
+    console.log(data);
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "salvaNuovoAppuntamento", data:data},
         success: function(response) {
+            console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < appuntamenti.length; a ++)
@@ -252,7 +276,7 @@ function caricaAppuntamenti(anno, mese, giorno){
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 }
 
 function visualizzaAppuntamentiData(){
