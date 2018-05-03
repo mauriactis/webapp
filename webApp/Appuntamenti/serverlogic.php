@@ -15,12 +15,22 @@
         switch($azione) {
             case 'caricaNomiPersone' : 
                 caricaNomiPersone($conn);
-            break;
+                break;
             case 'mostraDettagliAppuntamento' :
                 $idPersona = $_POST['id'];
                 $data = $_POST['data'];
                 mostraDettagliAppuntamento($conn,$idPersona,$data);
-            break;
+                break;
+            case 'inserisciNuovoAppuntamento':
+                $idPersona = $_POST['id'];
+                $dataOra = $_POST['dataOra'];
+                $descrizione = $_POST['$descrizione'];
+                inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione);
+                break;
+            case 'caricaAppuntamenti':
+                $data = $_POST['data'];
+                caricaAppuntamenti($conn,$data);
+                break;
         }
     }
 
@@ -35,10 +45,8 @@
     }
 
     function caricaNomiPersone($conn){
-        $query="SELECT anagrafica.ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
+        $query="SELECT ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
         $stmSql = $conn->prepare($query);
-        $stmSql ->bindParam(1, $persona);
-        $stmSql ->bindParam(2, $persona);
         $result = $stmSql ->execute();
         $ret= array();
 
@@ -46,7 +54,7 @@
             array_push ($ret, $row);
         }
         
-    echo json_encode(local_encode($ret)); //tommy prendi questo e costruisci la tabella (ho modificato il js ed ho aggiunto una funzione che mi passava il nomePersona con ajax)
+    	echo json_encode(local_encode($ret)); 
 
     }
 
@@ -84,35 +92,79 @@
         
     }
 
-    
+    function inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione){  //inserisce un nuovo appuntamento con il tasto nuovo appuntamento
+            $query = "INSERT INTO interventi VALUES(?,?,?,?)";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $dataOra);
+            $stmSql ->bindParam(3, $descrizione);
+            $result = $stmSql ->execute();
 
+            echo $result;
+    }
 
+    function caricaAppuntamenti($conn,$data){   //FUNZIONA CHE CARICA GLI APPUNTAMENTI DI UN GIORNO
+        $query="SELECT anagrafica.ID,date(appuntamenti.DataOra),time(appuntamenti.DataOra),anagrafica.Nome,anagrafica.Cognome FROM appuntamenti,anagrafica WHERE appuntamenti.AnaID=anagrafica.ID AND date(DataOra)=? ORDER BY hour(DataOra)";
+        $stmSql = $conn->prepare($query);
+        $stmSql ->bindParam(1, $data);
+        $result = $stmSql ->execute();
 
+        $ret= array();
+          
+        while ($row = $stmSql->fetch()){
+            array_push ($ret, $row);
+        }
+            
+        echo json_encode(local_encode($ret)); 
+    }
 
+    function cancellaAppuntamento($conn,$idPersona,$dataOra){  
+        $query = "DELETE FROM appuntamenti WHERE AnaID=? AND DataOra=?";
+        $stmSql = $conn->prepare($query);
+        $stmSql ->bindParam(1, $idPersona);
+        $stmSql ->bindParam(2, $dataOra);
+        $result = $stmSql ->execute();
 
+            echo $result;
+    }
 
+    function visualizzaRichiesteAppuntamento($conn){
+        $query = "SELECT richiesteappuntamento.AnaID,richiesteappuntamento.DataOraInvio,richiesteappuntamento.Note,anagrafica.Nome,anagrafica.Cognome FROM richiesteappuntamento,anagrafica WHERE richiesteappuntamento.AnaID = anagrafica.ID AND Richiesta=0 AND Letto=0";
 
+        $stmSql = $conn->prepare($query);
+        $result = $stmSql ->execute();
+        $ret= array();
+          
+        while ($row = $stmSql->fetch()){
+                    array_push ($ret, $row);
+            }
+            
+        echo json_encode(local_encode($ret)); 
+    }
 
+    function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
+            $query = "UPDATE richiesteappuntamento SET Letto=1 WHERE AnaID=? AND DataOra=?";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $dataOra);
+            $result = $stmSql ->execute();
 
+            if(!$result){
+                echo 0;
+            }
 
+            $query = "INSERT INTO richiesteappuntamento VALUES(?,now(),1,?,?,?,?,0)";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $data1);
+            $stmSql ->bindParam(3, $data2);
+            $stmSql ->bindParam(4, $data3);
+            $stmSql ->bindParam(4, $descrizione);
 
+            $result = $stmSql ->execute();
 
-
+            echo $result;
+    }
 
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-/* #1  funzione che restituisce l ultimo appuntamwento di interventi
-
-
-#2
