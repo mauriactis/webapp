@@ -162,7 +162,7 @@
 		function cercaPersona($conn,$persona){   //La funzione che permette di usare la barra di ricerca con la scheda anagrafica attiva
 			$persona = strtoupper($persona);
 			$persona = "%".$persona."%";
-			$query="SELECT anagrafica.ID,Nome,Cognome,DataNascita,LuogoNascita,MedicoProvenienza,comuni.Comune AS Residenza,Indirizzo,CAP,Telefono1,Telefono2,motivi.Descrizione AS Motivo, Anamnesi, CodFisc FROM anagrafica LEFT JOIN motivi ON (anagrafica.Motivo = motivi.ID) JOIN comuni ON(anagrafica.Residenza = comuni.ID) WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100 ";
+			$query="SELECT anagrafica.ID,Nome,Cognome,DataNascita,comuninascitaanagrafica.LuogoNascita,MedicoProvenienza,comuni.Comune AS Residenza,Indirizzo,CAP,Telefono1,Telefono2,motivi.Descrizione AS Motivo, Anamnesi, CodFisc FROM anagrafica LEFT JOIN motivi ON (anagrafica.Motivo = motivi.ID) JOIN comuni ON(anagrafica.Residenza = comuni.ID) JOIN comuninascitaanagrafica ON (comuninascitaanagrafica.ID=anagrafica.ID) WHERE upper(Cognome) LIKE ? OR upper(Nome) LIKE ? ORDER BY Cognome,Nome DESC LIMIT 0,100 ";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $persona);
 			$stmSql ->bindParam(2, $persona);
