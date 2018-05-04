@@ -42,6 +42,7 @@ manca stampa fattura
 
 CAMBIAMO TEMA https://bootswatch.com/3/
 
+
 Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
@@ -49,6 +50,10 @@ nella tebella ci deve essere il luogo nascita non la sua sigla
 mostraDocumento(); cosa deve fare??????
 
 inserisci documento manca da php
+
+rinominare fogliPrivacy in docs
+
+cancellare file html da tmp (o lo lasci lì?Tanto viene sovrascritto tutte le volte)
 
 --- sample ---
 
