@@ -54,6 +54,8 @@ nella tebella ci deve essere il luogo nascita non la sua sigla
 
 visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
+mostraDocumento(); cosa deve fare??????
+
 --- sample ---
 
 replace span con tags 
