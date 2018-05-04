@@ -156,8 +156,10 @@
 					$doc = $_POST['foglioPrivacy'];
 					foglioToHTML($conn,$doc);
 					break;
-					case 'convertToPDF' :
-					convertToPDF($conn);
+				case 'convertToPDF' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					convertToPDF($conn,$id,$data);
 					break;
 				}
 			}
@@ -528,7 +530,7 @@
 //---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
-			$query="SELECT AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
+			$query="SELECT ID,AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -536,7 +538,7 @@
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-		echo json_encode(local_encode($ret)); 
+			echo json_encode(local_encode($ret)); 
 		}
 
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
@@ -589,14 +591,31 @@
 			fwrite($fileHtml, $doc);
 			fclose($fileHtml);
 
-			$cmd = "pathwkhtmltopdf pathFolgioPrivacy fp.pdf";
-			shell_exec($cmd);
+			$query="SELECT ID FROM anagrafica ORDER BY ID DESC LIMIT 0,1";
+			$stmSql = $conn->prepare($query);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+			
+			echo $ret[0];  
 		}
 
-		function convertToPDF($conn){
-
-			$cmd = "pathwkhtmltopdf pathFolgioPrivacy fp.pdf";
+		function convertToPDF($conn,$id,$data){
+			$downloadPath = "..\\fogliPrivacy\\fp" . $id . ".pdf";
+			$descrizione = "Foglio privacy";
+			//Non posso far venire fuori l' opzione di download?
+			//In alternativa si apre un popup con un link a dov'è il file
+			$cmd = 'D:\"Program Files"\wkhtmltopdf\bin\wkhtmltopdf.exe ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
 			shell_exec($cmd);
+
+			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $downloadPath);
+			$stmSql ->bindParam(4, $descrizione);
+			
+			$result = $stmSql ->execute();
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
