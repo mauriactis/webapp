@@ -18,10 +18,6 @@ pdf foglio privacy (quasi fatto)
 
 aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funzione checkbutton() da js
 
--------info-------
-
-~ - assegna esercizi da fare
-
 -------appuntamenti-------
 
 !! - btn richieste appuntamento
@@ -49,8 +45,6 @@ CAMBIAMO TEMA https://bootswatch.com/3/
 Anagrafica:
 
 nella tebella ci deve essere il luogo nascita non la sua sigla
-
-visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
 mostraDocumento(); cosa deve fare??????
 
