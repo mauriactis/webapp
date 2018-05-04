@@ -56,6 +56,8 @@ visuailizza contabilità se non ha interventi fa schifo (non sarà vuota MAGARI)
 
 mostraDocumento(); cosa deve fare??????
 
+inserisci documento manca da php
+
 --- sample ---
 
 replace span con tags 
