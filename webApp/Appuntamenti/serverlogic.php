@@ -31,6 +31,9 @@
                 $data = $_POST['data'];
                 caricaAppuntamenti($conn,$data);
                 break;
+            case 'visualizzaRichiesteAppuntamento':
+                visualizzaRichiesteAppuntamento($conn);
+                break;
         }
     }
 
@@ -130,7 +133,7 @@
     }
 
     function visualizzaRichiesteAppuntamento($conn){
-        $query = "SELECT richiesteappuntamento.AnaID,richiesteappuntamento.DataOraInvio,richiesteappuntamento.Note,anagrafica.Nome,anagrafica.Cognome FROM richiesteappuntamento,anagrafica WHERE richiesteappuntamento.AnaID = anagrafica.ID AND Richiesta=0 AND Letto=0";
+        $query = "SELECT richiesteappuntamenti.AnaID,richiesteappuntamenti.DataOraInvio,richiesteappuntamenti.Note,anagrafica.Nome,anagrafica.Cognome FROM richiesteappuntamenti,anagrafica WHERE richiesteappuntamenti.AnaID = anagrafica.ID AND Richiesta=0 AND Letto=0";
 
         $stmSql = $conn->prepare($query);
         $result = $stmSql ->execute();
@@ -145,7 +148,7 @@
 
 
     function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
-            $query = "UPDATE richiesteappuntamento SET Letto=1 WHERE AnaID=? AND DataOra=?";
+            $query = "UPDATE richiesteappuntamenti SET Letto=1 WHERE AnaID=? AND DataOra=?";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
             $stmSql ->bindParam(2, $dataOra);
@@ -155,7 +158,7 @@
                 echo 0;
             }
 
-            $query = "INSERT INTO richiesteappuntamento VALUES(?,now(),1,?,?,?,?,0)";
+            $query = "INSERT INTO richiesteappuntamenti VALUES(?,now(),1,?,?,?,?,0)";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
             $stmSql ->bindParam(2, $data1);
