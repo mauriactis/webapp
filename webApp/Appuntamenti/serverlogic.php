@@ -45,10 +45,8 @@
     }
 
     function caricaNomiPersone($conn){
-        $query="SELECT anagrafica.ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
+        $query="SELECT ID, CONCAT(Nome,' ',Cognome) AS NomeCognome FROM anagrafica";
         $stmSql = $conn->prepare($query);
-        $stmSql ->bindParam(1, $persona);
-        $stmSql ->bindParam(2, $persona);
         $result = $stmSql ->execute();
         $ret= array();
 
@@ -106,6 +104,7 @@
     }
 
     function caricaAppuntamenti($conn,$data){   //FUNZIONA CHE CARICA GLI APPUNTAMENTI DI UN GIORNO
+
         $query="SELECT anagrafica.ID,date(appuntamenti.DataOra),time(appuntamenti.DataOra) AS Ora,anagrafica.Nome,anagrafica.Cognome FROM appuntamenti,anagrafica WHERE appuntamenti.AnaID=anagrafica.ID AND date(DataOra)=? ORDER BY hour(DataOra)";
         $stmSql = $conn->prepare($query);
         $stmSql ->bindParam(1, $data);
@@ -144,6 +143,30 @@
         echo json_encode(local_encode($ret)); 
     }
 
-    function inviaRisposta($conn,$AnaID,$data1,$data2,$data3){
+
+    function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
+            $query = "UPDATE richiesteappuntamento SET Letto=1 WHERE AnaID=? AND DataOra=?";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $dataOra);
+            $result = $stmSql ->execute();
+
+            if(!$result){
+                echo 0;
+            }
+
+            $query = "INSERT INTO richiesteappuntamento VALUES(?,now(),1,?,?,?,?,0)";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $data1);
+            $stmSql ->bindParam(3, $data2);
+            $stmSql ->bindParam(4, $data3);
+            $stmSql ->bindParam(4, $descrizione);
+
+            $result = $stmSql ->execute();
+
+            echo $result;
     }
+
+
 ?>

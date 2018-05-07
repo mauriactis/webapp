@@ -9,12 +9,10 @@ legenda:
 
 -------homepage-------
 
-replace luogo di nascita con codice comune
-
 pdf foglio privacy (quasi fatto)
 
-
 -------situazione paziente-------
+
 
 aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funzione checkbutton() da js
 
@@ -24,14 +22,11 @@ aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funz
 
 !! - btn nuovo appuntamento (manca php)
 
-~ - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
+ - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
 
-~ - tabella al centro
+ - tabella al centro
 
-~ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
-
-(?) - a me non piace il sidenav che si apre nella tabella, stona col resto della pagina. secondo me sarebbe bello fosse un div semplice (magari con una riga che lo divide dalla tabella, stessa che dovrebbe esserci
-tra tabella e calendario). se no si può fare col sidenav ma senza la croce in alto a destra, farlo comparire all'altezza della tabella e sarebbe bello senza bordo
+ - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
 
 
 -------contabilità-------
