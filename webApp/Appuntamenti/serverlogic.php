@@ -104,17 +104,17 @@
     }
 
     function caricaAppuntamenti($conn,$data){   //FUNZIONA CHE CARICA GLI APPUNTAMENTI DI UN GIORNO
-        $query="SELECT anagrafica.ID,date(appuntamenti.DataOra),time(appuntamenti.DataOra),anagrafica.Nome,anagrafica.Cognome FROM appuntamenti,anagrafica WHERE appuntamenti.AnaID=anagrafica.ID AND date(DataOra)=? ORDER BY hour(DataOra)";
+
+        $query="SELECT anagrafica.ID,date(appuntamenti.DataOra),time(appuntamenti.DataOra) AS Ora,anagrafica.Nome,anagrafica.Cognome FROM appuntamenti,anagrafica WHERE appuntamenti.AnaID=anagrafica.ID AND date(DataOra)=? ORDER BY hour(DataOra)";
         $stmSql = $conn->prepare($query);
         $stmSql ->bindParam(1, $data);
-        $result = $stmSql ->execute();
+        $result = $stmSql->execute();
 
-        $ret= array();
+        $ret=array();
           
         while ($row = $stmSql->fetch()){
             array_push ($ret, $row);
         }
-
             
         echo json_encode(local_encode($ret)); 
     }
@@ -142,6 +142,7 @@
             
         echo json_encode(local_encode($ret)); 
     }
+
 
     function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
             $query = "UPDATE richiesteappuntamento SET Letto=1 WHERE AnaID=? AND DataOra=?";

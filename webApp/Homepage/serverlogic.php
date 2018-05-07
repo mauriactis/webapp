@@ -51,8 +51,11 @@
 					$cognome = $_POST['cognome'];
 					$dataNascita = $_POST['dataNascita'];
 					$luogoNascita = $_POST['luogoNascita'];
+					$dataNascitaFP = $_POST['dataNascitaFP'];
+					$luogoNascitaFP = $_POST['luogoNascitaFP'];
 					$medicoProv = $_POST['medicoProv'];
 					$residenza = $_POST['residenza'];
+					$residenzaFP = $_POST['residenzaFP'];
 					$indirizzo = $_POST['indirizzo'];
 					$cap = $_POST['cap'];
 					$telefono1 = $_POST['telefono1'];
@@ -60,7 +63,8 @@
 					$motivo = $_POST['motivo'];
 					$anamnesi = $_POST['anamnesi'];
 					$codFisc = $_POST['codFisc'];
-					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
+					$foglioPrivacy = $_POST['foglioPrivacy'];
+					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy);
 					break;
 				case 'visualizzaStoricoInterventi' :
 					$idPersona = $_POST['id'];
@@ -99,7 +103,7 @@
 					$data = $_POST['dataIntervento'];
 					aggiornaPagatoFatturaSingolo($conn,$idPersona,$data);
 				 	break;
-				 case 'aggiornaPagatoFatturaMultipla' :
+				case 'aggiornaPagatoFatturaMultipla' :
 					$idPersona = $_POST['id'];
 				 	aggiornaPagatoFatturaMultipla($conn,$idPersona);
 				 	break;
@@ -147,6 +151,15 @@
 					break;
 				case 'caricaMotivi' :
 					caricaMotivi($conn);
+					break;
+				case 'foglioToHTML' :
+					$doc = $_POST['foglioPrivacy'];
+					foglioToHTML($conn,$doc);
+					break;
+				case 'convertToPDF' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					convertToPDF($conn,$id,$data);
 					break;
 				}
 			}
@@ -218,7 +231,8 @@
 			}
 		}
 
-		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc){   //inserisce un nuovo utente nel db
+		function inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy){   //inserisce un nuovo utente nel db
+			$codFisc = strtoupper($codFisc);
 			$query="INSERT INTO anagrafica VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -233,11 +247,22 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, strtoupper($codFisc));
+			$stmSql ->bindParam(13, $codFisc);
 			
 			$result = $stmSql ->execute();
+
+
+			$foglioPrivacy = str_replace("@cognomeNome@",$cognome . " " . $nome,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@luogoNascita@",$luogoNascitaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@dataNascita@",$dataNascitaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@residenza@",$residenzaFP,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@indirizzo@",$indirizzo,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@cap@",$cap,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@cfisc@",$codFisc,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@telefono@",$telefono1,$foglioPrivacy);
+			$foglioPrivacy = str_replace("@dataOggi@",date("d/m/Y"),$foglioPrivacy);
 			
-		echo $result;			//faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+			echo $foglioPrivacy;			
 		}
 
 		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
@@ -505,7 +530,7 @@
 //---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
-			$query="SELECT AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
+			$query="SELECT ID,AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -513,7 +538,7 @@
 			while($row = $stmSql->fetch()){
 					array_push ($ret, $row);
 			}
-		echo json_encode(local_encode($ret)); 
+			echo json_encode(local_encode($ret)); 
 		}
 
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
@@ -559,6 +584,38 @@
 					array_push ($ret, $row);
 			}
 		echo json_encode(local_encode($ret)); 
+		}
+
+		function foglioToHTML($conn, $doc){
+			$fileHtml = fopen("../tmp/tmpFoglioPrivacy.html", "w");
+			fwrite($fileHtml, $doc);
+			fclose($fileHtml);
+
+			$query="SELECT ID FROM anagrafica ORDER BY ID DESC LIMIT 0,1";
+			$stmSql = $conn->prepare($query);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+			
+			echo $ret[0];  
+		}
+
+		function convertToPDF($conn,$id,$data){
+			$downloadPath = "..\\fogliPrivacy\\fp" . $id . ".pdf";
+			$descrizione = "Foglio privacy";
+			//Non posso far venire fuori l' opzione di download?
+			//In alternativa si apre un popup con un link a dov'è il file
+			$cmd = 'D:\"Program Files"\wkhtmltopdf\bin\wkhtmltopdf.exe ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
+			shell_exec($cmd);
+
+			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $downloadPath);
+			$stmSql ->bindParam(4, $descrizione);
+			
+			$result = $stmSql ->execute();
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//

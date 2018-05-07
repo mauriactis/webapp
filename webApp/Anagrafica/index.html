@@ -26,7 +26,7 @@
 <div id="situazionePaziente" class="sidenav" style="margin-top: 55px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiSituazionePaziente();">&times;</a>
    <div class="corpoSidenav">
-
+      <h3><label id="lblCognomeNomeSituazionePaziente"></label></h3>
       <h3><label>L' ultima volta...</label></h3>
       <div id="situazionePazienteUltimaVolta">
       </div>
@@ -58,7 +58,7 @@
 <div id="modifiche" class="sidenav" style="margin-top: 55px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiModifiche();">&times;</a>
    <div class="corpoSidenav" style="display: block;">
-
+      <h3><label id="lblCognomeNomeModifiche"></label></h3>
       <button type="button" class="btn btn-danger" style="display: block;" data-toggle="modal" data-target="#popupModificaPaziente" onclick="initPopupModifica();">Modifica</button>
 
 
@@ -230,7 +230,6 @@
             <table class="table table-hover table-bordered admin">
                <thead>
                   <tr>
-                     <th style="width: 20%">ID</th>
                      <th>Data</th>
                      <th>Descrizione</th>
                      <th>Documento</th>
@@ -295,6 +294,21 @@
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" onclick="inserisciNuovoFile();" data-dismiss="modal">Fatto</button>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Popup che richiede e i deidera stampare la ricevuta -->
+<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-body">
+            Si desidera stampare la ricevuta? In caso negativo l'intervento sarà registrato come <b>non</b> pagato.
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta(1);" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-default" onclick="stampaRicevuta(0);" data-dismiss="modal">No</button>
          </div>
       </div>
     </div>
