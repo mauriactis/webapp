@@ -24,7 +24,7 @@
 	float: left;
 	margin-left: 20em;
 	margin-right: 4em;
-	margin-top: 10em;
+	margin-top: 5.8em;
 }
 
 #divAppuntamenti{
@@ -57,8 +57,9 @@
 #divDettagliAppuntamento{
     float: right;
     width: 25%;
-    margin-top: -28em;
+    margin-top: -18em;
     margin-right: 6.8em;
+    background: rgb(240,240,240);
 }
 
 #mainDiv {
@@ -68,4 +69,8 @@
 #sidenavBody{
 	margin-left: 0.5em;
 	margin-right: 0.5em;
+}
+
+#btnEliminaAppuntamento{
+	margin-top: 2em;
 }
