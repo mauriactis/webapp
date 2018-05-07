@@ -74,3 +74,23 @@
 #btnEliminaAppuntamento{
 	margin-top: 2em;
 }
+
+#popupRichieste{
+	position: relative;
+	float: left;
+	margin-left: 23em;
+	margin-top: -30em;
+}
+
+#popupRisposta{
+	position: relative;
+	float: left;
+	margin-left: 75em;
+	margin-top: -30em;
+}
+
+#bdgRichieste{
+	background: orange;
+	margin-top: -12.5em;
+	margin-left: 13.9em;
+}

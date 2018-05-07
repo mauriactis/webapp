@@ -20,9 +20,6 @@ function initPillsGiorni(caricaPagina = 1){
         console.log("passo di qua");
         laDataEStataSelezionata(caricaPagina);
     }
-
-
-
 }
 
 
@@ -284,4 +281,60 @@ function visualizzaAppuntamentiData(){
     var selezione = $(pckrDataAppuntamento).val();
     selezione = new Date(giraDataDb(selezione));
     initPillsGiorni(selezione);
+}
+
+function richiesteAppuntamento(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaRichiesteAppuntamento"},
+        success: function(response) {
+            console.log(response);
+            var richieste = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < richieste.length; a ++)
+            {
+                riga += "<tr style=\"font-weight:bold\"><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ',' + richieste[a].Cognome + ',' + richieste[a].Nome + ',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+            }
+            if(riga != ""){
+                $("#tblRichiesteBody").html(riga);
+            }else{
+                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+
+function visualizzaRichiesta(id, cognome, nome, note){
+    $("#popupRisposta").modal('show');
+    $("#lblCognomeNomePopupRisposta").html(cognome + " " + nome);
+    $("#divRispostaMessaggio").html(note);
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inviaRisposta"},
+        success: function(response) {
+            console.log(response);
+            var richieste = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < richieste.length; a ++)
+            {
+                riga += "<tr><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+            }
+            if(riga != ""){
+                $("#tblRichiesteBody").html(riga);
+            }else{
+                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
 }
