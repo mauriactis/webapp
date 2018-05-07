@@ -39,10 +39,11 @@ function laDataEOggi(){
         var riga = "";
         var offsetNeg = giornoSett;
         var offsetPos = 1;
+        oggi = String(formattaData(oggi));
         //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
         for(var i = 0;i < 7;i++){
             if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="' + formattaData(oggi) + '" onclick="caricaAppuntamenti(' + formattaData(oggi) + ');">' + nomeGiorno + '</a></li>';
+                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
             }else{
                 //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
                 //facendo la setDate viene poi sballata il giro dopo
@@ -61,13 +62,12 @@ function laDataEOggi(){
                 var giorno= id.substring(8,10);
     
                 //problema, passa la data ma poi fa la sotrazione sto bau bau
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
             }
             
         }
         $("#giorniAppuntamenti").html(riga);
-    
-        caricaAppuntamenti(2018,12,12);
+        $('#selezionato').click();
 }
 
 function laDataEStataSelezionata(caricaPagina){
@@ -80,10 +80,11 @@ function laDataEStataSelezionata(caricaPagina){
         var riga = "";
         var offsetNeg = giornoSett;
         var offsetPos = 1;
+        caricaPagina = String(formattaData(caricaPagina));
         //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
         for(var i = 0;i < 7;i++){
             if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="' + formattaData(caricaPagina) + '" onclick="caricaAppuntamenti(' + formattaData(caricaPagina) + ');">' + nomeGiorno + '</a></li>';
+                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + caricaPagina.substring(0,4) + "," + caricaPagina.substring(5,7) + "," + caricaPagina.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
             }else{
                 //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
                 //facendo la setDate viene poi sballata il giro dopo
@@ -96,20 +97,18 @@ function laDataEStataSelezionata(caricaPagina){
                     var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
                     offsetPos++;
                 }
-                console.log(id);
     
                 var anno = id.substring(0,4);
                 var mese= id.substring(5,7);
                 var giorno= id.substring(8,10);
     
                 //problema, passa la data ma poi fa la sotrazione sto bau bau
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
             }
             
         }
         $("#giorniAppuntamenti").html(riga);
-    
-        //caricaAppuntamenti(2018,12,12);
+        $('#selezionato').click();
 }
 
 //restituisce la data nel formato yyyy-mm-dd
@@ -159,11 +158,12 @@ function giraDataDb(date){
 //   #1111111111111111111111
 //   #1111111111111111111111
 //   #1111111111111111111111
-function mostraDettagliAppuntamento(i){
-    //Data è l' id della tab attiva, come faccio a prenderlo??
-
+function mostraDettagliAppuntamento(i, data){
+    console.log(i + " " + data);
+    $("#idPaziente").val(i);
+    $("#dataIntervento").val(String(data));
     //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
-    /*9$.ajax({  
+    $.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
@@ -177,7 +177,7 @@ function mostraDettagliAppuntamento(i){
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 
     $("#divDettagliAppuntamento").fadeIn();
 }
@@ -210,19 +210,16 @@ function nuovoAppuntamento(){
 }
 
 function eliminaAppuntamento(){
-    //Data è l' id della tab attiva, come faccio a prenderlo??
-
-    //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
     /*$.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
+        data: {azione: "cancellaAppuntamento", id:i, data:data},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
             $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
-            $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
+            $("#selezionato).click();
         },
         error: function(){
             alert("Errore");
@@ -254,24 +251,28 @@ function salvaAppuntamento(){
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
 function caricaAppuntamenti(anno, mese, giorno){
     //var data = anno + "-" + mese + "-" + giorno;
-    var data = "2018-05-03";
-    console.log(data);
+    var data = anno + "-" + mese + "-" + giorno;
+    console.log("data: " + data);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "salvaNuovoAppuntamento", data:data},
+        data: {azione: "caricaAppuntamenti", data:data},
         success: function(response) {
-            console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < appuntamenti.length; a ++)
             {
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora + "</td><td>" +
-                    appuntamenti[a].Cognome + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].AnaID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                    appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + "," + String(data) + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                console.log(String(data));
             }
-            $("#tblAppuntamentiBody").html(riga);
+            if(riga != ""){
+                $("#tblAppuntamentiBody").html(riga);
+            }else{
+                $("#tblAppuntamentiBody").html("<tr><td>Non sono stati fissati appuntamenti per oggi.</td></tr>");
+            }
         },
         error: function(){
             alert("Errore");

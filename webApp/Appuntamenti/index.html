@@ -58,26 +58,14 @@
                         </tr>
                      </thead>
                      <tbody id="tblAppuntamentiBody">
-
-                        <tr>
-                           <td>
-                              hh:hh
-                           </td>
-                           <td>
-                              ESEMPIO ESEMPIO
-                           </td>
-                           <td>
-                              <button class="btn btn-danger" onclick="mostraDettagliAppuntamento();"><span class="glyphicon glyphicon-eye-open"></span></button>
-                           </td>
-                        </tr>
                      </tbody>
                   </table>
                </div>
             </div>
             <div id="divDettagliAppuntamento" style="display: none;">
               <div id="sidenavBody">
-                 <input type="hidden" id="idPaziente">
-                 <input type="hidden" id="dataIntervento">
+                 <input type="text" id="idPaziente">
+                 <input type="text" id="dataIntervento">
                  <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
                  <h3><label>L' ultima volta...</label></h3>
                  <div id="dettagliAppuntamentoUltimaVolta">
