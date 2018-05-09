@@ -13,9 +13,6 @@ pdf foglio privacy (quasi fatto)
 
 -------situazione paziente-------
 
-
-aggiungere alla label Paga Adesso l'attributo for="chkPagato" e togliere la funzione checkbutton() da js
-
 -------appuntamenti-------
 
 !! - btn richieste appuntamento
@@ -40,8 +37,6 @@ CAMBIAMO TEMA https://bootswatch.com/3/
 
 Anagrafica:
 
-nella tebella ci deve essere il luogo nascita non la sua sigla
-
 mostraDocumento(); cosa deve fare??????
 
 inserisci documento manca da php
@@ -56,12 +51,6 @@ replace span con tags
 php -> replace tags con dati passati
 salva tutto su file html
 salva html su pdf
-
-
-
-
-
-
 
 Quando fai salva intervento chiede se vuoi stampare la ricevuta
 togliere alert
