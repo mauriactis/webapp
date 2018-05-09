@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2018 alle 08:15
+-- Generation Time: Mag 03, 2018 alle 12:00
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `anagrafica` (
   `Motivo` int(11) DEFAULT NULL,
   `Anamnesi` varchar(1000) DEFAULT NULL,
   `CodFisc` char(16) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3528 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3529 ;
 
 --
 -- Dump dei dati per la tabella `anagrafica`
@@ -748,7 +748,8 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3519, 'Cecilia', 'Sicca', '2002-01-02', 'cuneo', '', '1', '', '12041', '', '', NULL, 'apparecchio ortodontico a 13 anni per morso crociato e massetere verticalizzato\r\nora ha un filo di contenzione sopra e sotto', ''),
 (3520, 'Dario', 'Menardi', '1967-03-30', 'Cuneo', '', '1', 'Via Maria Ausiliatrice 4', '12100', '', '348/7064012', NULL, '15 anni di dolore alla colonna con salite e discese del dolore\r\n2001 ernia inguinale bilat\r\nvarici \r\nRM 2013-2014  RX 2013-2014: \r\nDr. Cavallera aveva visto la diagnostica, forse displasia di anche\r\nAttività motoria: sci alpinismo , bicicletta, camminate, dopo qs ultimo problema non ha più ricominciato  \r\noggi dopo 3 giorni di bicicletta è venuto un dolore che non passava, dal 21 settembre ha preso 3-4 giorni di anti-infiammatori\r\ntrattamenti: 2 volte con massaggi + stretching che esegue tutte le sere\r\nfarmaci: tachicaf per emicrania o cefalea', 'MNRDVG67C30D205A'),
 (3521, 'Maurizio', 'Actis', '1998-12-12', 'Cuneo', 'Tomatis', '1', 'Via Bersezio 15', '12100', '3393227082', '3393227082', NULL, 'Sei molto bello', 'CTSMRZ98T22D205W'),
-(3527, 'gabriele', 'tomatis', '1999-05-24', 'cuneo', '', '3', 'via beinette', '12345', '1234567890 cell', '', 3, '', 'AAAAAAAAAAAAAAAA');
+(3527, 'gabriele', 'tomatis', '1999-05-24', 'cuneo', '', '3', 'via beinette', '12345', '1234567890 cell', '', 3, '', 'AAAAAAAAAAAAAAAA'),
+(3528, 'a', 'a', '1998-12-22', 'D205', 'Dott. cento', 'D205', 'via bersezio 15', '12100', '339322y7038', '1234567891', 4, 'Ã¨ caduto dalle scale, Ã¨ tetraplegico e non ha sentito nulla, poveraccio', 'CTSMRZ09TNDIRND2');
 
 -- --------------------------------------------------------
 
@@ -758,7 +759,8 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 
 CREATE TABLE IF NOT EXISTS `appuntamenti` (
   `AnaID` int(11) NOT NULL,
-  `DataOra` datetime NOT NULL
+  `DataOra` datetime NOT NULL,
+  `Note` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -11307,6 +11309,15 @@ INSERT INTO `comuni` (`ID`, `Comune`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura stand-in per le viste `comuninascitaanagrafica`
+--
+CREATE TABLE IF NOT EXISTS `comuninascitaanagrafica` (
+`ID` int(11)
+,`LuogoNascita` varchar(200)
+);
+-- --------------------------------------------------------
+
+--
 -- Struttura stand-in per le viste `contabilita`
 --
 CREATE TABLE IF NOT EXISTS `contabilita` (
@@ -11477,6 +11488,15 @@ INSERT INTO `utenti` (`AnaID`, `User`, `Password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura per la vista `comuninascitaanagrafica`
+--
+DROP TABLE IF EXISTS `comuninascitaanagrafica`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `comuninascitaanagrafica` AS select `anagrafica`.`ID` AS `ID`,coalesce(`comuni`.`Comune`,`anagrafica`.`LuogoNascita`) AS `LuogoNascita` from (`anagrafica` left join `comuni` on((`comuni`.`ID` = `anagrafica`.`LuogoNascita`))) order by `anagrafica`.`ID` desc;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura per la vista `contabilita`
 --
 DROP TABLE IF EXISTS `contabilita`;
@@ -11567,7 +11587,7 @@ ALTER TABLE `utenti`
 -- AUTO_INCREMENT for table `anagrafica`
 --
 ALTER TABLE `anagrafica`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3528;
+MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3529;
 --
 -- AUTO_INCREMENT for table `documenti`
 --

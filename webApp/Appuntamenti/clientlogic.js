@@ -1,56 +1,111 @@
 $(document).ready(function(){
     $("#vsblPage").dblclick(function() {
-        if(document.getElementById("sideDettagliAppuntamento").style.width == "500px"){
-            nascondiDettagliAppuntamento();
-        }
+        nascondiDettagliAppuntamento();
     });
 });
 
 
 //da rivedere i nomi
 function initForm(){
-    var oggi = new Date();
-    $.datepicker.setDefaults($.datepicker.regional['it']);
-    $('#pckrDataAppuntamento').datepicker({minDate: oggi});
-    $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
-
-    var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-    var giornoSett = oggi.getDay() - 1;
-    var nomeGiorno = giorni[giornoSett];
-    var riga = "";
-    var offsetNeg = giornoSett;
-    var offsetPos = 1;
-    //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-    for(var i = 0;i < 7;i++){
-        if(giorni[i] == nomeGiorno){
-            riga += '<li class="active"><a href="" id="' + formattaData(oggi) + '" onclick="caricaAppuntamenti(' + formattaData(oggi) + ');">' + nomeGiorno + '</a></li>';
-        }else{
-            //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
-            //facendo la setDate viene poi sballata il giro dopo
-            var data = new Date();
-            //Siamo in una data precedente ad oggi
-            if(i<giornoSett){
-                var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
-                offsetNeg--;
-            }else{
-                var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
-                offsetPos++;
-            }
-
-            var anno = id.substring(0,4);
-            var mese= id.substring(5,7);
-            var giorno= id.substring(8,10);
-
-            //problema, passa la data ma poi fa la sotrazione sto bau bau
-            riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + mese + giorno + ');">' + giorni[i] + '</a></li>';
-        }
-        
-    }
-    $("#giorniAppuntamenti").html(riga);
-
-    //caricaAppuntamenti di oggi
-
+    initPillsGiorni();
     startTime();
+}
+
+function initPillsGiorni(caricaPagina = 1){
+
+    if(caricaPagina == 1){
+        console.log("dataOggi");
+        laDataEOggi();
+    }else{
+        console.log("passo di qua");
+        laDataEStataSelezionata(caricaPagina);
+    }
+}
+
+
+function laDataEOggi(){
+        var oggi = new Date();
+        $.datepicker.setDefaults($.datepicker.regional['it']);
+        $('#pckrDataAppuntamento').datepicker({minDate: oggi});
+        $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
+    
+        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+        //permette di vedere anche la domenica
+        var giornoSett = (oggi.getDay() + 6) % 7;
+        var nomeGiorno = giorni[giornoSett];
+        var riga = "";
+        var offsetNeg = giornoSett;
+        var offsetPos = 1;
+        oggi = String(formattaData(oggi));
+        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+        for(var i = 0;i < 7;i++){
+            if(giorni[i] == nomeGiorno){
+                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+            }else{
+                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+                //facendo la setDate viene poi sballata il giro dopo
+                var data = new Date();
+                //Siamo in una data precedente ad oggi
+                if(i<giornoSett){
+                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
+                    offsetNeg--;
+                }else{
+                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
+                    offsetPos++;
+                }
+    
+                var anno = id.substring(0,4);
+                var mese= id.substring(5,7);
+                var giorno= id.substring(8,10);
+    
+                //problema, passa la data ma poi fa la sotrazione sto bau bau
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+            }
+            
+        }
+        $("#giorniAppuntamenti").html(riga);
+        $('#selezionato').click();
+}
+
+function laDataEStataSelezionata(caricaPagina){
+        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+        //permette di vedere anche la domenica
+        //se carica pagina non ha valore allora si sta ricaricando la pagina altrimenti la funzione è stata evocata
+        //da btnOK sotto al datepicker e aggiorna le pills di conseguenza
+        var giornoSett = (caricaPagina.getDay() + 6) % 7;
+        var nomeGiorno = giorni[giornoSett];
+        var riga = "";
+        var offsetNeg = giornoSett;
+        var offsetPos = 1;
+        caricaPagina = String(formattaData(caricaPagina));
+        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+        for(var i = 0;i < 7;i++){
+            if(giorni[i] == nomeGiorno){
+                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + caricaPagina.substring(0,4) + "," + caricaPagina.substring(5,7) + "," + caricaPagina.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+            }else{
+                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+                //facendo la setDate viene poi sballata il giro dopo
+                var data = new Date(caricaPagina);
+                //Siamo in una data precedente ad oggi
+                if(i<giornoSett){
+                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
+                    offsetNeg--;
+                }else{
+                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
+                    offsetPos++;
+                }
+    
+                var anno = id.substring(0,4);
+                var mese= id.substring(5,7);
+                var giorno= id.substring(8,10);
+    
+                //problema, passa la data ma poi fa la sotrazione sto bau bau
+                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+            }
+            
+        }
+        $("#giorniAppuntamenti").html(riga);
+        $('#selezionato').click();
 }
 
 //restituisce la data nel formato yyyy-mm-dd
@@ -95,73 +150,40 @@ function giraDataDb(date){
 }
 
 //Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
-function mostraDettagliAppuntamento(i){
-    svuotaAppunti();
-    /*$.ajax({  
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+//   #1111111111111111111111
+function mostraDettagliAppuntamento(i, data){
+    console.log(i + " " + data);
+    $("#idPaziente").val(i);
+    $("#dataIntervento").val(String(data));
+    //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
+    $.ajax({  
+
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i},
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
-
-
-
-            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].ultimaVolta);
-            $("#dettagliAppuntamentoDaFare").html(dettagli[0].daFare);
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
+            $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 
-    document.getElementById("sideDettagliAppuntamento").style.width = "500px";
-    document.getElementById("sideDettagliAppuntamento").style.marginTop = "70px";
+    $("#divDettagliAppuntamento").fadeIn();
 }
 
-//svuota il campo appunti presente nel sidenav dettagliAppuntamento
-function svuotaAppunti(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-}
 
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
-    $("#txtAppuntiDettagliAppuntamento").val("");
-    svuotaAppunti();
-    document.getElementById("sideDettagliAppuntamento").style.width = "0";
+    $("#divDettagliAppuntamento").fadeOut();
 }
-
-//salva gli appunti presi durante un' appuntamento
-function salvaDettagliAppuntamento(){
-    var appunti = $("#txtAppuntiDettagliAppuntamento");
-    if(checkfieldsDettagliAppuntamento(appunti)){
-        /*$.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciAppuntiAppuntamento", appunti:appunti},
-            success: function(response) {
-                alert("Memorizzazione avvenuta con successo!");
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });*/
-    }else{
-        alert("Alcuni campi non sono stati completati correttamente...");
-    }
-}
-
-//Restituisce vero se va tutto bene
-/*function checkfieldsDettagliAppuntamento(appunti){
-    var ret = true;
-
-    if(appunti.val() == ""){
-        appunti.css("background-color", "rgb(255,147,147)");
-        ret = false;
-    }
-
-    return ret;
-}*/
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
@@ -182,6 +204,26 @@ function nuovoAppuntamento(){
             alert("Errore");
         }
     });
+}
+
+function eliminaAppuntamento(){
+    /*$.ajax({  
+
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "cancellaAppuntamento", id:i, data:data},
+        success: function(response) {
+            var dettagli = JSON.parse (response);
+
+            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
+            $("#selezionato).click();
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });*/
+
+    $("#divDettagliAppuntamento").fadeIn();
 }
 
 //salva un nuovo appuntamento
@@ -205,11 +247,13 @@ function salvaAppuntamento(){
 
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
 function caricaAppuntamenti(anno, mese, giorno){
+    //var data = anno + "-" + mese + "-" + giorno;
     var data = anno + "-" + mese + "-" + giorno;
-    /*$.ajax({  
+    console.log("data: " + data);
+    $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "salvaNuovoAppuntamento", data:data},
+        data: {azione: "caricaAppuntamenti", data:data},
         success: function(response) {
             var appuntamenti = JSON.parse (response);
             var riga = "";
@@ -217,10 +261,77 @@ function caricaAppuntamenti(anno, mese, giorno){
             {
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora + "</td><td>" +
-                    appuntamenti[a].Cognome + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].AnaID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                    appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + "," + String(data) + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                console.log(String(data));
             }
-            $("#tblAppuntamentiBody").html(riga);
+            if(riga != ""){
+                $("#tblAppuntamentiBody").html(riga);
+            }else{
+                $("#tblAppuntamentiBody").html("<tr><td>Non sono stati fissati appuntamenti per oggi.</td></tr>");
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+function visualizzaAppuntamentiData(){
+    var selezione = $(pckrDataAppuntamento).val();
+    selezione = new Date(giraDataDb(selezione));
+    initPillsGiorni(selezione);
+}
+
+function richiesteAppuntamento(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaRichiesteAppuntamento"},
+        success: function(response) {
+            console.log(response);
+            var richieste = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < richieste.length; a ++)
+            {
+                riga += "<tr style=\"font-weight:bold\"><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ',' + richieste[a].Cognome + ',' + richieste[a].Nome + ',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+            }
+            if(riga != ""){
+                $("#tblRichiesteBody").html(riga);
+            }else{
+                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
+}
+
+
+function visualizzaRichiesta(id, cognome, nome, note){
+    $("#popupRisposta").modal('show');
+    $("#lblCognomeNomePopupRisposta").html(cognome + " " + nome);
+    $("#divRispostaMessaggio").html(note);
+    /*$.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inviaRisposta"},
+        success: function(response) {
+            console.log(response);
+            var richieste = JSON.parse (response);
+            var riga = "";
+            for (var a = 0; a < richieste.length; a ++)
+            {
+                riga += "<tr><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+            }
+            if(riga != ""){
+                $("#tblRichiesteBody").html(riga);
+            }else{
+                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
+            }
         },
         error: function(){
             alert("Errore");

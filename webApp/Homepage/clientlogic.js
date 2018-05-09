@@ -180,7 +180,6 @@ function caricaResidenza(){
 
 function caricaLuogoNascitaModifica(){
     var ricerca = $('#txtLuogoNascitaPopupModificaPaziente').val();
-    console.log(ricerca);
     caricaComuni(ricerca, 2);
 }
 
@@ -201,14 +200,12 @@ function caricaComuni(ricerca, chiamante){
             url: "./serverlogic.php",
             data: {azione: "caricaComuni", ricerca:ricerca},
             success: function(response) {
-                console.log(response);
                 var comuni = JSON.parse (response);
                 var riga= '<table class="tabellaComuni">';
                 for (var a = 0; a < comuni.length; a ++){
                     riga += '<tr class="rowComuni"><td onclick="riportaNome(\'' + comuni[a] + '\',' + chiamante + ');">'+ comuni[a] + '</td></tr>';
                 }
                 riga+="</table>";
-                console.log(riga);
                 switch(chiamante){
                     case 0:
                         $("#elencoComuni1").html(riga);
@@ -263,30 +260,23 @@ function riportaNome(nome,dove){
 
 //FIXARE
 //scarica il foglio della privacy
-function stampaFoglioPrivacy(nome, cognome, luogoNascita, dataNascita, residenza, indirizzo, cap, telefono1,codfisc){
-    $('#popupStampaFoglioPrivacy').modal('show');
-    $("#foglioPrivacy").hide();
-    var dataOggi = giraDataUmano(dataDiOggi());
+function stampaFoglioPrivacy(){
+    var id = $("#idPersonaFP").val();
+    console.log(id);
+    var data = dataDiOggi();
+    console.log(data);
     $.ajax({  
-            type: "GET", 
-            url: "../samples/sampleFoglioPrivacy.html", 
-            success: function(response) {
-                $("#foglioPrivacy").html(response);
-                $("#cognomeNome").html(cognome + " " + nome);
-                $("#luogoNascita").html(luogoNascita);
-                $("#dataNascita").html(dataNascita);
-                $("#indirizzo").html(indirizzo);
-                $("#cap").html(cap);
-                $("#cfisc").html(codfisc.toUpperCase());
-                $("#telefono").html(telefono1);
-                $("#dataOggi").html(dataOggi);
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });
-    //completare la pagina in samples e convertirla con il programma
-
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "convertToPDF",id:id,data:data},
+        success: function(response) {
+            console.log(response);
+            $('#popupStampaFoglioPrivacy').modal('hide');
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 
@@ -356,8 +346,8 @@ function cercaPersona (){
                                 persone [a].Telefono2 + "</td><td>" + 
                                 persone [a].Motivo + "</td><td>" + 
                                 persone [a].CodFisc + "</td><td>" + 
-                                '<button class="btn btn-primary" onclick="mostraModifiche(' + persone [a].ID + ');"><span class="glyphicon glyphicon-th"></span></button>' + "</td><td>" +
-                                '<button class="btn btn-danger" onclick="mostraSituazionePaziente(' + persone [a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
+                                '<button class="btn btn-primary" onclick="mostraModifiche(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-th"></span></button>' + "</td><td>" +
+                                '<button class="btn btn-danger" onclick="mostraSituazionePaziente(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
                 }
                 $("#tblAnagraficaBody").html(riga);
             },
@@ -487,26 +477,27 @@ function visualizzaAnamnesi() {
 }
 
 //visualizza i documenti relativi ad un utente
-function visualizzaDocumenti(id) {
-    //Mostra documento:
-    //https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded/4459419#4459419
-    //var id = $("#idPersonaModifiche").val();
+function visualizzaDocumenti() {
+    var id = $("#idPersonaModifiche").val();
+    console.log(id);
 	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaDocumenti", id:id},
         success: function(response) {
+            console.log(response);
         	var documenti = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < documenti.length; a ++)
             {
                 riga += "<tr><td>" + 
-                    documenti[a].Data + "</td><td>" +
+                    giraDataUmano(documenti[a].Data) + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-user"></span></button>' + "</td></tr>"; 
+                    '<button class="btn btn-danger" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                console.log(riga);
             }
             if(response != 1){
-                $("#tblDocumentiPazienteBody").html(response);
+                $("#tblDocumentiPazienteBody").html(riga);
             }else{
                 $("#divDocumentiPaziente").html("Non è presente nessun intervento passato.");
              }
@@ -519,7 +510,7 @@ function visualizzaDocumenti(id) {
 
 /*Metodo che stampa l'immagine creandone il tag e mettendolo da qualche parte*/
 function mostraDocumento(id){
-
+    
 }
 
 //genera il codice app se non ne ha unio
@@ -533,8 +524,7 @@ function generaCodice() {
         url: "./serverlogic.php",
         data: {azione: "inserisciCodApp", codice:codice, id:id},
         success: function(response) {
-        	if(response == 0) {        
-                alert("Utente inserito con successo!");
+        	if(response == 0) {
                 $("#lblCodice").html(codice);
             }else if(response == -1) {        
                 alert("C'è stato un problema al server...");       
@@ -551,12 +541,13 @@ function generaCodice() {
 }
 
 //gestione del sidenav relativo al paziente
-function mostraSituazionePaziente(i) {
+function mostraSituazionePaziente(i, cognome, nome) {
     svuotaCampiSituazionePaziente();
     if(document.getElementById("situazionePaziente").style.width == "500px"){
         nascondiSituazionePaziente();
     }else{
         $("#idPersonaSituazionePaziente").val(i);
+        $("#lblCognomeNomeSituazionePaziente").html(cognome + " " + nome);
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
@@ -587,8 +578,9 @@ function nascondiSituazionePaziente() {
 }
 
 //visualizza il sidenav con i bottoni
-function mostraModifiche(i) {
+function mostraModifiche(i, cognome, nome) {
     $("#idPersonaModifiche").val(i);
+    $("#lblCognomeNomeModifiche").html(cognome + " " + nome);
     document.getElementById("modifiche").style.width = "500px";
     document.getElementById("modifiche").style.marginTop = "55px";
 }
@@ -596,15 +588,6 @@ function mostraModifiche(i) {
 //nasconde il sidenav con i bottoni
 function nascondiModifiche() {
     document.getElementById("modifiche").style.width = "0";
-}
-
-//richiamato quando clicco sulla label paga ora, mi attiva il checkbutton
-function checkButton(){
-	if(document.getElementById ("chkPagato").checked == true){
-		document.getElementById ("chkPagato").checked = false;
-	}else{
-		document.getElementById ("chkPagato").checked = true;
-	}
 }
 
 //salva importo e osservazioni di cosa è stato fatto oggi
@@ -619,30 +602,31 @@ function salvaIntervento(){
         var oggi = dataDiOggi();
     
         if(pagato) // se la checkbox è checkata o no
-            pagato=1;
+            $('#popupStampaRicevuta').modal('show');
         else
-            pagato=0;
-    
-        $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                    data:oggi},
-            success: function(response) {
-                console.log(response);
-                if(response){
-                    alert("Intervento registrato!");
-                    nascondiSituazionePaziente();
-                }else{
-                    alert("L'utente ha già un intervento registrato nella data odierna...");
-                    nascondiSituazionePaziente();
-                }
-            },
-            error: function(){
-                alert("Errore");
-            }
-        });
+            ricevutaAnagrafica(0);
     }
+}
+
+function ricevutaAnagrafica(pagato){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
+                data:oggi},
+        success: function(response) {
+            if(response){
+                alert("Intervento registrato!");
+                nascondiSituazionePaziente();
+            }else{
+                alert("L'utente ha già un intervento registrato nella data odierna...");
+                nascondiSituazionePaziente();
+            }
+        },
+        error: function(){
+            alert("Errore");
+        }
+    });
 }
 
 /*Restituisce true se qualcosa non è statop completato correttamente*/
@@ -779,27 +763,60 @@ function aggiungiNuovoPaziente(){
         var osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
         var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
 
+        dataNascitaFP = dataNascita;
         dataNascita = giraDataDb(dataNascita);
         luogoNascitaFP = luogoNascita.split(", ")[0];
         residenzaFP = residenza.split(", ")[0];
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
+
+        var foglioPrivacy;
+
         $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
-                medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
-                motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
-        success: function(response) {
-            stampaFoglioPrivacy(nome, cognome, luogoNascitaFP, giraDataUmano(dataNascita), residenzaFP, indirizzo, cap, telefono1,codfisc);
-            alert("Nuovo paziente inserito con successo!");
-            cercaPersona();
-            
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+            type: "GET", 
+            url: "../samples/sampleFoglioPrivacy.html", 
+            success: function(response) {
+                foglioPrivacy = response;
+
+                $.ajax({  
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "inserisciNuovoPaziente", nome:nome, cognome:cognome, dataNascita:dataNascita,
+                            dataNascitaFP:dataNascitaFP, luogoNascita:luogoNascita, luogoNascitaFP:luogoNascitaFP, 
+                            medicoProv:provenienza, residenza:residenza, residenzaFP:residenzaFP, 
+                            indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
+                            motivo:motivo, anamnesi:osservazioni, codFisc:codfisc, foglioPrivacy:foglioPrivacy},
+                    success: function(foglioPrivacy) {
+
+                        $.ajax({  
+                            type: "POST", 
+                            url: "./serverlogic.php",
+                            data: {azione: "foglioToHTML", foglioPrivacy:foglioPrivacy},
+                            success: function(response) {
+                                $('#idPersonaFP').val(response);
+                                $('#popupAggiungiNuovo').modal('hide');
+                                $('#popupStampaFoglioPrivacy').modal('show');
+                            },
+                            error: function(){
+                                alert("Errore");
+                            }
+                        });
+
+                        cercaPersona();
+                    },
+                    error: function(){
+                        alert("Errore");
+                    }
+                });
+            },
+            error: function(){
+                alert("Errore");
+            }
+        });
+
+        
+
+    
     }
 }
 

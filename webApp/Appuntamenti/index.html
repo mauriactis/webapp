@@ -25,7 +25,7 @@
             <div id="divUpper">
                <table id="headerTbl">
                   <tr><td class="headerCol">
-                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();">Richieste appuntamento</button>
+                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento</button><span class="badge badge-notify" id="bdgRichieste">2</span>
                   </td><td class="headerCol">
                      <label id="lblOraAttuale"></label>
                   </td><td class="headerCol">
@@ -44,7 +44,7 @@
                          </div>
                      </div>
                   </div>
-                  <button type="button" class="btn btn-default" id="btnDatepickerOk" onclick="stampaData();">Ok</button>
+                  <button type="button" class="btn btn-default" id="btnDatepickerOk" onclick="visualizzaAppuntamentiData();">Ok</button>
                </div>
                <div id="divAppuntamenti">
                   <ul id="giorniAppuntamenti" class="nav nav-pills">
@@ -58,40 +58,26 @@
                         </tr>
                      </thead>
                      <tbody id="tblAppuntamentiBody">
-
-                        <tr>
-                           <td>
-                              hh:hh
-                           </td>
-                           <td>
-                              ESEMPIO ESEMPIO
-                           </td>
-                           <td>
-                              <button class="btn btn-danger" onclick="mostraDettagliAppuntamento();">V</button>
-                           </td>
-                        </tr>
                      </tbody>
                   </table>
                </div>
             </div>
-         </div>
-         <div id="sideDettagliAppuntamento" class="sidenav">
-            <div id="sidenavBody">
-               <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
-               <h3><label>L' ultima volta...</label></h3>
-               <div id="dettagliAppuntamentoUltimaVolta">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-               </div>
-   
-               <h3><label>Da fare</label></h3>
-               <div id="dettagliAppuntamentoDaFare">
-               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-               </div>
-   
-               <h3><label>Appunti:</label></h3>
-               <textarea class="form-control" rows="7" id="txtAppuntiDettagliAppuntamento"></textarea>
-   
-               <button type="button" class="btn btn-primary" id="btnSalvaSituazionePaziente" onclick="salvaDettagliAppuntamento();">Salva</button>
+            <div id="divDettagliAppuntamento" style="display: none;">
+              <div id="sidenavBody">
+                 <input type="text" id="idPaziente">
+                 <input type="text" id="dataIntervento">
+                 <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
+                 <h3><label>L' ultima volta...</label></h3>
+                 <div id="dettagliAppuntamentoUltimaVolta">
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation   ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                 </div>
+    
+                 <h3><label>Da fare</label></h3>
+                 <div id="dettagliAppuntamentoDaFare">
+                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                 </div>
+              </div>
+              <button type="button" class="btn btn-danger" id="btnEliminaAppuntamento" onclick="eliminaAppuntamento();">Elimina appuntamento</button>
             </div>
          </div>
       </div>
@@ -99,21 +85,59 @@
 
       <div class="modal fade" id="popupNuovoAppuntamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-           <div class="modal-content">
-              <div class="modal-body"><label>Per chi desideri registrare il nuovo appuntamento?</label>
-                <select class="form-control" id="txtPersonaNuovoAppuntamento"></select>
+          <div class="modal-content">
+            <div class="modal-body"><label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
+              <select class="form-control autocomplete" id="txtPersonaNuovoAppuntamento"></select>
+              <label for="txtDataNuovoAppuntamento">Data: </label>
+              <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
+              <label for="txtNoteNuovoAppuntamento">Note:</label>
+              <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <label>Data: </label>
-                <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
 
-                <label>Note:</label>
-                <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
-              <div class="modal-footer">
-                 <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+
+      <div class="modal fade" id="popupRichieste" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <label for="txtHeaderPopupRichieste">Messaggi in arrivo da:</label>
+            </div>
+            <div class="modal-body">
+              <table class="table table-hover table-bordered admin">
+                <tbody id="tblRichiesteBody">
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Esci</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade" id="popupRisposta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <label>Richiesta di: <label id="lblCognomeNomePopupRisposta"></label></label>
+              <div id="divRispostaMessaggio">
               </div>
-           </div>
-         </div>
-     </div>
-   </body> 
+              <textarea class="form-control" rows="7" id="txtRisposta" style="resize:none"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" onclick="inviaRisposta();" data-dismiss="modal">Invia</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body> 
 </html>
