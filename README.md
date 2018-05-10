@@ -19,12 +19,7 @@ pdf foglio privacy (quasi fatto)
 
 !! - btn nuovo appuntamento (manca php)
 
- - div a destra deve comparire solo quando premi su un appuntamento presente nella tabella di mezzo
-
- - tabella al centro
-
  - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
-
 
 -------contabilità-------
 
