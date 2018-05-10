@@ -8,7 +8,7 @@ try{
     echo "errore: ".$ex->getMessage();
 }
 
-if(isset($_POST['chiave'] && $_POST['chiave'] === "Gino")){
+if(isset($_POST['chiave']) && $_POST['chiave'] === "Gino"){
     $username = $_POST['username'];
     $password = $_POST['password'];
     provaLogin($conn,$username,$password);
@@ -28,10 +28,12 @@ function provaLogin($conn,$username,$password){
     $row = $stmSql->fetch();
     if(empty($row) || $row == NULL){
         echo -2;
-    }
+    }else{
+        
     session_start();
     $_SESSION['id'] = "CiSiamo";
     echo 0;
+    }
 
 }
 

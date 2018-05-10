@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['id']) && $_SESSION['id'] === "CiSiamo"){
+if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
   header("Location: ../index.php");
 }
 
