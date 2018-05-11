@@ -87,12 +87,17 @@
 	margin-top: -30em;
 }
 
+#tblDateOreProposte tr td{
+	width: 10em;
+	height: 3em;
+}
+
 .dataRisposta{
-	width: 35%;
+	width: 95%;
 }
 
 .txtOra{
-	width: 35%;
+	width: 50%;
 }
 
 #popupRisposta{

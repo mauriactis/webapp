@@ -277,6 +277,7 @@ function caricaAppuntamenti(anno, mese, giorno){
         url: "./serverlogic.php",
         data: {azione: "caricaAppuntamenti", data:data},
         success: function(response) {
+            console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < appuntamenti.length; a ++)

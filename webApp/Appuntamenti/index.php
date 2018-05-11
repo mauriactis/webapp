@@ -117,6 +117,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                 <label for="txtNoteNuovoAppuntamento">Note:</label>
                 <textarea class="form-control" rows="5" id="txtNoteNuovoAppuntamento"></textarea>
               </div>
+            </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
@@ -157,31 +158,51 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
               <label>Testo della richiesta</label>
               <div id="divRispostaMessaggio">
               </div><br>
-              <div class="form-group">
-                <label class="col-sm-2">Data 1: </label>
-                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData1Risposta">
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2">Ora 1: </label>
-                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra1Risposta">
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2">Data 2: </label>
-                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData2Risposta">
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2">Ora 2: </label>
-                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra2Risposta">
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2">Data 3: </label>
-                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData3Risposta">
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2">Ora 3: </label>
-                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra3Risposta">
-              </div>
-              <label>Note</label>
+              <table id="tblDateOreProposte">
+                <tr>
+                  <td>
+                    <label for="textinput">Data 1: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData1Risposta">
+                  </td>
+                  <td>
+                    <label for="textinput">Ora 1: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtOra" id="txtOra1Risposta">
+                  </td>
+                </tr>
+                <tr>
+                  <td> 
+                    <label for="textinput">Data 2: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData2Risposta">
+                  </td>
+                  <td>
+                    <label for="textinput">Ora 2: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtOra" id="txtOra2Risposta">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="textinput">Data 3: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData3Risposta">
+                  </td>
+                  <td>
+                    <label for="textinput">Ora 3: </label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control txtOra" id="txtOra3Risposta">
+                  </td>
+                </tr>
+              </table>
+              <label for="textinput">Note</label>
               <textarea class="form-control" rows="7" id="txtRisposta" style="resize:none"></textarea>
             </div>
             <div class="modal-footer">
