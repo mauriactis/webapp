@@ -17,8 +17,8 @@ $(document).ready(function(){
 function initForm(){
     initPillsGiorni();
     startTime();
-    $(".txtData").datepicker({minDate: new Date});
-    $(".txtOra").wickedpicker(options);
+    $('.txtData').datepicker({minDate: new Date});
+    $('.txtOra').wickedpicker(options);
 }
 
 function initPillsGiorni(caricaPagina = 1){
@@ -201,6 +201,7 @@ function nuovoAppuntamento(){
     $('#txtOraNuovoAppuntamento').val("");
     $('#txtNoteNuovoAppuntamento').val("");
     $.datepicker.setDefaults($.datepicker.regional['it']); 
+
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -248,6 +249,7 @@ function salvaAppuntamento(){
     var timepicker = $('#txtOraNuovoAppuntamento').wickedpicker();
     var ora = timepicker.wickedpicker('time');
     var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
+
     console.log(ora);
     console.log(idPersona);
     console.log(data);
@@ -315,7 +317,7 @@ function richiesteAppuntamento(){
             for (var a = 0; a < richieste.length; a ++)
             {
                 riga += "<tr style=\"font-weight:bold\"><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
-                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ',' + richieste[a].Cognome + ',' + richieste[a].Nome + ',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ',\'' + richieste[a].Cognome + '\',\'' + richieste[a].Nome + '\',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
             }
             if(riga != ""){
                 $("#tblRichiesteBody").html(riga);
@@ -329,32 +331,51 @@ function richiesteAppuntamento(){
     });
 }
 
+function checkInviaRisposta(){
+    if($('#popupRisposta').is(':visible')){
+        $("#popupRisposta").modal('hide');
+    }
+}
 
 function visualizzaRichiesta(id, cognome, nome, note){
     $("#popupRisposta").modal('show');
     $("#lblCognomeNomePopupRisposta").html(cognome + " " + nome);
     $("#divRispostaMessaggio").html(note);
-    /*$.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inviaRisposta"},
-        success: function(response) {
-            console.log(response);
-            var richieste = JSON.parse (response);
-            var riga = "";
-            for (var a = 0; a < richieste.length; a ++)
-            {
-                riga += "<tr><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
-                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+}
+
+function inviaRisposta(){
+    if(checkfieldRisposta()){
+        var data1 = $("#txtData1Risposta").val();
+        var data2 = $("#txtData2Risposta").val();
+        var data3 = $("#txtData3Risposta").val();
+        var ora1 = $("#txtOra1Risposta").val();
+        var ora2 = $("#txtOra2Risposta").val();
+        var ora3 = $("#txtOra3Risposta").val();
+        var note = $("#txtRisposta").val();
+
+        var dataOra1 = String(giraDataDb(data1)) + " " + String(ora1);
+        var dataOra2 = String(giraDataDb(data2)) + " " + String(ora2);
+        var dataOra3 = String(giraDataDb(data3)) + " " + String(ora3);
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "inviaRisposta", dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, note:note},
+            success: function(response) {
+                alert("Risposta inviata con successo!");
+            },
+            error: function(){
+                alert("Errore");
             }
-            if(riga != ""){
-                $("#tblRichiesteBody").html(riga);
-            }else{
-                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
-            }
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });*/
+        });
+    }else{
+        alert("E' necessario compilare tutti i campi");
+    }
+}
+
+function checkfieldRisposta(){
+    var ret = true;
+
+    //Controllo di almeno una data e un'ora
+
+    return ret;
 }
