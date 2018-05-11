@@ -311,7 +311,7 @@ function cercaPersona (){
         }
         $.ajax({  
             type: "GET", 
-            url: "../Anagrafica/index.html", 
+            url: "../Anagrafica/anagrafica.fisio", 
             success: function(response) {
                 var i;
                 $("#container").html(response);          
@@ -977,7 +977,7 @@ function caricaContabilita(nomePersona = ""){
 	}
 	$.ajax({  
         type: "GET", 
-        url: "../Contabilita/index.html", 
+        url: "../Contabilita/contabilita.fisio", 
         success: function(response) {
 			var i;
 			$("#container").html(response);          
