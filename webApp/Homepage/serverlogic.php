@@ -622,6 +622,13 @@
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 
+/*
+		function inserisciDocumento($conn,$id,$data){
 
 
+
+		}
+*/
+
+		
 ?>

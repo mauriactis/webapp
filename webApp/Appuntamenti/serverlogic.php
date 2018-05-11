@@ -31,8 +31,22 @@
                 $data = $_POST['data'];
                 caricaAppuntamenti($conn,$data);
                 break;
+            case 'cancellaAppuntamento':
+                $idPersona = $_POST['id'];
+                $data = $_POST['data'];
+                cancellaAppuntamento($conn,$idPersona,$dataOra)
+                break;
             case 'visualizzaRichiesteAppuntamento':
                 visualizzaRichiesteAppuntamento($conn);
+                break;
+            case 'inviaRisposta':
+                $idPersona = $_POST['id'];
+                $dataOra = $_POST['dataOra'];
+                $data1 = $_POST['$data1'];
+                $data2 = $_POST['$data2'];
+                $data3 = $_POST['$data3'];
+                $descrizione = $_POST['$descrizione'];
+                inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione);
                 break;
         }
     }
@@ -60,8 +74,6 @@
     echo json_encode(local_encode($ret)); 
 
     }
-
-
 
 // #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
 // #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
@@ -96,7 +108,7 @@
     }
 
     function inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione){  //inserisce un nuovo appuntamento con il tasto nuovo appuntamento
-            $query = "INSERT INTO interventi VALUES(?,?,?,?)";
+            $query = "INSERT INTO appuntamenti VALUES(?,?,?,?)";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
             $stmSql ->bindParam(2, $dataOra);
@@ -146,7 +158,6 @@
         echo json_encode(local_encode($ret)); 
     }
 
-
     function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
             $query = "UPDATE richiesteappuntamenti SET Letto=1 WHERE AnaID=? AND DataOra=?";
             $stmSql = $conn->prepare($query);
@@ -170,6 +181,5 @@
 
             echo $result;
     }
-
 
 ?>
