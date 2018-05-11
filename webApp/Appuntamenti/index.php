@@ -13,6 +13,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="../cssEsterno/jquery-ui.css" rel="stylesheet">
       <link href="../cssEsterno/bootstrap.min.css" rel="stylesheet">
+      <link href="../jsEsterno/timepicker/dist/wickedpicker.min.css" rel="stylesheet">
       <link id="styleCss" href="style.css" rel="stylesheet" type="text/css"/>
 
 
@@ -23,6 +24,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       <script src="../jsEsterno/jquery-ui.js"></script>
       <script src="../jsEsterno/jquery.ui.datepicker-it.js"></script>
       <script src="../jsEsterno/bootstrap.min.js"></script>
+      <script src="../jsEsterno/timepicker/dist/wickedpicker.min.js"></script>
       <script language="javascript" src="clientlogic.js"></script>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    </head> 
@@ -94,13 +96,27 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       <div class="modal fade" id="popupNuovoAppuntamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-body"><label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
-              <select class="form-control autocomplete" id="txtPersonaNuovoAppuntamento"></select>
-              <label for="txtDataNuovoAppuntamento">Data: </label>
-              <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
-              <label for="txtNoteNuovoAppuntamento">Note:</label>
-              <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
-            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
+                <input type="text" class="form-control" id="txtPersonaNuovoAppuntamento"></input>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2" for="txtDataNuovoAppuntamento">Data: </label>
+                <div class="col-sm-4">
+                  <input type="text" id="txtDataNuovoAppuntamento" class="form-control txtData">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2" for="textinput">Ora: </label>
+                <div class="col-sm-4">
+                  <input type="text" id="txtOraNuovoAppuntamento" class="form-control txtOra">
+                </div>
+              </div> 
+              <div class="form-group">
+                <label for="txtNoteNuovoAppuntamento">Note:</label>
+                <textarea class="form-control" rows="5" id="txtNoteNuovoAppuntamento"></textarea>
+              </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
@@ -109,6 +125,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         </div>
       </div>
 
+      
 
 
       <div class="modal fade" id="popupRichieste" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
