@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mag 03, 2018 alle 12:00
+-- Generation Time: Mag 11, 2018 alle 08:30
 -- Versione del server: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `provadb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `provadb`;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `amministratori`
+--
+
+CREATE TABLE IF NOT EXISTS `amministratori` (
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `amministratori`
+--
+
+INSERT INTO `amministratori` (`username`, `password`) VALUES
+('857f86cace74e05b88a5fa3c9d658e87654a5ed9', '374bbb27a7a8d9bb64b4330ce6fcbfc2bdf5758c'),
+('236832d4e6f838609aa5a05c1347686873816d6c', '376ec521fd903ed6a97a88545eb54436108cbae2'),
+('05015f296752f778948bf296da11c1f0088eabd6', 'f235925512a118c48b95fe5e518b1de213d40d34');
 
 -- --------------------------------------------------------
 
