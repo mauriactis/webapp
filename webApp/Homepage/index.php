@@ -51,7 +51,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
    
                <label>Appuntamento attuale con: </label><label id="lblAppuntamento2">Esempio esempio (hh:mm)</label><label>Prossimo appuntamento con: </label><label id="lblProxAppuntamento2">Esempio esempio (hh:mm)</label>
    
-               <button type="button" class="btn btn-default" id="btnAppuntamenti" onclick="window.open('../Appuntamenti/index.html');"><span class="glyphicon glyphicon-calendar"></span> Appuntamenti</button>
+               <button type="button" class="btn btn-default" id="btnAppuntamenti" onclick="window.open('../Appuntamenti/index.php');"><span class="glyphicon glyphicon-calendar"></span> Appuntamenti</button>
             </div>
 
             <div id="container">

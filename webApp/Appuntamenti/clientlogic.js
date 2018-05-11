@@ -1,3 +1,11 @@
+var options = { twentyFour: true, //Display 24 hour format, defaults to false
+    title: 'Ora', //The Wickedpicker's title,
+    showSeconds: false, //Whether or not to show seconds,
+    minutesInterval: 1, //Change interval for minutes, defaults to 1
+    show: null, //A function to be called when the Wickedpicker is shown
+    clearable: false, //Make the picker's input clearable (has clickable "x")
+    }; 
+
 $(document).ready(function(){
     $("#vsblPage").dblclick(function() {
         nascondiDettagliAppuntamento();
@@ -189,7 +197,11 @@ function nascondiDettagliAppuntamento(){
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
-    $.datepicker.setDefaults($.datepicker.regional['it']);
+    $('#txtDataNuovoAppuntamento').val("");
+    $('#txtOraNuovoAppuntamento').val("");
+    $('#txtNoteNuovoAppuntamento').val("");
+    $.datepicker.setDefaults($.datepicker.regional['it']); 
+
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -197,9 +209,12 @@ function nuovoAppuntamento(){
         success: function(response) {
             var persone = JSON.parse (response);
             var cmbPersone = document.getElementById("txtPersonaNuovoAppuntamento");
+            var array=[]; 
             for (var a = 0; a < persone.length; a ++){
-                cmbPersone.options[a] = new Option(persone[a].NomeCognome, persone[a].ID);
+                array.push(persone[a].NomeCognome + ", " + persone[a].ID);
+                // cmbPersone.options[a] = new Option(persone[a].NomeCognome, persone[a].ID);
             }
+            $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
         },
         error: function(){
             alert("Errore");
@@ -229,22 +244,27 @@ function eliminaAppuntamento(){
 
 //salva un nuovo appuntamento
 function salvaAppuntamento(){
-    var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value;
+    var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value.split(", ")[1];
     var data = giraDataDb(document.getElementById("txtDataNuovoAppuntamento").value);
+    var timepicker = $('#txtOraNuovoAppuntamento').wickedpicker();
+    var ora = timepicker.wickedpicker('time');
     var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
 
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inserisciNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
-        success: function(response) {
-            console.log(response);
-            alert("Appuntamento salvato con successo!");
-        },
-        error: function(){
-            alert("Errore");
-        }
-    });
+    console.log(ora);
+    console.log(idPersona);
+    console.log(data);
+    console.log(descrizione);
+    // $.ajax({  
+    //     type: "POST", 
+    //     url: "./serverlogic.php",
+    //     data: {azione: "salvaNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
+    //     success: function(response) {
+    //         alert("Appuntamento salvato con successo!");
+    //     },
+    //     error: function(){
+    //         alert("Errore");
+    //     }
+    // });
 }
 
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
