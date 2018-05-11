@@ -33,7 +33,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             <div id="divUpper">
                <table id="headerTbl">
                   <tr><td class="headerCol">
-                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento</button><span class="badge badge-notify" id="bdgRichieste">2</span>
+                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento <span class="badge badge-notify" id="bdgRichieste">2</span></button>
                   </td><td class="headerCol">
                      <label id="lblOraAttuale"></label>
                   </td><td class="headerCol">
@@ -97,7 +97,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             <div class="modal-body"><label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
               <select class="form-control autocomplete" id="txtPersonaNuovoAppuntamento"></select>
               <label for="txtDataNuovoAppuntamento">Data: </label>
-              <input type="text" class="form-control" id="txtDataNuovoAppuntamento">
+              <input type="text" class="form-control txtData" id="txtDataNuovoAppuntamento">
               <label for="txtNoteNuovoAppuntamento">Note:</label>
               <textarea class="form-control" rows="7" id="txtNoteNuovoAppuntamento"></textarea>
             </div>
@@ -124,7 +124,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
               </table>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Esci</button>
+              <button type="button" class="btn btn-default" onclick="checkInviaRisposta();" data-dismiss="modal">Esci</button>
             </div>
           </div>
         </div>
@@ -135,9 +135,35 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-body">
-              <label>Richiesta di: <label id="lblCognomeNomePopupRisposta"></label></label>
+              <label>Richiesta di: <label id="lblCognomeNomePopupRisposta"></label></label><br>
+              <label>Testo della richiesta</label>
               <div id="divRispostaMessaggio">
+              </div><br>
+              <div class="form-group">
+                <label class="col-sm-2">Data 1: </label>
+                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData1Risposta">
               </div>
+              <div class="form-group">
+                <label class="col-sm-2">Ora 1: </label>
+                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra1Risposta">
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">Data 2: </label>
+                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData2Risposta">
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">Ora 2: </label>
+                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra2Risposta">
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">Data 3: </label>
+                <input type="text" class="col-sm-4 form-control txtData dataRisposta" id="txtData3Risposta">
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">Ora 3: </label>
+                <input type="text" class="col-sm-4 form-control txtOra" id="txtOra3Risposta">
+              </div>
+              <label>Note</label>
               <textarea class="form-control" rows="7" id="txtRisposta" style="resize:none"></textarea>
             </div>
             <div class="modal-footer">
