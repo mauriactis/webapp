@@ -136,7 +136,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             <div class="modal-header">
               <label for="txtHeaderPopupRichieste">Messaggi in arrivo da:</label>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="bodyPopupRichieste">
               <table class="table table-hover table-bordered admin">
                 <tbody id="tblRichiesteBody">
                 </tbody>
@@ -154,6 +154,8 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-body">
+              <input type="hidden" id="idPazientePopupRisposta">
+              <input type="hidden" id="data">
               <label>Richiesta di: <label id="lblCognomeNomePopupRisposta"></label></label><br>
               <label>Testo della richiesta</label>
               <div id="divRispostaMessaggio">
