@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navbar_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navbar_appuntamenti"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Appuntamenti" />
+
+    <item
+        android:id="@+id/navbar_richieste"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Richieste" />
+    <item
+        android:id="@+id/navbar_esercizi"
+        android:icon="@drawable/ic_directions_run_black_24dp"
+        android:title="Esercizi" />
+</menu>

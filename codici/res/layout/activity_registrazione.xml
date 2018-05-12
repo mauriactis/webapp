@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mauri.fisioapp.ActivityRegistrazione">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgLogoPiccolo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="25dp"
+            app:srcCompat="@drawable/ic_directions_run_black_24dp"
+            android:contentDescription="@string/TXT_descrizioneImgLogo" />
+
+        <TextView
+            android:id="@+id/lblCompletaRegistrazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imgLogoPiccolo"
+            android:layout_centerHorizontal="true"
+            android:text="@string/TXT_titoloRegistrazione"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgLogoPiccolo"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layoutMail"
+            android:layout_alignStart="@id/imgLogoPiccolo">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/registrazioneMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/TXT_laTuaMail"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:layout_marginEnd="22dp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutMail"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layoutPassword"
+            android:layout_alignStart="@id/imgLogoPiccolo">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/registrazionePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/TXT_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:layout_marginEnd="22dp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutPassword"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layoutRePassword"
+            android:layout_alignStart="@id/imgLogoPiccolo">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/registrazioneRePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/TXT_rePassword"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:layout_marginEnd="22dp"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnRegistrati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/layoutRePassword"
+            android:layout_below="@+id/layoutRePassword"
+            android:layout_marginTop="25dp"
+            android:text="@string/TXT_btnRegistrati" />
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

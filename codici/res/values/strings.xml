@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">FisioApp</string>
+
+    <!-- Strings related to login -->
+    <string name="title_activity_default">FisioApp</string>
+    <string name="title_home">Home</string>
+    <string name="TXT_lblAppuntamento">Il tuo prossimo appuntamento è il</string>
+    <string name="TXT_AlleOre">Alle ore</string>
+    <string name="TXT_lblRichiestaAppuntamento">Stiamo per inviare una richiesta di appuntamento alla dottoressa. Se desideri aggiungere qualcosa, per favore scrivilo qua sotto. Poi premi su invia richiesta.</string>
+    <string name="TXT_NotificaNullaNuovo">Non c\'è nulla di nuovo</string>
+    <string name="TXT_RichiestaAppuntamentoPiena">Ciao, grazie per aver richiesto un\'appuntamento tramite la nostra app! le date e gli orari scelti sono(clicca sulla scelta che preferisci):</string>
+    <string name="TXT_RichiestaAppuntamentoVuota">Ciao, purtroppo non hai ancora mandato alcuna richiesta di appuntamento oppure la dottoressa sta ancora decidendo quali date proporti, torna qua quando nella home leggerai che ci sono nuovi messaggi!</string>
+    <string name="TXT_descrizioneImgLogo">un uomo che corre</string>
+    <string name="TXT_username">Username</string>
+    <string name="TXT_password">Password</string>
+    <string name="TXT_btnLogin">Avanti</string>
+    <string name="TXT_descrizioneProgressDialog">aspetta qualche secondo…</string>
+    <string name="TXT_titoloProgressDialog">Login in corso</string>
+    <string name="TXT_erroreConnessione">Errore di connessione</string>
+    <string name="TXT_campoRichiesto">questo campo è richiesto</string>
+    <string name="TXT_usernameNonCorretto">L\'username non è corretto</string>
+    <string name="TXT_descrizioneRichiestaGenerica">Descrivi qui sotto la tua richiesta, provvederemo ad inviarla alla dottoressa e ad informarti quando ti risponderà (la risposta è visibile nella sezione richieste).</string>
+    <string name="TXT_note">Note:</string>
+    <string name="TXT_btnInvia">Invia</string>
+    <string name="TXT_noteVuoteErrore">scrivi qualcosa nella sezione note</string>
+    <string name="TXT_alertErroreInvioRichiesta">la dottoressa deve rispondere alla tua precedente richiesta prima che tu possa effettuarne una nuova</string>
+    <string name="TXT_titoloRegistrazione">Completa la tua registrazione!</string>
+    <string name="TXT_laTuaMail">La tua mail</string>
+    <string name="TXT_rePassword">Reinserisci la password</string>
+    <string name="TXT_btnRegistrati">registrati</string>
+    <string name="TXT_rePasswordErrore">Deve essere uguale alla password inserita prima</string>
+    <string name="TXT_erroreMailCorretta">deve essere una mail corretta</string>
+    <string name="TXT_descrizioneAlertNoteVuote">Sei sicuro di voler inviare una richiesta senza aggiungere note?</string>
+    <string name="TXT_conferma">Conferma</string>
+    <string name="TXT_nessunaRichiestaTrovata">La dottoressa non ha ancora risposto alla tua richiesta di appuntamento</string>
+    <string name="TXT_descrizioneAlertConfermaData">Sei sicuro di voler scegliere questa data?</string>
+    <string name="TXT_btnInviaRichiestaAppuntamento">Invia richiesta</string>
+    <string name="TXT_descrizioneContattaSenzaAppuntamento">Clicca qui invece per contattare la dottoressa senza fissare un appuntamento</string>
+    <string name="TXT_btnContatta">Contatta</string>
+    <string name="TXT_titoloRichieste">Richieste appuntamenti</string>
+    <string name="TXT_ComingSoon">Coming Soon!</string>
+
+
+</resources>

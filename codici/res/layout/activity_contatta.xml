@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mauri.fisioapp.ActivityContatta">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/lblContattaDescrizione"
+            android:layout_width="350sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:text="@string/TXT_descrizioneRichiestaGenerica"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblNoteContatta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/lblContattaDescrizione"
+            android:layout_below="@+id/lblContattaDescrizione"
+            android:layout_marginTop="25dp"
+            android:text="@string/TXT_note"
+            android:textSize="24sp"
+            android:labelFor="@id/txtNoteGeneriche"/>
+
+        <EditText
+            android:id="@+id/txtNoteGeneriche"
+            android:layout_width="350sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblNoteContatta"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:ems="10"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnInviaRichiestaGenerica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/txtNoteGeneriche"
+            android:layout_below="@+id/txtNoteGeneriche"
+            android:layout_marginTop="47dp"
+            android:text="@string/TXT_btnInvia" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

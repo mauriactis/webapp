@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.example.mauri.fisioapp.ActivityDefault">
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:id="@+id/homeContenitore">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblHomeAppuntamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="67dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblHomeAppuntamento"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/lblHomeOra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblData"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblHomeOra"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/lblNotifiche"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblora"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="95dp"
+            android:layout_marginHorizontal="20dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appuntamentiContenitore">
+
+
+        <TextView
+            android:id="@+id/lblRichiestaAppuntamento"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/TXT_lblRichiestaAppuntamento"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/lblNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/lblRichiestaAppuntamento"
+            android:layout_below="@+id/lblRichiestaAppuntamento"
+            android:layout_marginTop="20dp"
+            android:labelFor="@+id/txtNote"
+            android:text="@string/TXT_note"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/txtNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/lblNote"
+            android:layout_marginEnd="40dp"
+            android:layout_below="@+id/lblNote"
+            android:ems="10"
+            android:inputType="text" />
+
+
+        <Button
+            android:id="@+id/btnInviaRichiestaAppuntamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/txtNote"
+            android:layout_below="@+id/txtNote"
+            android:layout_marginTop="10dp"
+            android:text="@string/TXT_btnInviaRichiestaAppuntamento" />
+
+        <TextView
+            android:id="@+id/lblcontattaDottoressa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnInviaRichiestaAppuntamento"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/TXT_descrizioneContattaSenzaAppuntamento"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnContattaDottoressa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/btnInviaRichiestaAppuntamento"
+            android:layout_below="@+id/lblcontattaDottoressa"
+            android:layout_marginTop="10dp"
+            android:text="@string/TXT_btnContatta" />
+    </RelativeLayout>
+
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:id="@+id/richiesteContenitore" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblRichieste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/TXT_titoloRichieste"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="30sp" />
+        <TextView
+            android:id="@+id/lblDescrizioneRichieste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/lblRichieste"
+            android:layout_below="@id/lblRichieste"
+            android:layout_marginEnd="40dp"
+            android:text=""
+            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lblDescrizioneRichieste"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout"
+            style= "?android:attr/buttonBarStyle">
+
+            <Button
+                android:id="@+id/btnPrimaData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                style= "?android:attr/buttonBarButtonStyle"/>
+
+            <Button
+                android:id="@+id/btnSecondaData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                style= "?android:attr/buttonBarButtonStyle"/>
+
+            <Button
+                android:id="@+id/btnTerzaData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                style= "?android:attr/buttonBarButtonStyle"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+    </ScrollView>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:id="@+id/eserciziContenitore" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lblEserciziComingSoon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="40dp"
+            android:text="@string/TXT_ComingSoon"
+            android:textSize="38sp" />
+
+
+    </RelativeLayout>
+
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
