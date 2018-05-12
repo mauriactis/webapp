@@ -49,3 +49,18 @@ salva html su pdf
 
 Quando fai salva intervento chiede se vuoi stampare la ricevuta
 togliere alert
+
+
+--- consegne ---
+
+23/05/18 BORGOGNO:
+ # pitch video ~ 1 min
+ # progetto
+ # manuale utente/tecnico
+ # ognuno deve sapere il codice di tutto
+
+
+31/05/18 PUPPO:
+ # tutto sopra (senza video credo)
+
+
