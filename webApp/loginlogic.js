@@ -1,6 +1,19 @@
 $(document).ready(function(){
     $("#alert_sbagliato").hide();
     $("#alert_errore").hide();
+
+    $("#username").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#btnAccedi").click();
+        }
+    });
+
+    $("#password").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#btnAccedi").click();
+        }
+    });
+
     $("#btnAccedi").click(function(){
         var username = $("#username").val();
         var password = $("#password").val();
@@ -22,7 +35,7 @@ $(document).ready(function(){
                     break;
                     case '0':
                         console.log("tutto ok");
-                        location.href="./homepage/index.php";
+                        location.href="./Homepage/index.php";
                     break;
                 }
             },
