@@ -16,10 +16,12 @@ if(isset($_POST['chiave']) && $_POST['chiave'] === "Gino"){
 $conn = null;
 
 function provaLogin($conn,$username,$password){
+    $username = sha1($username);
+    $password = sha1($password);
     $query = "SELECT username FROM amministratori WHERE username = ? AND password = ?";
     $stmSql = $conn->prepare($query);
-    $stmSql->bindParam(1,sha1($username));
-    $stmSql->bindParam(2,sha1($password));
+    $stmSql->bindParam(1,$username);
+    $stmSql->bindParam(2,$password);
     $result = $stmSql ->execute();
     if(!$result){
         echo -1;

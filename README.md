@@ -20,6 +20,8 @@ pdf foglio privacy (quasi fatto)
 !! - btn nuovo appuntamento (manca php)
 
  - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
+ 
+ nella risposta ad una richiesta valorizzare solo prima data e prima ora
 
 -------contabilità-------
 

@@ -315,15 +315,17 @@ function richiesteAppuntamento(){
             console.log(response);
             var richieste = JSON.parse (response);
             var riga = "";
+            var dataInvio = "";
             for (var a = 0; a < richieste.length; a ++)
             {
+                dataInvio = String(richieste[a].DataOraInvio);
                 riga += "<tr style=\"font-weight:bold\"><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
-                    '<button class="btn btn-success" onclick="visualizzaRichiesta(' + richieste[a].AnaID + ',\'' + richieste[a].Cognome + '\',\'' + richieste[a].Nome + '\',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>' + "</td></tr>"; 
+                    '<button class="btn btn-success" onclick="visualizzaRichiesta(\'' + dataInvio + "'," + richieste[a].AnaID + ',\'' + richieste[a].Cognome + '\',\'' + richieste[a].Nome + '\',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>'; 
             }
             if(riga != ""){
                 $("#tblRichiesteBody").html(riga);
             }else{
-                $("#tblRichiesteBody").html("<tr><td>Non sono Presenti richieste.</td></tr>");
+                $("#bodyPopupRichieste").html("Non sono presenti richieste.");
             }
         },
         error: function(){
@@ -338,14 +340,19 @@ function checkInviaRisposta(){
     }
 }
 
-function visualizzaRichiesta(id, cognome, nome, note){
+function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
     $("#popupRisposta").modal('show');
     $("#lblCognomeNomePopupRisposta").html(cognome + " " + nome);
     $("#divRispostaMessaggio").html(note);
+    $("#data").val(dataInvio);
+    $("#idPazientePopupRisposta").val(id);
 }
 
 function inviaRisposta(){
     if(checkfieldRisposta()){
+        var id = $("#idPazientePopupRisposta").val();
+        var dataOra = $("#data").val();
+        console.log(dataOra);
         var data1 = $("#txtData1Risposta").val();
         var data2 = $("#txtData2Risposta").val();
         var data3 = $("#txtData3Risposta").val();
@@ -354,14 +361,19 @@ function inviaRisposta(){
         var ora3 = $("#txtOra3Risposta").val();
         var note = $("#txtRisposta").val();
 
-        var dataOra1 = String(giraDataDb(data1)) + " " + String(ora1);
-        var dataOra2 = String(giraDataDb(data2)) + " " + String(ora2);
-        var dataOra3 = String(giraDataDb(data3)) + " " + String(ora3);
+        var dataOra1 = String(giraDataDb(data1)) + " " + String(ora1).substring(0,2) + ":" + String(ora1).substring(5,7) + ":00";
+        var dataOra2 = String(giraDataDb(data2)) + " " + String(ora2).substring(0,2) + ":" + String(ora2).substring(5,7) + ":00";
+        var dataOra3 = String(giraDataDb(data3)) + " " + String(ora3).substring(0,2) + ":" + String(ora3).substring(5,7) + ":00";
+
+        console.log(dataOra1);
+        console.log(dataOra2);
+        console.log(dataOra3);
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
-            data: {azione: "inviaRisposta", dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, note:note},
+            data: {azione: "inviaRisposta", id:id, dataOra:dataOra, dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, descrizione:note},
             success: function(response) {
+                console.log(response);
                 alert("Risposta inviata con successo!");
             },
             error: function(){

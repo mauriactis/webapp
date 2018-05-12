@@ -34,7 +34,7 @@
             case 'cancellaAppuntamento':
                 $idPersona = $_POST['id'];
                 $data = $_POST['data'];
-                cancellaAppuntamento($conn,$idPersona,$dataOra)
+                cancellaAppuntamento($conn,$idPersona,$dataOra);
                 break;
             case 'visualizzaRichiesteAppuntamento':
                 visualizzaRichiesteAppuntamento($conn);
@@ -42,11 +42,11 @@
             case 'inviaRisposta':
                 $idPersona = $_POST['id'];
                 $dataOra = $_POST['dataOra'];
-                $data1 = $_POST['$data1'];
-                $data2 = $_POST['$data2'];
-                $data3 = $_POST['$data3'];
-                $descrizione = $_POST['$descrizione'];
-                inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione);
+                $dataOra1 = $_POST['dataOra1'];
+                $dataOra2 = $_POST['dataOra2'];
+                $dataOra3 = $_POST['dataOra3'];
+                $descrizione = $_POST['descrizione'];
+                inviaRisposta($conn,$idPersona,$dataOra,$dataOra1,$dataOra2,$dataOra3,$descrizione);
                 break;
         }
     }
@@ -158,8 +158,8 @@
         echo json_encode(local_encode($ret)); 
     }
 
-    function inviaRisposta($conn,$idPersona,$dataOra,$data1,$data2,$data3,$descrizione){
-            $query = "UPDATE richiesteappuntamenti SET Letto=1 WHERE AnaID=? AND DataOra=?";
+    function inviaRisposta($conn,$idPersona,$dataOra,$dataOra1,$dataOra2,$dataOra3,$descrizione){
+            $query = "UPDATE richiesteappuntamenti SET Letto=1 WHERE AnaID=? AND DataOraInvio=?";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
             $stmSql ->bindParam(2, $dataOra);
@@ -172,10 +172,10 @@
             $query = "INSERT INTO richiesteappuntamenti VALUES(?,now(),1,?,?,?,?,0)";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
-            $stmSql ->bindParam(2, $data1);
-            $stmSql ->bindParam(3, $data2);
-            $stmSql ->bindParam(4, $data3);
-            $stmSql ->bindParam(4, $descrizione);
+            $stmSql ->bindParam(2, $dataOra1);
+            $stmSql ->bindParam(3, $dataOra2);
+            $stmSql ->bindParam(4, $dataOra3);
+            $stmSql ->bindParam(5, $descrizione);
 
             $result = $stmSql ->execute();
 
