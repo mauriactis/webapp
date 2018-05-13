@@ -164,13 +164,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 1: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData1Risposta">
+                    <input type="text" class="form-control txtData dataRisposta dataRisposta1" id="txtData1Risposta">
                   </td>
                   <td>
                     <label for="textinput">Ora 1: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra1Risposta">
+                    <input type="text" class="form-control txtOra txtOra1" id="txtOra1Risposta">
                   </td>
                 </tr>
                 <tr>
@@ -178,13 +178,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 2: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData2Risposta">
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData2Risposta" onclick="this.select();">
                   </td>
                   <td>
                     <label for="textinput">Ora 2: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra2Risposta">
+                    <input type="text" class="form-control txtOra" id="txtOra2Risposta" onclick="this.select();">
                   </td>
                 </tr>
                 <tr>
@@ -192,13 +192,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 3: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData3Risposta">
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData3Risposta" onclick="this.select();">
                   </td>
                   <td>
                     <label for="textinput">Ora 3: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra3Risposta">
+                    <input type="text" class="form-control txtOra" id="txtOra3Risposta" onclick="this.select();">
                   </td>
                 </tr>
               </table>
@@ -206,8 +206,23 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
               <textarea class="form-control" rows="7" id="txtRisposta" style="resize:none"></textarea>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-success" onclick="inviaRisposta();" data-dismiss="modal">Invia</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-success" onclick="inviaRisposta();">Invia</button>
+              <button type="button" class="btn btn-default" onclick="svuotaInviaRisposta();" data-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" id="popupRispostaSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" id="bodyPopupRichieste">
+              Risposta inviata con successo!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Esci</button>
             </div>
           </div>
         </div>

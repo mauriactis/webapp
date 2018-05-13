@@ -18,6 +18,7 @@ function initForm(){
     initPillsGiorni();
     startTime();
     $('.txtData').datepicker({minDate: new Date});
+    $('.dataRisposta1').datepicker("setDate", new Date());
     $('.txtOra').wickedpicker(options);
 }
 
@@ -337,6 +338,7 @@ function richiesteAppuntamento(){
 
 function checkInviaRisposta(){
     if($('#popupRisposta').is(':visible')){
+        svuotaInviaRisposta();
         $("#popupRisposta").modal('hide');
     }
 }
@@ -374,8 +376,8 @@ function inviaRisposta(){
             url: "./serverlogic.php",
             data: {azione: "inviaRisposta", id:id, dataOra:dataOra, dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, descrizione:note},
             success: function(response) {
-                console.log(response);
-                alert("Risposta inviata con successo!");
+                $("#popupRisposta").modal('hide');
+                $("#popupRispostaSuccess").modal('show');
             },
             error: function(){
                 alert("Errore");
@@ -388,8 +390,23 @@ function inviaRisposta(){
 
 function checkfieldRisposta(){
     var ret = true;
+    var data1 = $("#txtData1Risposta").val();
+    var ora1 = $("#txtOra1Risposta").val();
 
-    //Controllo di almeno una data e un'ora
+    if(data1 == ""){
+        ret = false;
+    }
+    if(ora1 == ""){
+        ret = false;
+    }
 
     return ret;
+}
+
+function svuotaInviaRisposta(){
+    $("#txtData2Risposta").val("");
+    $("#txtOra2Risposta").val("");
+    $("#txtData3Risposta").val("");
+    $("#txtOra3Risposta").val("");
+    $("#txtRisposta").val("");
 }
