@@ -74,17 +74,15 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             </div>
             <div id="divDettagliAppuntamento" style="display: none;">
               <div id="sidenavBody">
-                 <input type="text" id="idPaziente">
-                 <input type="text" id="dataIntervento">
+                 <input type="hidden" id="idPaziente">
+                 <input type="hidden" id="dataIntervento">
                  <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
                  <h3><label>L' ultima volta...</label></h3>
                  <div id="dettagliAppuntamentoUltimaVolta">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation   ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                  </div>
     
                  <h3><label>Da fare</label></h3>
                  <div id="dettagliAppuntamentoDaFare">
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                  </div>
               </div>
               <button type="button" class="btn btn-danger" id="btnEliminaAppuntamento" onclick="eliminaAppuntamento();">Elimina appuntamento</button>

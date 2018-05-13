@@ -165,16 +165,15 @@ function giraDataDb(date){
 //   #1111111111111111111111
 //   #1111111111111111111111
 //   #1111111111111111111111
-function mostraDettagliAppuntamento(i, data){
-    console.log(i + " " + data);
+function mostraDettagliAppuntamento(i, dataOra){
     $("#idPaziente").val(i);
-    $("#dataIntervento").val(String(data));
+    $("#dataIntervento").val(String(dataOra));
     //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
     $.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:dataOra},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
@@ -223,21 +222,21 @@ function nuovoAppuntamento(){
 }
 
 function eliminaAppuntamento(){
-    /*$.ajax({  
+    var id = $("#idPaziente").val();
+    var dataOra = $("#dataIntervento").val();
+    $.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "cancellaAppuntamento", id:i, data:data},
+        data: {azione: "cancellaAppuntamento", id:id, data:dataOra},
         success: function(response) {
-            var dettagli = JSON.parse (response);
-
-            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
-            $("#selezionato).click();
+            nascondiDettagliAppuntamento();
+            $("#selezionato").click();
         },
         error: function(){
             alert("Errore");
         }
-    });*/
+    });
 
     $("#divDettagliAppuntamento").fadeIn();
 }
@@ -280,12 +279,14 @@ function caricaAppuntamenti(anno, mese, giorno){
             console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
+            var dataOra = "";
             for (var a = 0; a < appuntamenti.length; a ++)
             {
+                dataOra = String(data) + " " + String(appuntamenti[a].Ora);
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora + "</td><td>" +
                     appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + "," + String(data) + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
                 console.log(String(data));
             }
             if(riga != ""){
