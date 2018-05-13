@@ -18,6 +18,7 @@ function initForm(){
     initPillsGiorni();
     startTime();
     $('.txtData').datepicker({minDate: new Date});
+    $('.dataRisposta1').datepicker("setDate", new Date());
     $('.txtOra').wickedpicker(options);
 }
 
@@ -165,16 +166,15 @@ function giraDataDb(date){
 //   #1111111111111111111111
 //   #1111111111111111111111
 //   #1111111111111111111111
-function mostraDettagliAppuntamento(i, data){
-    console.log(i + " " + data);
+function mostraDettagliAppuntamento(i, dataOra){
     $("#idPaziente").val(i);
-    $("#dataIntervento").val(String(data));
+    $("#dataIntervento").val(String(dataOra));
     //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
     $.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "mostraDettagliAppuntamento", id:i, data:data},
+        data: {azione: "mostraDettagliAppuntamento", id:i, data:dataOra},
         success: function(response) {
             var dettagli = JSON.parse (response);
 
@@ -182,7 +182,7 @@ function mostraDettagliAppuntamento(i, data){
             $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 
@@ -217,27 +217,27 @@ function nuovoAppuntamento(){
             $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
 
 function eliminaAppuntamento(){
-    /*$.ajax({  
+    var id = $("#idPaziente").val();
+    var dataOra = $("#dataIntervento").val();
+    $.ajax({  
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "cancellaAppuntamento", id:i, data:data},
+        data: {azione: "cancellaAppuntamento", id:id, data:dataOra},
         success: function(response) {
-            var dettagli = JSON.parse (response);
-
-            $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
-            $("#selezionato).click();
+            nascondiDettagliAppuntamento();
+            $("#selezionato").click();
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
-    });*/
+    });
 
     $("#divDettagliAppuntamento").fadeIn();
 }
@@ -259,10 +259,10 @@ function salvaAppuntamento(){
     //     url: "./serverlogic.php",
     //     data: {azione: "salvaNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
     //     success: function(response) {
-    //         alert("Appuntamento salvato con successo!");
+    //         initPopupGenerico("Appuntamento salvato con successo!");
     //     },
     //     error: function(){
-    //         alert("Errore");
+    //         initPopupGenerico("Errore lato server.");
     //     }
     // });
 }
@@ -280,12 +280,14 @@ function caricaAppuntamenti(anno, mese, giorno){
             console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
+            var dataOra = "";
             for (var a = 0; a < appuntamenti.length; a ++)
             {
+                dataOra = String(data) + " " + String(appuntamenti[a].Ora);
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora + "</td><td>" +
                     appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + "," + String(data) + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
                 console.log(String(data));
             }
             if(riga != ""){
@@ -295,7 +297,7 @@ function caricaAppuntamenti(anno, mese, giorno){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
@@ -329,13 +331,14 @@ function richiesteAppuntamento(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
 
 function checkInviaRisposta(){
     if($('#popupRisposta').is(':visible')){
+        svuotaInviaRisposta();
         $("#popupRisposta").modal('hide');
     }
 }
@@ -373,22 +376,43 @@ function inviaRisposta(){
             url: "./serverlogic.php",
             data: {azione: "inviaRisposta", id:id, dataOra:dataOra, dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, descrizione:note},
             success: function(response) {
-                console.log(response);
-                alert("Risposta inviata con successo!");
+                $("#popupRisposta").modal('hide');
+                richiesteAppuntamento();
+                initPopupGenerico("Risposta inviata con successo!");
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore lato server.");
             }
         });
     }else{
-        alert("E' necessario compilare tutti i campi");
+        initPopupGenerico("E\' necessario compilare tutti i campi...");
     }
 }
 
 function checkfieldRisposta(){
     var ret = true;
+    var data1 = $("#txtData1Risposta").val();
+    var ora1 = $("#txtOra1Risposta").val();
 
-    //Controllo di almeno una data e un'ora
+    if(data1 == ""){
+        ret = false;
+    }
+    if(ora1 == ""){
+        ret = false;
+    }
 
     return ret;
+}
+
+function svuotaInviaRisposta(){
+    $("#txtData2Risposta").val("");
+    $("#txtOra2Risposta").val("");
+    $("#txtData3Risposta").val("");
+    $("#txtOra3Risposta").val("");
+    $("#txtRisposta").val("");
+}
+
+function initPopupGenerico(msg){
+    $("#bodyPopupGenerico").html(msg);
+    $("#popupGenerico").modal('show');
 }

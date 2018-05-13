@@ -33,7 +33,7 @@
                 break;
             case 'cancellaAppuntamento':
                 $idPersona = $_POST['id'];
-                $data = $_POST['data'];
+                $dataOra = $_POST['data'];
                 cancellaAppuntamento($conn,$idPersona,$dataOra);
                 break;
             case 'visualizzaRichiesteAppuntamento':

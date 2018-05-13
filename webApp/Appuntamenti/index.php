@@ -74,17 +74,15 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             </div>
             <div id="divDettagliAppuntamento" style="display: none;">
               <div id="sidenavBody">
-                 <input type="text" id="idPaziente">
-                 <input type="text" id="dataIntervento">
+                 <input type="hidden" id="idPaziente">
+                 <input type="hidden" id="dataIntervento">
                  <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
                  <h3><label>L' ultima volta...</label></h3>
                  <div id="dettagliAppuntamentoUltimaVolta">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation   ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                  </div>
     
                  <h3><label>Da fare</label></h3>
                  <div id="dettagliAppuntamentoDaFare">
-                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud   exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                  </div>
               </div>
               <button type="button" class="btn btn-danger" id="btnEliminaAppuntamento" onclick="eliminaAppuntamento();">Elimina appuntamento</button>
@@ -166,13 +164,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 1: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData1Risposta">
+                    <input type="text" class="form-control txtData dataRisposta dataRisposta1" id="txtData1Risposta">
                   </td>
                   <td>
                     <label for="textinput">Ora 1: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra1Risposta">
+                    <input type="text" class="form-control txtOra txtOra1" id="txtOra1Risposta">
                   </td>
                 </tr>
                 <tr>
@@ -180,13 +178,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 2: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData2Risposta">
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData2Risposta" onclick="this.select();">
                   </td>
                   <td>
                     <label for="textinput">Ora 2: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra2Risposta">
+                    <input type="text" class="form-control txtOra" id="txtOra2Risposta" onclick="this.select();">
                   </td>
                 </tr>
                 <tr>
@@ -194,13 +192,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                     <label for="textinput">Data 3: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtData dataRisposta" id="txtData3Risposta">
+                    <input type="text" class="form-control txtData dataRisposta" id="txtData3Risposta" onclick="this.select();">
                   </td>
                   <td>
                     <label for="textinput">Ora 3: </label>
                   </td>
                   <td>
-                    <input type="text" class="form-control txtOra" id="txtOra3Risposta">
+                    <input type="text" class="form-control txtOra" id="txtOra3Risposta" onclick="this.select();">
                   </td>
                 </tr>
               </table>
@@ -208,8 +206,22 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
               <textarea class="form-control" rows="7" id="txtRisposta" style="resize:none"></textarea>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-success" onclick="inviaRisposta();" data-dismiss="modal">Invia</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+              <button type="button" class="btn btn-success" onclick="inviaRisposta();">Invia</button>
+              <button type="button" class="btn btn-default" onclick="svuotaInviaRisposta();" data-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" id="popupGenerico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" id="bodyPopupGenerico">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
             </div>
           </div>
         </div>
