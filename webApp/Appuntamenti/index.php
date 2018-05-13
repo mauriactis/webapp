@@ -215,14 +215,13 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
 
 
 
-      <div class="modal fade" id="popupRispostaSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade" id="popupGenerico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-body" id="bodyPopupRichieste">
-              Risposta inviata con successo!
+            <div class="modal-body" id="bodyPopupGenerico">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Esci</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
             </div>
           </div>
         </div>

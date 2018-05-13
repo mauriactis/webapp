@@ -182,7 +182,7 @@ function mostraDettagliAppuntamento(i, dataOra){
             $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 
@@ -217,7 +217,7 @@ function nuovoAppuntamento(){
             $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
@@ -235,7 +235,7 @@ function eliminaAppuntamento(){
             $("#selezionato").click();
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 
@@ -259,10 +259,10 @@ function salvaAppuntamento(){
     //     url: "./serverlogic.php",
     //     data: {azione: "salvaNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
     //     success: function(response) {
-    //         alert("Appuntamento salvato con successo!");
+    //         initPopupGenerico("Appuntamento salvato con successo!");
     //     },
     //     error: function(){
-    //         alert("Errore");
+    //         initPopupGenerico("Errore lato server.");
     //     }
     // });
 }
@@ -297,7 +297,7 @@ function caricaAppuntamenti(anno, mese, giorno){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
@@ -331,7 +331,7 @@ function richiesteAppuntamento(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore lato server.");
         }
     });
 }
@@ -377,14 +377,15 @@ function inviaRisposta(){
             data: {azione: "inviaRisposta", id:id, dataOra:dataOra, dataOra1:dataOra1, dataOra2:dataOra2, dataOra3:dataOra3, descrizione:note},
             success: function(response) {
                 $("#popupRisposta").modal('hide');
-                $("#popupRispostaSuccess").modal('show');
+                richiesteAppuntamento();
+                initPopupGenerico("Risposta inviata con successo!");
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore lato server.");
             }
         });
     }else{
-        alert("E' necessario compilare tutti i campi");
+        initPopupGenerico("E\' necessario compilare tutti i campi...");
     }
 }
 
@@ -409,4 +410,9 @@ function svuotaInviaRisposta(){
     $("#txtData3Risposta").val("");
     $("#txtOra3Risposta").val("");
     $("#txtRisposta").val("");
+}
+
+function initPopupGenerico(msg){
+    $("#bodyPopupGenerico").html(msg);
+    $("#popupGenerico").modal('show');
 }
