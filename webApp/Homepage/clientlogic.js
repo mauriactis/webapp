@@ -163,7 +163,7 @@ function initPopupAggiungiNuovo(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -226,7 +226,7 @@ function caricaComuni(ricerca, chiamante){
                 }
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
     }
@@ -274,7 +274,7 @@ function stampaFoglioPrivacy(){
             $('#popupStampaFoglioPrivacy').modal('hide');
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -317,7 +317,7 @@ function cercaPersona (){
                 $("#container").html(response);          
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
         $.ajax({  
@@ -352,7 +352,7 @@ function cercaPersona (){
                 $("#tblAnagraficaBody").html(riga);
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
     }else{
@@ -396,7 +396,7 @@ function initPopupModifica(){
                     console.log(document.getElementById("txtMotivoPopupModificaPaziente").selectedIndex);
                 },
                 error: function(){
-                    alert("Errore");
+                    initPopupGenerico("Errore");
                 }
             });
             $("#txtNomePopupModificaPaziente").val(datiPaziente.Nome);
@@ -413,7 +413,7 @@ function initPopupModifica(){
             $("#txtOsservazioniPopupModificaPaziente").val(datiPaziente.Anamnesi);
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -421,7 +421,7 @@ function initPopupModifica(){
 //aggiorna i dati del paziente dopo una modifica
 function aggiornaPaziente(){
     //if(!checkfieldsModifiche()){
-        //alert("Alcuni campi obbligatori non sono stati compilati correttamente.");
+        //initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
     //}else{
         var id = $("#idPersonaModifiche").val();
         var nome = $("#txtNomePopupModificaPaziente").val();
@@ -448,11 +448,11 @@ function aggiornaPaziente(){
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
             console.log(response);
-            alert("Informazioni paziente aggiornate!");
+            initPopupGenerico("Informazioni paziente aggiornate!");
             caricaAnagrafica();
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 //}
@@ -471,7 +471,7 @@ function visualizzaAnamnesi() {
             }
         },
         error: function(){
-        	alert("Errore");
+        	initPopupGenerico("Errore");
         }
     });
 }
@@ -503,7 +503,7 @@ function visualizzaDocumenti() {
              }
         },
         error: function(){
-        	alert("Errore");
+        	initPopupGenerico("Errore");
         }
     });
 }
@@ -527,7 +527,7 @@ function generaCodice() {
         	if(response == 0) {
                 $("#lblCodice").html(codice);
             }else if(response == -1) {        
-                alert("C'è stato un problema al server...");       
+                initPopupGenerico("C'è stato un problema al server...");       
             }else if(response == -2) {        
                 $("#lblCodice").html("Questo utente è già registrato con una mail.");
             }else{
@@ -535,7 +535,7 @@ function generaCodice() {
             }
         },
         error: function(){
-        	alert("Errore");
+        	initPopupGenerico("Errore");
         }
     });
 }
@@ -562,7 +562,7 @@ function mostraSituazionePaziente(i, cognome, nome) {
                 }
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
 
@@ -595,7 +595,7 @@ function salvaIntervento(){
     var descrizione = $("#txtSituazionePazienteOggi").val();
     var importo = $("#txtImportoSituazionePaziente").val();
     if(checkfieldsIntervento(descrizione, importo)){
-        alert("Alcuni campi non sono stati compilati correttamente");
+        initPopupGenerico("Alcuni campi non sono stati compilati correttamente");
     }else{
         var pagato = $("#chkPagato").is(':checked');
         var id = $("#idPersonaSituazionePaziente").val();
@@ -616,15 +616,15 @@ function ricevutaAnagrafica(pagato){
                 data:oggi},
         success: function(response) {
             if(response){
-                alert("Intervento registrato!");
+                initPopupGenerico("Intervento registrato!");
                 nascondiSituazionePaziente();
             }else{
-                alert("L'utente ha già un intervento registrato nella data odierna...");
+                initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
                 nascondiSituazionePaziente();
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -691,7 +691,7 @@ function visualizzaStoricoInterventi(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -735,7 +735,7 @@ function visualizzaContabilita(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -747,7 +747,7 @@ function assegnaEsercizi(){
 //aggiunge un nuovo paziente una volta che i campi sono tutti compilati
 function aggiungiNuovoPaziente(){
     if(!checkfields()){
-        alert("Alcuni campi obbligatori non sono stati compilati correttamente.");
+        initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
     }else{
         var nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
         var cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
@@ -798,19 +798,19 @@ function aggiungiNuovoPaziente(){
                                 $('#popupStampaFoglioPrivacy').modal('show');
                             },
                             error: function(){
-                                alert("Errore");
+                                initPopupGenerico("Errore");
                             }
                         });
 
                         cercaPersona();
                     },
                     error: function(){
-                        alert("Errore");
+                        initPopupGenerico("Errore");
                     }
                 });
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
 
@@ -938,10 +938,10 @@ function inserisciNuovoFile(){
                 url: "./serverlogic.php",
                 data: {azione: "inserisciDocumento",id:id,data:data,path:path,descrizione:descrizione},
                 success: function(response) {
-                    alert("File caricato con successo!");
+                    initPopupGenerico("File caricato con successo!");
                 },
                 error: function(){
-                    alert("Errore");
+                    initPopupGenerico("Errore");
                 }
             });*/
         }
@@ -983,7 +983,7 @@ function caricaContabilita(nomePersona = ""){
 			$("#container").html(response);          
         },
         error: function(){
-        	alert("Errore");
+        	initPopupGenerico("Errore");
         }
     });
     anagraficaShown = false;
@@ -1015,7 +1015,7 @@ function caricaContabilita(nomePersona = ""){
 			$("#tblContabilitaBody").html(riga);
         },
         error: function(){
-        	alert("Errore");
+        	initPopupGenerico("Errore");
         }
     });
 }
@@ -1058,7 +1058,7 @@ function mostraPagamento(i,anno, mese, giorno) {
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -1083,7 +1083,7 @@ function aggiornaPagamento(){
             caricaContabilita();
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -1102,7 +1102,7 @@ function controlloPiuPagamenti(){
             }
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -1123,7 +1123,7 @@ function popupTuttiInterventiCosto(){
             $('#popupCostoTuttiInterventi').modal('show');
         },
         error: function(){
-            alert("Errore");
+            initPopupGenerico("Errore");
         }
     });
 }
@@ -1153,11 +1153,11 @@ function aggiornaImporti(){
             success: function(response) {
                 caricaContabilita();
                 if(response){
-                    alert("Pagamento confermato!");
+                    initPopupGenerico("Pagamento confermato!");
                 }
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
     }else{
@@ -1171,11 +1171,11 @@ function aggiornaImporti(){
             success: function(response) {
                 caricaContabilita();
                 if(response){
-                    alert("Pagamento confermato!");
+                    initPopupGenerico("Pagamento confermato!");
                 }
             },
             error: function(){
-                alert("Errore");
+                initPopupGenerico("Errore");
             }
         });
     }
@@ -1188,4 +1188,9 @@ function stampaRicevuta(){
     //stampa ricevuta
 
     
+}
+
+function initPopupGenerico(msg){
+    $("#bodyPopupGenerico").html(msg);
+    $("#popupGenerico").modal('show');
 }
