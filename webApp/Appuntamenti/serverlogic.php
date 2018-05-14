@@ -108,7 +108,7 @@
     }
 
     function inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione){  //inserisce un nuovo appuntamento con il tasto nuovo appuntamento
-            $query = "INSERT INTO appuntamenti VALUES(?,?,?,?)";
+            $query = "INSERT INTO appuntamenti VALUES(?,?,?)";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);
             $stmSql ->bindParam(2, $dataOra);

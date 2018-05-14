@@ -254,17 +254,26 @@ function salvaAppuntamento(){
     console.log(idPersona);
     console.log(data);
     console.log(descrizione);
-    // $.ajax({  
-    //     type: "POST", 
-    //     url: "./serverlogic.php",
-    //     data: {azione: "salvaNuovoAppuntamento", id:idPersona, data:data, descrizione:descrizione},
-    //     success: function(response) {
-    //         initPopupGenerico("Appuntamento salvato con successo!");
-    //     },
-    //     error: function(){
-    //         initPopupGenerico("Errore lato server.");
-    //     }
-    // });
+    
+//provato qua #ale
+
+//AAAA-MM-GG OO:MM:SS
+
+//
+
+    var dataOrario = data
+    dataOrario+=" " + ora + ":00";
+     $.ajax({  
+         type: "POST", 
+         url: "./serverlogic.php",
+         data: {azione: "inserisciNuovoAppuntamento", id:idPersona, dataOra:dataOrario, descrizione:descrizione},
+         success: function(response) {
+             initPopupGenerico("Appuntamento salvato con successo!");
+         },
+         error: function(){
+             initPopupGenerico("Errore lato server.");
+         }
+     });
 }
 
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
