@@ -16,14 +16,12 @@ pdf foglio privacy (quasi fatto)
 -------appuntamenti-------
 
 !! - btn richieste appuntamento
-
-!! - btn nuovo appuntamento (manca php)
-
- - settare la tabella al centro con la data selezionata a sinistra col pulsante ok
  
  nella risposta ad una richiesta valorizzare solo prima data e prima ora
  
  quando la data o l'ra sono vuote dal php inserisci NULL
+ 
+ Ogni quanto aggiorniamo il badge??
 
 -------contabilità-------
 
