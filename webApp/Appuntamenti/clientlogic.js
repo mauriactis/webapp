@@ -197,9 +197,7 @@ function nascondiDettagliAppuntamento(){
 
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
-    $('#txtDataNuovoAppuntamento').val("");
-    $('#txtOraNuovoAppuntamento').val("");
-    $('#txtNoteNuovoAppuntamento').val("");
+    svuotaNuovoAppuntamento();
     $.datepicker.setDefaults($.datepicker.regional['it']); 
 
     $.ajax({  
@@ -220,6 +218,13 @@ function nuovoAppuntamento(){
             initPopupGenerico("Errore lato server.");
         }
     });
+}
+
+function svuotaNuovoAppuntamento(){
+    $('#txtPersonaNuovoAppuntamento').val("");
+    $('#txtDataNuovoAppuntamento').val("");
+    $('#txtOraNuovoAppuntamento').val("");
+    $('#txtNoteNuovoAppuntamento').val("");
 }
 
 function eliminaAppuntamento(){
@@ -250,25 +255,15 @@ function salvaAppuntamento(){
     var ora = timepicker.wickedpicker('time');
     var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
 
-    console.log(ora);
-    console.log(idPersona);
-    console.log(data);
-    console.log(descrizione);
-    
-//provato qua #ale
-
-//AAAA-MM-GG OO:MM:SS
-
-//
-
-    var dataOrario = data
-    dataOrario+=" " + ora + ":00";
+    dataOrario = data + " " + ora.substring(0,2) + ":" + ora.substring(5,7) + ":00";
      $.ajax({  
          type: "POST", 
          url: "./serverlogic.php",
          data: {azione: "inserisciNuovoAppuntamento", id:idPersona, dataOra:dataOrario, descrizione:descrizione},
          success: function(response) {
-             initPopupGenerico("Appuntamento salvato con successo!");
+            console.log(response);
+            initPopupGenerico("Appuntamento salvato con successo!");
+            $('#selezionato').click();
          },
          error: function(){
              initPopupGenerico("Errore lato server.");
@@ -302,7 +297,7 @@ function caricaAppuntamenti(anno, mese, giorno){
             if(riga != ""){
                 $("#tblAppuntamentiBody").html(riga);
             }else{
-                $("#tblAppuntamentiBody").html("<tr><td>Non sono stati fissati appuntamenti per oggi.</td></tr>");
+                $("#tblAppuntamentiBody").html("<tr><td colspan=\"3\">Non sono stati fissati appuntamenti per oggi.</td></tr>");
             }
         },
         error: function(){
