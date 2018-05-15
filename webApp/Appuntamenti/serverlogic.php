@@ -24,7 +24,7 @@
             case 'inserisciNuovoAppuntamento':
                 $idPersona = $_POST['id'];
                 $dataOra = $_POST['dataOra'];
-                $descrizione = $_POST['$descrizione'];
+                $descrizione = $_POST['descrizione'];
                 inserisciNuovoAppuntamento($conn,$idPersona,$dataOra,$descrizione);
                 break;
             case 'caricaAppuntamenti':
@@ -87,7 +87,7 @@
         $result = $stmSql ->execute();
         $row=$stmSql->fetch();
         if($row == NULL || empty($row))     // DA TESTARE SE ($row == NULL  FA QUALCOSA)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $row['Descrizione']="Nessun intervento passato";
+            $row['Descrizione']="Nessun intervento passato.";
 
         $query="SELECT Note FROM appuntamenti WHERE AnaID=? AND DataOra=?";
         $stmSql = $conn->prepare($query);
@@ -176,6 +176,7 @@
             $stmSql ->bindParam(3, $dataOra2);
             $stmSql ->bindParam(4, $dataOra3);
             $stmSql ->bindParam(5, $descrizione);
+
 
             $result = $stmSql ->execute();
 
