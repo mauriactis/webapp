@@ -169,6 +169,13 @@
                 echo 0;
             }
 
+            if($dataOra2 == "false"){
+                $dataOra2 = NULL;
+            }
+            if($dataOra3 == "false"){
+                $dataOra3 = NULL;
+            }
+
             $query = "INSERT INTO richiesteappuntamenti VALUES(?,now(),1,?,?,?,?,0)";
             $stmSql = $conn->prepare($query);
             $stmSql ->bindParam(1, $idPersona);

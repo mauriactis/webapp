@@ -356,7 +356,8 @@ function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
 }
 
 function inviaRisposta(){
-    if(checkfieldRisposta()){
+    var succ = checkfieldRisposta();
+    if(succ != false && succ != 2){
         var id = $("#idPazientePopupRisposta").val();
         var dataOra = $("#data").val();
         console.log(dataOra);
@@ -375,6 +376,13 @@ function inviaRisposta(){
         console.log(dataOra1);
         console.log(dataOra2);
         console.log(dataOra3);
+
+        if(dataOra2 == "-- ::00"){
+            dataOra2 = false;
+        }
+        if(dataOra3 == "-- ::00"){
+            dataOra3 = false;
+        }
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
@@ -389,14 +397,23 @@ function inviaRisposta(){
             }
         });
     }else{
-        initPopupGenerico("E\' necessario compilare tutti i campi...");
+        if(succ == 2){
+            initPopupGenerico("Attenzione, è stata immessa più volte la stessa data.");
+        }else{
+            initPopupGenerico("E\' necessario compilare correttamente tutti i campi...");
+        }
     }
 }
 
+//I parametri vengono presi due volte perchè passarlki in javascript fa schifo con i -
 function checkfieldRisposta(){
     var ret = true;
     var data1 = $("#txtData1Risposta").val();
+    var data2 = $("#txtData2Risposta").val();
+    var data3 = $("#txtData3Risposta").val();
     var ora1 = $("#txtOra1Risposta").val();
+    var ora2 = $("#txtOra2Risposta").val();
+    var ora3 = $("#txtOra3Risposta").val();
 
     if(data1 == ""){
         ret = false;
@@ -404,7 +421,16 @@ function checkfieldRisposta(){
     if(ora1 == ""){
         ret = false;
     }
-
+    if((data1 == data2 || data2 == data3 || data1 == data3)){
+        ret = 2;
+    }
+    if((ora2 == "" && data2 != "") || (ora2 != "" && data2 == "")){
+        ret = false;
+    }
+    if((ora3 == "" && data3 != "") || (ora3 != "" && data3 == "")){
+        ret = false;
+    }
+    
     return ret;
 }
 
