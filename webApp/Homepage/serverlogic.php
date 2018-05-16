@@ -628,7 +628,12 @@
 		}
 
 		function convertToPDF($conn,$id,$data){
-			$downloadPath = "..\\fogliPrivacy\\fp" . $id . ".pdf";
+			$mainPath = "..\docs\\" . $id . "\\";
+			$cmd = "mkdir " . $mainPath;
+			shell_exec($cmd);
+
+			$downloadPath = $mainPath . "foglioPrivacy.pdf";
+
 			$descrizione = "Foglio privacy";
 			//Non posso far venire fuori l' opzione di download?
 			//In alternativa si apre un popup con un link a dov'è il file
@@ -643,6 +648,8 @@
 			$stmSql ->bindParam(4, $descrizione);
 			
 			$result = $stmSql ->execute();
+
+			header("location:" . $downloadPath);
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//

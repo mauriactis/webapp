@@ -284,15 +284,12 @@ function riportaNome(nome,dove){
 //scarica il foglio della privacy
 function stampaFoglioPrivacy(){
     var id = $("#idPersonaFP").val();
-    console.log(id);
     var data = dataDiOggi();
-    console.log(data);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "convertToPDF",id:id,data:data},
         success: function(response) {
-            console.log(response);
             $('#popupStampaFoglioPrivacy').modal('hide');
         },
         error: function(){
@@ -515,14 +512,14 @@ function visualizzaDocumenti() {
                 riga += "<tr><td>" + 
                     giraDataUmano(documenti[a].Data) + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
-                console.log(riga);
+                    '<button class="btn btn-danger" style="margin-right: 5px;" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' +
+                    '<button class="btn btn-danger" onclick="scaricaDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-save"></span></button>' + "</td><tr>"; 
             }
-            if(response != 1){
+            if(response != "[]"){
                 $("#tblDocumentiPazienteBody").html(riga);
             }else{
-                $("#divDocumentiPaziente").html("Non è presente nessun intervento passato.");
-             }
+                $("#tblDocumentiPazienteBody").html("<tr><td colspan=3>Non ci sono documenti associati a questo paziente.</td></tr>");
+            }
         },
         error: function(){
         	initPopupGenerico("Errore");
@@ -532,6 +529,10 @@ function visualizzaDocumenti() {
 
 /*Metodo che stampa l'immagine creandone il tag e mettendolo da qualche parte*/
 function mostraDocumento(id){
+    
+}
+
+function scaricaDocumento(id){
     
 }
 
@@ -816,6 +817,7 @@ function aggiungiNuovoPaziente(){
                             success: function(response) {
                                 $('#idPersonaFP').val(response);
                                 $('#popupAggiungiNuovo').modal('hide');
+                                cancellaCampi();
                                 $('#popupStampaFoglioPrivacy').modal('show');
                             },
                             error: function(){
@@ -916,9 +918,10 @@ function inserisciNuovoFile(){
 
     var image = document.getElementById("manualFileNuovoDocumento");
     if (image.files.length > 0) {
-        var dim = image.files.item(0).dim;
+        var dim = image.files[0].size;
+        console.log(dim);
         //Se la dimensione è minore di 10 Mb
-        if(dim<10000000){
+        if(dim < 10000000){
             ok = true;
         }
     }
@@ -943,15 +946,13 @@ function inserisciNuovoFile(){
             var descrizione = $("#txtDescrizioneDocumento").val();
             var data = dataDiOggi();
 
-            //da testare
-            var path = "docs/" + id + "/" + nomeFile;
+            var path = "..\\docs\\" + id + "\\" + nomeFile;
 
             $.ajax({  
                 type: "POST", 
                 url: "./serverlogic.php",
                 data: {azione: "inserisciDocumento",id:id,data:data,allegato:path,descrizione:descrizione},
                 success: function(response) {
-                    console.log(response);
                     initPopupGenerico("File caricato con successo!");
                 },
                 error: function(){

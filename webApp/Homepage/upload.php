@@ -7,5 +7,5 @@ if (move_uploaded_file($_FILES["manualFileNuovoDocumento"]["tmp_name"], $target_
 } else {
     echo "Sorry, there was an error uploading your file.";
 }
-header("location:index.html");
+header("location:index.php");
 ?>
