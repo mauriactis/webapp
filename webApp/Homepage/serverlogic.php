@@ -137,6 +137,13 @@
 					$idPersona = $_POST['id'];
 					inserisciCodApp($conn,$user,$idPersona);
 					break;
+				case 'inserisciDocumento' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['data'];
+					$allegato = $_POST['allegato'];
+					$descrizione = $_POST['descrizione'];
+					inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione);
+					break;
 				case 'visualizzaDocumenti' :
 					$idPersona = $_POST['id'];
 					visualizzaDocumenti($conn,$idPersona);
@@ -160,6 +167,9 @@
 					$id = $_POST['id'];
 					$data = $_POST['data'];
 					convertToPDF($conn,$id,$data);
+					break;
+				case 'trovaAppuntamenti' :
+					trovaAppuntamenti($conn);
 					break;
 				}
 			}
@@ -541,6 +551,22 @@
 			echo json_encode(local_encode($ret)); 
 		}
 
+
+		function inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione){
+			$query="INSERT INTO documenti(AnaID,Data,Allegato,Descrizione) VALUES(?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idPersona);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $allegato);
+			$stmSql ->bindParam(4, $descrizione);
+			
+			$result = $stmSql ->execute();
+
+			
+		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+		}
+
+
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
 			$query="SELECT Anamnesi FROM anagrafica WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
@@ -553,6 +579,7 @@
 			}
 			echo local_encode($row['Anamnesi']);
 		}
+
 
 //----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 //----------------------funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
@@ -622,13 +649,17 @@
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
 
-/*
-		function inserisciDocumento($conn,$id,$data){
-
-
-
+		function trovaAppuntamenti($conn){
+			$query="SELECT anagrafica.Nome,anagrafica.Cognome,time(DataOra) as Ora FROM appuntamenti,anagrafica WHERE appuntamenti.AnaID = anagrafica.ID AND DataOra>= now() ORDER BY DataOra LIMIT 2";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
+			$ret= array();
+			while ($row = $stmSql->fetch()){
+					array_push ($ret, $row);
+			}
+			
+		echo json_encode(local_encode($ret));
 		}
-*/
 
-		
+
 ?>
