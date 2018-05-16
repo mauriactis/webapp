@@ -17,7 +17,7 @@ manca stampa fattura
 
 ------Aggiuntivi-------
 
-rinominare fogliPrivacy in docs
+foglio privacy non viene ancora scaricato qundo inserito per la prima volta
 
 --- consegne ---
 
