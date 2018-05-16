@@ -787,7 +787,6 @@ function aggiungiNuovoPaziente(){
                             indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
                             motivo:motivo, anamnesi:osservazioni, codFisc:codfisc, foglioPrivacy:foglioPrivacy},
                     success: function(foglioPrivacy) {
-
                         $.ajax({  
                             type: "POST", 
                             url: "./serverlogic.php",
@@ -801,7 +800,6 @@ function aggiungiNuovoPaziente(){
                                 initPopupGenerico("Errore");
                             }
                         });
-
                         cercaPersona();
                     },
                     error: function(){
@@ -813,10 +811,6 @@ function aggiungiNuovoPaziente(){
                 initPopupGenerico("Errore");
             }
         });
-
-        
-
-    
     }
 }
 
@@ -928,22 +922,20 @@ function inserisciNuovoFile(){
             var data = dataDiOggi();
 
             //da testare
-            var path = "imgs/docs/" + id + "/" + nomeFile;
-            console.log(path);
-            console.log(data);
-            console.log(descrizione);
+            var path = "docs/" + id + "/" + nomeFile;
 
-            /*$.ajax({  
+            $.ajax({  
                 type: "POST", 
                 url: "./serverlogic.php",
-                data: {azione: "inserisciDocumento",id:id,data:data,path:path,descrizione:descrizione},
+                data: {azione: "inserisciDocumento",id:id,data:data,allegato:path,descrizione:descrizione},
                 success: function(response) {
+                    console.log(response);
                     initPopupGenerico("File caricato con successo!");
                 },
                 error: function(){
                     initPopupGenerico("Errore");
                 }
-            });*/
+            });
         }
     }
 }
@@ -1050,11 +1042,13 @@ function mostraPagamento(i,anno, mese, giorno) {
             $("#txtImportoPagamento").val(pagamento.Pagamento);
 
             if(pagamento.Pagato == 1){
-                document.getElementById("btnPaga").disabled = true;
-                document.getElementById("btnAggiornaPagamento").disabled = true;
+                $("#btnPaga").css("visibility", "hidden");
+                $("#btnAggiornaPagamento").css("visibility", "hidden");
+                $("#btnStampaRicevuta").css("visibility", "visible");
             }else{
-                document.getElementById("btnPaga").disabled = false;
-                document.getElementById("btnAggiornaPagamento").disabled = false;
+                $("#btnPaga").css("visibility", "visible");
+                $("#btnAggiornaPagamento").css("visibility", "visible");
+                $("#btnStampaRicevuta").css("visibility", "hidden");
             }
         },
         error: function(){
