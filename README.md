@@ -11,10 +11,6 @@ legenda:
 
 mostraDocumento(); cosa deve fare??????
 
--------situazione paziente-------
-
--------appuntamenti-------
-
 -------contabilità-------
 
 manca stampa fattura
