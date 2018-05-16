@@ -144,6 +144,11 @@
 					$descrizione = $_POST['descrizione'];
 					inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione);
 					break;
+					//Tommy ha aggiunto questa funzione
+				case 'eliminaDocumento' :
+					$idDocumento = $_POST['id'];
+					eliminaDocumento($conn,$idDocumento);
+					break;
 				case 'visualizzaDocumenti' :
 					$idPersona = $_POST['id'];
 					visualizzaDocumenti($conn,$idPersona);
@@ -567,6 +572,17 @@
 		}
 
 
+
+		function eliminaDocumento($conn,$idDocumento){
+			$query="DELETE FROM documenti WHERE ID = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idDocumento);
+			
+			$result = $stmSql ->execute();
+		}
+
+
+
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
 			$query="SELECT Anamnesi FROM anagrafica WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
@@ -649,7 +665,7 @@
 			
 			$result = $stmSql ->execute();
 
-			header("location:" . $downloadPath);
+			echo $downloadPath;
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//

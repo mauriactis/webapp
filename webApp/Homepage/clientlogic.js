@@ -290,6 +290,8 @@ function stampaFoglioPrivacy(){
         url: "./serverlogic.php",
         data: {azione: "convertToPDF",id:id,data:data},
         success: function(response) {
+            console.log(response);
+            window.open(response);
             $('#popupStampaFoglioPrivacy').modal('hide');
         },
         error: function(){
@@ -496,29 +498,42 @@ function visualizzaAnamnesi() {
 }
 
 //visualizza i documenti relativi ad un utente
-function visualizzaDocumenti() {
-    var id = $("#idPersonaModifiche").val();
-    console.log(id);
+function visualizzaDocumenti(idPersona = 0) {
+    if(idPersona == 0){
+        var id = $("#idPersonaModifiche").val();
+    }else{
+        var id = idPersona;
+    }
+    
 	$.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "visualizzaDocumenti", id:id},
         success: function(response) {
-            console.log(response);
         	var documenti = JSON.parse (response);
             var riga = "";
             for (var a = 0; a < documenti.length; a ++)
             {
+                var percorso = documenti[a].Allegato;
+                var indicePartenza = (percorso.indexOf('\\') >= 0 ? percorso.lastIndexOf('\\') : percorso.lastIndexOf('/'));
+                var nomeFile = percorso.substring(indicePartenza);
+                if (nomeFile.indexOf('\\') === 0 || nomeFile.indexOf('/') === 0) {
+                    nomeFile = nomeFile.substring(1);
+                }
+                var path = "../docs/" + documenti[a].AnaID + "/" + nomeFile;
                 riga += "<tr><td>" + 
                     giraDataUmano(documenti[a].Data) + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
-                    '<button class="btn btn-danger" style="margin-right: 5px;" onclick="mostraDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-eye-open"></span></button>' +
-                    '<button class="btn btn-danger" onclick="scaricaDocumento(' + documenti[a].ID + ');"><span class="glyphicon glyphicon-save"></span></button>' + "</td><tr>"; 
+                    '<button class="btn btn-danger" style="margin-right: 5px;" onclick="mostraDocumento(String(\'' + path + '\'));"><span class="glyphicon glyphicon-eye-open"></span></button>' +
+                    '<button class="btn btn-danger" onclick="eliminaDocumento(' + documenti[a].ID + "," + documenti[a].AnaID + ');"><span class="glyphicon glyphicon-trash"></span></button>' + "</td><tr>"; 
             }
             if(response != "[]"){
                 $("#tblDocumentiPazienteBody").html(riga);
+                $("#divDocumentiPaziente").show();
+                $("#divDocumentiPazienteAssenti").hide();
             }else{
-                $("#tblDocumentiPazienteBody").html("<tr><td colspan=3>Non ci sono documenti associati a questo paziente.</td></tr>");
+                $("#divDocumentiPaziente").hide();
+                $("#divDocumentiPazienteAssenti").show();
             }
         },
         error: function(){
@@ -527,13 +542,24 @@ function visualizzaDocumenti() {
     });
 }
 
-/*Metodo che stampa l'immagine creandone il tag e mettendolo da qualche parte*/
-function mostraDocumento(id){
-    
+/*Metodo che stampa l'immagine*/
+function mostraDocumento(path){
+    window.open(path);
 }
 
-function scaricaDocumento(id){
-    
+function eliminaDocumento(idDocumento, idPersona){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "eliminaDocumento", id:idDocumento},
+        success: function(response) {
+            initPopupGenerico("Documento eliminato!");
+            visualizzaDocumenti(idPersona);
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
 }
 
 //genera il codice app se non ne ha unio
