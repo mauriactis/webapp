@@ -144,6 +144,11 @@
 					$descrizione = $_POST['descrizione'];
 					inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione);
 					break;
+					//Tommy ha aggiunto questa funzione
+				case 'eliminaDocumento' :
+					$idDocumento = $_POST['id'];
+					eliminaDocumento($conn,$idDocumento);
+					break;
 				case 'visualizzaDocumenti' :
 					$idPersona = $_POST['id'];
 					visualizzaDocumenti($conn,$idPersona);
@@ -567,6 +572,17 @@
 		}
 
 
+
+		function eliminaDocumento($conn,$idDocumento){
+			$query="DELETE FROM documenti WHERE ID = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $idDocumento);
+			
+			$result = $stmSql ->execute();
+		}
+
+
+
 		function visualizzaAnamnesi($conn,$idPersona){ //funzione che restituisce l'anamnesi
 			$query="SELECT Anamnesi FROM anagrafica WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
@@ -628,7 +644,12 @@
 		}
 
 		function convertToPDF($conn,$id,$data){
-			$downloadPath = "..\\fogliPrivacy\\fp" . $id . ".pdf";
+			$mainPath = "..\docs\\" . $id . "\\";
+			$cmd = "mkdir " . $mainPath;
+			shell_exec($cmd);
+
+			$downloadPath = $mainPath . "foglioPrivacy.pdf";
+
 			$descrizione = "Foglio privacy";
 			//Non posso far venire fuori l' opzione di download?
 			//In alternativa si apre un popup con un link a dov'è il file
@@ -643,6 +664,8 @@
 			$stmSql ->bindParam(4, $descrizione);
 			
 			$result = $stmSql ->execute();
+
+			echo $downloadPath;
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//

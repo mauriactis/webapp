@@ -9,15 +9,15 @@ legenda:
 
 -------homepage-------
 
-mostraDocumento(); cosa deve fare??????
-
 -------contabilità-------
 
 manca stampa fattura
 
 ------Aggiuntivi-------
 
-rinominare fogliPrivacy in docs
+foglio privacy non viene ancora scaricato qundo inserito per la prima volta
+
+l'eliminazione deve avvenire anche sul db
 
 --- consegne ---
 
