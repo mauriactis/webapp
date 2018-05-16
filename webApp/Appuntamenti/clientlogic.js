@@ -17,9 +17,25 @@ $(document).ready(function(){
 function initForm(){
     initPillsGiorni();
     startTime();
+    initBadge();
     $('.txtData').datepicker({minDate: new Date});
     $('.dataRisposta1').datepicker("setDate", new Date());
     $('.txtOra').wickedpicker(options);
+}
+
+function initBadge(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "nuoveRichieste"},
+        success: function(response) {
+            $("#bdgRichieste").html(response);
+        },
+        error: function(){
+            initPopupGenerico("Errore lato server.");
+        }
+    });
+    setTimeout(initBadge, 300000);
 }
 
 function initPillsGiorni(caricaPagina = 1){
@@ -281,7 +297,6 @@ function caricaAppuntamenti(anno, mese, giorno){
         url: "./serverlogic.php",
         data: {azione: "caricaAppuntamenti", data:data},
         success: function(response) {
-            console.log(response);
             var appuntamenti = JSON.parse (response);
             var riga = "";
             var dataOra = "";
@@ -291,8 +306,7 @@ function caricaAppuntamenti(anno, mese, giorno){
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora + "</td><td>" +
                     appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>"; 
-                console.log(String(data));
+                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
             }
             if(riga != ""){
                 $("#tblAppuntamentiBody").html(riga);
@@ -318,7 +332,6 @@ function richiesteAppuntamento(){
         url: "./serverlogic.php",
         data: {azione: "visualizzaRichiesteAppuntamento"},
         success: function(response) {
-            console.log(response);
             var richieste = JSON.parse (response);
             var riga = "";
             var dataInvio = "";
@@ -348,6 +361,7 @@ function checkInviaRisposta(){
 }
 
 function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
+    svuotaInviaRisposta();
     $("#popupRisposta").modal('show');
     $("#lblCognomeNomePopupRisposta").html(cognome + " " + nome);
     $("#divRispostaMessaggio").html(note);
@@ -373,10 +387,6 @@ function inviaRisposta(){
         var dataOra2 = String(giraDataDb(data2)) + " " + String(ora2).substring(0,2) + ":" + String(ora2).substring(5,7) + ":00";
         var dataOra3 = String(giraDataDb(data3)) + " " + String(ora3).substring(0,2) + ":" + String(ora3).substring(5,7) + ":00";
 
-        console.log(dataOra1);
-        console.log(dataOra2);
-        console.log(dataOra3);
-
         if(dataOra2 == "-- ::00"){
             dataOra2 = false;
         }
@@ -391,6 +401,7 @@ function inviaRisposta(){
                 $("#popupRisposta").modal('hide');
                 richiesteAppuntamento();
                 initPopupGenerico("Risposta inviata con successo!");
+                initBadge();
             },
             error: function(){
                 initPopupGenerico("Errore lato server.");
@@ -398,7 +409,7 @@ function inviaRisposta(){
         });
     }else{
         if(succ == 2){
-            initPopupGenerico("Attenzione, è stata immessa più volte la stessa data.");
+            initPopupGenerico("Attenzione, è stata immessa più volte la stessa data con la stessa ora.");
         }else{
             initPopupGenerico("E\' necessario compilare correttamente tutti i campi...");
         }
@@ -421,14 +432,22 @@ function checkfieldRisposta(){
     if(ora1 == ""){
         ret = false;
     }
-    if((data1 == data2 || data2 == data3 || data1 == data3)){
-        ret = 2;
-    }
     if((ora2 == "" && data2 != "") || (ora2 != "" && data2 == "")){
         ret = false;
     }
     if((ora3 == "" && data3 != "") || (ora3 != "" && data3 == "")){
         ret = false;
+    }
+    if(data1 == data2 && ora1 == ora2){
+        ret = 2;
+    }
+    if(data1 == data3 && ora1 == ora3){
+        ret = 2;
+    }
+    if(data2 != ""){
+        if(data2 == data3 && ora2 == ora3){
+            ret = 2;
+        }
     }
     
     return ret;

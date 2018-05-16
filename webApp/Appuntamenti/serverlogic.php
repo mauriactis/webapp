@@ -16,6 +16,9 @@
             case 'caricaNomiPersone' : 
                 caricaNomiPersone($conn);
                 break;
+            case 'nuoveRichieste' : 
+                nuoveRichieste($conn);
+                break;
             case 'mostraDettagliAppuntamento' :
                 $idPersona = $_POST['id'];
                 $data = $_POST['data'];
@@ -73,6 +76,14 @@
         
     echo json_encode(local_encode($ret)); 
 
+    }
+
+    function nuoveRichieste($conn){
+        $query="SELECT count(*) FROM richiesteappuntamenti WHERE Richiesta = 0 AND Letto = 0";
+        $stmSql = $conn->prepare($query);
+        $result = $stmSql ->execute();
+        
+        echo $stmSql ->fetch()[0];
     }
 
 // #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
