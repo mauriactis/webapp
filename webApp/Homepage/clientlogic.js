@@ -35,8 +35,30 @@ $(document).ready(function(){
     $("#txtLuogoNascitaPopupAggiungiNuovo").keyup(function(){
         caricaLuogoNascita();
     });
-    
+    setInterval(trovaAppuntamenti, 900000);
 });
+
+function trovaAppuntamenti(){
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "trovaAppuntamenti"},
+        success: function(response) {
+            var appuntamenti = JSON.parse (response);
+            var nome = appuntamenti[0].Nome + " " + appuntamenti[0].Cognome;
+            var ora = appuntamenti[0].Ora.substring(0,6);
+            var totale = nome + " (" + ora + ")";
+            $("#lblAppuntamento").html(totale);
+            nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
+            ora = appuntamenti[1].Ora.substring(0,6);
+            totale = nome + " (" + ora + ")";
+            $("#lblProxAppuntamento").html(totale);
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
+}
 
 //svuota il campo nome del popup aggiungi nuovo
 function svuotaNome(){
