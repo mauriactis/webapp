@@ -41,7 +41,7 @@
       <div id="divBottoniPagamento">
          <button type="button" class="btn btn-success" onclick="aggiornaPagamento();" id="btnAggiornaPagamento">Aggiorna</button>
          <button type="button" class="btn btn-primary" onclick="controlloPiuPagamenti();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
-         <button type="button" class="btn btn-default" onclick="stampaRicevuta();" id="btnPaga">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>
+         <button type="button" class="btn btn-default" onclick="stampaRicevuta();" id="btnStampaRicevuta">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>
       </div>
       <input type="hidden" id="idPagamento" value="">
       <input type="hidden" id="dataPagamento" value="">
