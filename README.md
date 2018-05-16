@@ -9,8 +9,6 @@ legenda:
 
 -------homepage-------
 
-mostraDocumento(); cosa deve fare??????
-
 -------contabilità-------
 
 manca stampa fattura
