@@ -35,7 +35,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             <div id="divUpper">
                <table id="headerTbl">
                   <tr><td class="headerCol">
-                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento <span class="badge badge-notify" id="bdgRichieste">2</span></button>
+                     <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento <span class="badge badge-notify" id="bdgRichieste"></span></button>
                   </td><td class="headerCol">
                      <label id="lblOraAttuale"></label>
                   </td><td class="headerCol">
