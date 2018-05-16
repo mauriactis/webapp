@@ -9,19 +9,11 @@ legenda:
 
 -------homepage-------
 
-pdf foglio privacy (quasi fatto)
+mostraDocumento(); cosa deve fare??????
 
 -------situazione paziente-------
 
 -------appuntamenti-------
-
-!! - btn richieste appuntamento
- 
- nella risposta ad una richiesta valorizzare solo prima data e prima ora
- 
- quando la data o l'ra sono vuote dal php inserisci NULL
- 
- Ogni quanto aggiorniamo il badge??
 
 -------contabilità-------
 
@@ -29,29 +21,7 @@ manca stampa fattura
 
 ------Aggiuntivi-------
 
-CAMBIAMO TEMA https://bootswatch.com/3/
-
-
-Anagrafica:
-
-mostraDocumento(); cosa deve fare??????
-
-inserisci documento manca da php
-
 rinominare fogliPrivacy in docs
-
-cancellare file html da tmp (o lo lasci lì?Tanto viene sovrascritto tutte le volte)
-
---- sample ---
-
-replace span con tags 
-php -> replace tags con dati passati
-salva tutto su file html
-salva html su pdf
-
-Quando fai salva intervento chiede se vuoi stampare la ricevuta
-togliere alert
-
 
 --- consegne ---
 
