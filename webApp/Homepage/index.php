@@ -49,7 +49,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
    
                <button type="button" class="btn btn-success" id="btnSchede" onclick="window.open('../Schede/index.html');"><span class="glyphicon glyphicon-list-alt"></span> Schede</button>
    
-               <label>Appuntamento attuale con: </label><label id="lblAppuntamento2">Esempio esempio (hh:mm)</label><label>Prossimo appuntamento con: </label><label id="lblProxAppuntamento2">Esempio esempio (hh:mm)</label>
+               <label>Appuntamento attuale con: </label><label id="lblAppuntamento"></label><label style="margin-left:5px">Prossimo appuntamento con: </label><label id="lblProxAppuntamento"></label>
    
                <button type="button" class="btn btn-default" id="btnAppuntamenti" onclick="window.open('../Appuntamenti/index.php');"><span class="glyphicon glyphicon-calendar"></span> Appuntamenti</button>
             </div>
