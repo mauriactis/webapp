@@ -653,7 +653,7 @@
 			$descrizione = "Foglio privacy";
 			//Non posso far venire fuori l' opzione di download?
 			//In alternativa si apre un popup con un link a dov'è il file
-			$cmd = 'D:\"Program Files"\wkhtmltopdf\bin\wkhtmltopdf.exe ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
+			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
 			shell_exec($cmd);
 
 			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
