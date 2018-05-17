@@ -239,6 +239,9 @@
                </tbody>
             </table>
          </div>
+         <div class="modal-body" id="divDocumentiPazienteAssenti">
+            L' utente non ha documenti registrati...
+         </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
          </div>
