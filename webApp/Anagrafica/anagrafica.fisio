@@ -309,6 +309,8 @@
          <div class="modal-body">
             Si desidera stampare la ricevuta? In caso negativo l'intervento sarà registrato come <b>non</b> pagato.
          </div>
+         <div id="fattura">
+         </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="stampaRicevuta(1);" data-dismiss="modal">Sì</button>
             <button type="button" class="btn btn-default" onclick="stampaRicevuta(0);" data-dismiss="modal">No</button>
