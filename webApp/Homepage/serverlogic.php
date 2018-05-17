@@ -168,6 +168,10 @@
 					$doc = $_POST['foglioPrivacy'];
 					foglioToHTML($conn,$doc);
 					break;
+				case 'fatturaToHTML' :
+					$doc = $_POST['foglioPrivacy'];
+					faturaToHTML($conn,$doc);
+					break;
 				case 'convertToPDF' :
 					$id = $_POST['id'];
 					$data = $_POST['data'];
@@ -635,6 +639,20 @@
 			fclose($fileHtml);
 
 			$query="SELECT ID FROM anagrafica ORDER BY ID DESC LIMIT 0,1";
+			$stmSql = $conn->prepare($query);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+			
+			echo $ret[0];  
+		}
+
+		function fatturaToHTML($conn, $doc){
+			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
+			fwrite($fileHtml, $doc);
+			fclose($fileHtml);
+
+			$query="SELECT ID FROM interventi ORDER BY ID DESC LIMIT 0,1";
 			$stmSql = $conn->prepare($query);
 			
 			$result = $stmSql ->execute();

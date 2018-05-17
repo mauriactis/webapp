@@ -644,16 +644,17 @@ function salvaIntervento(){
     var descrizione = $("#txtSituazionePazienteOggi").val();
     var importo = $("#txtImportoSituazionePaziente").val();
     if(checkfieldsIntervento(descrizione, importo)){
-        initPopupGenerico("Alcuni campi non sono stati compilati correttamente");
+        initPopupGenerico("Alcuni campi non sono stati compilati correttamente.");
     }else{
         var pagato = $("#chkPagato").is(':checked');
         var id = $("#idPersonaSituazionePaziente").val();
         var oggi = dataDiOggi();
     
-        if(pagato) // se la checkbox è checkata o no
-            $('#popupStampaRicevuta').modal('show');
-        else
+        if(pagato){ // se la checkbox è checkata o no
+            ricevutaAnagrafica(1);
+        }else{
             ricevutaAnagrafica(0);
+        }
     }
 }
 
@@ -666,6 +667,55 @@ function ricevutaAnagrafica(pagato){
         success: function(response) {
             if(response){
                 initPopupGenerico("Intervento registrato!");
+
+
+
+
+
+
+
+
+
+
+
+                $.ajax({  
+                    type: "GET", 
+                    url: "../samples/sampleFattura.html",
+                    data: {azione: "fatturaToHTML"},
+                    success: function(response) {
+                        var fattura = response;
+    
+                        $.ajax({  
+                            type: "POST", 
+                            url: "./serverlogic.php",
+                            data: {azione: "fatturaToHTML", fattura:fattura, id:id, importo:importo, descrizione:descrizione, data:oggi},
+                            success: function(response) {
+                                $("#fattura").val(response);
+                                $('#popupStampaRicevuta').modal('show');
+                            },
+                            error: function(){
+                                initPopupGenerico("Errore");
+                            }
+                        });
+    
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 nascondiSituazionePaziente();
             }else{
                 initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
@@ -1228,7 +1278,7 @@ function aggiornaImporti(){
 function stampaRicevuta(){
     aggiornaImporti();
 
-    //stampa ricevuta
+    
 
     
 }
