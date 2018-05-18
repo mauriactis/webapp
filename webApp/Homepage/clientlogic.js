@@ -649,16 +649,13 @@ function salvaIntervento(){
         var pagato = $("#chkPagato").is(':checked');
         var id = $("#idPersonaSituazionePaziente").val();
         var oggi = dataDiOggi();
-    
+
         if(pagato){ // se la checkbox è checkata o no
-
-
-               
-
-
-
-
-            ricevutaAnagrafica(1, descrizione, importo, id, oggi);
+            $('#popupStampaRicevuta').modal('show');
+            $("#stmpRicImporto").val(importo);
+            $("#stmpRicDescrizione").val(descrizione);
+            $("#stmpRicID").val(id);
+            $("#stmpRicData").val(oggi);
         }else{
             ricevutaAnagrafica(0, descrizione, importo, id, oggi);
         }
@@ -666,40 +663,48 @@ function salvaIntervento(){
 }
 
 function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
+    //Se è diverso da 0 la funzione è richiamata dal popup stampa ricevuta in homepage e prende i valori da lì
+    if(pagato != 0){
+        var importo = $("#stmpRicImporto").val();
+        var descrizione = $("#stmpRicDescrizione").val();
+        var id = $("#stmpRicID").val();
+        var oggi = $("#stmpRicData").val();
+        if(pagato == 2){
+            pagato = 0;
+        }
+    }
     $.ajax({  
         type: "GET", 
         url: "../samples/sampleFattura.html",
         success: function(response) {
             var fattura = response;
-
-
             $.ajax({ 
                 type: "POST", 
                 url: "./serverlogic.php",
                 data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                        data:oggi, fattura:fattura},
+                        data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
                 success: function(fattura) {
-                    if(response){
-    
+                    //if(response){
                         $.ajax({
                             type: "POST", 
                             url: "./serverlogic.php",
                             data: {azione: "fatturaToHTML", fattura:fattura},
                             success: function(response) {
-                                $("#fattura").val(response);
-                                $('#popupStampaRicevuta').modal('show');
+                                
+                                if(pagato == 1){
+                                    $("#fattura").val(response);
+                                }
                             },
                             error: function(){
                                 initPopupGenerico("Errore");
                             }
                         });
 
-                        initPopupGenerico("Intervento registrato!");
                         nascondiSituazionePaziente();
-                    }else{
-                        initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
-                        nascondiSituazionePaziente();
-                    }
+                    //}else{
+                    //    initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
+                    //    nascondiSituazionePaziente();
+                    //}
                 },
                 error: function(){
                     initPopupGenerico("Errore");
@@ -1261,12 +1266,25 @@ function aggiornaImporti(){
 }
 
 //Funzione che stampa la ricevuta con gli importi aggiornati
-function stampaRicevuta(){
-    aggiornaImporti();
+function stampaRicevutaPagamentoEsistente(){
+    var id = $("#idPagamento").val();
+    var data = $("#dataPagamento").val();
 
-    
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "dettagliPagamento", id:id, dtaa:data},
+        success: function(response) {
+            var pagamento = JSON.parse(response);
+            //prendo i dati ricevuti dal db
+            //ricevutaAnagrafica(1,pagamento[0].Descrizione,pagamento[0].Importo, id, oggi);
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
 
-    
+
 }
 
 function initPopupGenerico(msg){

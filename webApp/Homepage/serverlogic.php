@@ -44,8 +44,9 @@
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
 					$data = $_POST['data'];
+					$dataFattura = $_POST['dataFattura'];
 					$fattura = $_POST['fattura'];
-					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione,$fattura);
+					inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura);
 					break;
 				case 'inserisciNuovoPaziente' :
 					$nome = $_POST['nome'];
@@ -290,7 +291,7 @@
 			echo $foglioPrivacy;			
 		}
 
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione,$fattura){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -311,8 +312,7 @@
 			
 			$result = $stmSql ->execute();
 
-			$fattura = str_replace("@cognomeNome@",$cognome . " " . $nome,$fattura);
-			$fattura = str_replace("@dataEmissione@",$data,$fattura);
+			$fattura = str_replace("@dataEmissione@",$dataFattura,$fattura);
 			$fattura = str_replace("@daPagare@",$importo,$fattura);
 			$fattura = str_replace("@importo@",$importo,$fattura);
 			$fattura = str_replace("@quantita@","1",$fattura);
@@ -494,6 +494,7 @@
 			
 			$query="UPDATE anagrafica SET Nome = ?, Cognome = ?, DataNascita = ?, LuogoNascita = ?, MedicoProvenienza = ?, Residenza = ?, Indirizzo = ?, CAP = ?, Telefono1 = ?, Telefono2 = ?, Motivo = ?, Anamnesi = ?, CodFisc = ? WHERE ID=?";
 
+			$codFisc = strtoupper($codFisc);
 			
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -508,7 +509,7 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, strtoupper($codFisc));
+			$stmSql ->bindParam(13, $codFisc);
 			$stmSql ->bindParam(14, $idPersona);
 
 			$result = $stmSql ->execute();
@@ -665,13 +666,13 @@
 			fwrite($fileHtml, $doc);
 			fclose($fileHtml);
 
-			$query="SELECT AnaID, Data FROM interventi ORDER BY ID DESC LIMIT 0,1";
+			$query="SELECT AnaID, Data FROM interventi ORDER BY AnaID, Data DESC LIMIT 0,1";
 			$stmSql = $conn->prepare($query);
 			
 			$result = $stmSql ->execute();
 			$ret = $stmSql ->fetch();
 			
-			echo echo json_encode(local_encode($ret));  
+			echo json_encode(local_encode($ret));  
 		}
 
 		function convertToPDF($conn,$id,$data){
