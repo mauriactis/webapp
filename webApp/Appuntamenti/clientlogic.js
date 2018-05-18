@@ -32,7 +32,8 @@ function initBadge(){
             $("#bdgRichieste").html(response);
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("1");
+            initPopupGenerico("Errore lato server.1");
         }
     });
     setTimeout(initBadge, 300000);
@@ -198,7 +199,8 @@ function mostraDettagliAppuntamento(i, dataOra){
             $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("2");
+            initPopupGenerico("Errore lato server.2");
         }
     });
 
@@ -231,7 +233,8 @@ function nuovoAppuntamento(){
             $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("3");
+            initPopupGenerico("Errore lato server.3");
         }
     });
 }
@@ -256,7 +259,8 @@ function eliminaAppuntamento(){
             $("#selezionato").click();
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("4");
+            initPopupGenerico("Errore lato server.4");
         }
     });
 
@@ -282,7 +286,8 @@ function salvaAppuntamento(){
             $('#selezionato').click();
          },
          error: function(){
-             initPopupGenerico("Errore lato server.");
+            console.log("5");
+             initPopupGenerico("Errore lato server.5");
          }
      });
 }
@@ -315,7 +320,8 @@ function caricaAppuntamenti(anno, mese, giorno){
             }
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("6");
+            initPopupGenerico("Errore lato server.6");
         }
     });
 }
@@ -348,7 +354,8 @@ function richiesteAppuntamento(){
             }
         },
         error: function(){
-            initPopupGenerico("Errore lato server.");
+            console.log("7");
+            initPopupGenerico("Errore lato server.7");
         }
     });
 }
@@ -404,7 +411,8 @@ function inviaRisposta(){
                 initBadge();
             },
             error: function(){
-                initPopupGenerico("Errore lato server.");
+                console.log("8");
+                initPopupGenerico("Errore lato server.8");
             }
         });
     }else{
