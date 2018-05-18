@@ -47,9 +47,9 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       
                <button type="button" class="btn btn-danger" id="btnAggiungiPersona" data-toggle="modal" data-target="#popupAggiungiNuovo" onclick="initPopupAggiungiNuovo();"><span class="glyphicon glyphicon-user"></span> Aggiungi nuovo</button>
    
-               <button type="button" class="btn btn-success" id="btnSchede" onclick="window.open('../Schede/index.html');"><span class="glyphicon glyphicon-list-alt"></span> Schede</button>
+               <button type="button" class="btn btn-success" id="btnSchede" onclick="window.open('../Schede/index.html');" disabled="disabled"><span class="glyphicon glyphicon-list-alt"></span> Schede</button>
    
-               <label>Appuntamento attuale con: </label><label id="lblAppuntamento"></label><label style="margin-left:5px">Prossimo appuntamento con: </label><label id="lblProxAppuntamento"></label>
+               <p style="display:inline">Appuntamento attuale con: <label id="lblAppuntamento"></label> Prossimo appuntamento con: <label id="lblProxAppuntamento"></label></p>
    
                <button type="button" class="btn btn-default" id="btnAppuntamenti" onclick="window.open('../Appuntamenti/index.php');"><span class="glyphicon glyphicon-calendar"></span> Appuntamenti</button>
             </div>
