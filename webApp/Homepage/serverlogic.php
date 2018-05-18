@@ -44,7 +44,8 @@
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
 					$data = $_POST['data'];
-					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione);
+					$fattura = $_POST['fattura'];
+					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione,$fattura);
 					break;
 				case 'inserisciNuovoPaziente' :
 					$nome = $_POST['nome'];
@@ -169,10 +170,15 @@
 					foglioToHTML($conn,$doc);
 					break;
 				case 'fatturaToHTML' :
-					$doc = $_POST['foglioPrivacy'];
-					faturaToHTML($conn,$doc);
+					$doc = $_POST['fattura'];
+					fatturaToHTML($conn,$doc);
 					break;
 				case 'convertToPDF' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					convertToPDF($conn,$id,$data);
+					break;
+				case 'fatturaToPDF' :
 					$id = $_POST['id'];
 					$data = $_POST['data'];
 					convertToPDF($conn,$id,$data);
@@ -284,7 +290,7 @@
 			echo $foglioPrivacy;			
 		}
 
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione,$fattura){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -305,8 +311,15 @@
 			
 			$result = $stmSql ->execute();
 
+			$fattura = str_replace("@cognomeNome@",$cognome . " " . $nome,$fattura);
+			$fattura = str_replace("@dataEmissione@",$data,$fattura);
+			$fattura = str_replace("@daPagare@",$importo,$fattura);
+			$fattura = str_replace("@importo@",$importo,$fattura);
+			$fattura = str_replace("@quantita@","1",$fattura);
+			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
+
 			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+			echo $fattura;
 		}
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
@@ -647,21 +660,46 @@
 			echo $ret[0];  
 		}
 
-		function fatturaToHTML($conn, $doc){
+		function fatturaToHTML($conn,$doc){
 			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
 			fwrite($fileHtml, $doc);
 			fclose($fileHtml);
 
-			$query="SELECT ID FROM interventi ORDER BY ID DESC LIMIT 0,1";
+			$query="SELECT AnaID, Data FROM interventi ORDER BY ID DESC LIMIT 0,1";
 			$stmSql = $conn->prepare($query);
 			
 			$result = $stmSql ->execute();
 			$ret = $stmSql ->fetch();
 			
-			echo $ret[0];  
+			echo echo json_encode(local_encode($ret));  
 		}
 
 		function convertToPDF($conn,$id,$data){
+			$mainPath = "..\docs\\" . $id . "\\";
+			$cmd = "mkdir " . $mainPath;
+			shell_exec($cmd);
+
+			$downloadPath = $mainPath . "foglioPrivacy.pdf";
+
+			$descrizione = "Foglio privacy";
+			//Non posso far venire fuori l' opzione di download?
+			//In alternativa si apre un popup con un link a dov'è il file
+			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
+			shell_exec($cmd);
+
+			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $downloadPath);
+			$stmSql ->bindParam(4, $descrizione);
+			
+			$result = $stmSql ->execute();
+
+			echo $downloadPath;
+		}
+
+		function fatturaToPDF($conn,$id,$data){
 			$mainPath = "..\docs\\" . $id . "\\";
 			$cmd = "mkdir " . $mainPath;
 			shell_exec($cmd);

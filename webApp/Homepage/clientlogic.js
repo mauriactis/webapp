@@ -460,7 +460,6 @@ function aggiornaPaziente(){
         var provenienza = $("#txtProvenienzaPopupModificaPaziente").val();
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
-        console.log(dataNascita);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -469,7 +468,8 @@ function aggiornaPaziente(){
                 motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
         success: function(response) {
             console.log(response);
-            initPopupGenerico("Informazioni paziente aggiornate!");
+            $('#popupModificaPaziente').modal('hide');
+            //initPopupGenerico("Informazioni paziente aggiornate!");
             caricaAnagrafica();
         },
         error: function(){
@@ -651,44 +651,40 @@ function salvaIntervento(){
         var oggi = dataDiOggi();
     
         if(pagato){ // se la checkbox è checkata o no
-            ricevutaAnagrafica(1);
+
+
+               
+
+
+
+
+            ricevutaAnagrafica(1, descrizione, importo, id, oggi);
         }else{
-            ricevutaAnagrafica(0);
+            ricevutaAnagrafica(0, descrizione, importo, id, oggi);
         }
     }
 }
 
-function ricevutaAnagrafica(pagato){
+function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
     $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                data:oggi},
+        type: "GET", 
+        url: "../samples/sampleFattura.html",
         success: function(response) {
-            if(response){
-                initPopupGenerico("Intervento registrato!");
+            var fattura = response;
 
 
-
-
-
-
-
-
-
-
-
-                $.ajax({  
-                    type: "GET", 
-                    url: "../samples/sampleFattura.html",
-                    data: {azione: "fatturaToHTML"},
-                    success: function(response) {
-                        var fattura = response;
+            $.ajax({ 
+                type: "POST", 
+                url: "./serverlogic.php",
+                data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
+                        data:oggi, fattura:fattura},
+                success: function(fattura) {
+                    if(response){
     
-                        $.ajax({  
+                        $.ajax({
                             type: "POST", 
                             url: "./serverlogic.php",
-                            data: {azione: "fatturaToHTML", fattura:fattura, id:id, importo:importo, descrizione:descrizione, data:oggi},
+                            data: {azione: "fatturaToHTML", fattura:fattura},
                             success: function(response) {
                                 $("#fattura").val(response);
                                 $('#popupStampaRicevuta').modal('show');
@@ -697,30 +693,20 @@ function ricevutaAnagrafica(pagato){
                                 initPopupGenerico("Errore");
                             }
                         });
-    
-                    },
-                    error: function(){
-                        initPopupGenerico("Errore");
+
+                        initPopupGenerico("Intervento registrato!");
+                        nascondiSituazionePaziente();
+                    }else{
+                        initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
+                        nascondiSituazionePaziente();
                     }
-                });
-
-
-
-
-
-
-
-
-
-
-
-
+                },
+                error: function(){
+                    initPopupGenerico("Errore");
+                }
+            });
                 
-                nascondiSituazionePaziente();
-            }else{
-                initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
-                nascondiSituazionePaziente();
-            }
+            
         },
         error: function(){
             initPopupGenerico("Errore");
