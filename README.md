@@ -21,6 +21,8 @@ l'eliminazione deve avvenire anche sul db
 
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+fare ricevuta per pagamento già esistente (prima discuterne i meccanismi)
+
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
