@@ -19,6 +19,8 @@ foglio privacy non viene ancora scaricato qundo inserito per la prima volta
 
 l'eliminazione deve avvenire anche sul db
 
+RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
