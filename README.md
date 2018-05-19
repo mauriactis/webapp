@@ -19,6 +19,8 @@ foglio privacy non viene ancora scaricato qundo inserito per la prima volta
 
 l'eliminazione deve avvenire anche sul db
 
+pulsanti header colorati uguali (schede appuntamenti anagrafica e contabilita) o comunque cercare la concordanza dei colori per funzioni simili (es soldi, pazienti, appuntamenti)
+
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
