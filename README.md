@@ -9,6 +9,8 @@ legenda:
 
 -------homepage-------
 
+popupaggiungi nuovo nascondi campi quando apri il popup
+
 -------contabilità-------
 
 manca stampa fattura
