@@ -13,9 +13,13 @@ popupaggiungi nuovo nascondi campi quando apri il popup
 
 controllo campi su nuovo paziente e su modifica
 
+rimuovere id da mostra contabilità
+
 -------contabilità-------
 
 manca stampa fattura
+
+se pagamento già pagato non inserire l'importo nella textbopx del sidenav, ma in un div
 
 ------Aggiuntivi-------
 
@@ -25,11 +29,10 @@ l'eliminazione deve avvenire anche sul db
 
 pulsanti header colorati uguali (schede appuntamenti anagrafica e contabilita) o comunque cercare la concordanza dei colori per funzioni simili (es soldi, pazienti, appuntamenti)
 
-rimuovere id da mostra contabilità
-
-se pagamento già pagato non inserire l'importo nella textbopx del sidenav, ma in un div
+-----Appuntamenti-----
 
 controllo campi nuovo appuntamento
+
 
 --- consegne ---
 
