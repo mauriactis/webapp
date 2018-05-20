@@ -29,10 +29,11 @@ l'eliminazione deve avvenire anche sul db
 
 pulsanti header colorati uguali (schede appuntamenti anagrafica e contabilita) o comunque cercare la concordanza dei colori per funzioni simili (es soldi, pazienti, appuntamenti)
 
+dove si visualizzano i messaggi mandati con contatta la dottoressa??
+
 -----Appuntamenti-----
 
 controllo campi nuovo appuntamento
-
 
 --- consegne ---
 
