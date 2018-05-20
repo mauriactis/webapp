@@ -25,6 +25,8 @@ pulsanti header colorati uguali (schede appuntamenti anagrafica e contabilita) o
 
 rimuovere id da mostra contabilità
 
+se pagamento già pagato non inserire l'importo nella textbopx del sidenav, ma in un div
+
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
