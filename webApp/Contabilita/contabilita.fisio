@@ -29,6 +29,8 @@
          <tr>
             <td>
                <input type="text" class="form-control" id="txtImportoPagamento">
+               <h3 id="divImportoPagamento">
+               </h3>
             </td>
             <td>
                <h3><label class="lblEuro"> €</label></h3>
