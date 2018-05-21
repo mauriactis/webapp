@@ -59,19 +59,15 @@
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiModifiche();">&times;</a>
    <div class="corpoSidenav" style="display: block;">
       <h3><label id="lblCognomeNomeModifiche"></label></h3>
-      <button type="button" class="btn btn-danger" style="display: block;" data-toggle="modal" data-target="#popupModificaPaziente" onclick="initPopupModifica();">Modifica</button>
-
-
-      <button type="button" class="btn btn-warning" style="display: block;" data-toggle="modal" data-target="#popupDocumentiPaziente" onclick="visualizzaDocumenti();">Visualizza documenti <span class="glyphicon glyphicon-folder-open"></span></button>
-      <button type="button" class="btn btn-danger" style="display: block;" data-toggle="modal" data-target="#popupAnamnesiPaziente" id="btnAnamnesi" onclick="visualizzaAnamnesi();">Visualizza anamnesi <span class="glyphicon glyphicon-list-alt"></span></button>
-
-
-
-      <button type="button" class="btn btn-success" style="display: block;" data-toggle="modal" data-target="#popupCodicePaziente" id="btnGeneraCodiceApp" onclick="generaCodice();">Genera codice app <span class="glyphicon glyphicon-qrcode"></span></button>
-      <button type="button" class="btn btn-warning" style="display: block;" data-toggle="modal" data-target="#popupNuovoDocumento" id="btnNuovoDocumento" onclick="nuovoDocumento();">Nuovo documento <span class="glyphicon glyphicon-file"></span></button>
-      <button type="button" class="btn btn-default" style="display: block;" onclick="assegnaEsercizi();">Assegna esercizi</button>
+      <button type="button" class="btn btn-info" style="display: block;" data-toggle="modal" data-target="#popupDocumentiPaziente" onclick="visualizzaDocumenti();">Visualizza documenti <span class="glyphicon glyphicon-folder-open"></span></button>
+      <button type="button" class="btn btn-info" style="display: block;" data-toggle="modal" data-target="#popupAnamnesiPaziente" id="btnAnamnesi" onclick="visualizzaAnamnesi();">Visualizza anamnesi <span class="glyphicon glyphicon-list-alt"></span></button>
       <button type="button" class="btn btn-default" style="display: block;" data-toggle="modal" data-target="#popupContabilitaPaziente" onclick="visualizzaContabilita();">Visualizza contabilità</button>
       <button type="button" class="btn btn-default" style="display: block;" data-toggle="modal" data-target="#popupStoricoInterventiPaziente" onclick="visualizzaStoricoInterventi();">Visualizza storico interventi</button>
+
+      <button type="button" class="btn btn-success" style="display: block;" data-toggle="modal" data-target="#popupCodicePaziente" id="btnGeneraCodiceApp" onclick="generaCodice();">Genera codice app <span class="glyphicon glyphicon-qrcode"></span></button>
+      <button type="button" class="btn btn-success" style="display: block;" data-toggle="modal" data-target="#popupNuovoDocumento" id="btnNuovoDocumento" onclick="nuovoDocumento();">Nuovo documento <span class="glyphicon glyphicon-file"></span></button>
+      <button type="button" class="btn btn-default" style="display: block;" onclick="assegnaEsercizi();">Assegna esercizi</button>
+      <button type="button" class="btn btn-warning" style="display: block;" data-toggle="modal" data-target="#popupModificaPaziente" onclick="initPopupModifica();">Modifica</button>
       <input type="hidden" id="idPersonaModifiche" value="">
    </div>
 </div>
@@ -105,35 +101,35 @@
                      <td><label>Nome</label></td>
                      <td><input type="text" class="form-control"onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtNomePopupModificaPaziente"></td>
                      
-                     <td><label class="PopupModificaPaziente3Col">Cognome</label></td>
+                     <td><label class="popupAggiungiModifica3Col">Cognome</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtCognomePopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Luogo di nascita</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtLuogoNascitaPopupModificaPaziente"><div id="elencoComuniModifica1"></div></td>
                      
-                     <td><label  class="PopupModificaPaziente3Col">Data di nascita</label></td>
+                     <td><label  class="popupAggiungiModifica3Col">Data di nascita</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtDataNascitaPopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Residenza</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtResidenzaPopupModificaPaziente"><div id="elencoComuniModifica2"></div></td>
                      
-                     <td><label class="PopupModificaPaziente3Col">Indirizzo</label></td>
+                     <td><label class="popupAggiungiModifica3Col">Indirizzo</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtIndirizzoPopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>CAP</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtCapPopupModificaPaziente"></td>
                      
-                     <td><label  class="PopupModificaPaziente3Col">Codice fiscale</label></td>
+                     <td><label  class="popupAggiungiModifica3Col">Codice fiscale</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" style="text-transform:uppercase" id="txtCodiceFiscalePopupModificaPaziente"></td>
                   </tr>
                   <tr class="tblPopupModificaPazienteRow">
                      <td><label>Telefono</label></td>
                      <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtTelefonoPopupModificaPaziente"></td>
                      
-                     <td><label  class="PopupModificaPaziente3Col">Motivo</label></td>
+                     <td><label  class="popupAggiungiModifica3Col">Motivo</label></td>
                      <td><select class="form-control" id="txtMotivoPopupModificaPaziente"></select></td>
                   </tr>
                </tbody>
@@ -159,7 +155,7 @@
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupModificaPaziente" onclick="changeArrow();" value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
-            <button type="button" class="btn btn-success" id="btnConfermaPopupModificaPaziente" data-dismiss="modal" onclick="aggiornaPaziente();">Aggiorna</button>
+            <button type="button" class="btn btn-primary" id="btnConfermaPopupModificaPaziente" data-dismiss="modal" onclick="aggiornaPaziente();">Aggiorna</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
          </div>
       </div>
@@ -203,7 +199,6 @@
             <table class="table table-hover table-bordered admin">
                <thead>
                   <tr>
-                     <th>ID</th>
                      <th>Data</th>
                      <th>Pagamento</th>
                   </tr>
