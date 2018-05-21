@@ -35,6 +35,7 @@ $(document).ready(function(){
     $("#txtLuogoNascitaPopupAggiungiNuovo").keyup(function(){
         caricaLuogoNascita();
     });
+    trovaAppuntamenti();
     setInterval(trovaAppuntamenti, 900000);
 });
 
@@ -44,13 +45,15 @@ function trovaAppuntamenti(){
         url: "./serverlogic.php",
         data: {azione: "trovaAppuntamenti"},
         success: function(response) {
+            console.log(response);
             var appuntamenti = JSON.parse (response);
+            console.log(appuntamenti);
             var nome = appuntamenti[0].Nome + " " + appuntamenti[0].Cognome;
-            var ora = appuntamenti[0].Ora.substring(0,6);
+            var ora = appuntamenti[0].Ora.substring(0,5);
             var totale = nome + " (" + ora + ")";
             $("#lblAppuntamento").html(totale);
             nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
-            ora = appuntamenti[1].Ora.substring(0,6);
+            ora = appuntamenti[1].Ora.substring(0,5);
             totale = nome + " (" + ora + ")";
             $("#lblProxAppuntamento").html(totale);
         },
@@ -707,6 +710,7 @@ function salvaIntervento(){
 
         if(pagato){ // se la checkbox è checkata o no
             $('#popupStampaRicevuta').modal('show');
+
             $("#stmpRicImporto").val(importo);
             $("#stmpRicDescrizione").val(descrizione);
             $("#stmpRicID").val(id);

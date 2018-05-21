@@ -9,6 +9,8 @@ legenda:
 
 -------homepage-------
 
+popupaggiungi nuovo nascondi campi quando apri il popup
+
 -------contabilità-------
 
 manca stampa fattura
@@ -23,6 +25,13 @@ RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
 
+dove si visualizzano i messaggi mandati con contatta la dottoressa??
+
+-----Appuntamenti-----
+
+controllo campi nuovo appuntamento
+
+
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
@@ -34,5 +43,3 @@ fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento
 
 31/05/18 PUPPO:
  - tutto sopra (senza video credo)
-
-

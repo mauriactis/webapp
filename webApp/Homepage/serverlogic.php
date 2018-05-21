@@ -1,6 +1,6 @@
 <?php
 	 
-	$user = "root"; $pwd = ""; $risposta = ""; $conn = null;
+	$user = "root"; $pwd = "root"; $risposta = ""; $conn = null;
 		try{
 			// connessione
 			$conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
@@ -676,16 +676,16 @@
 		}
 
 		function convertToPDF($conn,$id,$data){
-			$mainPath = "..\docs\\" . $id . "\\";
-			$cmd = "mkdir " . $mainPath;
-			shell_exec($cmd);
-
+			$mainPath = "/var/www/html/webApp/docs/" . $id . "/";
+			// $cmd = "mkdir " . $mainPath;
+			// shell_exec($cmd);
+			mkdir($mainPath, 0777);
 			$downloadPath = $mainPath . "foglioPrivacy.pdf";
 
 			$descrizione = "Foglio privacy";
 			//Non posso far venire fuori l' opzione di download?
 			//In alternativa si apre un popup con un link a dov'è il file
-			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
+			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf /var/www/html/webApp/tmp/tmpFoglioPrivacy.html ' . $downloadPath;
 			shell_exec($cmd);
 
 			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
@@ -697,7 +697,7 @@
 			
 			$result = $stmSql ->execute();
 
-			echo $downloadPath;
+			echo $cmd;
 		}
 
 		function fatturaToPDF($conn,$id,$data){

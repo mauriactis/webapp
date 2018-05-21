@@ -201,4 +201,11 @@
             echo $result;
     }
 
+/*    function eliminaAppuntamento($conn,$idPersona){
+        $query="DELETE FROM appuntamenti WHERE"
+
+
+
+    }
+*/
 ?>
