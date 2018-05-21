@@ -44,7 +44,9 @@
 					$pagato = $_POST['pagato'];
 					$descrizione = $_POST['descrizione'];
 					$data = $_POST['data'];
-					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione);
+					$dataFattura = $_POST['dataFattura'];
+					$fattura = $_POST['fattura'];
+					inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura);
 					break;
 				case 'inserisciNuovoPaziente' :
 					$nome = $_POST['nome'];
@@ -168,7 +170,16 @@
 					$doc = $_POST['foglioPrivacy'];
 					foglioToHTML($conn,$doc);
 					break;
+				case 'fatturaToHTML' :
+					$doc = $_POST['fattura'];
+					fatturaToHTML($conn,$doc);
+					break;
 				case 'convertToPDF' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					convertToPDF($conn,$id,$data);
+					break;
+				case 'fatturaToPDF' :
 					$id = $_POST['id'];
 					$data = $_POST['data'];
 					convertToPDF($conn,$id,$data);
@@ -280,7 +291,7 @@
 			echo $foglioPrivacy;			
 		}
 
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -301,8 +312,14 @@
 			
 			$result = $stmSql ->execute();
 
+			$fattura = str_replace("@dataEmissione@",$dataFattura,$fattura);
+			$fattura = str_replace("@daPagare@",$importo,$fattura);
+			$fattura = str_replace("@importo@",$importo,$fattura);
+			$fattura = str_replace("@quantita@","1",$fattura);
+			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
+
 			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+			echo $fattura;
 		}
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
@@ -477,6 +494,7 @@
 			
 			$query="UPDATE anagrafica SET Nome = ?, Cognome = ?, DataNascita = ?, LuogoNascita = ?, MedicoProvenienza = ?, Residenza = ?, Indirizzo = ?, CAP = ?, Telefono1 = ?, Telefono2 = ?, Motivo = ?, Anamnesi = ?, CodFisc = ? WHERE ID=?";
 
+			$codFisc = strtoupper($codFisc);
 			
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -491,7 +509,7 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, strtoupper($codFisc));
+			$stmSql ->bindParam(13, $codFisc);
 			$stmSql ->bindParam(14, $idPersona);
 
 			$result = $stmSql ->execute();
@@ -643,6 +661,20 @@
 			echo $ret[0];  
 		}
 
+		function fatturaToHTML($conn,$doc){
+			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
+			fwrite($fileHtml, $doc);
+			fclose($fileHtml);
+
+			$query="SELECT AnaID, Data FROM interventi ORDER BY AnaID, Data DESC LIMIT 0,1";
+			$stmSql = $conn->prepare($query);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+			
+			echo json_encode(local_encode($ret));  
+		}
+
 		function convertToPDF($conn,$id,$data){
 			$mainPath = "/var/www/html/webApp/docs/" . $id . "/";
 			// $cmd = "mkdir " . $mainPath;
@@ -666,6 +698,31 @@
 			$result = $stmSql ->execute();
 
 			echo $cmd;
+		}
+
+		function fatturaToPDF($conn,$id,$data){
+			$mainPath = "..\docs\\" . $id . "\\";
+			$cmd = "mkdir " . $mainPath;
+			shell_exec($cmd);
+
+			$downloadPath = $mainPath . "foglioPrivacy.pdf";
+
+			$descrizione = "Foglio privacy";
+			//Non posso far venire fuori l' opzione di download?
+			//In alternativa si apre un popup con un link a dov'è il file
+			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
+			shell_exec($cmd);
+
+			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $downloadPath);
+			$stmSql ->bindParam(4, $descrizione);
+			
+			$result = $stmSql ->execute();
+
+			echo $downloadPath;
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
