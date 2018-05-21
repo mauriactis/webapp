@@ -45,7 +45,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                   </div>
                </div>
       
-               <button type="button" class="btn btn-danger" id="btnAggiungiPersona" data-toggle="modal" data-target="#popupAggiungiNuovo" onclick="initPopupAggiungiNuovo();"><span class="glyphicon glyphicon-user"></span> Aggiungi nuovo</button>
+               <button type="button" class="btn btn-info" id="btnAggiungiPersona" data-toggle="modal" data-target="#popupAggiungiNuovo" onclick="initPopupAggiungiNuovo();"><span class="glyphicon glyphicon-user"></span> Aggiungi nuovo</button>
    
                <button type="button" class="btn btn-success" id="btnSchede" onclick="window.open('../Schede/index.html');"><span class="glyphicon glyphicon-list-alt"></span> Schede</button>
    
@@ -70,33 +70,33 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                               <td><label>Nome</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtNomePopupAggiungiNuovo"/></td>
 
-                              <td><label class="popupAggiungiNuovo3Col">Cognome</label></td>
+                              <td><label class="popupAggiungiModifica3Col">Cognome</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtCognomePopupAggiungiNuovo"/></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Luogo di nascita</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtLuogoNascitaPopupAggiungiNuovo"/><div id="elencoComuni1"></div></td>
 
-                              <td><label  class="popupAggiungiNuovo3Col">Data di nascita</label></td>
+                              <td><label class="popupAggiungiModifica3Col">Data di nascita</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtDataNascitaPopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Residenza</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtResidenzaPopupAggiungiNuovo"/><div id="elencoComuni2"></div></td>
 
-                              <td><label class="popupAggiungiNuovo3Col">Indirizzo</label></td>
+                              <td><label class="popupAggiungiModifica3Col">Indirizzo</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtIndirizzoPopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>CAP</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtCapPopupAggiungiNuovo"></td>
-                              <td><label  class="popupAggiungiNuovo3Col">Codice fiscale</label></td>
+                              <td><label  class="popupAggiungiModifica3Col">Codice fiscale</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" style="text-transform:uppercase" id="txtCodiceFiscalePopupAggiungiNuovo"></td>
                            </tr>
                            <tr class="tblPopupAggiungiNuovoRow">
                               <td><label>Telefono</label></td>
                               <td><input type="text" class="form-control" onclick="this.style.backgroundColor = 'white'; this.select();" onfocus="this.style.backgroundColor = 'white'; this.select();" id="txtTelefonoPopupAggiungiNuovo"></td>
-                              <td><label  class="popupAggiungiNuovo3Col">Motivo</label></td>
+                              <td><label  class="popupAggiungiModifica3Col">Motivo</label></td>
                               <td><select class="form-control" id="txtMotivoPopupAggiungiNuovo"></select></td>
                            </tr>
                         </tbody>

@@ -368,7 +368,7 @@ function cercaPersona (){
                                 persone [a].Motivo + "</td><td>" + 
                                 persone [a].CodFisc + "</td><td>" + 
                                 '<button class="btn btn-primary" onclick="mostraModifiche(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-th"></span></button>' + "</td><td>" +
-                                '<button class="btn btn-danger" onclick="mostraSituazionePaziente(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
+                                '<button class="btn btn-info" onclick="mostraSituazionePaziente(' + persone [a].ID + ',\'' + persone [a].Cognome + '\',\'' + persone [a].Nome + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
                 }
                 $("#tblAnagraficaBody").html(riga);
             },
@@ -441,9 +441,9 @@ function initPopupModifica(){
 
 //aggiorna i dati del paziente dopo una modifica
 function aggiornaPaziente(){
-    //if(!checkfieldsModifiche()){
-        //initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
-    //}else{
+    if(!checkfieldsModifiche()){
+        initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
+    }else{
         var id = $("#idPersonaModifiche").val();
         var nome = $("#txtNomePopupModificaPaziente").val();
         var cognome = $("#txtCognomePopupModificaPaziente").val();
@@ -460,23 +460,78 @@ function aggiornaPaziente(){
         var provenienza = $("#txtProvenienzaPopupModificaPaziente").val();
         luogoNascita = luogoNascita.split(", ")[1];
         residenza = residenza.split(", ")[1];
-    $.ajax({  
-        type: "POST", 
-        url: "./serverlogic.php",
-        data: {azione: "aggiornaAnagraficaUpdate", id:id, nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
-                medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
-                motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
-        success: function(response) {
-            console.log(response);
-            $('#popupModificaPaziente').modal('hide');
-            //initPopupGenerico("Informazioni paziente aggiornate!");
-            caricaAnagrafica();
-        },
-        error: function(){
-            initPopupGenerico("Errore");
-        }
-    });
-//}
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "aggiornaAnagraficaUpdate", id:id, nome:nome, cognome:cognome, dataNascita:dataNascita, luogoNascita:luogoNascita, 
+                    medicoProv:provenienza, residenza:residenza, indirizzo:indirizzo, cap:cap, telefono1:telefono1, telefono2:telefono2,
+                    motivo:motivo, anamnesi:osservazioni, codFisc:codfisc},
+            success: function(response) {
+                $('#popupModificaPaziente').modal('hide');
+                initPopupGenerico("Informazioni paziente aggiornate!");
+                caricaAnagrafica();
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
+    }
+}
+
+function checkfieldsModifiche(){
+    var ret = true;
+    var txtNome = $("#txtNomePopupModificaPaziente");
+    var txtCognome = $("#txtCognomePopupModificaPaziente");
+    var txtLuogoNascita = $("#txtLuogoNascitaPopupModificaPaziente");
+    var txtDataNascita = $("#txtDataNascitaPopupModificaPaziente");
+    var txtResidenza = $("#txtResidenzaPopupModificaPaziente");
+    var txtIndirizzo = $("#txtIndirizzoPopupModificaPaziente");
+    var txtCap = $("#txtCapPopupModificaPaziente");
+    var txtCodFisc = $("#txtCodiceFiscalePopupModificaPaziente");
+    var txtTelefono = $("#txtTelefonoPopupModificaPaziente");
+    var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
+
+    var regexCap = new RegExp('^[0-9]{5}$');
+    var regexCodiceFiscale = new RegExp('^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$');
+
+    if(txtNome.val() == ""){
+        txtNome.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtCognome.val() == ""){
+        txtCognome.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtLuogoNascita.val() == ""){
+        txtLuogoNascita.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtDataNascita.val() == ""){
+        txtDataNascita.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtResidenza.val() == ""){
+        txtResidenza.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtIndirizzo.val() == ""){
+        txtIndirizzo.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(!regexCap.test(txtCap.val())){
+        txtCap.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(!regexCodiceFiscale.test(txtCodFisc.val())){
+        txtCodFisc.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtTelefono.val() == ""){
+        txtTelefono.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+
+    return ret;
 }
 
 //mette l' anamnesi scritta sul db in un div
@@ -806,8 +861,7 @@ function visualizzaContabilita(){
                         riga += "<tr class=\"danger\">";
                     }
                     riga += "<td>" + 
-                        contabilita[a].AnaID +
-                        "</td><td>" + giraDataUmano(contabilita[a].Data) + 
+                        giraDataUmano(contabilita[a].Data) + 
                         "</td><td>" + contabilita[a].Pagamento + 
                         " €</td></tr>";       
                 }
@@ -919,11 +973,8 @@ function checkfields(){
     var txtTelefono = $("#txtTelefonoPopupAggiungiNuovo");
     var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
 
-    var regexCap = new RegExp("^[0-9]{4}$");
-    /*Da testare*/
-    //var regexNome = new RegExp("^[A-Za-zàèéìòùç]+[\ \,\.\'\-]{0-1}");
-    //var regexCodiceFiscale = new RegExp("/^(?:(?:[B-DF-HJ-NP-TV-Z]|[AEIOU])[AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[1256LMRS][\dLMNP-V])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i");
-    //var regexTelefono = new RegExp("[\+|00]*[0-9]{1}*[0-9]+");
+    var regexCap = new RegExp('^[0-9]{5}$');
+    var regexCodiceFiscale = new RegExp('^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$');
 
     if(txtNome.val() == ""){
         txtNome.css("background-color", "rgb(255,147,147)");
@@ -949,20 +1000,16 @@ function checkfields(){
         txtIndirizzo.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
-    if(txtCap.val() == "" || regexCap.test(txtCap.val())){
+    if(!regexCap.test(txtCap.val())){
         txtCap.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
-    if(txtCodFisc.val() == ""){
+    if(!regexCodiceFiscale.test(txtCodFisc.val())){
         txtCodFisc.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
     if(txtTelefono.val() == ""){
         txtTelefono.css("background-color", "rgb(255,147,147)");
-        ret = false;
-    }
-    if(txtMotivo.val() == ""){
-        txtMotivo.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
 
@@ -974,9 +1021,6 @@ function nuovoDocumento(){
     var id = $("#idPersonaModifiche").val();
     $("#idPersonaNuovoDocumento").val(id);
 }
-
-
-
 
 //fa l'upload del documento in una cartella della webapp
 function inserisciNuovoFile(){
@@ -1091,7 +1135,7 @@ function caricaContabilita(nomePersona = ""){
                     "</td><td>" + pagamenti[a].Cognome + 
                     "</td><td>" + giraDataUmano(pagamenti[a].Data) + 
                     "</td><td>" + pagamenti[a].Pagamento + " €" +
-                    "</td><td>" + '<button class="btn btn-danger" onclick="mostraPagamento(' + pagamenti [a].AnaID + ',' + anno + ',' + mese + ',' + giorno +');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";			
+                    "</td><td>" + '<button class="btn btn-info" onclick="mostraPagamento(' + pagamenti [a].AnaID + ',' + anno + ',' + mese + ',' + giorno +');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";			
             }
 
 			$("#tblContabilitaBody").html(riga);
@@ -1129,16 +1173,21 @@ function mostraPagamento(i,anno, mese, giorno) {
             $("#descrizioneIntervento").html(pagamento.Descrizione);
             $("#lblNomeCognome").html(pagamento.Cognome + " " + pagamento.Nome);
             $("#lblDataIntervento").html(giraDataUmano(pagamento.Data));
-            $("#txtImportoPagamento").val(pagamento.Pagamento);
 
             if(pagamento.Pagato == 1){
                 $("#btnPaga").css("visibility", "hidden");
                 $("#btnAggiornaPagamento").css("visibility", "hidden");
                 $("#btnStampaRicevuta").css("visibility", "visible");
+                $("#divImportoPagamento").show();
+                $("#divImportoPagamento").html(pagamento.Pagamento);
+                $("#txtImportoPagamento").hide();
             }else{
                 $("#btnPaga").css("visibility", "visible");
                 $("#btnAggiornaPagamento").css("visibility", "visible");
                 $("#btnStampaRicevuta").css("visibility", "hidden");
+                $("#txtImportoPagamento").show();
+                $("#txtImportoPagamento").val(pagamento.Pagamento);
+                $("#divImportoPagamento").hide();
             }
         },
         error: function(){
@@ -1273,7 +1322,7 @@ function stampaRicevutaPagamentoEsistente(){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "dettagliPagamento", id:id, dtaa:data},
+        data: {azione: "dettagliPagamento", id:id, data:data},
         success: function(response) {
             var pagamento = JSON.parse(response);
             //prendo i dati ricevuti dal db
@@ -1283,8 +1332,6 @@ function stampaRicevutaPagamentoEsistente(){
             initPopupGenerico("Errore");
         }
     });
-
-
 }
 
 function initPopupGenerico(msg){
