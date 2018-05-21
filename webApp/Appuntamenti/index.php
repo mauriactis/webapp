@@ -132,7 +132,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <label for="txtHeaderPopupRichieste">Messaggi in arrivo da:</label>
+              <label for="txtHeaderPopupRichieste">Messaggi in arrivo:</label>
             </div>
             <div class="modal-body" id="bodyPopupRichieste">
               <table class="table table-hover table-bordered admin">

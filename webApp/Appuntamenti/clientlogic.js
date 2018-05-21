@@ -214,8 +214,8 @@ function nascondiDettagliAppuntamento(){
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
     svuotaNuovoAppuntamento();
-    $.datepicker.setDefaults($.datepicker.regional['it']); 
-
+        $.datepicker.setDefaults($.datepicker.regional['it']); 
+    
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -267,24 +267,50 @@ function eliminaAppuntamento(){
 function salvaAppuntamento(){
     var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value.split(", ")[1];
     var data = giraDataDb(document.getElementById("txtDataNuovoAppuntamento").value);
-    var timepicker = $('#txtOraNuovoAppuntamento').wickedpicker();
     var ora = timepicker.wickedpicker('time');
     var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
 
     dataOrario = data + " " + ora.substring(0,2) + ":" + ora.substring(5,7) + ":00";
-     $.ajax({  
-         type: "POST", 
-         url: "./serverlogic.php",
-         data: {azione: "inserisciNuovoAppuntamento", id:idPersona, dataOra:dataOrario, descrizione:descrizione},
-         success: function(response) {
-            console.log(response);
-            initPopupGenerico("Appuntamento salvato con successo!");
-            $('#selezionato').click();
-         },
-         error: function(){
-             initPopupGenerico("Errore lato server.");
-         }
-     });
+    if(checkfieldNuovoAppuntamento(idPersona)){
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "inserisciNuovoAppuntamento", id:idPersona, dataOra:dataOrario, descrizione:descrizione},
+            success: function(response) {
+               console.log(response);
+               initPopupGenerico("Appuntamento salvato con successo!");
+               $('#selezionato').click();
+            },
+            error: function(){
+                initPopupGenerico("Errore lato server.");
+            }
+        });
+    }else{
+        initPopupGenerico("Alcuni campi non sono stati compilati correttamente.");
+    }
+}
+
+function checkfieldNuovoAppuntamento(idPersona){
+    var ret = true;
+
+    /*var idPaziente = $("#txtPersonaNuovoAppuntamento").val().split(", ")[1];
+    var txtData = $("#txtDataNuovoAppuntamento").val();
+    var ora = timepicker.wickedpicker('time');
+
+    if(idPaziente.val() == ""){
+        idPaziente.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(txtData.val() == ""){
+        txtData.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }
+    if(idPaziente.val() == ""){
+        idPaziente.css("background-color", "rgb(255,147,147)");
+        ret = false;
+    }*/
+
+    return ret;
 }
 
 //carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
