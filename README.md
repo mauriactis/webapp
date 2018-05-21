@@ -11,6 +11,8 @@ legenda:
 
 popupaggiungi nuovo nascondi campi quando apri il popup
 
+dopo aver modificato il paziente lo sfondo resta neretto
+
 -------contabilità-------
 
 manca stampa fattura
