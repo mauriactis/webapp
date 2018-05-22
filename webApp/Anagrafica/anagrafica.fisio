@@ -91,7 +91,7 @@
 </div>
 
 <!-- Popup per modificare i dati del paziente -->
-<div class="modal fade" id="popupModificaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal" id="popupModificaPaziente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-body">
@@ -155,7 +155,7 @@
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-default" id="btnAggiungiCampiPopupModificaPaziente" onclick="changeArrow();" value="Aggiungi">Aggiungi campi <span class="glyphicon glyphicon-chevron-down"></span></button>
-            <button type="button" class="btn btn-primary" id="btnConfermaPopupModificaPaziente" data-dismiss="modal" onclick="aggiornaPaziente();">Aggiorna</button>
+            <button type="button" class="btn btn-primary" id="btnConfermaPopupModificaPaziente" onclick="aggiornaPaziente();">Aggiorna</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancellaCampi();">Annulla</button>
          </div>
       </div>
