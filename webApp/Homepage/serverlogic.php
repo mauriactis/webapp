@@ -1,198 +1,184 @@
 <?php
 	 
-	$user = "root"; $pwd = ""; $risposta = ""; $conn = null;
-	try{
-		// connessione
-		$conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
-		// abilita gestione errori tramite try … catch  (Exception)
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	} catch(PDOException $ex){
-	   $risposta = "Errore connessione: ".$ex->getMessage();
+	$user = "root"; $pwd = "root"; $risposta = ""; $conn = null;
+		try{
+			// connessione
+			$conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
+			// abilita gestione errori tramite try … catch  (Exception)
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		} catch(PDOException $ex){
+		   $risposta = "Errore connessione: ".$ex->getMessage();
 	}
 	
 	if(isset($_POST['azione']) && !empty($_POST['azione'])) {   //variabili tutte con minuscole con upper su prima lettere della seconda parola
-		$azione = $_POST['azione'];
-		switch($azione) {
-			case 'cercaPersona' : 
-				$persona = $_POST['nomePersona'];
-				cercaPersona($conn,$persona);
-				break;
-			case 'cercaContabilita' :
-				$persona = $_POST['nomePersona'];
-				cercaContabilita($conn,$persona);
-				break;
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			case 'caricaUltimoIntervento' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['data'];
-				caricaUltimoIntervento($conn,$idPersona,$data);
-				break;
-			case 'caricaUltimoInterventoAnagrafica' :
-				$idPersona = $_POST['id'];
-				caricaUltimoInterventoAnagrafica($conn,$idPersona);
-				break;
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			//-----sidenav a destra-----//
-			case 'inserisciPagamentoDesc' :
-				$idPersona = $_POST['id'];
-				$importo = $_POST['importo'];
-				$pagato = $_POST['pagato'];
-				$descrizione = $_POST['descrizione'];
-				$data = $_POST['data'];
-				$dataFattura = $_POST['dataFattura'];
-				$fattura = $_POST['fattura'];
-				inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura);
-				break;
-			case 'inserisciNuovoPaziente' :
-				$nome = $_POST['nome'];
-				$cognome = $_POST['cognome'];
-				$dataNascita = $_POST['dataNascita'];
-				$luogoNascita = $_POST['luogoNascita'];
-				$dataNascitaFP = $_POST['dataNascitaFP'];
-				$luogoNascitaFP = $_POST['luogoNascitaFP'];
-				$medicoProv = $_POST['medicoProv'];
-				$residenza = $_POST['residenza'];
-				$residenzaFP = $_POST['residenzaFP'];
-				$indirizzo = $_POST['indirizzo'];
-				$cap = $_POST['cap'];
-				$telefono1 = $_POST['telefono1'];
-				$telefono2 = $_POST['telefono2'];
-				$motivo = $_POST['motivo'];
-				$anamnesi = $_POST['anamnesi'];
-				$codFisc = $_POST['codFisc'];
-				$foglioPrivacy = $_POST['foglioPrivacy'];
-				inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy);
-				break;
-			case 'visualizzaStoricoInterventi' :
-				$idPersona = $_POST['id'];
-				visualizzaStoricoInterventi($conn,$idPersona);
-				break;
-			case 'visualizzaContabilitaPersona' :
-				$idPersona = $_POST['id'];
-				visualizzaContabilitaPersona($conn,$idPersona);
-				break;
-			//-----pagamento-----//
-			//-----pagamento-----//
-			//-----pagamento-----//
-			//-----pagamento-----//
-			case 'aggiornaPagamento' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['dataIntervento'];
-				$importo = $_POST['importo'];
-				aggiornaPagamento($conn,$idPersona,$data,$importo);
-				break;
-			case 'selezionaImportoInterventoPassato' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['dataIntervento'];
-				selezionaImportoInterventoPassato($conn,$idPersona,$data);
-				break;
-			case 'selezionaImportoTuttiInterventiPassati' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['data'];
-				selezionaImportoTuttiInterventiPassati($conn,$idPersona,$data);
-				break;
-			case 'controlloPiuPagamenti' :
-				$idPersona = $_POST['id'];
-				controlloPiuPagamenti($conn,$idPersona);
-				break;
-			case 'aggiornaPagatoFatturaSingolo' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['dataIntervento'];
-				aggiornaPagatoFatturaSingolo($conn,$idPersona,$data);
-			 	break;
-			case 'aggiornaPagatoFatturaMultipla' :
-				$idPersona = $_POST['id'];
-			 	aggiornaPagatoFatturaMultipla($conn,$idPersona);
-			 	break;
+			$azione = $_POST['azione'];
+			switch($azione) {
+				case 'cercaPersona' : 
+					$persona = $_POST['nomePersona'];
+					cercaPersona($conn,$persona);
+					break;
+				case 'cercaContabilita' :
+					$persona = $_POST['nomePersona'];
+					cercaContabilita($conn,$persona);
+					break;
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				case 'caricaUltimoIntervento' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['data'];
+					caricaUltimoIntervento($conn,$idPersona,$data);
+					break;
+				case 'caricaUltimoInterventoAnagrafica' :
+					$idPersona = $_POST['id'];
+					caricaUltimoInterventoAnagrafica($conn,$idPersona);
+					break;
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				//-----sidenav a destra-----//
+				case 'inserisciPagamentoDesc' :
+					$idPersona = $_POST['id'];
+					$importo = $_POST['importo'];
+					$pagato = $_POST['pagato'];
+					$descrizione = $_POST['descrizione'];
+					$data = $_POST['data'];
+					inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione);
+					break;
+				case 'inserisciNuovoPaziente' :
+					$nome = $_POST['nome'];
+					$cognome = $_POST['cognome'];
+					$dataNascita = $_POST['dataNascita'];
+					$luogoNascita = $_POST['luogoNascita'];
+					$dataNascitaFP = $_POST['dataNascitaFP'];
+					$luogoNascitaFP = $_POST['luogoNascitaFP'];
+					$medicoProv = $_POST['medicoProv'];
+					$residenza = $_POST['residenza'];
+					$residenzaFP = $_POST['residenzaFP'];
+					$indirizzo = $_POST['indirizzo'];
+					$cap = $_POST['cap'];
+					$telefono1 = $_POST['telefono1'];
+					$telefono2 = $_POST['telefono2'];
+					$motivo = $_POST['motivo'];
+					$anamnesi = $_POST['anamnesi'];
+					$codFisc = $_POST['codFisc'];
+					$foglioPrivacy = $_POST['foglioPrivacy'];
+					inserisciNuovoPaziente($conn,$nome,$cognome,$dataNascita,$luogoNascita,$dataNascitaFP,$luogoNascitaFP,$medicoProv,$residenza,$residenzaFP,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc,$foglioPrivacy);
+					break;
+				case 'visualizzaStoricoInterventi' :
+					$idPersona = $_POST['id'];
+					visualizzaStoricoInterventi($conn,$idPersona);
+					break;
+				case 'visualizzaContabilitaPersona' :
+					$idPersona = $_POST['id'];
+					visualizzaContabilitaPersona($conn,$idPersona);
+					break;
 				//-----pagamento-----//
 				//-----pagamento-----//
 				//-----pagamento-----//
 				//-----pagamento-----//
-			case 'aggiornaAnagraficaRequest' :
-				$idPersona = $_POST['id'];
-				aggiornaAnagraficaRequest($conn,$idPersona);
-				break;
-			case 'aggiornaAnagraficaUpdate':
-				$idPersona = $_POST['id'];
-				$nome = $_POST['nome'];
-				$cognome = $_POST['cognome'];
-				$dataNascita = $_POST['dataNascita'];
-				$luogoNascita = $_POST['luogoNascita'];
-				$medicoProv = $_POST['medicoProv'];
-				$residenza = $_POST['residenza'];
-				$indirizzo = $_POST['indirizzo'];
-				$cap = $_POST['cap'];
-				$telefono1 = $_POST['telefono1'];
-				$telefono2 = $_POST['telefono2'];
-				$motivo = $_POST['motivo'];
-				$anamnesi = $_POST['anamnesi'];
-				$codFisc = $_POST['codFisc'];
-				aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
-				break;
-			case 'inserisciCodApp' :
-				$user = $_POST['codice'];
-				$idPersona = $_POST['id'];
-				inserisciCodApp($conn,$user,$idPersona);
-				break;
-			case 'inserisciDocumento' :
-				$idPersona = $_POST['id'];
-				$data = $_POST['data'];
-				$allegato = $_POST['allegato'];
-				$descrizione = $_POST['descrizione'];
-				inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione);
-				break;
-				//Tommy ha aggiunto questa funzione
-			case 'eliminaDocumento' :
-				$idDocumento = $_POST['id'];
-				$idPersona = $_POST['idPersona'];
-				eliminaDocumento($conn,$idDocumento, $idPersona);
-				break;
-			case 'visualizzaDocumenti' :
-				$idPersona = $_POST['id'];
-				visualizzaDocumenti($conn,$idPersona);
-				break;
-			case 'visualizzaAnamnesi' :
-				$idPersona = $_POST['id'];
-				visualizzaAnamnesi($conn,$idPersona);
-				break;
-			case 'caricaComuni' :
-				$ricerca = $_POST['ricerca'];
-				caricaComuni($conn,$ricerca);
-				break;
-			case 'caricaMotivi' :
-				caricaMotivi($conn);
-				break;
-			case 'foglioToHTML' :
-				$doc = $_POST['foglioPrivacy'];
-				foglioToHTML($conn,$doc);
-				break;
-			case 'fatturaToHTML' :
-				$doc = $_POST['fattura'];
-				fatturaToHTML($conn,$doc);
-				break;
-			case 'convertToPDF' :
-				$id = $_POST['id'];
-				$data = $_POST['data'];
-				convertToPDF($conn,$id,$data);
-				break;
-			case 'fatturaToPDF' :
-				$id = $_POST['id'];
-				$data = $_POST['data'];
-				convertToPDF($conn,$id,$data);
-				break;
-			case 'trovaAppuntamenti' :
-				trovaAppuntamenti($conn);
-				break;
-		}
-	}
-
-	$conn=null;
-		
+				case 'aggiornaPagamento' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['dataIntervento'];
+					$importo = $_POST['importo'];
+					aggiornaPagamento($conn,$idPersona,$data,$importo);
+					break;
+				case 'selezionaImportoInterventoPassato' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['dataIntervento'];
+					selezionaImportoInterventoPassato($conn,$idPersona,$data);
+					break;
+				case 'selezionaImportoTuttiInterventiPassati' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['data'];
+					selezionaImportoTuttiInterventiPassati($conn,$idPersona,$data);
+					break;
+				case 'controlloPiuPagamenti' :
+					$idPersona = $_POST['id'];
+					controlloPiuPagamenti($conn,$idPersona);
+					break;
+				case 'aggiornaPagatoFatturaSingolo' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['dataIntervento'];
+					aggiornaPagatoFatturaSingolo($conn,$idPersona,$data);
+				 	break;
+				case 'aggiornaPagatoFatturaMultipla' :
+					$idPersona = $_POST['id'];
+				 	aggiornaPagatoFatturaMultipla($conn,$idPersona);
+				 	break;
+					//-----pagamento-----//
+					//-----pagamento-----//
+					//-----pagamento-----//
+					//-----pagamento-----//
+				case 'aggiornaAnagraficaRequest' :
+					$idPersona = $_POST['id'];
+					aggiornaAnagraficaRequest($conn,$idPersona);
+					break;
+				case 'aggiornaAnagraficaUpdate':
+					$idPersona = $_POST['id'];
+					$nome = $_POST['nome'];
+					$cognome = $_POST['cognome'];
+					$dataNascita = $_POST['dataNascita'];
+					$luogoNascita = $_POST['luogoNascita'];
+					$medicoProv = $_POST['medicoProv'];
+					$residenza = $_POST['residenza'];
+					$indirizzo = $_POST['indirizzo'];
+					$cap = $_POST['cap'];
+					$telefono1 = $_POST['telefono1'];
+					$telefono2 = $_POST['telefono2'];
+					$motivo = $_POST['motivo'];
+					$anamnesi = $_POST['anamnesi'];
+					$codFisc = $_POST['codFisc'];
+					aggiornaAnagraficaUpdate($conn,$idPersona,$nome,$cognome,$dataNascita,$luogoNascita,$medicoProv,$residenza,$indirizzo,$cap,$telefono1,$telefono2,$motivo,$anamnesi,$codFisc);
+					break;
+				case 'inserisciCodApp' :
+					$user = $_POST['codice'];
+					$idPersona = $_POST['id'];
+					inserisciCodApp($conn,$user,$idPersona);
+					break;
+				case 'inserisciDocumento' :
+					$idPersona = $_POST['id'];
+					$data = $_POST['data'];
+					$allegato = $_POST['allegato'];
+					$descrizione = $_POST['descrizione'];
+					inserisciDocumento($conn,$idPersona,$data,$allegato,$descrizione);
+					break;
+					//Tommy ha aggiunto questa funzione
+				case 'eliminaDocumento' :
+					$idDocumento = $_POST['id'];
+					eliminaDocumento($conn,$idDocumento);
+					break;
+				case 'visualizzaDocumenti' :
+					$idPersona = $_POST['id'];
+					visualizzaDocumenti($conn,$idPersona);
+					break;
+				case 'visualizzaAnamnesi' :
+					$idPersona = $_POST['id'];
+					visualizzaAnamnesi($conn,$idPersona);
+					break;
+				case 'caricaComuni' :
+					$ricerca = $_POST['ricerca'];
+					caricaComuni($conn,$ricerca);
+					break;
+				case 'caricaMotivi' :
+					caricaMotivi($conn);
+					break;
+				case 'foglioToHTML' :
+					$doc = $_POST['foglioPrivacy'];
+					foglioToHTML($conn,$doc);
+					break;
+				case 'convertToPDF' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					convertToPDF($conn,$id,$data);
+					break;
+				case 'trovaAppuntamenti' :
+					trovaAppuntamenti($conn);
+					break;
+				}
+			}
+		$conn=null;
 		function local_encode ($var){
 			if (is_string ($var))
 				return utf8_encode ($var);
@@ -294,7 +280,7 @@
 			echo $foglioPrivacy;			
 		}
 
-		function inserisciPagamentoDesc($conn,$idPersona,$data,$dataFattura,$importo,$pagato,$descrizione,$fattura){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
+		function inserisciPagamentoDesc($conn,$idPersona,$data,$importo,$pagato,$descrizione){   //inserisce il pagamento nel database dopo che la dott. ha finito e aggiunge il costo delle seduto con descrizione
 			$query = "INSERT INTO interventi VALUES(?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
@@ -315,14 +301,8 @@
 			
 			$result = $stmSql ->execute();
 
-			$fattura = str_replace("@dataEmissione@",$dataFattura,$fattura);
-			$fattura = str_replace("@daPagare@",$importo,$fattura);
-			$fattura = str_replace("@importo@",$importo,$fattura);
-			$fattura = str_replace("@quantita@","1",$fattura);
-			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
-
 			
-			echo $fattura;
+		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
 		}
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
@@ -497,7 +477,6 @@
 			
 			$query="UPDATE anagrafica SET Nome = ?, Cognome = ?, DataNascita = ?, LuogoNascita = ?, MedicoProvenienza = ?, Residenza = ?, Indirizzo = ?, CAP = ?, Telefono1 = ?, Telefono2 = ?, Motivo = ?, Anamnesi = ?, CodFisc = ? WHERE ID=?";
 
-			$codFisc = strtoupper($codFisc);
 			
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nome);
@@ -512,7 +491,7 @@
 			$stmSql ->bindParam(10, $telefono2);
 			$stmSql ->bindParam(11, $motivo);
 			$stmSql ->bindParam(12, $anamnesi);
-			$stmSql ->bindParam(13, $codFisc);
+			$stmSql ->bindParam(13, strtoupper($codFisc));
 			$stmSql ->bindParam(14, $idPersona);
 
 			$result = $stmSql ->execute();
@@ -565,53 +544,6 @@
 //---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 //---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 
-
-
-
-
-
-
-
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
 			$query="SELECT ID,AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
@@ -619,10 +551,7 @@
 			$result = $stmSql ->execute();
 			$ret= array();
 			while($row = $stmSql->fetch()){
-				if($row["Descrizione"] == ""){
-					$row["Descrizione"] = "Nessuna descrizione";
-				}
-				array_push ($ret, $row);
+					array_push ($ret, $row);
 			}
 			echo json_encode(local_encode($ret)); 
 		}
@@ -644,61 +573,7 @@
 
 
 
-
-
-
-
-
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Modificato da tommy----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-		function eliminaDocumento($conn,$idDocumento, $idPersona){
-			$query="SELECT Allegato FROM documenti WHERE ID = ?";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $idDocumento);
-			$result = $stmSql ->execute();
-			$path = $stmSql ->fetch();
-
-			$path = substr($path["Allegato"], 3);
-
-			//devi per forsa dare il percorso assoluto
-			$delete = "C:\\xampp\\htdocs\\webApp\\" . $path;
-
-			unlink($delete);
-
+		function eliminaDocumento($conn,$idDocumento){
 			$query="DELETE FROM documenti WHERE ID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idDocumento);
@@ -768,33 +643,18 @@
 			echo $ret[0];  
 		}
 
-		function fatturaToHTML($conn,$doc){
-			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
-			fwrite($fileHtml, $doc);
-			fclose($fileHtml);
-
-			$query="SELECT AnaID, Data FROM interventi ORDER BY AnaID, Data DESC LIMIT 0,1";
-			$stmSql = $conn->prepare($query);
-			
-			$result = $stmSql ->execute();
-			$ret = $stmSql ->fetch();
-			
-			echo json_encode(local_encode($ret));  
-		}
-
 		function convertToPDF($conn,$id,$data){
-			$mainPath = "/var/www/html/webApp/docs/" . $id . "/";
-			// $cmd = "mkdir " . $mainPath;
-			// shell_exec($cmd);
-			mkdir($mainPath, 0777);
-			$downloadPath = $mainPath . "foglioPrivacy.pdf";
-
+			$mainPath = "../docs/" . $id;
 			$descrizione = "Foglio privacy";
-			//Non posso far venire fuori l' opzione di download?
-			//In alternativa si apre un popup con un link a dov'è il file
-			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf /var/www/html/webApp/tmp/tmpFoglioPrivacy.html ' . $downloadPath;
-			shell_exec($cmd);
+			$downloadPath = $mainPath . "/foglioPrivacy.html";
 
+			$cmd1 = "mkdir -m777 $mainPath";
+			exec($cmd1);
+			sleep(2);
+			$cmd2 = "cp /var/www/html/webApp/tmp/tmpFoglioPrivacy.html /var/www/html/webApp/docs/$id/foglioPrivacy.html";
+			//$cmd2 = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf /var/www/html/webApp/tmp/tmpFoglioPrivacy.html /var/www/html/webApp/docs/foglioPrivacy.pdf';
+			$ret = exec($cmd2);
+			sleep(2);
 			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $id);
@@ -804,32 +664,7 @@
 			
 			$result = $stmSql ->execute();
 
-			echo $cmd;
-		}
-
-		function fatturaToPDF($conn,$id,$data){
-			$mainPath = "..\docs\\" . $id . "\\";
-			$cmd = "mkdir " . $mainPath;
-			shell_exec($cmd);
-
-			$downloadPath = $mainPath . "foglioPrivacy.pdf";
-
-			$descrizione = "Foglio privacy";
-			//Non posso far venire fuori l' opzione di download?
-			//In alternativa si apre un popup con un link a dov'è il file
-			$cmd = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf ..\tmp\tmpFoglioPrivacy.html ' . $downloadPath;
-			shell_exec($cmd);
-
-			$query="INSERT INTO documenti VALUES(NULL,?,?,?,?)";
-			$stmSql = $conn->prepare($query);
-			$stmSql ->bindParam(1, $id);
-			$stmSql ->bindParam(2, $data);
-			$stmSql ->bindParam(3, $downloadPath);
-			$stmSql ->bindParam(4, $descrizione);
-			
-			$result = $stmSql ->execute();
-
-			echo $downloadPath;
+			echo $ret;
 		}
 
 //----------------------fine funzioni per caricamenti nel pop-up aggiungi nuovo-----------------------------//
@@ -845,7 +680,7 @@
 					array_push ($ret, $row);
 			}
 			
-			echo json_encode(local_encode($ret));
+		echo json_encode(local_encode($ret));
 		}
 
 
