@@ -97,18 +97,18 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             <div class="modal-body">
               <div class="form-group">
                 <label for="txtPersonaNuovoAppuntamento">Per chi desideri registrare il nuovo appuntamento?</label>
-                <input type="text" class="form-control" id="txtPersonaNuovoAppuntamento"></input>
+                <input type="text" class="form-control" onclick="resetPersona();" id="txtPersonaNuovoAppuntamento"></input>
               </div>
               <div class="form-group">
                 <label class="col-sm-2" for="txtDataNuovoAppuntamento">Data: </label>
                 <div class="col-sm-4">
-                  <input type="text" id="txtDataNuovoAppuntamento" class="form-control txtData">
+                  <input type="text" id="txtDataNuovoAppuntamento" onclick="resetData();" class="form-control txtData">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2" for="textinput">Ora: </label>
                 <div class="col-sm-4">
-                  <input type="text" id="txtOraNuovoAppuntamento" class="form-control txtOra">
+                  <input type="text" id="txtOraNuovoAppuntamento" onclick="resetOra();" class="form-control txtOra">
                 </div>
               </div> 
               <div class="form-group">
@@ -118,7 +118,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
+              <button type="button" class="btn btn-primary" onclick="salvaAppuntamento();"><span class="glyphicon glyphicon-floppy-disk"></span> Salva</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
             </div>
           </div>
@@ -132,11 +132,19 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <label for="txtHeaderPopupRichieste">Messaggi in arrivo:</label>
+              <label for="txtHeaderPopupRichieste">Richieste in arrivo:</label>
             </div>
             <div class="modal-body" id="bodyPopupRichieste">
               <table class="table table-hover table-bordered admin">
                 <tbody id="tblRichiesteBody">
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-body" id="bodyPopupMessaggi">
+              <label for="txtHeaderPopupRichieste">Messaggi in arrivo:</label>
+              <hr>
+              <table class="table table-hover table-bordered admin">
+                <tbody id="tblMessaggiBody">
                 </tbody>
               </table>
             </div>
@@ -213,6 +221,26 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
         </div>
       </div>
 
+
+      <div class="modal fade" id="popupRispostaMessaggio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <input type="hidden" id="idPazientePopupRispostaMessaggio">
+              <input type="hidden" id="dataMessaggio">
+              <label>Messaggio di: <label id="lblCognomeNomePopupRispostaMessaggio"></label></label><br>
+              <label>Testo del messaggio</label>
+              <div id="divRispostaMessaggio2">
+              </div><br>
+              <textarea class="form-control" rows="7" id="txtRispostaMessaggio" style="resize:none"></textarea>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" onclick="inviaRispostaMessaggio();">Invia</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
       <div class="modal fade" id="popupGenerico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

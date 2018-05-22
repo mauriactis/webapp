@@ -27,7 +27,7 @@ function initBadge(){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "nuoveRichieste"},
+        data: {azione: "nuoveRichiesteMessaggi"},
         success: function(response) {
             $("#bdgRichieste").html(response);
         },
@@ -207,6 +207,18 @@ function mostraDettagliAppuntamento(i, dataOra){
     $("#divDettagliAppuntamento").fadeIn();
 }
 
+function resetPersona(){
+    $("#txtPersonaNuovoAppuntamento").select();
+    $("#txtPersonaNuovoAppuntamento").css("background-color", "white");
+}
+
+function resetData(){
+    $("#txtDataNuovoAppuntamento").css("background-color", "white");
+}
+
+function resetOra(){
+    $("#txtOraNuovoAppuntamento").css("background-color", "white");
+}
 
 //nasconde il sidenav
 function nascondiDettagliAppuntamento(){
@@ -216,7 +228,7 @@ function nascondiDettagliAppuntamento(){
 //funzione che inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
     svuotaNuovoAppuntamento();
-        $.datepicker.setDefaults($.datepicker.regional['it']); 
+    $.datepicker.setDefaults($.datepicker.regional['it']); 
     
     $.ajax({  
         type: "POST", 
@@ -269,20 +281,21 @@ function eliminaAppuntamento(){
 
 //salva un nuovo appuntamento
 function salvaAppuntamento(){
-    var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value.split(", ")[1];
-    var data = giraDataDb(document.getElementById("txtDataNuovoAppuntamento").value);
-    var ora = timepicker.wickedpicker('time');
-    var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
-
-    dataOrario = data + " " + ora.substring(0,2) + ":" + ora.substring(5,7) + ":00";
-
     if(checkfieldNuovoAppuntamento(idPersona)){
+        var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value.split(", ")[1];
+        var data = giraDataDb(document.getElementById("txtDataNuovoAppuntamento").value);
+        var ora = document.getElementById("txtOraNuovoAppuntamento").value;
+        var descrizione = document.getElementById("txtNoteNuovoAppuntamento").value;
+    
+        dataOrario = data + " " + ora.substring(0,2) + ":" + ora.substring(5,7) + ":00";
+    
         $.ajax({  
             type: "POST", 
             url: "./serverlogic.php",
             data: {azione: "inserisciNuovoAppuntamento", id:idPersona, dataOra:dataOrario, descrizione:descrizione},
             success: function(response) {
                console.log(response);
+               $("#popupNuovoAppuntamento").modal('hide');
                initPopupGenerico("Appuntamento salvato con successo!");
                $('#selezionato').click();
             },
@@ -296,24 +309,29 @@ function salvaAppuntamento(){
 }
 
 function checkfieldNuovoAppuntamento(idPersona){
+    console.log("di qua passo");
     var ret = true;
 
-    /*var idPaziente = $("#txtPersonaNuovoAppuntamento").val().split(", ")[1];
-    var txtData = $("#txtDataNuovoAppuntamento").val();
-    var ora = timepicker.wickedpicker('time');
+    var idPaziente = $("#txtPersonaNuovoAppuntamento");
+    var txtData = $("#txtDataNuovoAppuntamento");
+    var ora = $("#txtOraNuovoAppuntamento");
+
+    console.log(idPaziente.val());
 
     if(idPaziente.val() == ""){
+        console.log("di qua 1");
         idPaziente.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
     if(txtData.val() == ""){
+        console.log("di qua 2");
         txtData.css("background-color", "rgb(255,147,147)");
         ret = false;
     }
-    if(idPaziente.val() == ""){
-        idPaziente.css("background-color", "rgb(255,147,147)");
+    if(ora.val() == ""){
+        ora.css("background-color", "rgb(255,147,147)");
         ret = false;
-    }*/
+    }
 
     return ret;
 }
@@ -384,6 +402,31 @@ function richiesteAppuntamento(){
             initPopupGenerico("Errore lato server.7");
         }
     });
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "visualizzaMessaggi"},
+        success: function(response) {
+            var messaggi = JSON.parse (response);
+            var riga = "";
+            var dataInvio = "";
+            for (var a = 0; a < messaggi.length; a ++)
+            {
+                dataInvio = String(messaggi[a].DataOraInvio);
+                riga += "<tr style=\"font-weight:bold\"><td>" + messaggi[a].Cognome + " " + messaggi[a].Nome + "</td><td>" +
+                    '<button class="btn btn-info" onclick="visualizzaMessaggio(\'' + dataInvio + "'," + messaggi[a].AnaID + ',\'' + messaggi[a].Cognome + '\',\'' + messaggi[a].Nome + '\',\'' + messaggi[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>'; 
+            }
+            if(riga != ""){
+                $("#tblMessaggiBody").html(riga);
+            }else{
+                $("#bodyPopupMessaggi").html("Non sono presenti messaggi.");
+            }
+        },
+        error: function(){
+            console.log("7");
+            initPopupGenerico("Errore lato server.7");
+        }
+    });
 }
 
 function checkInviaRisposta(){
@@ -400,6 +443,15 @@ function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
     $("#divRispostaMessaggio").html(note);
     $("#data").val(dataInvio);
     $("#idPazientePopupRisposta").val(id);
+}
+
+function visualizzaMessaggio(dataInvio, id, cognome, nome, note){
+    $("#txtRispostaMessaggio").val("");
+    $("#popupRispostaMessaggio").modal('show');
+    $("#lblCognomeNomePopupRispostaMessaggio").html(cognome + " " + nome);
+    $("#divRispostaMessaggio2").html(note);
+    $("#dataMessaggio").val(dataInvio);
+    $("#idPazientePopupRispostaMessaggio").val(id);
 }
 
 function inviaRisposta(){
@@ -448,6 +500,30 @@ function inviaRisposta(){
             initPopupGenerico("E\' necessario compilare correttamente tutti i campi...");
         }
     }
+}
+
+
+function inviaRispostaMessaggio(){
+    var id = $("#idPazientePopupRispostaMessaggio").val();
+    var dataOra = $("#dataMessaggio").val();
+    var note = $("#txtRispostaMessaggio").val();
+
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "inviaRispostaMessaggio", id:id, dataOra:dataOra, descrizione:note},
+        success: function(response) {
+            console.log(response);
+            $("#popupRispostaMessaggio").modal('hide');
+            richiesteAppuntamento();
+            initPopupGenerico("Risposta inviata con successo!");
+            initBadge();
+        },
+        error: function(){
+            console.log("8");
+            initPopupGenerico("Errore lato server.8");
+        }
+    });
 }
 
 //I parametri vengono presi due volte perchè passarlki in javascript fa schifo con i -

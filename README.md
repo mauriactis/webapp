@@ -9,9 +9,7 @@ legenda:
 
 -------homepage-------
 
-popupaggiungi nuovo nascondi campi quando apri il popup
-
-dopo aver modificato il paziente lo sfondo resta neretto
+popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc
 
 -------contabilità-------
 
@@ -21,18 +19,15 @@ manca stampa fattura
 
 foglio privacy non viene ancora scaricato qundo inserito per la prima volta
 
-l'eliminazione deve avvenire anche sul db
-
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
 
-dove si visualizzano i messaggi mandati con contatta la dottoressa??
+
 
 -----Appuntamenti-----
 
-controllo campi nuovo appuntamento
-
+se elimino un appuntamento in un giorno di questa settimana diverso da oggi mi riporta ad oggi e non mi fa rimanere su quel giorno
 
 --- consegne ---
 

@@ -122,8 +122,8 @@ function cancellaCampi(){
 
      //vedi bottone annulla
 	 if($("#campiAggiuntiviPopupAggiungiNuovo").is(":visible")){
+        console.log("passo campi mostrati");
 	 	changeArrow();
-        $("#campiAggiuntiviPopupAggiungiNuovo").hide();
 	 }
 }
 //cambia il comtenuto quando è premuto il bottone campi aggiuntivi
@@ -171,7 +171,6 @@ function dataDiOggi(){
 }
 //inizializza il calendario che spunta dalla textbox datanascita e carica i motivi nel dropdown
 function initPopupAggiungiNuovo(){
-    cancellaCampi();
     $("#elencoComuni1").html("");
     $("#elencoComuni2").html("");
     $.datepicker.setDefaults($.datepicker.regional['it']); 
@@ -186,6 +185,7 @@ function initPopupAggiungiNuovo(){
                 var cmbMotivi = document.getElementById("txtMotivoPopupAggiungiNuovo");
                 cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
             }
+            cancellaCampi();
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -609,7 +609,7 @@ function eliminaDocumento(idDocumento, idPersona){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "eliminaDocumento", id:idDocumento},
+        data: {azione: "eliminaDocumento", id:idDocumento, idPersona:idPersona},
         success: function(response) {
             initPopupGenerico("Documento eliminato!");
             visualizzaDocumenti(idPersona);
