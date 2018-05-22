@@ -27,7 +27,7 @@ fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento
 
 -----Appuntamenti-----
 
-controllo campi nuovo appuntamento
+se elimino un appuntamento in un giorno di questa settimana diverso da oggi mi riporta ad oggi e non mi fa rimanere su quel giorno
 
 --- consegne ---
 
