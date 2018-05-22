@@ -16,8 +16,8 @@
             case 'caricaNomiPersone' : 
                 caricaNomiPersone($conn);
                 break;
-            case 'nuoveRichieste' : 
-                nuoveRichieste($conn);
+            case 'nuoveRichiesteMessaggi' : 
+                nuoveRichiesteMessaggi($conn);
                 break;
             case 'mostraDettagliAppuntamento' :
                 $idPersona = $_POST['id'];
@@ -42,6 +42,19 @@
             case 'visualizzaRichiesteAppuntamento':
                 visualizzaRichiesteAppuntamento($conn);
                 break;
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+            case 'visualizzaMessaggi':
+                visualizzaMessaggi($conn);
+                break;
             case 'inviaRisposta':
                 $idPersona = $_POST['id'];
                 $dataOra = $_POST['dataOra'];
@@ -50,6 +63,22 @@
                 $dataOra3 = $_POST['dataOra3'];
                 $descrizione = $_POST['descrizione'];
                 inviaRisposta($conn,$idPersona,$dataOra,$dataOra1,$dataOra2,$dataOra3,$descrizione);
+                break;
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+                //Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------//Aggiunto da tommy -----------------------------------------------------------------------------------------------------------------
+
+            case 'inviaRispostaMessaggio':
+                $idPersona = $_POST['id'];
+                $dataOra = $_POST['dataOra'];
+                $descrizione = $_POST['descrizione'];
+                inviaRispostaMessaggio($conn,$idPersona,$dataOra,$descrizione);
                 break;
         }
     }
@@ -78,12 +107,20 @@
 
     }
 
-    function nuoveRichieste($conn){
+    function nuoveRichiesteMessaggi($conn){
         $query="SELECT count(*) FROM richiesteappuntamenti WHERE Richiesta = 0 AND Letto = 0";
         $stmSql = $conn->prepare($query);
         $result = $stmSql ->execute();
         
-        echo $stmSql ->fetch()[0];
+        $ret = $stmSql ->fetch()[0];
+
+        $query="SELECT count(*) FROM messaggi WHERE Richiesta = 0 AND Letto = 0";
+        $stmSql = $conn->prepare($query);
+        $result = $stmSql ->execute();
+        
+        $ret += $stmSql ->fetch()[0];
+
+        echo $ret;
     }
 
 // #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato
@@ -169,6 +206,20 @@
         echo json_encode(local_encode($ret)); 
     }
 
+    function visualizzaMessaggi($conn){
+        $query = "SELECT messaggi.AnaID,messaggi.DataOraInvio,messaggi.Note,anagrafica.Nome,anagrafica.Cognome FROM messaggi,anagrafica WHERE messaggi.AnaID = anagrafica.ID AND Richiesta=0 AND Letto=0";
+
+        $stmSql = $conn->prepare($query);
+        $result = $stmSql ->execute();
+        $ret= array();
+          
+        while ($row = $stmSql->fetch()){
+                    array_push ($ret, $row);
+            }
+            
+        echo json_encode(local_encode($ret)); 
+    }
+
     function inviaRisposta($conn,$idPersona,$dataOra,$dataOra1,$dataOra2,$dataOra3,$descrizione){
             $query = "UPDATE richiesteappuntamenti SET Letto=1 WHERE AnaID=? AND DataOraInvio=?";
             $stmSql = $conn->prepare($query);
@@ -195,6 +246,27 @@
             $stmSql ->bindParam(4, $dataOra3);
             $stmSql ->bindParam(5, $descrizione);
 
+
+            $result = $stmSql ->execute();
+
+            echo $result;
+    }
+
+    function inviaRispostaMessaggio($conn,$idPersona,$dataOra,$descrizione){
+            $query = "UPDATE messaggi SET Letto=1 WHERE AnaID=? AND DataOraInvio=?";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $dataOra);
+            $result = $stmSql ->execute();
+
+            if(!$result){
+                echo 0;
+            }
+
+            $query = "INSERT INTO messaggi VALUES(?,now(),1,?,0)";
+            $stmSql = $conn->prepare($query);
+            $stmSql ->bindParam(1, $idPersona);
+            $stmSql ->bindParam(2, $descrizione);
 
             $result = $stmSql ->execute();
 
