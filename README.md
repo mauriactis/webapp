@@ -9,7 +9,7 @@ legenda:
 
 -------homepage-------
 
-popupaggiungi nuovo nascondi campi quando apri il popup
+popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc
 
 dopo aver modificato il paziente lo sfondo resta neretto
 
