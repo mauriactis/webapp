@@ -29,9 +29,6 @@ fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento
 
 controllo campi nuovo appuntamento
 
-dove si visualizzano i messaggi mandati con contatta la dottoressa??
-
-
 --- consegne ---
 
 # 23/05/18 BORGOGNO:
