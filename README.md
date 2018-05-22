@@ -11,8 +11,6 @@ legenda:
 
 popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc
 
-dopo aver modificato il paziente lo sfondo resta neretto
-
 -------contabilità-------
 
 manca stampa fattura
@@ -21,17 +19,17 @@ manca stampa fattura
 
 foglio privacy non viene ancora scaricato qundo inserito per la prima volta
 
-l'eliminazione deve avvenire anche sul db
-
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
 
-dove si visualizzano i messaggi mandati con contatta la dottoressa??
+
 
 -----Appuntamenti-----
 
 controllo campi nuovo appuntamento
+
+dove si visualizzano i messaggi mandati con contatta la dottoressa??
 
 
 --- consegne ---
