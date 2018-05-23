@@ -1,6 +1,6 @@
 <?php
 	 
-	$user = "root"; $pwd = "root"; $risposta = ""; $conn = null;
+	$user = "root"; $pwd = ""; $risposta = ""; $conn = null;
 		try{
 			// connessione
 			$conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);

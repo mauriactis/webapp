@@ -45,16 +45,21 @@ function trovaAppuntamenti(){
         url: "./serverlogic.php",
         data: {azione: "trovaAppuntamenti"},
         success: function(response) {
-            console.log(response);
             var appuntamenti = JSON.parse (response);
-            console.log(appuntamenti);
             var nome = appuntamenti[0].Nome + " " + appuntamenti[0].Cognome;
             var ora = appuntamenti[0].Ora.substring(0,5);
             var totale = nome + " (" + ora + ")";
+            console.log("Nome: " + nome);
+            if(nome == ""){
+                totale = "Nessuno";
+            }
             $("#lblAppuntamento").html(totale);
             nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
             ora = appuntamenti[1].Ora.substring(0,5);
             totale = nome + " (" + ora + ")";
+            if(nome == ""){
+                totale = "Nessuno";
+            }
             $("#lblProxAppuntamento").html(totale);
         },
         error: function(){
