@@ -11,6 +11,8 @@ legenda:
 
 popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc oppure se si è fatto click su aggiungi campi in popup modifica
 
+data vicino a prossimo appuntamento nell' header
+
 -------contabilità-------
 
 manca stampa fattura
