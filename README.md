@@ -9,7 +9,9 @@ legenda:
 
 -------homepage-------
 
-popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc
+popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc oppure se si è fatto click su aggiungi campi in popup modifica
+
+data vicino a prossimo appuntamento nell' header
 
 -------contabilità-------
 
@@ -36,6 +38,8 @@ se elimino un appuntamento in un giorno di questa settimana diverso da oggi mi r
  - progetto
  - manuale utente/tecnico
  - ognuno deve sapere il codice di tutto
+ - manuale d' installazione
+ - presentazione powerpoint (?)
 
 
 31/05/18 PUPPO:
