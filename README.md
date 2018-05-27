@@ -36,6 +36,8 @@ se elimino un appuntamento in un giorno di questa settimana diverso da oggi mi r
  - progetto
  - manuale utente/tecnico
  - ognuno deve sapere il codice di tutto
+ - manuale d' installazione
+ - presentazione powerpoint (?)
 
 
 31/05/18 PUPPO:
