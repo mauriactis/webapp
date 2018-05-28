@@ -25,6 +25,10 @@ transazione per stampa fattura (per il numero)
 
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
 
+
+
+!! sul db nuovo non lascia mettere la dataIntervento in fatture in relazione con la data in interventi
+
 -----Appuntamenti-----
 
 --- consegne ---
