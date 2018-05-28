@@ -11,6 +11,8 @@ legenda:
 
 popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc oppure se si è fatto click su aggiungi campi in popup modifica
 
+foglioprivacy non lo stampa se è la prima volta ---> abilitare i popup da browser (da scrivere nel manuale utente)
+
 -------contabilità-------
 
 manca stampa fattura
