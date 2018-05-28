@@ -21,6 +21,8 @@ manca stampa fattura
 
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+transazione per stampa fattura (per il numero)
+
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
 
 -----Appuntamenti-----
