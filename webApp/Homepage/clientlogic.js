@@ -45,19 +45,35 @@ function trovaAppuntamenti(){
         url: "./serverlogic.php",
         data: {azione: "trovaAppuntamenti"},
         success: function(response) {
+            console.log(response);
             var appuntamenti = JSON.parse (response);
             var nome = appuntamenti[0].Nome + " " + appuntamenti[0].Cognome;
             var ora = appuntamenti[0].Ora.substring(0,5);
-            var totale = nome + " (" + ora + ")";
-            console.log("Nome: " + nome);
-            if(nome == ""){
-                totale = "Nessuno";
+            var data = appuntamenti[0].Data;
+
+            if(dataDiOggi() != data){
+                data = giraDataUmano(data) + " ";
+            }else{
+                data = "";
+            }
+            
+            var totale = nome + " (" + data + ora + ")";
+            if(nome == "Nessuno "){
+                totale = "Nessuno.";
             }
             $("#lblAppuntamento").html(totale);
             nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
             ora = appuntamenti[1].Ora.substring(0,5);
-            totale = nome + " (" + ora + ")";
-            if(nome == ""){
+            data = appuntamenti[1].Data;
+            
+            if(dataDiOggi() != data){
+                data = giraDataUmano(data) + " ";
+            }else{
+                data = "";
+            }
+
+            totale = nome + " (" + data + ora + ")";
+            if(nome == "Nessuno "){
                 totale = "Nessuno";
             }
             $("#lblProxAppuntamento").html(totale);
@@ -287,10 +303,8 @@ function riportaNome(nome,dove){
     }
 }
 
-
-//FIXARE
 //scarica il foglio della privacy
-function stampaFoglioPrivacy(){
+function stampaFoglioPrivacy(status){
     var id = $("#idPersonaFP").val();
     var data = dataDiOggi();
     $.ajax({  
@@ -298,8 +312,9 @@ function stampaFoglioPrivacy(){
         url: "./serverlogic.php",
         data: {azione: "convertToPDF",id:id,data:data},
         success: function(response) {
-            console.log(response);
-            window.open(response);
+            if(status == 1){
+                window.open(response);
+            }
             $('#popupStampaFoglioPrivacy').modal('hide');
         },
         error: function(){
