@@ -176,6 +176,26 @@
 				case 'trovaAppuntamenti' :
 					trovaAppuntamenti($conn);
 					break;
+				case 'compilaFattura' :
+					$id = $_POST['id'];
+					$importo = $_POST['importo'];
+					$descrizione = $_POST['descrizione'];
+					$data = $_POST['data'];
+					$dataFattura = $_POST['dataFattura'];
+					$fattura = $_POST['fattura'];
+					compilaFattura($conn, $id, $importo, $descrizione, $data, $dataFattura, $fattura);
+					break;
+				case 'stampaFattura' :
+					$dataEmissione = $_POST['dataEmissione'];
+					$fattura = $_POST['fattura'];
+					$id = $_POST['id'];
+					stampaFattura($conn, $id, $dataEmissione, $fattura);
+					break;
+				case 'ricevutaPagamentoEsistente' :
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					ricevutaPagamentoEsistente($conn, $id, $data);
+					break;
 				}
 			}
 		$conn=null;
@@ -301,8 +321,7 @@
 			
 			$result = $stmSql ->execute();
 
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
+			echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da echo vero
 		}
 
 		function visualizzaStoricoInterventi($conn,$idPersona){   //pulsante che chiede tutti gli ultimi interventi
@@ -711,6 +730,95 @@
 			}
 			
 		echo json_encode(local_encode($ret));
+		}
+
+
+
+
+
+
+		function compilaFattura($conn, $id, $importo, $descrizione, $data, $dataFattura, $fattura){
+			//query per il numero fattura
+
+			//$fattura = str_replace("@nFattura@",$nFattura,$fattura);
+			$fattura = str_replace("@importo@",$importo,$fattura);
+			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
+			//$fattura = str_replace("@dataScadenza@",$dataScadenza,$fattura);
+			$fattura = str_replace("@dataEmissione@",$dataFattura,$fattura);
+			//$fattura = str_replace("@quantita@",$quantita,$fattura);
+			//$fattura = str_replace("@prezzo@",$prezzo,$fattura);
+			//$fattura = str_replace("@unita@",$unita,$fattura);
+
+			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
+			fwrite($fileHtml, $fattura);
+			fclose($fileHtml);
+
+			echo $fattura;
+		}
+
+		//Salvarla con il numero di fattura????
+		function stampaFattura($conn, $id, $dataEmissione, $fattura){
+			//prendo l' id e la data dell' untimo intervento
+			$query="SELECT Data FROM interventi WHERE AnaID = ? ORDER BY Data DESC LIMIT 0,1";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			
+			$result = $stmSql ->execute();
+			$row = $stmSql ->fetch();
+
+			$data = $row['Data'];
+
+			//linux
+			//$mainPath = "../docs/" . $id;
+			//windows
+			$mainPath = "..\\fatture\\" . $id;
+
+			//linux
+			//$downloadPath = $mainPath . "/foglioPrivacy.html";
+			//windows
+			$downloadPath = $mainPath ."\\". $data ."fattura.html";
+
+
+//linux
+			//$cmd1 = "mkdir -m777 $mainPath";
+			//exec($cmd1);
+//windows
+			$cmd1 = "mkdir " . $mainPath;
+			shell_exec($cmd1);
+
+//linux
+			//$cmd2 = '/home/ec2-user/wkhtmltox/bin/wkhtmltopdf /var/www/html/webApp/tmp/tmpFoglioPrivacy.html /var/www/html/webApp/docs/foglioPrivacy.pdf';
+			//$ret = exec($cmd2);
+//windows
+			$cmd2 = "copy ..\\tmp\\tmpFattura.html " . $downloadPath;
+			error_log($cmd2);
+			$ret = shell_exec($cmd2);
+			//sleep(2);
+
+
+			$query="INSERT INTO fatture VALUES(NULL,?,?,?,?)";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $dataEmissione);
+			$stmSql ->bindParam(2, $data);
+			$stmSql ->bindParam(3, $id);
+			$stmSql ->bindParam(4, $downloadPath);
+			
+			$result = $stmSql ->execute();
+
+			echo $downloadPath;
+		}
+
+		function ricevutaPagamentoEsistente($conn, $id, $data){
+			$query="SELECT Percorso FROM fatture WHERE AnaIdIntervento = ? AND DataIntervento = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+			error_log($ret);
+
+			echo $ret[0];
 		}
 
 
