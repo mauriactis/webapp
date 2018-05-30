@@ -22,7 +22,7 @@
    </tbody>
 </table>
 
-
+<!-- Sidenav che appare quando viene premuto il tasto "Situazione paziente"-->
 <div id="situazionePaziente" class="sidenav" style="margin-top: 55px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiSituazionePaziente();">&times;</a>
    <div class="corpoSidenav">
@@ -54,7 +54,7 @@
    </div>
 </div>
 
-
+<!-- Sidenav che appare quando viene premuto il tasto "Info"-->
 <div id="modifiche" class="sidenav" style="margin-top: 55px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiModifiche();">&times;</a>
    <div class="corpoSidenav" style="display: block;">
@@ -282,7 +282,7 @@
     </div>
 </div>
 
-<!-- Popup che richiede e i deidera stampare la ricevuta -->
+<!-- Popup che richiede se si desidera stampare la ricevuta -->
 <div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
