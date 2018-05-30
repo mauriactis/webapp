@@ -147,6 +147,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
           </div>
       </div>
 
+      <!-- Popup che viene inizializzato con un testo dal javascript a seconda del messaggio -->
       <div class="modal fade" id="popupGenerico" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
