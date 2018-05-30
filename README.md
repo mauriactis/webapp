@@ -21,7 +21,7 @@ manca stampa fattura
 
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-transazione per stampa fattura (per il numero)
+stampa ricevuta deve essere azzerata ogni anno
 
 fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente DA FIXARE
 
