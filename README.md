@@ -21,15 +21,13 @@ manca stampa fattura
 
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-stampa ricevuta deve essere azzerata ogni anno
+ricevuta da contabilità in caso di pagamento singolo o multiplo
 
-fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente DA FIXARE
-
-
+numero ricevuta deve essere azzerata ogni anno
 
 !! sul db nuovo non lascia mettere la dataIntervento in fatture in relazione con la data in interventi
 
-salvare la ricevuta con il numero di fattura nel nome?????
+sostituire a document.getelementbyid in jquery
 
 -----Appuntamenti-----
 
