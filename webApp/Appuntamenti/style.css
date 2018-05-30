@@ -6,7 +6,6 @@
 	margin-right: 20em;
 }
 
-/*Non mi piace con gli em*/
 #headerTbl{
 	margin-left: 8em;
 }
@@ -100,9 +99,9 @@
 	width: 50%;
 }
 
-#popupRisposta{
+.popupRisposta{
 	position: relative;
 	float: left;
 	margin-left: 75em;
-	margin-top: -30em;
+	margin-top: -32.25em;
 }
