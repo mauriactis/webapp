@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mag 11, 2018 alle 08:30
--- Versione del server: 5.6.20
--- PHP Version: 5.5.15
+-- Creato il: Mag 30, 2018 alle 09:54
+-- Versione del server: 10.1.13-MariaDB
+-- Versione PHP: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `provadb`
@@ -28,7 +28,7 @@ USE `provadb`;
 -- Struttura della tabella `amministratori`
 --
 
-CREATE TABLE IF NOT EXISTS `amministratori` (
+CREATE TABLE `amministratori` (
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -48,8 +48,8 @@ INSERT INTO `amministratori` (`username`, `password`) VALUES
 -- Struttura della tabella `anagrafica`
 --
 
-CREATE TABLE IF NOT EXISTS `anagrafica` (
-`ID` int(11) NOT NULL,
+CREATE TABLE `anagrafica` (
+  `ID` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Cognome` varchar(100) NOT NULL,
   `DataNascita` date NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `anagrafica` (
   `Motivo` int(11) DEFAULT NULL,
   `Anamnesi` varchar(1000) DEFAULT NULL,
   `CodFisc` char(16) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3529 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `anagrafica`
@@ -312,9 +312,9 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3026, 'Ornella', 'Dompè', '1973-12-19', 'Cuneo', '', '1', 'Via XXV aprile 3', '12010', '', '0171/72081', NULL, 'inizia dolore colonna dopo 1 gravidanza 2001 per 3 mesi\r\nnuovo dolore per 3 mesi dopo alcuni anni\r\n2012 frattura del perone scendendo da uno scalino con lussazione e gesso dopo 6 mesi a dicembre 2012 blocco colonna e poi dolore permanente \r\nvarie terapie: antiinfiammatori+fisio\r\ndolore quando c''è l''ovulazione sia anteriore che posteriore \r\nsonno disturbato da 6 mesi quando si muove si risveglia\r\nLavoro: casalinga\r\nDolore peggio al mattino meglio al pomeriggio\r', 'DMPRLL73T59D205F'),
 (3027, 'Concetta', 'D''Angelo', '1900-01-01', '', '', '1', 'Via Molino Morra 24/a', '12100', '', '', NULL, 'Dolore alle spalle da almeno 1 anno\r\nvisita dal Medico di famiglia e poi massaggi\r\ncefalea a grappolo da almeno 20 anni peggiorata dopo il parto (assume aulin per decongestionare)\r\ndolore a livello dorso-lombare\r\nincidente stradale 20 anni fa\r\nrottura menisco gin sx operato nel ''94\r\n2 parti naturali su sedia ginecologica\r\nsonno tranquillo\r\nda 4 giorni dolore al sacro\r\n post-intervento gengivale è in cura 1 mese', ''),
 (3028, 'Floriana', 'Galliano', '1977-05-28', 'Cuneo', '', '1', 'Via Martiri della libertà46/A', '12060', '', '339/6152918', NULL, 'da 10 anni dolore cervicale \r\nda marzo 2013 1 mese di cefalea \r\nvisita fisiatrica mondovi Dr Quercio\r\ntratt riabilitativo 10 sedute per cervicale con collega a Mondovì', 'GLLFRN77E68D205F'),
-(3029, 'Maura', 'Costamagna', '1965-08-10', '', '', '1', 'Via A. Volta 7', '12100', '', '333/6361024', NULL, 'dolore alla colonna fin da giovane con probabile scoliosi\r\ndorme male per dolore che la sveglia  e poi cambia con a volte formicolio alle mani e arto sup\r\ndolore alla cervicale soprattutto al mattino che migliora in stazione eretta\r\nterapia farmacologica: antinfiammatori \r\nattività fisica poca, comincerà a camminare, ginnastica in acqua, sci, \r\nnon in menopausa con spirale\r\nint di endometriosi ''90\r\ngravidanza nel ''91e poi 2 gravidanza conparto naturale\r\n\r', 'CSTMRA65M50D205S');
+(3029, 'Maura', 'Costamagna', '1965-08-10', '', '', '1', 'Via A. Volta 7', '12100', '', '333/6361024', NULL, 'dolore alla colonna fin da giovane con probabile scoliosi\r\ndorme male per dolore che la sveglia  e poi cambia con a volte formicolio alle mani e arto sup\r\ndolore alla cervicale soprattutto al mattino che migliora in stazione eretta\r\nterapia farmacologica: antinfiammatori \r\nattività fisica poca, comincerà a camminare, ginnastica in acqua, sci, \r\nnon in menopausa con spirale\r\nint di endometriosi ''90\r\ngravidanza nel ''91e poi 2 gravidanza conparto naturale\r\n\r', 'CSTMRA65M50D205S'),
+(3030, 'Martina', 'Magnaldi', '1998-05-07', 'Cuneo', '', '1', 'Via Lorenzo Bertano 44', '12100', '', '345/8482407', NULL, 'dolore alla colonna dorso-lombare che si è accentuato dopo allenamento di pallavolo del 5/05 con arresto dell''allenamento\r\nalla sera prima di coricarsi sempre dolenzia\r\n3 allenamenti+2 partite\r', 'MGNMTN98E47D205H');
 INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`, `MedicoProvenienza`, `Residenza`, `Indirizzo`, `CAP`, `Telefono1`, `Telefono2`, `Motivo`, `Anamnesi`, `CodFisc`) VALUES
-(3030, 'Martina', 'Magnaldi', '1998-05-07', 'Cuneo', '', '1', 'Via Lorenzo Bertano 44', '12100', '', '345/8482407', NULL, 'dolore alla colonna dorso-lombare che si è accentuato dopo allenamento di pallavolo del 5/05 con arresto dell''allenamento\r\nalla sera prima di coricarsi sempre dolenzia\r\n3 allenamenti+2 partite\r', 'MGNMTN98E47D205H'),
 (3031, 'Federica', 'Daniele', '1992-04-04', '', '', '1', 'Viale B.a Carletti 8/a', '12100', '', '340/7995950', NULL, 'dolore alle spalle e al collo da tanti anni\r\nstudentessa: psicologia\r\nSonno non disturbato dai dolori ma al risveglio dolore \r\ndurante il giorno può variare\r\nmassaggio shiatsu/ pranoterapia \r\nfrattura clavicola da bambina \r\nproblema mandibolare: morso crociato ha utilizzato apparecchi, attualmente usa byte, per bruxismo notturno  \r', 'DNLFRC92D44D205Z'),
 (3032, 'Giuseppina', 'Sampò', '1940-09-23', 'Sant''Albano Stura', '', '1', 'Via Sobrero 26', '12100', '0171/695473', '346/2169128', NULL, 'vedi allegato\r\ndolore lombare\r\nPensionata\r\nattività motoria: cammina', 'SMPGPP40P63I210N'),
 (3033, 'Francesca', 'Lerda', '1962-09-23', 'Rocca de Baldi', '', '1', 'Via Monea Oltregesso 48', '12100', '', '349/6973894', NULL, 'inizio dicembre 2013 dolore spalla dx \r\ndolore a dormire se ci dorme sopra o utilizzo funzionale (tipo lavaggio vetri) prima di natale se è fatta mettere a posto \r\ntamponamento 15 anni fa\r\ndolore cervicale prima del ciclo mestruale a livello frontale\r\nse rimane flessa per un pò più di tempo si sente bloccata dorsale bassa', 'LRDFNC62P63H395V'),
@@ -429,9 +429,9 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3157, 'Dario Francesco', 'Giuliano', '1966-05-14', 'Cuneo', '', '1', 'Via Limone Piemonte 7', '12100', '', '335/5473664', NULL, 'Dolore gin sx in esiti di sovraccarico dopo sport (sci, calcetto)\r\nanni fa incidente automob (tamponamento)\r\nAttività motoria: sci, calcetto, camminare\r\nLavoro: rappresentante\r\nRM: meniscosi sx sul corno posteriore mediale', 'GLNDTR66E14D205K'),
 (3158, 'Roberto', 'Olla', '1965-03-04', 'Torino', '', '1', 'Via Fratelli Giordanengo 60', '12018', '', '3394242595', NULL, 'Lavoro: odontotecnico\r\ndolore cervicale \r\nanni fa dolore lombare con blocco \r\nattenzione ergonomica nella movimentazione carichi\r\nal mattino dolore risolto parzialmente con cuscino memory form con onde\r\nattività motoria nulla per mancanza di tempo', 'LLORRT65C04L219M'),
 (3159, 'Maria Maddalena', 'Bertolino', '1949-02-23', 'Morozzo', '', '1', 'Via Peirone 72 a', '12047', '', '', NULL, 'Dolore spalla dx non da trauma \r\nLavoro: ex-maestra\r\nAttività motoria: camminate', 'BRTMMD49B63F743Y'),
-(3160, 'Lorenzina', 'Giordano', '1950-05-20', '', '', '1', 'Via Q. Sella 24', '12100', '', '349/6471902', NULL, 'DA qualche giorno giramenti di testa\r\ngià successo anni fa , visita otorinolaringoiatrica\r\nnon incidenti sulla colonna cervicale\r\nsoffre il caldo ma di più il freddo\r\nAttività motoria: 2 volte alla settimana (walking), bicicletta\r\nipotiroidismo+colesterolo alto\r\n\r\n\r', 'GRDLNZ50E60G114K');
+(3160, 'Lorenzina', 'Giordano', '1950-05-20', '', '', '1', 'Via Q. Sella 24', '12100', '', '349/6471902', NULL, 'DA qualche giorno giramenti di testa\r\ngià successo anni fa , visita otorinolaringoiatrica\r\nnon incidenti sulla colonna cervicale\r\nsoffre il caldo ma di più il freddo\r\nAttività motoria: 2 volte alla settimana (walking), bicicletta\r\nipotiroidismo+colesterolo alto\r\n\r\n\r', 'GRDLNZ50E60G114K'),
+(3161, 'Fiorana', 'Ghibaudo', '1964-10-13', '', '', '1', 'Via Dante Livio Bianco 10', '12011', '', '0171/269888', NULL, 'Pz con dolore alla colonna\r\nfrattura costola 2 anni fa\r\nosteoporosi \r\nPensionata\r\nAttività motoria: 2 volte alla settimana ginn dolce', 'GHBFNM42E61B033T');
 INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`, `MedicoProvenienza`, `Residenza`, `Indirizzo`, `CAP`, `Telefono1`, `Telefono2`, `Motivo`, `Anamnesi`, `CodFisc`) VALUES
-(3161, 'Fiorana', 'Ghibaudo', '1964-10-13', '', '', '1', 'Via Dante Livio Bianco 10', '12011', '', '0171/269888', NULL, 'Pz con dolore alla colonna\r\nfrattura costola 2 anni fa\r\nosteoporosi \r\nPensionata\r\nAttività motoria: 2 volte alla settimana ginn dolce', 'GHBFNM42E61B033T'),
 (3162, 'Giulia', 'Formica', '1990-08-21', 'Moncalieri', '', '1', 'Via Roma 18', '12100', '', '393/1204885', NULL, 'dal 5/02/15 dolore acuto alla spalla dx irradiato su tutto l''arto che la porta ad andare in P. S (vedi documento)\r\neseguita ecografia 12/02  (vedi allegato)\r\nvisita fisiatrica in ASL con dubbia diagnosi (cuffia dei rotatori?) richiesta fisioterapia\r\nsi presenta in studio con tutore di scarico per l''arto e documentazione\r\nLavora al negozio di abbigliamento H&M \r\nsta laureandosi \r\npz.emotiva \r\n\r', 'FRMGLI90M61F335J'),
 (3164, 'Chiara', 'Fantino', '1992-04-08', 'Cuneo', '', '1', 'Via Bisalta 26', '12040', '', '0171/791434', NULL, 'caduta su sci il 5 marzo con  trauma cervicale tipo colpo di frusta  \r\nP.S dopo 2 giorni, non ha fatto rx\r\nSuona pianoforte sta facendo bienno al conservatorio \r\nporta occhiali per cattiva accomodazione della pupilla da spartito musicale', 'FNTCHR92D48D205U'),
 (3165, 'Roberto', 'Mondino', '1992-04-08', 'Cuneo', '', '1', 'Via q. sella 11', '12100', '', '348/7642821', NULL, 'dolore alla colonna da 15 giorni dopo aver lavato auto\r\nLavoro: insegnante\r\nDolore nei cambi di posizione e nelle partenze per deambulare, dorme bene', 'MNDRRT5410D205A'),
@@ -554,9 +554,9 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3292, 'Francesca', 'Operto', '2007-11-19', 'Cuneo', '', '1', 'Via Q. Sella 24', '12100', '', '0171/694719', NULL, 'Deglutizione atipica\r\nmorso incrociato con apparecchio notturno e diurno pomeridiano da 1 anno e mezzo  \r\n8 anni \r\n3 elementare\r\ndanza 2 volte alla settimana4\r\ndolore cervicale con blocco rotazione verso sx da lunedì 14/03', 'BRTFNC07S59D205V'),
 (3293, 'Carlotta', 'Aimale', '1970-09-28', 'Cuneo', '', '1', 'Via Maria Ausiliatrice 4', '12100', '', '329/7948329', NULL, 'facendo fondo fastidio trapezi\r\nsci discesa aumentato dolore\r\nsci escursionismo caduta con dolore dorsale come spada, messo arnica, 15 giorni fa fatto trattamento per sciogliere, irradiazione su arto superiore \r\nscoliosi con dismetria arto di sx e leggero rialzo a sx', 'MLACLT70P68D205R'),
 (3294, 'Cinzia', 'Dani', '1973-01-14', 'Cuneo', '', '1', 'Via Dalmastro 12/D', '12100', '', '347/8277631', NULL, 'ginocchio sx dolore pungente a sx \r\ndolore bil ginocchia, dopo visita ortopedico Carando 15 anni sub-lussazione di rotula con cartilagine\r\nLavoro: impiegata\r\nAttività motoria: ginnastica in palestra', 'DNACNZ73A54D205U'),
-(3295, 'Manuela', 'Fila Vaudana', '1967-10-20', 'Sudafrica', '', '1', 'Via Vignolo 77', '', '', '333/6094183', NULL, 'in data6/01/16 caduta accidentale con fratura polso epifisi distale radio\r\ninterv di osteosintesi dopo alcuni giorni\r\ngesso fino al 19/01/16\r\nsi presenta con avambraccio e mano edematoso , rigidità articolare \r\nInsegnante', 'FLVMNL67R60Z347L');
+(3295, 'Manuela', 'Fila Vaudana', '1967-10-20', 'Sudafrica', '', '1', 'Via Vignolo 77', '', '', '333/6094183', NULL, 'in data6/01/16 caduta accidentale con fratura polso epifisi distale radio\r\ninterv di osteosintesi dopo alcuni giorni\r\ngesso fino al 19/01/16\r\nsi presenta con avambraccio e mano edematoso , rigidità articolare \r\nInsegnante', 'FLVMNL67R60Z347L'),
+(3296, 'Alberto', 'Dadone', '1990-04-23', 'Cuneo', '', '1', 'Via Roma 28', '12040', '', '348/7647963', NULL, 'ginnastica artistica fino a 10 anni fa\r\ncalcetto 1-2 volte alla settimana\r\npalestra fino a 1 anno fa+arrampicata \r\noggi: da 1 settimana dolore parte alta\r\ndolore dorsale parte alta \r\ntamponamento settiimana scorsa lieve dorso-lombare \r\nLavoro: impiegato tecnico informatico\r\ntrattamenti osteopatic: 2 volte all''anno', 'DDNLRT90D23D205W');
 INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`, `MedicoProvenienza`, `Residenza`, `Indirizzo`, `CAP`, `Telefono1`, `Telefono2`, `Motivo`, `Anamnesi`, `CodFisc`) VALUES
-(3296, 'Alberto', 'Dadone', '1990-04-23', 'Cuneo', '', '1', 'Via Roma 28', '12040', '', '348/7647963', NULL, 'ginnastica artistica fino a 10 anni fa\r\ncalcetto 1-2 volte alla settimana\r\npalestra fino a 1 anno fa+arrampicata \r\noggi: da 1 settimana dolore parte alta\r\ndolore dorsale parte alta \r\ntamponamento settiimana scorsa lieve dorso-lombare \r\nLavoro: impiegato tecnico informatico\r\ntrattamenti osteopatic: 2 volte all''anno', 'DDNLRT90D23D205W'),
 (3298, 'Barbara', 'Castellino', '1972-08-08', 'cuneo', '', '1', 'Via pontechianale 14/C', '12100', '', '340/3850803', NULL, '5 anni fa tamponamento con collare\r\nciclo di osteopatia dopo incidente poi bene\r\nattualmente dolore spalla dx con irradia zione al collo \r\nLavoro: impiegata con utilizzo di mouse \r\nattività motoria: niente\r\ndolore di colonna in generale per ipercifosi', 'CSTBBR72M48D205G'),
 (3300, 'Emanuela', 'Prekalori', '1995-05-04', 'Cuneo', '', '1', 'Via Vignolo 86', '12010', '', '329/4599527', NULL, '1 mese fa risveglio con dolore spalla sx e si irradia sul braccio\r\ncon ciclo antiinfiammatori diminuisce\r\ninizia qualche lezione di violino\r\napparecchio ortodontico dopo trauma facciale da piccola durante la danza \r\nstudente: università beni culturali a torino viaggia\r\nAttività motoria: nuoto ininterrotto per dolore\r\ncicli mestruali molto dolorosi, visita ginecologica con pastiglie per togliere il dolore \r', 'PRKMNL95E44D205E'),
 (3301, 'Andrea', 'Pinardi', '1997-12-27', 'Cuneo', '', '1', 'Via scagliosi 36', '12100', '', '333/3758778', NULL, 'da novembre dolore colonna\r\nstudente scuola serale\r\nattività per qualche giorno da imbianchino ha aumentato il dolore\r\nmotoria :calcetto\r\n \r', 'PNRNDR97T27D205N'),
@@ -672,9 +672,9 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3421, 'Anna', 'Pozzi', '2001-05-08', 'Cuneo', '', '1', 'Via Vinaj 12', '12100', '', '338/4351607', NULL, 'Studente\r\nattività sportiva: pallavolo: 2 volte alla sett allenamento+partita\r\ndolore da 1 mese al trapezio medio dx', 'PZZNNA01E48D205J'),
 (3422, 'Patrizia', 'Dutto', '1968-05-28', 'Cuneo', '', '1', 'Via tetto Bovis 12', '12100', '', '333/1537899', NULL, 'pz in esiti di encefalite post-parto\r\nepilessia\r\nfarmaci antiepilettici e altri\r\nLavoro: tramite cooperativa \r\nAttività motoria: 3 volte alla settimana\r\n3/10/17 in attesa di interv tunnel carpale', 'DTTPRZ68E68D205K'),
 (3423, 'Stefania', 'Martoccia', '1976-01-06', 'Cuneo', '', '1', 'Via Notaio G.D. Armitano 8', '12023', '', '333/9051206', NULL, 'dolore fastidio collo, cervicale, lombare\r\n2 ceserei 2012-2015 \r\ndolore alla pancia di più \r\nstitichezza da 1 paio di mesi \r\nincidente automobilistico 1999-2000 colpo di frusta, collare 10 sedute FKT\r\nernia inguinale a 5 anni \r\nappendice a 18 anni\r\ntuba schiacciata a sx, ovula solo da una parte, cicli più lunghi dopo visita ginecologica da ripetere, eventuale utilizzo di ormoni (pre-menopausa?) \r\nLavoro: impiegata\r\nAttività motoria: niente, cammina ma non con frequenza \r\nSonno disturbato non continuativo, addormentamento veloce, ma dopo le 3 disturbato e dalle 5 vigile\r\ndermatite a livello sottocutaneo occipitale', 'MRTSFN76A46D205B'),
-(3424, 'Valentina', 'Marabotto', '1983-05-15', 'Cuneo', '', '1', 'Via Silvio Pellico 3', '12100', '', '329/6578470', NULL, 'Lavoro: commerciante\r\nAttività motoria: cammina\r\n1 parto naturale\r', 'MRBVNT83E55D205J');
+(3424, 'Valentina', 'Marabotto', '1983-05-15', 'Cuneo', '', '1', 'Via Silvio Pellico 3', '12100', '', '329/6578470', NULL, 'Lavoro: commerciante\r\nAttività motoria: cammina\r\n1 parto naturale\r', 'MRBVNT83E55D205J'),
+(3425, 'Agata Nunziata', 'Costa', '1939-08-03', 'Regalbuto (En)', '', '1', 'Via Aurora 1/C', '12100', '', '338/6075547', NULL, 'domenica 26/02  inizia dolore su ginocchio probabile leggera storta alla caviglia \r\nginocchio sx PTG da 1 anno\r\nipofunzione rene sx, per calcolo renale grosso operato che ha lasciato  \r\nintervento per incontinenza vescica\r\ncalcoli cistifellea\r\nspalla intervento per tendine sovraspinoso lesionato \r\nfarmaci per  pressione alta , diabete tipo 1, gastroprotezione, colesterolo\r\nPensionata  \r', 'CSTGNN39M43H221F');
 INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`, `MedicoProvenienza`, `Residenza`, `Indirizzo`, `CAP`, `Telefono1`, `Telefono2`, `Motivo`, `Anamnesi`, `CodFisc`) VALUES
-(3425, 'Agata Nunziata', 'Costa', '1939-08-03', 'Regalbuto (En)', '', '1', 'Via Aurora 1/C', '12100', '', '338/6075547', NULL, 'domenica 26/02  inizia dolore su ginocchio probabile leggera storta alla caviglia \r\nginocchio sx PTG da 1 anno\r\nipofunzione rene sx, per calcolo renale grosso operato che ha lasciato  \r\nintervento per incontinenza vescica\r\ncalcoli cistifellea\r\nspalla intervento per tendine sovraspinoso lesionato \r\nfarmaci per  pressione alta , diabete tipo 1, gastroprotezione, colesterolo\r\nPensionata  \r', 'CSTGNN39M43H221F'),
 (3426, 'Marzia', 'Giaime', '1980-06-18', 'Cuneo', '', '1', 'Via Ghedini 36', '12100', '', '333/2611292', NULL, 'ottobre-nov versamento ginocchio sx, ortopedico (ghiaccio/brufen9\r\ndicembre: ipoacusia dx (cortisone)\r\necografia all''addome nulla\r\nvisita ginecologica niente\r\n3 settimane fa dolore: dolore gluteo+coscia+punto su colonna \r\ngastrite, ora prende artiglio del diavolo \r\nsonno disturbato per il cambio di posizione\r\nLavoro: insegnante scuola primaria\r\nattività motoria: camminate, faceva \r\n2 volte trattamenti osteopata per cervicale', 'GMIMRZ80H58D205Q'),
 (3427, 'Rita', 'Tripodi', '1964-09-25', '', '', '1', 'Piazza Europa 20', '12100', '', '3289269799', NULL, 'Lavoro: segretaria\r\nAttività motoria: niente per mancanza di tempo\r\nnessun incidente automobilistico\r\n10 anni fa problemi ai denti, lavoro che ha creato infiammazione del n. trigemino, ponte a dx che ha causato forti mal di testa e gonfiori sulla mascella\r\n stanchezza fisica per assistenza alla mamma\r\ncalcolo uretra e vescica 2016 con intervento   \r', ''),
 (3428, 'Jasmin', 'Pellicciotta', '1985-11-26', 'Savona', '', '1', 'Corso Dante 111/12', '17014', '', '3483604891', NULL, 'da maggio 2016 dolore alle spalle poi alla colonna \r\nnessun incidente\r\nAttività motoria: fino a 2 anni fa pugilato\r\ndistorsione caviglia a dx \r\ncanionyng con trauma alle costole 4 anni fa\r\nsoffre di cefalea a casco : con umidità aumenta\r\ndorme bene senza risvegli frequenti\r\nciclo regolare con poco dolore', 'PLLJMN85S66I480L'),
@@ -769,7 +769,15 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 (3520, 'Dario', 'Menardi', '1967-03-30', 'Cuneo', '', '1', 'Via Maria Ausiliatrice 4', '12100', '', '348/7064012', NULL, '15 anni di dolore alla colonna con salite e discese del dolore\r\n2001 ernia inguinale bilat\r\nvarici \r\nRM 2013-2014  RX 2013-2014: \r\nDr. Cavallera aveva visto la diagnostica, forse displasia di anche\r\nAttività motoria: sci alpinismo , bicicletta, camminate, dopo qs ultimo problema non ha più ricominciato  \r\noggi dopo 3 giorni di bicicletta è venuto un dolore che non passava, dal 21 settembre ha preso 3-4 giorni di anti-infiammatori\r\ntrattamenti: 2 volte con massaggi + stretching che esegue tutte le sere\r\nfarmaci: tachicaf per emicrania o cefalea', 'MNRDVG67C30D205A'),
 (3521, 'Maurizio', 'Actis', '1998-12-12', 'Cuneo', 'Tomatis', '1', 'Via Bersezio 15', '12100', '3393227082', '3393227082', NULL, 'Sei molto bello', 'CTSMRZ98T22D205W'),
 (3527, 'gabriele', 'tomatis', '1999-05-24', 'cuneo', '', '3', 'via beinette', '12345', '1234567890 cell', '', 3, '', 'AAAAAAAAAAAAAAAA'),
-(3528, 'a', 'a', '1998-12-22', 'D205', 'Dott. cento', 'D205', 'via bersezio 15', '12100', '339322y7038', '1234567891', 4, 'Ã¨ caduto dalle scale, Ã¨ tetraplegico e non ha sentito nulla, poveraccio', 'CTSMRZ09TNDIRND2');
+(3528, 'a', 'a', '1998-12-22', 'D205', 'Dott. cento', 'D205', 'via bersezio 15', '12100', '339322y7038', '1234567891', 4, 'Ã¨ caduto dalle scale, Ã¨ tetraplegico e non ha sentito nulla, poveraccio', 'CTSMRZ09TNDIRND2'),
+(3529, 'aaaa', 'aaaa', '2018-05-08', 'H649', '', 'H649', 's', '14520', 'f', '', 3, '', 'AZSXDC12F25F250F'),
+(3530, 's', 's', '2018-05-01', 'Z107', '', 'D245', 'd', '14520', '1254251251', '', 3, '', 'ASZXDC20D25D251D'),
+(3531, 's', 'x', '2018-05-01', 'H648', '', 'H651', 'x', '12402', 's', '', 3, '', 'AZSXDC25C25C412C'),
+(3532, 's', 's', '2018-05-09', 'H651', '', 'H649', 's', '12540', 's', '', 2, '', 'AZSXDC52D52D245D'),
+(3533, 's', 's', '2018-05-08', 'H649', '', 'H650', 's', '12540', 's', '', 3, '', 'AZSXDC25D12D524D'),
+(3534, 'Prova', 'Pilotina', '2018-05-08', 'A461', '', 'A007', 'A', '14520', 'A', '', 3, '', 'AZSXDC25D25D254D'),
+(3535, 'Gabriele', 'Tomatis', '2018-05-08', 'D205', '', 'A735', 'a', '14520', 'a', '', 3, '', 'AZSXDC25D25D254D'),
+(3536, 'Prova', 'Aprova', '2018-05-02', 'H652', '', 'H649', 'd', '14520', 's', '', 4, '', 'AZSXDC52D52D542D');
 
 -- --------------------------------------------------------
 
@@ -777,11 +785,20 @@ INSERT INTO `anagrafica` (`ID`, `Nome`, `Cognome`, `DataNascita`, `LuogoNascita`
 -- Struttura della tabella `appuntamenti`
 --
 
-CREATE TABLE IF NOT EXISTS `appuntamenti` (
+CREATE TABLE `appuntamenti` (
   `AnaID` int(11) NOT NULL,
   `DataOra` datetime NOT NULL,
   `Note` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `appuntamenti`
+--
+
+INSERT INTO `appuntamenti` (`AnaID`, `DataOra`, `Note`) VALUES
+(3015, '2018-05-29 12:17:00', ''),
+(3497, '2018-05-28 20:17:00', 'j'),
+(3516, '2018-05-29 21:17:00', '');
 
 -- --------------------------------------------------------
 
@@ -789,7 +806,7 @@ CREATE TABLE IF NOT EXISTS `appuntamenti` (
 -- Struttura della tabella `comuni`
 --
 
-CREATE TABLE IF NOT EXISTS `comuni` (
+CREATE TABLE `comuni` (
   `ID` varchar(4) NOT NULL DEFAULT '',
   `Comune` varchar(80) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -11331,16 +11348,17 @@ INSERT INTO `comuni` (`ID`, `Comune`) VALUES
 --
 -- Struttura stand-in per le viste `comuninascitaanagrafica`
 --
-CREATE TABLE IF NOT EXISTS `comuninascitaanagrafica` (
+CREATE TABLE `comuninascitaanagrafica` (
 `ID` int(11)
 ,`LuogoNascita` varchar(200)
 );
+
 -- --------------------------------------------------------
 
 --
 -- Struttura stand-in per le viste `contabilita`
 --
-CREATE TABLE IF NOT EXISTS `contabilita` (
+CREATE TABLE `contabilita` (
 `AnaID` int(11)
 ,`Nome` varchar(100)
 ,`Cognome` varchar(100)
@@ -11348,19 +11366,30 @@ CREATE TABLE IF NOT EXISTS `contabilita` (
 ,`Pagamento` float
 ,`Pagato` tinyint(1)
 );
+
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `documenti`
 --
 
-CREATE TABLE IF NOT EXISTS `documenti` (
-`ID` int(11) NOT NULL,
+CREATE TABLE `documenti` (
+  `ID` int(11) NOT NULL,
   `AnaID` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Allegato` varchar(400) NOT NULL,
   `Descrizione` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `documenti`
+--
+
+INSERT INTO `documenti` (`ID`, `AnaID`, `Data`, `Allegato`, `Descrizione`) VALUES
+(5, 3533, '2018-05-28', '..\\docs\\3533\\foglioPrivacy.html', 'Foglio privacy'),
+(6, 3534, '2018-05-28', '..\\docs\\3534\\foglioPrivacy.html', 'Foglio privacy'),
+(7, 3535, '2018-05-28', '..\\docs\\3535\\foglioPrivacy.html', 'Foglio privacy'),
+(8, 3536, '2018-05-28', '..\\docs\\3536\\foglioPrivacy.html', 'Foglio privacy');
 
 -- --------------------------------------------------------
 
@@ -11368,11 +11397,11 @@ CREATE TABLE IF NOT EXISTS `documenti` (
 -- Struttura della tabella `esercizi`
 --
 
-CREATE TABLE IF NOT EXISTS `esercizi` (
-`ID` int(11) NOT NULL,
+CREATE TABLE `esercizi` (
+  `ID` int(11) NOT NULL,
   `Immagine` varchar(400) NOT NULL,
   `Titolo` varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -11380,7 +11409,7 @@ CREATE TABLE IF NOT EXISTS `esercizi` (
 -- Struttura della tabella `eserciziassegnati`
 --
 
-CREATE TABLE IF NOT EXISTS `eserciziassegnati` (
+CREATE TABLE `eserciziassegnati` (
   `AnaID` int(11) NOT NULL,
   `EseID` int(11) NOT NULL,
   `Data` date NOT NULL,
@@ -11390,10 +11419,50 @@ CREATE TABLE IF NOT EXISTS `eserciziassegnati` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `fatture`
+--
+
+CREATE TABLE `fatture` (
+  `ID` int(11) NOT NULL,
+  `DataOraEmissione` datetime NOT NULL,
+  `DataIntervento` date NOT NULL,
+  `AnaIdIntervento` int(11) NOT NULL,
+  `Percorso` varchar(400) NOT NULL,
+  `nFattura` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `fatture`
+--
+
+INSERT INTO `fatture` (`ID`, `DataOraEmissione`, `DataIntervento`, `AnaIdIntervento`, `Percorso`, `nFattura`) VALUES
+(10, '2018-05-28 20:51:12', '2018-05-28', 3528, '..\\fatture\\3528\\2018-05-28fattura.html', 0),
+(11, '2018-05-30 09:47:32', '2018-05-30', 2940, '..\\fatture\\2940\\2018-05-30fattura.html', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `gestionefatture`
+--
+
+CREATE TABLE `gestionefatture` (
+  `numeroFattura` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `gestionefatture`
+--
+
+INSERT INTO `gestionefatture` (`numeroFattura`) VALUES
+(6);
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `interventi`
 --
 
-CREATE TABLE IF NOT EXISTS `interventi` (
+CREATE TABLE `interventi` (
   `AnaID` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Descrizione` varchar(1000) NOT NULL
@@ -11404,10 +11473,12 @@ CREATE TABLE IF NOT EXISTS `interventi` (
 --
 
 INSERT INTO `interventi` (`AnaID`, `Data`, `Descrizione`) VALUES
+(2940, '2018-05-30', 'trhrthy'),
 (3521, '2018-03-01', 'Esercizi per le gambe'),
 (3521, '2018-03-08', 'Esercizi per le gambe'),
 (3521, '2018-03-15', 'Esercizi per le braccia'),
-(3521, '2018-03-22', 'Esercizi per il dorso');
+(3521, '2018-03-22', 'Esercizi per il dorso'),
+(3528, '2018-05-28', 'Prova prova prova');
 
 -- --------------------------------------------------------
 
@@ -11415,7 +11486,7 @@ INSERT INTO `interventi` (`AnaID`, `Data`, `Descrizione`) VALUES
 -- Struttura della tabella `messaggi`
 --
 
-CREATE TABLE IF NOT EXISTS `messaggi` (
+CREATE TABLE `messaggi` (
   `AnaID` int(11) NOT NULL,
   `DataOraInvio` datetime NOT NULL,
   `Richiesta` tinyint(1) NOT NULL,
@@ -11429,10 +11500,10 @@ CREATE TABLE IF NOT EXISTS `messaggi` (
 -- Struttura della tabella `motivi`
 --
 
-CREATE TABLE IF NOT EXISTS `motivi` (
-`ID` int(11) NOT NULL,
+CREATE TABLE `motivi` (
+  `ID` int(11) NOT NULL,
   `Descrizione` varchar(1000) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `motivi`
@@ -11452,7 +11523,7 @@ INSERT INTO `motivi` (`ID`, `Descrizione`) VALUES
 -- Struttura della tabella `pagamenti`
 --
 
-CREATE TABLE IF NOT EXISTS `pagamenti` (
+CREATE TABLE `pagamenti` (
   `AnaID` int(11) NOT NULL,
   `Data` date NOT NULL,
   `Pagamento` float NOT NULL,
@@ -11464,10 +11535,12 @@ CREATE TABLE IF NOT EXISTS `pagamenti` (
 --
 
 INSERT INTO `pagamenti` (`AnaID`, `Data`, `Pagamento`, `Pagato`) VALUES
+(2940, '2018-05-30', 305, 1),
 (3521, '2018-03-01', 50, 1),
 (3521, '2018-03-08', 200, 0),
 (3521, '2018-03-15', 25, 0),
-(3521, '2018-03-22', 100, 1);
+(3521, '2018-03-22', 100, 1),
+(3528, '2018-05-28', 30, 1);
 
 -- --------------------------------------------------------
 
@@ -11475,7 +11548,7 @@ INSERT INTO `pagamenti` (`AnaID`, `Data`, `Pagamento`, `Pagato`) VALUES
 -- Struttura della tabella `richiesteappuntamenti`
 --
 
-CREATE TABLE IF NOT EXISTS `richiesteappuntamenti` (
+CREATE TABLE `richiesteappuntamenti` (
   `AnaID` int(11) NOT NULL,
   `DataOraInvio` datetime NOT NULL,
   `Richiesta` tinyint(1) NOT NULL,
@@ -11492,7 +11565,7 @@ CREATE TABLE IF NOT EXISTS `richiesteappuntamenti` (
 -- Struttura della tabella `utenti`
 --
 
-CREATE TABLE IF NOT EXISTS `utenti` (
+CREATE TABLE `utenti` (
   `AnaID` int(11) NOT NULL,
   `User` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL
@@ -11512,7 +11585,7 @@ INSERT INTO `utenti` (`AnaID`, `User`, `Password`) VALUES
 --
 DROP TABLE IF EXISTS `comuninascitaanagrafica`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `comuninascitaanagrafica` AS select `anagrafica`.`ID` AS `ID`,coalesce(`comuni`.`Comune`,`anagrafica`.`LuogoNascita`) AS `LuogoNascita` from (`anagrafica` left join `comuni` on((`comuni`.`ID` = `anagrafica`.`LuogoNascita`))) order by `anagrafica`.`ID` desc;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `comuninascitaanagrafica`  AS  select `anagrafica`.`ID` AS `ID`,coalesce(`comuni`.`Comune`,`anagrafica`.`LuogoNascita`) AS `LuogoNascita` from (`anagrafica` left join `comuni` on((`comuni`.`ID` = `anagrafica`.`LuogoNascita`))) order by `anagrafica`.`ID` desc ;
 
 -- --------------------------------------------------------
 
@@ -11521,108 +11594,127 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `contabilita`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contabilita` AS select `pagamenti`.`AnaID` AS `AnaID`,`anagrafica`.`Nome` AS `Nome`,`anagrafica`.`Cognome` AS `Cognome`,`pagamenti`.`Data` AS `Data`,`pagamenti`.`Pagamento` AS `Pagamento`,`pagamenti`.`Pagato` AS `Pagato` from (`anagrafica` join `pagamenti`) where (`anagrafica`.`ID` = `pagamenti`.`AnaID`) order by `anagrafica`.`Cognome`,`anagrafica`.`Nome`,`pagamenti`.`Data`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `contabilita`  AS  select `pagamenti`.`AnaID` AS `AnaID`,`anagrafica`.`Nome` AS `Nome`,`anagrafica`.`Cognome` AS `Cognome`,`pagamenti`.`Data` AS `Data`,`pagamenti`.`Pagamento` AS `Pagamento`,`pagamenti`.`Pagato` AS `Pagato` from (`anagrafica` join `pagamenti`) where (`anagrafica`.`ID` = `pagamenti`.`AnaID`) order by `anagrafica`.`Cognome`,`anagrafica`.`Nome`,`pagamenti`.`Data` ;
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `anagrafica`
+-- Indici per le tabelle `anagrafica`
 --
 ALTER TABLE `anagrafica`
- ADD PRIMARY KEY (`ID`), ADD KEY `Nome` (`Nome`,`Cognome`), ADD KEY `motivi` (`Motivo`), ADD KEY `Indirizzo` (`Indirizzo`), ADD KEY `Residenza` (`Residenza`), ADD KEY `LuogoNascita` (`LuogoNascita`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `Nome` (`Nome`,`Cognome`),
+  ADD KEY `motivi` (`Motivo`),
+  ADD KEY `Indirizzo` (`Indirizzo`),
+  ADD KEY `Residenza` (`Residenza`),
+  ADD KEY `LuogoNascita` (`LuogoNascita`);
 
 --
--- Indexes for table `appuntamenti`
+-- Indici per le tabelle `appuntamenti`
 --
 ALTER TABLE `appuntamenti`
- ADD PRIMARY KEY (`AnaID`,`DataOra`);
+  ADD PRIMARY KEY (`AnaID`,`DataOra`);
 
 --
--- Indexes for table `comuni`
+-- Indici per le tabelle `comuni`
 --
 ALTER TABLE `comuni`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `documenti`
+-- Indici per le tabelle `documenti`
 --
 ALTER TABLE `documenti`
- ADD PRIMARY KEY (`ID`), ADD KEY `AnaID` (`AnaID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `AnaID` (`AnaID`);
 
 --
--- Indexes for table `esercizi`
+-- Indici per le tabelle `esercizi`
 --
 ALTER TABLE `esercizi`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `eserciziassegnati`
+-- Indici per le tabelle `eserciziassegnati`
 --
 ALTER TABLE `eserciziassegnati`
- ADD PRIMARY KEY (`AnaID`,`EseID`,`Data`), ADD KEY `EseID` (`EseID`);
+  ADD PRIMARY KEY (`AnaID`,`EseID`,`Data`),
+  ADD KEY `EseID` (`EseID`);
 
 --
--- Indexes for table `interventi`
+-- Indici per le tabelle `fatture`
+--
+ALTER TABLE `fatture`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `idInterventofk` (`AnaIdIntervento`);
+
+--
+-- Indici per le tabelle `interventi`
 --
 ALTER TABLE `interventi`
- ADD PRIMARY KEY (`AnaID`,`Data`);
+  ADD PRIMARY KEY (`AnaID`,`Data`);
 
 --
--- Indexes for table `messaggi`
+-- Indici per le tabelle `messaggi`
 --
 ALTER TABLE `messaggi`
- ADD PRIMARY KEY (`AnaID`,`DataOraInvio`);
+  ADD PRIMARY KEY (`AnaID`,`DataOraInvio`);
 
 --
--- Indexes for table `motivi`
+-- Indici per le tabelle `motivi`
 --
 ALTER TABLE `motivi`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `pagamenti`
+-- Indici per le tabelle `pagamenti`
 --
 ALTER TABLE `pagamenti`
- ADD PRIMARY KEY (`AnaID`,`Data`);
+  ADD PRIMARY KEY (`AnaID`,`Data`);
 
 --
--- Indexes for table `richiesteappuntamenti`
+-- Indici per le tabelle `richiesteappuntamenti`
 --
 ALTER TABLE `richiesteappuntamenti`
- ADD PRIMARY KEY (`AnaID`,`DataOraInvio`);
+  ADD PRIMARY KEY (`AnaID`,`DataOraInvio`);
 
 --
--- Indexes for table `utenti`
+-- Indici per le tabelle `utenti`
 --
 ALTER TABLE `utenti`
- ADD PRIMARY KEY (`AnaID`);
+  ADD PRIMARY KEY (`AnaID`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `anagrafica`
+-- AUTO_INCREMENT per la tabella `anagrafica`
 --
 ALTER TABLE `anagrafica`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3529;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3537;
 --
--- AUTO_INCREMENT for table `documenti`
+-- AUTO_INCREMENT per la tabella `documenti`
 --
 ALTER TABLE `documenti`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `esercizi`
+-- AUTO_INCREMENT per la tabella `esercizi`
 --
 ALTER TABLE `esercizi`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `motivi`
+-- AUTO_INCREMENT per la tabella `fatture`
+--
+ALTER TABLE `fatture`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT per la tabella `motivi`
 --
 ALTER TABLE `motivi`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -11631,45 +11723,51 @@ MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- Limiti per la tabella `anagrafica`
 --
 ALTER TABLE `anagrafica`
-ADD CONSTRAINT `anagrafica_ibfk_1` FOREIGN KEY (`Motivo`) REFERENCES `motivi` (`ID`) ON UPDATE CASCADE,
-ADD CONSTRAINT `anagrafica_ibfk_2` FOREIGN KEY (`Residenza`) REFERENCES `comuni` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `anagrafica_ibfk_1` FOREIGN KEY (`Motivo`) REFERENCES `motivi` (`ID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `anagrafica_ibfk_2` FOREIGN KEY (`Residenza`) REFERENCES `comuni` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `appuntamenti`
 --
 ALTER TABLE `appuntamenti`
-ADD CONSTRAINT `appuntamenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `appuntamenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `documenti`
 --
 ALTER TABLE `documenti`
-ADD CONSTRAINT `documenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `documenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `eserciziassegnati`
 --
 ALTER TABLE `eserciziassegnati`
-ADD CONSTRAINT `eserciziAssegnati_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE,
-ADD CONSTRAINT `eserciziAssegnati_ibfk_2` FOREIGN KEY (`EseID`) REFERENCES `esercizi` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `eserciziAssegnati_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `eserciziAssegnati_ibfk_2` FOREIGN KEY (`EseID`) REFERENCES `esercizi` (`ID`) ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `fatture`
+--
+ALTER TABLE `fatture`
+  ADD CONSTRAINT `idInterventofk` FOREIGN KEY (`AnaIdIntervento`) REFERENCES `interventi` (`AnaID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `interventi`
 --
 ALTER TABLE `interventi`
-ADD CONSTRAINT `interventi_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `interventi_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `pagamenti`
 --
 ALTER TABLE `pagamenti`
-ADD CONSTRAINT `pagamenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `pagamenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`AnaID`) REFERENCES `anagrafica` (`ID`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

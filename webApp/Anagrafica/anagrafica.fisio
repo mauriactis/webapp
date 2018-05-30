@@ -292,6 +292,7 @@
          <div id="fattura">
          </div>
          <input type="hidden" id="stmpRicImporto">
+         <input type="hidden" id="nFattura">
          <input type="hidden" id="stmpRicDescrizione">
          <input type="hidden" id="stmpRicID">
          <input type="hidden" id="stmpRicData">

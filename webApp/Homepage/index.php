@@ -140,8 +140,8 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                <div id="foglioPrivacy">
                </div>
                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="stampaFoglioPrivacy();"><span class="glyphicon glyphicon-print"></span> Stampa</button>
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                  <button type="button" class="btn btn-primary" onclick="stampaFoglioPrivacy(1);"><span class="glyphicon glyphicon-print"></span> Stampa</button>
+                  <button type="button" class="btn btn-default" onclick="stampaFoglioPrivacy(0);">Annulla</button>
                </div>
             </div>
           </div>

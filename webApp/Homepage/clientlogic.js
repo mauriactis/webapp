@@ -48,16 +48,31 @@ function trovaAppuntamenti(){
             var appuntamenti = JSON.parse (response);
             var nome = appuntamenti[0].Nome + " " + appuntamenti[0].Cognome;
             var ora = appuntamenti[0].Ora.substring(0,5);
-            var totale = nome + " (" + ora + ")";
-            console.log("Nome: " + nome);
-            if(nome == ""){
-                totale = "Nessuno";
+            var data = appuntamenti[0].Data;
+
+            if(dataDiOggi() != data){
+                data = giraDataUmano(data) + " ";
+            }else{
+                data = "";
+            }
+            
+            var totale = nome + " (" + data + ora + ")";
+            if(nome == "Nessuno "){
+                totale = "Nessuno.";
             }
             $("#lblAppuntamento").html(totale);
             nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
             ora = appuntamenti[1].Ora.substring(0,5);
-            totale = nome + " (" + ora + ")";
-            if(nome == ""){
+            data = appuntamenti[1].Data;
+            
+            if(dataDiOggi() != data){
+                data = giraDataUmano(data) + " ";
+            }else{
+                data = "";
+            }
+
+            totale = nome + " (" + data + ora + ")";
+            if(nome == "Nessuno "){
                 totale = "Nessuno";
             }
             $("#lblProxAppuntamento").html(totale);
@@ -287,10 +302,8 @@ function riportaNome(nome,dove){
     }
 }
 
-
-//FIXARE
 //scarica il foglio della privacy
-function stampaFoglioPrivacy(){
+function stampaFoglioPrivacy(status){
     var id = $("#idPersonaFP").val();
     var data = dataDiOggi();
     $.ajax({  
@@ -298,8 +311,9 @@ function stampaFoglioPrivacy(){
         url: "./serverlogic.php",
         data: {azione: "convertToPDF",id:id,data:data},
         success: function(response) {
-            console.log(response);
-            window.open(response);
+            if(status == 1){
+                window.open(response);
+            }
             $('#popupStampaFoglioPrivacy').modal('hide');
         },
         error: function(){
@@ -713,6 +727,32 @@ function salvaIntervento(){
         var id = $("#idPersonaSituazionePaziente").val();
         var oggi = dataDiOggi();
 
+        //Se i campi sono stati compilati correttamente compilo la ricevuta
+        $.ajax({  
+        type: "GET", 
+        url: "../samples/sampleFattura.html",
+        success: function(response) {
+            var fattura = response;
+            $.ajax({ 
+                type: "POST", 
+                url: "./serverlogic.php",
+                data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
+                        data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
+                success: function(response) {
+                    var risp = JSON.parse (response);
+                    $("#fattura").val(risp[0]);
+                    $("#nFattura").val(risp[1]);
+                },
+                error: function(){
+                    initPopupGenerico("Errore");
+                }
+            });
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
+
         if(pagato){ // se la checkbox è checkata o no
             $('#popupStampaRicevuta').modal('show');
 
@@ -727,8 +767,67 @@ function salvaIntervento(){
 }
 
 function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
-    //Se è diverso da 0 la funzione è richiamata dal popup stampa ricevuta in homepage e prende i valori da lì
     if(pagato != 0){
+        //In questo caso arrivo dalla funzione salva intervento
+        var importo = $("#stmpRicImporto").val();
+        var descrizione = $("#stmpRicDescrizione").val();
+        var id = $("#stmpRicID").val();
+        var oggi = $("#stmpRicData").val();
+        var nFattura = $("#nFattura").val();
+        if(pagato == 2){
+            pagato = 0;
+        }
+    }
+
+    if(pagato == 1){
+        var dataTmp = new Date();
+        var ora = dataTmp.getHours() + ":"  
+                        + dataTmp.getMinutes() + ":" 
+                        + dataTmp.getSeconds();
+        var dataEmissione = dataDiOggi() + " " + ora;
+        var fattura = $("#fattura").val();
+        var nFattura = $("#nFattura").val();
+        //Vuole stampare la ricevuta quindi salvo il pagamento come pagato e stampo la ricevuta
+        $.ajax({ 
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "inserisciPagamentoDesc", id:id, data:oggi, importo:importo, pagato:pagato, descrizione:descrizione},
+            success: function(response) {
+                if(response == 1){
+                    $.ajax({ 
+                        type: "POST", 
+                        url: "./serverlogic.php",
+                        data: {azione: "stampaFattura", id:id, dataEmissione:dataEmissione, fattura:fattura, nFattura:nFattura},
+                        success: function(response) {
+                            console.log(response);
+                            window.open(response);
+                            nascondiSituazionePaziente();
+                        },
+                        error: function(){
+                            initPopupGenerico("Errore");
+                        }
+                    });
+                }else{
+                    initPopupGenerico("Questo paziente ha già un intervento registrato nella data odierna...");
+                }
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+    //Se è diverso da 0 la funzione è richiamata dal popup stampa ricevuta in homepage e prende i valori da lì
+    /*if(pagato != 0){
         var importo = $("#stmpRicImporto").val();
         var descrizione = $("#stmpRicDescrizione").val();
         var id = $("#stmpRicID").val();
@@ -780,7 +879,7 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
         error: function(){
             initPopupGenerico("Errore");
         }
-    });
+    });*/
 }
 
 /*Restituisce true se qualcosa non è statop completato correttamente*/
@@ -1331,11 +1430,10 @@ function stampaRicevutaPagamentoEsistente(){
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "dettagliPagamento", id:id, data:data},
+        data: {azione: "ricevutaPagamentoEsistente", id:id, data:String(data)},
         success: function(response) {
-            var pagamento = JSON.parse(response);
-            //prendo i dati ricevuti dal db
-            //ricevutaAnagrafica(1,pagamento[0].Descrizione,pagamento[0].Importo, id, oggi);
+            console.log(response);
+            window.open(response);
         },
         error: function(){
             initPopupGenerico("Errore");

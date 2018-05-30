@@ -11,7 +11,7 @@ legenda:
 
 popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si vedono solo se prima è stato premuto esc oppure se si è fatto click su aggiungi campi in popup modifica
 
-data vicino a prossimo appuntamento nell' header
+foglioprivacy non lo stampa se è la prima volta ---> abilitare i popup da browser (da scrivere nel manuale utente)
 
 -------contabilità-------
 
@@ -21,7 +21,13 @@ manca stampa fattura
 
 RIVEDERE homepage/ricevutaAnagrafica !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-fare ricevuta per pagamento già esistente ---> apre la ricevuta di un pagamento già esistente
+ricevuta da contabilità in caso di pagamento singolo o multiplo
+
+numero ricevuta deve essere azzerata ogni anno
+
+!! sul db nuovo non lascia mettere la dataIntervento in fatture in relazione con la data in interventi
+
+sostituire a document.getelementbyid in jquery
 
 -----Appuntamenti-----
 
