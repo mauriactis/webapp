@@ -738,15 +738,15 @@ function salvaIntervento(){
                 url: "./serverlogic.php",
                 data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
                         data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
-                success: function(fatturaCompilata) {
-                    $("#fattura").val(fatturaCompilata);
+                success: function(response) {
+                    var risp = JSON.parse (response);
+                    $("#fattura").val(risp[0]);
+                    $("#nFattura").val(risp[1]);
                 },
                 error: function(){
                     initPopupGenerico("Errore");
                 }
             });
-                
-            
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -773,6 +773,7 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
         var descrizione = $("#stmpRicDescrizione").val();
         var id = $("#stmpRicID").val();
         var oggi = $("#stmpRicData").val();
+        var nFattura = $("#nFattura").val();
         if(pagato == 2){
             pagato = 0;
         }
@@ -784,8 +785,8 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
                         + dataTmp.getMinutes() + ":" 
                         + dataTmp.getSeconds();
         var dataEmissione = dataDiOggi() + " " + ora;
-        console.log(dataEmissione);
         var fattura = $("#fattura").val();
+        var nFattura = $("#nFattura").val();
         //Vuole stampare la ricevuta quindi salvo il pagamento come pagato e stampo la ricevuta
         $.ajax({ 
             type: "POST", 
@@ -796,8 +797,9 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
                     $.ajax({ 
                         type: "POST", 
                         url: "./serverlogic.php",
-                        data: {azione: "stampaFattura", id:id, dataEmissione:dataEmissione, fattura:fattura},
+                        data: {azione: "stampaFattura", id:id, dataEmissione:dataEmissione, fattura:fattura, nFattura:nFattura},
                         success: function(response) {
+                            console.log(response);
                             window.open(response);
                             nascondiSituazionePaziente();
                         },
@@ -1424,9 +1426,6 @@ function aggiornaImporti(){
 function stampaRicevutaPagamentoEsistente(){
     var id = $("#idPagamento").val();
     var data = $("#dataPagamento").val();
-    console.log(id);
-    console.log(data);
-    data = giraDataDb(data);
 
     $.ajax({  
         type: "POST", 

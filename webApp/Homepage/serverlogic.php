@@ -189,7 +189,8 @@
 					$dataEmissione = $_POST['dataEmissione'];
 					$fattura = $_POST['fattura'];
 					$id = $_POST['id'];
-					stampaFattura($conn, $id, $dataEmissione, $fattura);
+					$nFattura = $_POST['nFattura'];
+					stampaFattura($conn, $id, $dataEmissione, $fattura, $nFattura);
 					break;
 				case 'ricevutaPagamentoEsistente' :
 					$id = $_POST['id'];
@@ -738,9 +739,24 @@
 
 
 		function compilaFattura($conn, $id, $importo, $descrizione, $data, $dataFattura, $fattura){
-			//query per il numero fattura
+			$query = "start transaction;";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
 
-			//$fattura = str_replace("@nFattura@",$nFattura,$fattura);
+			$query = "SELECT * FROM gestionefatture";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
+			$row = $stmSql->fetch();
+
+			$row[0] = $row[0] + 1;
+			$nFattura = $row[0];
+
+			$query = "UPDATE gestionefatture SET numeroFattura=?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $nFattura);
+			$result = $stmSql ->execute();
+
+			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
 			$fattura = str_replace("@importo@",$importo,$fattura);
 			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
 			//$fattura = str_replace("@dataScadenza@",$dataScadenza,$fattura);
@@ -753,11 +769,19 @@
 			fwrite($fileHtml, $fattura);
 			fclose($fileHtml);
 
-			echo $fattura;
+			$query = "commit;";
+			$stmSql = $conn->prepare($query);
+			$result = $stmSql ->execute();
+
+			$ret = array();
+			$ret[0] = $fattura;
+			$ret[1] = $nFattura;
+
+			echo json_encode(local_encode($ret));
 		}
 
 		//Salvarla con il numero di fattura????
-		function stampaFattura($conn, $id, $dataEmissione, $fattura){
+		function stampaFattura($conn, $id, $dataEmissione, $fattura, $nFattura){
 			//prendo l' id e la data dell' untimo intervento
 			$query="SELECT Data FROM interventi WHERE AnaID = ? ORDER BY Data DESC LIMIT 0,1";
 			$stmSql = $conn->prepare($query);
@@ -796,12 +820,13 @@
 			//sleep(2);
 
 
-			$query="INSERT INTO fatture VALUES(NULL,?,?,?,?)";
+			$query="INSERT INTO fatture VALUES(NULL,?,?,?,?,?)";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $dataEmissione);
 			$stmSql ->bindParam(2, $data);
 			$stmSql ->bindParam(3, $id);
 			$stmSql ->bindParam(4, $downloadPath);
+			$stmSql ->bindParam(5, $nFattura);
 			
 			$result = $stmSql ->execute();
 
@@ -816,7 +841,6 @@
 			
 			$result = $stmSql ->execute();
 			$ret = $stmSql ->fetch();
-			error_log($ret);
 
 			echo $ret[0];
 		}
