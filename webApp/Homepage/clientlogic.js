@@ -78,7 +78,7 @@ function trovaAppuntamenti(){
             $("#lblProxAppuntamento").html(totale);
         },
         error: function(){
-            initPopupGenerico("Errore");
+            initPopupGenerico("Errore nel caricare i prossimi appuntamenti.");
         }
     });
 }
@@ -338,16 +338,19 @@ function caricaAnagrafica(){
     
 }
 
-//cerca persona in base alla casella di ricerca in anagrafica on i9n contabilità a seconda di cosa è mostrato
+//Cerca persona in base alla casella di ricerca
 function cercaPersona (){
     var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
+
+    //Non sono nel document ready perchè questi elementi non sono ancora presenti
     $("#txtResidenzaPopupModificaPaziente").keyup(function(){
         caricaResidenzaModifica();
     });
     $("#txtLuogoNascitaPopupModificaPaziente").keyup(function(){
         caricaLuogoNascitaModifica();
     });
-    /*Se è vera è mostrata anagrafica, altrimenti è mostrata contabilità*/
+    
+    /*Se è vera è mostrata anagrafica, altrimenti è mostrata contabilità. La stringa è ricercata sulla pagina mostrata*/
     if(anagraficaShown){
         if(document.getElementById("situazionePaziente") != null){
             nascondiSituazionePaziente();
@@ -591,6 +594,11 @@ function visualizzaDocumenti(idPersona = 0) {
             var riga = "";
             for (var a = 0; a < documenti.length; a ++)
             {
+
+
+                //Differenza tra linux e windows in percorso e path
+
+
                 var percorso = documenti[a].Allegato;
                 var indicePartenza = (percorso.indexOf('\\') >= 0 ? percorso.lastIndexOf('\\') : percorso.lastIndexOf('/'));
                 var nomeFile = percorso.substring(indicePartenza);
@@ -598,6 +606,8 @@ function visualizzaDocumenti(idPersona = 0) {
                     nomeFile = nomeFile.substring(1);
                 }
                 var path = "../docs/" + documenti[a].AnaID + "/" + nomeFile;
+                console.log("path= " +path);
+                console.log("percorso= " +percorso);
                 riga += "<tr><td>" + 
                     giraDataUmano(documenti[a].Data) + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
@@ -666,61 +676,53 @@ function generaCodice() {
     });
 }
 
-//gestione del sidenav relativo al paziente
 function mostraSituazionePaziente(i, cognome, nome) {
     svuotaCampiSituazionePaziente();
-    if(document.getElementById("situazionePaziente").style.width == "500px"){
-        nascondiSituazionePaziente();
-    }else{
-        $("#idPersonaSituazionePaziente").val(i);
-        $("#lblCognomeNomeSituazionePaziente").html(cognome + " " + nome);
-        $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "caricaUltimoInterventoAnagrafica", id:i},
-            success: function(response) {
-                console.log(response);
-                if(response != 1){
-                    var dati = JSON.parse (response);
-                    $("#situazionePazienteUltimaVolta").html(dati.Descrizione);
-                }else{
-                    $("#situazionePazienteUltimaVolta").html("Non è presente nessun intervento passato.");
-                }
-            },
-            error: function(){
-                initPopupGenerico("Errore");
-            }
-        });
 
-    	document.getElementById("situazionePaziente").style.width = "500px";
-	}
+    $("#idPersonaSituazionePaziente").val(i);
+    $("#lblCognomeNomeSituazionePaziente").html(cognome + " " + nome);
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "caricaUltimoInterventoAnagrafica", id:i},
+        success: function(response) {
+            console.log(response);
+            if(response != 1){
+                var dati = JSON.parse (response);
+                $("#situazionePazienteUltimaVolta").html(dati.Descrizione);
+            }else{
+                $("#situazionePazienteUltimaVolta").html("Non è presente nessun intervento passato.");
+            }
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
+
+    document.getElementById("situazionePaziente").style.width = "500px";
 }
 
-//nasconde il sidenav con l'ultimo intervento e le osservazioni
 function nascondiSituazionePaziente() {
 	svuotaCampiSituazionePaziente();
 	document.getElementById ("chkPagato").checked = false;
     document.getElementById("situazionePaziente").style.width = "0";
 }
 
-//visualizza il sidenav con i bottoni
 function mostraModifiche(i, cognome, nome) {
     $("#idPersonaModifiche").val(i);
     $("#lblCognomeNomeModifiche").html(cognome + " " + nome);
     document.getElementById("modifiche").style.width = "500px";
-    document.getElementById("modifiche").style.marginTop = "55px";
 }
 
-//nasconde il sidenav con i bottoni
 function nascondiModifiche() {
     document.getElementById("modifiche").style.width = "0";
 }
 
-//salva importo e osservazioni di cosa è stato fatto oggi
+//Salva importo e osservazioni della seduta odierna
 function salvaIntervento(){
     var descrizione = $("#txtSituazionePazienteOggi").val();
     var importo = $("#txtImportoSituazionePaziente").val();
-    if(checkfieldsIntervento(descrizione, importo)){
+    if(!checkfieldsIntervento(descrizione, importo)){
         initPopupGenerico("Alcuni campi non sono stati compilati correttamente.");
     }else{
         var pagato = $("#chkPagato").is(':checked');
@@ -729,29 +731,29 @@ function salvaIntervento(){
 
         //Se i campi sono stati compilati correttamente compilo la ricevuta
         $.ajax({  
-        type: "GET", 
-        url: "../samples/sampleFattura.html",
-        success: function(response) {
-            var fattura = response;
-            $.ajax({ 
-                type: "POST", 
-                url: "./serverlogic.php",
-                data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
-                        data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
-                success: function(response) {
-                    var risp = JSON.parse (response);
-                    $("#fattura").val(risp[0]);
-                    $("#nFattura").val(risp[1]);
-                },
-                error: function(){
-                    initPopupGenerico("Errore");
-                }
-            });
-        },
-        error: function(){
-            initPopupGenerico("Errore");
-        }
-    });
+            type: "GET", 
+            url: "../samples/sampleFattura.html",
+            success: function(response) {
+                var fattura = response;
+                $.ajax({ 
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
+                            data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
+                    success: function(response) {
+                        var risp = JSON.parse (response);
+                        $("#fattura").val(risp[0]);
+                        $("#nFattura").val(risp[1]);
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
 
         if(pagato){ // se la checkbox è checkata o no
             $('#popupStampaRicevuta').modal('show');
@@ -882,18 +884,18 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
     });*/
 }
 
-/*Restituisce true se qualcosa non è statop completato correttamente*/
+//Restituisce false se qualcosa non è stato completato correttamente
 function checkfieldsIntervento(descrizione, importo){
     var regexImporto = new RegExp("^[0-9]+$");
-    var ret = false;
+    var ret = true;
 
     if(descrizione == ""){
         $("#txtSituazionePazienteOggi").css("background-color", "rgb(255,147,147)");
-        ret = true;
+        ret = false;
     }
     if(!regexImporto.test(importo)){
         $("#txtImportoSituazionePaziente").css("background-color", "rgb(255,147,147)");
-        ret = true;
+        ret = false;
     }
 
     return ret;
@@ -935,13 +937,15 @@ function visualizzaStoricoInterventi(){
                 "</td><td>" + interventi[a].Descrizione + 
                 "</td></tr>";
             }
-            $("#divStoricoInterventiPaziente").show();
-            $("#divNessunIntervento").hide();
-            $("#tblStoricoInterventiPazienteBody").html(riga);
+
             if(riga == ""){
                 $("#divStoricoInterventiPaziente").hide();
                 $("#divNessunIntervento").show();
             }
+
+            $("#divStoricoInterventiPaziente").show();
+            $("#divNessunIntervento").hide();
+            $("#tblStoricoInterventiPazienteBody").html(riga);
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -975,6 +979,7 @@ function visualizzaContabilita(){
                 }
                 var nome = contabilita[0].Nome;
                 var cognome = contabilita[0].Cognome;
+
                 $("#nomeCognomePaziente").html(cognome + " " + nome);
                 $("#headerContabilita").show();
                 $("#divContabilitaPaziente").show();
@@ -992,11 +997,7 @@ function visualizzaContabilita(){
     });
 }
 
-//assegna eservcizi ad un paziente
-function assegnaEsercizi(){
-}
-
-//aggiunge un nuovo paziente una volta che i campi sono tutti compilati
+//Aggiunge un nuovo paziente una volta che i campi sono tutti compilati
 function aggiungiNuovoPaziente(){
     if(!checkfields()){
         initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
@@ -1130,7 +1131,7 @@ function nuovoDocumento(){
     $("#idPersonaNuovoDocumento").val(id);
 }
 
-//fa l'upload del documento in una cartella della webapp
+//Effettua l' upload del documento
 function inserisciNuovoFile(){
     var ok = false;
     var id = $("#idPersonaNuovoDocumento").val();
@@ -1146,7 +1147,7 @@ function inserisciNuovoFile(){
     }
     
     if(ok){
-        //Prendo il nome del file selezionandolo dal percors completo
+        //Prendo il nome del file selezionandolo dal percorso completo
         var percorso = image.value;
         if (percorso) {
             var indicePartenza = (percorso.indexOf('\\') >= 0 ? percorso.lastIndexOf('\\') : percorso.lastIndexOf('/'));
@@ -1155,17 +1156,20 @@ function inserisciNuovoFile(){
                 nomeFile = nomeFile.substring(1);
             }
         }
-        //seleziono l' estensione
+        //Seleziono l' estensione
         var estensione = nomeFile.split('.').pop();
         estensione = estensione.toLowerCase();
     
-        //Ad upload .php fai restituire il path di dove è salvato il file --> come lo ricevo????
         if(estensione == "jpg" || estensione == "jpeg" || estensione == "pdf" || estensione == "png"){
             document.getElementById("frmFile").submit();
             var descrizione = $("#txtDescrizioneDocumento").val();
             var data = dataDiOggi();
 
-            var path = "..\\docs\\" + id + "\\" + nomeFile;
+            //linux
+            //var path = "..\\docs\\" + id + "\\" + nomeFile;
+
+            //windows
+            var path = "../docs/" + id + "/" + nomeFile;
 
             $.ajax({  
                 type: "POST", 
@@ -1278,10 +1282,6 @@ function mostraPagamento(i,anno, mese, giorno) {
             console.log(response);
             var pagamento = JSON.parse (response);
 
-            $("#descrizioneIntervento").html(pagamento.Descrizione);
-            $("#lblNomeCognome").html(pagamento.Cognome + " " + pagamento.Nome);
-            $("#lblDataIntervento").html(giraDataUmano(pagamento.Data));
-
             if(pagamento.Pagato == 1){
                 $("#btnPaga").css("visibility", "hidden");
                 $("#btnAggiornaPagamento").css("visibility", "hidden");
@@ -1297,6 +1297,10 @@ function mostraPagamento(i,anno, mese, giorno) {
                 $("#txtImportoPagamento").val(pagamento.Pagamento);
                 $("#divImportoPagamento").hide();
             }
+
+            $("#descrizioneIntervento").html(pagamento.Descrizione);
+            $("#lblNomeCognome").html(pagamento.Cognome + " " + pagamento.Nome);
+            $("#lblDataIntervento").html(giraDataUmano(pagamento.Data));
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -1360,6 +1364,7 @@ function popupTuttiInterventiCosto(){
         success: function(response) {
             var importo = parseInt(response);
             var importoAgg = importo + parseInt($("#txtImportoPagamento").val());
+
             $('#costoComplessivo').html(importoAgg);
             $('#popupCostoTuttiInterventi').modal('show');
         },
@@ -1369,19 +1374,19 @@ function popupTuttiInterventiCosto(){
     });
 }
 
-/*IOmposta il pagamento singolo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
+//Imposta il pagamento singolo nell' hidden per la ricevuta e visualizza il popupStampaRicevuta
 function confermaPagamento(){
     $('#pagamentoSingolo').val("0");
     $('#popupStampaRicevuta').modal('show');
 }
 
-/*IOmposta il pagamento multiplo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
+//Imposta il pagamento multiplo nell' hidden per la ricevuta e visualizza il popupStampaRicevuta
 function pagaTuttiInterventiPassati(){
     $('#pagamentoSingolo').val("1");
     $('#popupStampaRicevuta').modal('show');
 }
 
-// funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 
+//Funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 
 function aggiornaImporti(){
     var pagamentoMultiplo = $("#pagamentoSingolo").val();
     var id = $("#idPagamento").val();
