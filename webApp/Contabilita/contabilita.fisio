@@ -70,9 +70,20 @@
          <div class="modal-body">
             Si desidera stampare la ricevuta? In caso negativo la procedura varrà interrotta.
             <input type="hidden" id="pagamentoSingolo" value="">
+            <input type="hidden" id="cognomeNome" value="">
+            <input type="hidden" id="indirizzo" value="">
+            <input type="hidden" id="residenza" value="">
+            <input type="hidden" id="cap" value="">
+            <input type="hidden" id="cfisc" value="">
+            <input type="hidden" id="descrizione" value="">
+            <input type="hidden" id="importo" value="">
+            <input type="hidden" id="totale" value="">
+            <input type="hidden" id="bolloIva" value="">
+            <input type="hidden" id="daPagare" value="">
+            <input type="hidden" id="dataEmissione" value="">
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="stampaRicevutaPagamentoEsistente();" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal">Sì</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
          </div>
       </div>
