@@ -13,7 +13,7 @@
    </tbody>
 </table>
 
-
+<!-- Sidenav che appare quando viene premuto il tasto "Mostra"-->
 <div id="sidePagamento" class="sidenav" style="margin-top: 55px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiPagamento();">&times;</a>
    <div id="corpoPagamento">
@@ -38,8 +38,6 @@
          </tr>
       </table>
 
-
-      
       <button type="button" class="btn btn-success" onclick="aggiornaPagamento();" id="btnAggiornaPagamento">Aggiorna</button>
       <button type="button" class="btn btn-primary" onclick="controlloPiuPagamenti();" id="btnPaga">Paga <span class="glyphicon glyphicon-euro"></span></button>
       <button type="button" style="float: right;" class="btn btn-default" onclick="stampaRicevutaPagamentoEsistente();" id="btnStampaRicevuta">Stampa ricevuta <span class="glyphicon glyphicon-print"></span></button>

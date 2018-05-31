@@ -25,6 +25,8 @@ ricevuta da contabilità in caso di pagamento singolo o multiplo
 
 numero ricevuta deve essere azzerata ogni anno
 
+che data metto nel db e nella ricevuta per i pagamenti multipli??
+
 !! sul db nuovo non lascia mettere la dataIntervento in fatture in relazione con la data in interventi
 
 sostituire a document.getelementbyid in jquery

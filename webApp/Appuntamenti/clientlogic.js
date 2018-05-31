@@ -1,9 +1,9 @@
-var options = { twentyFour: true, //Display 24 hour format, defaults to false
-    title: 'Ora', //The Wickedpicker's title,
-    showSeconds: false, //Whether or not to show seconds,
-    minutesInterval: 1, //Change interval for minutes, defaults to 1
-    show: null, //A function to be called when the Wickedpicker is shown
-    clearable: false, //Make the picker's input clearable (has clickable "x")
+var options = { twentyFour: true, //Formato delle ore in 24 ore, di default falso
+    title: 'Ora', 
+    showSeconds: false, //Mostra i secondi
+    minutesInterval: 1, //Intervallo di cambiamento dei minuti (in questo caso di minuto in minuto)
+    show: null, //Una funzione chiamata quando il wickedPicker è mostrato
+    clearable: false, //Permette di azzerare il wickedPicker mostrando una "X"
     }; 
 
 $(document).ready(function(){
@@ -13,7 +13,6 @@ $(document).ready(function(){
 });
 
 
-//da rivedere i nomi
 function initForm(){
     initPillsGiorni();
     startTime();
@@ -40,12 +39,9 @@ function initBadge(){
 }
 
 function initPillsGiorni(caricaPagina = 1){
-
     if(caricaPagina == 1){
-        console.log("dataOggi");
         laDataEOggi();
     }else{
-        console.log("passo di qua");
         laDataEStataSelezionata(caricaPagina);
     }
 }
@@ -85,8 +81,7 @@ function laDataEOggi(){
                 var anno = id.substring(0,4);
                 var mese= id.substring(5,7);
                 var giorno= id.substring(8,10);
-    
-                //problema, passa la data ma poi fa la sotrazione sto bau bau
+
                 riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
             }
             
@@ -126,8 +121,7 @@ function laDataEStataSelezionata(caricaPagina){
                 var anno = id.substring(0,4);
                 var mese= id.substring(5,7);
                 var giorno= id.substring(8,10);
-    
-                //problema, passa la data ma poi fa la sotrazione sto bau bau
+
                 riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
             }
             
@@ -136,7 +130,7 @@ function laDataEStataSelezionata(caricaPagina){
         $('#selezionato').click();
 }
 
-//restituisce la data nel formato yyyy-mm-dd
+//Restituisce la data nel formato yyyy-mm-dd
 function formattaData(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -149,52 +143,44 @@ function formattaData(date) {
     return [year, month, day].join('-');
 }
 
-//fa iniziare l' orologio in cima alla pagina
+//Inizializza l' orologio in cima alla pagina
 function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
+    var oggi = new Date();
+    var o = oggi.getHours();
+    var m = oggi.getMinutes();
+    var s = oggi.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-    document.getElementById('lblOraAttuale').innerHTML = h + ":" + m + ":" + s;
+    document.getElementById('lblOraAttuale').innerHTML = o + ":" + m + ":" + s;
     var t = setTimeout(startTime, 500);
 }
 
-//controlla se il numero è minore di 10 ne aggiunge uno 0 davanti
+//Controlla se il numero è minore di 10 ne aggiunge uno 0 davanti
 function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    if (i < 10) {i = "0" + i};
     return i;
 }
 
-//gira la data in gg/mm/aaaa
+//Gira la data in gg/mm/aaaa
 function giraDataUmano(date){
     return date.substring(8,10) + "/" + date.substring(5,7) + "/" + date.substring(0,4);
 }
 
-//gira la data in aaaa/mm/gg
+//Gira la data in aaaa/mm/gg
 function giraDataDb(date){
     return date.substring(6,10) + "-" + date.substring(3,5) + "-" + date.substring(0,2);
 }
 
-//Ancora da cambiare, mostra il sidenav relativo ad un appuntamento
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
-//   #1111111111111111111111
+//Mostra il sidenav relativo ad un appuntamento
 function mostraDettagliAppuntamento(i, dataOra){
     $("#idPaziente").val(i);
     $("#dataIntervento").val(String(dataOra));
-    //idea ma non mi piace: hidden nella pagina che ha l' id della pill e lo aggiorno quando clicco su una nuova pill
     $.ajax({  
-
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "mostraDettagliAppuntamento", id:i, data:dataOra},
         success: function(response) {
             var dettagli = JSON.parse (response);
-
             $("#dettagliAppuntamentoUltimaVolta").html(dettagli[0].Descrizione);
             $("#dettagliAppuntamentoDaFare").html(dettagli[1].Note);
         },
@@ -203,29 +189,28 @@ function mostraDettagliAppuntamento(i, dataOra){
             initPopupGenerico("Errore lato server.2");
         }
     });
-
     $("#divDettagliAppuntamento").fadeIn();
 }
 
-function resetPersona(){
+function svuotaPersona(){
     $("#txtPersonaNuovoAppuntamento").select();
     $("#txtPersonaNuovoAppuntamento").css("background-color", "white");
 }
 
-function resetData(){
+function svuotaData(){
     $("#txtDataNuovoAppuntamento").css("background-color", "white");
 }
 
-function resetOra(){
+function svuotaOra(){
     $("#txtOraNuovoAppuntamento").css("background-color", "white");
 }
 
-//nasconde il sidenav
+//Nasconde il sidenav
 function nascondiDettagliAppuntamento(){
     $("#divDettagliAppuntamento").fadeOut();
 }
 
-//funzione che inizializza il popup per inserire un nuovo appuntamento
+//Inizializza il popup per inserire un nuovo appuntamento
 function nuovoAppuntamento(){
     svuotaNuovoAppuntamento();
     $.datepicker.setDefaults($.datepicker.regional['it']); 
@@ -240,7 +225,6 @@ function nuovoAppuntamento(){
             var array=[]; 
             for (var a = 0; a < persone.length; a ++){
                 array.push(persone[a].NomeCognome + ", " + persone[a].ID);
-                // cmbPersone.options[a] = new Option(persone[a].NomeCognome, persone[a].ID);
             }
             $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
         },
@@ -251,6 +235,7 @@ function nuovoAppuntamento(){
     });
 }
 
+//Svuota i campi del popupNuovoAppuntamento 
 function svuotaNuovoAppuntamento(){
     $('#txtPersonaNuovoAppuntamento').val("");
     $('#txtDataNuovoAppuntamento').val("");
@@ -258,6 +243,7 @@ function svuotaNuovoAppuntamento(){
     $('#txtNoteNuovoAppuntamento').val("");
 }
 
+//Elimina un appuntamento
 function eliminaAppuntamento(){
     var id = $("#idPaziente").val();
     var dataOra = $("#dataIntervento").val();
@@ -265,7 +251,7 @@ function eliminaAppuntamento(){
 
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "cancellaAppuntamento", id:id, data:dataOra},
+        data: {azione: "eliminaAppuntamento", id:id, data:dataOra},
         success: function(response) {
             nascondiDettagliAppuntamento();
             $("#selezionato").click();
@@ -279,7 +265,7 @@ function eliminaAppuntamento(){
     $("#divDettagliAppuntamento").fadeIn();
 }
 
-//salva un nuovo appuntamento
+//Salva un nuovo appuntamento
 function salvaAppuntamento(){
     if(checkfieldNuovoAppuntamento(idPersona)){
         var idPersona = document.getElementById("txtPersonaNuovoAppuntamento").value.split(", ")[1];
@@ -308,6 +294,7 @@ function salvaAppuntamento(){
     }
 }
 
+//Controlla se tutti i campi necessari per inserire un nuovo appuntamento sono stati compilati
 function checkfieldNuovoAppuntamento(idPersona){
     console.log("di qua passo");
     var ret = true;
@@ -336,11 +323,10 @@ function checkfieldNuovoAppuntamento(idPersona){
     return ret;
 }
 
-//carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
+//Carica gli appuntamenti nella tabella in centro alla pagina a seconda del giorno selezionato dalle pills
 function caricaAppuntamenti(anno, mese, giorno){
-    //var data = anno + "-" + mese + "-" + giorno;
     var data = anno + "-" + mese + "-" + giorno;
-    console.log("data: " + data);
+
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -370,12 +356,14 @@ function caricaAppuntamenti(anno, mese, giorno){
     });
 }
 
+//Prende il valore selezionato nel calendario a sinistra
 function visualizzaAppuntamentiData(){
-    var selezione = $(pckrDataAppuntamento).val();
+    var selezione = $("#pckrDataAppuntamento").val();
     selezione = new Date(giraDataDb(selezione));
     initPillsGiorni(selezione);
 }
 
+//Inserisce le richieste di appuntamento all' interno della tabella nel popupRichieste
 function richiesteAppuntamento(){
     $.ajax({  
         type: "POST", 
@@ -429,13 +417,15 @@ function richiesteAppuntamento(){
     });
 }
 
+//Controlla se il popup di invio di una risposta generale è visualizzato e lo chiude
 function checkInviaRisposta(){
-    if($('#popupRisposta').is(':visible')){
+    if($('.popupRisposta').is(':visible')){
         svuotaInviaRisposta();
-        $("#popupRisposta").modal('hide');
+        $(".popupRisposta").modal('hide');
     }
 }
 
+//Visualizza una richiesta di appuntamento
 function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
     svuotaInviaRisposta();
     $("#popupRisposta").modal('show');
@@ -445,6 +435,7 @@ function visualizzaRichiesta(dataInvio, id, cognome, nome, note){
     $("#idPazientePopupRisposta").val(id);
 }
 
+//Visualizza un messaggio
 function visualizzaMessaggio(dataInvio, id, cognome, nome, note){
     $("#txtRispostaMessaggio").val("");
     $("#popupRispostaMessaggio").modal('show');
@@ -454,6 +445,7 @@ function visualizzaMessaggio(dataInvio, id, cognome, nome, note){
     $("#idPazientePopupRispostaMessaggio").val(id);
 }
 
+//Invia la risposta ad una richiesta di appuntamento
 function inviaRisposta(){
     var succ = checkfieldRisposta();
     if(succ != false && succ != 2){
@@ -502,7 +494,7 @@ function inviaRisposta(){
     }
 }
 
-
+//Invia la risposta ad un messaggio
 function inviaRispostaMessaggio(){
     var id = $("#idPazientePopupRispostaMessaggio").val();
     var dataOra = $("#dataMessaggio").val();
@@ -526,7 +518,7 @@ function inviaRispostaMessaggio(){
     });
 }
 
-//I parametri vengono presi due volte perchè passarlki in javascript fa schifo con i -
+//Controlla il testo della risposta ad una richiesta prima di inviarla
 function checkfieldRisposta(){
     var ret = true;
     var data1 = $("#txtData1Risposta").val();
@@ -563,6 +555,7 @@ function checkfieldRisposta(){
     return ret;
 }
 
+//Svuota i campi del popup inviaRisposta
 function svuotaInviaRisposta(){
     $("#txtData2Risposta").val("");
     $("#txtOra2Risposta").val("");
@@ -571,6 +564,7 @@ function svuotaInviaRisposta(){
     $("#txtRisposta").val("");
 }
 
+//Inizializza il popup generico con il messaggio ricevuto
 function initPopupGenerico(msg){
     $("#bodyPopupGenerico").html(msg);
     $("#popupGenerico").modal('show');

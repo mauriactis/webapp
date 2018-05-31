@@ -1183,19 +1183,7 @@ function inserisciNuovoFile(){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*-------------------Funzioni relative a contabilità-------------------*/
-
 
 
 /*
@@ -1371,14 +1359,116 @@ function popupTuttiInterventiCosto(){
 
 /*IOmposta il pagamento singolo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
 function confermaPagamento(){
-    $('#pagamentoSingolo').val("0");
-    $('#popupStampaRicevuta').modal('show');
+    var id = $("#idPagamento").val();
+    var data = $("#lblDataIntervento").html();
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "datiFatturaSingola", id:id, data:data},
+        success: function(response) {
+            var datiFattura = JSON.parse(response);
+            $("#cognomeNome").val(datiFattura.cognomeNome);
+            $("#indirizzo").val(datiFattura.Indirizzo);
+            $("#residenza").val(datiFattura.residenza);
+            $("#cap").val(datiFattura.CAP);
+            $("#cfisc").val(datiFattura.cfisc);
+            $("#descrizione").val(datiFattura.descrizione);
+            $("#importo").val(datiFattura.importo);
+            $("#totale").val(datiFattura.importo);
+            var totale = datiFattura.importo;
+            var iva = 5/100;
+            $("#bolloiva").val("5%");
+            $("#daPagare").val(totale*iva);
+            $("#dataEmissione").val(giraDataUmano(dataDiOggi()));
+            
+            $('#pagamentoSingolo').val("0");
+            $('#popupStampaRicevuta').modal('show');
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
 }
 
 /*IOmposta il pagamento multiplo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
 function pagaTuttiInterventiPassati(){
-    $('#pagamentoSingolo').val("1");
-    $('#popupStampaRicevuta').modal('show');
+    $.ajax({  
+        type: "POST", 
+        url: "./serverlogic.php",
+        data: {azione: "datiFatturaMultipla", id:id},
+        success: function(response) {
+            var datiFattura = JSON.parse(response);
+            $("#cognomeNome").val(datiFattura[0].cognomeNome);
+            $("#indirizzo").val(datiFattura[0].indirizzo);
+            $("#residenza").val(datiFattura[0].residenza);
+            $("#cap").val(datiFattura[0].cap);
+            $("#cfisc").val(datiFattura[0].cfisc);
+            var iva = 5/100;
+            $("#bolloiva").val("5%");
+            $("#nFattura").val(datiFattura[0].nFattura);
+            $("#dataEmissione").val(giraDataUmano(dataDiOggi()));
+            var insiemeDescrizioni = [];
+            var insiemeImporti = [];
+            var totale = 0;
+            for(var i = 0; i<datiFattura.length; i++){
+                totale = totale + datiFattura[i].importo;
+                insiemeDescrizioni[i] = datiFattura[i].descrizione;
+                insiemeImporti[i] = datiFattura[i].importo;
+            }
+            $("#descrizione").val(insiemeDescrizioni);
+            $("#importo").val(insiemeImporti);
+            
+            $("#totale").val(totale);
+            $("#daPagare").val(totale*iva);
+            $('#pagamentoSingolo').val("1");
+            $('#popupStampaRicevuta').modal('show');
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
+}
+
+function stampaRicevuta(){
+    var singolo = $('#pagamentoSingolo').val();
+    var cognomeNome = $("#cognomeNome").val();
+    var indirizzo = $("#indirizzo").val();
+    var residenza = $("#residenza").val();
+    var cap = $("#cap").val();
+    var cfisc = $("#cfisc").val();
+    var bolloiva = $("#bolloiva").val();
+    var nFattura = $("#nFattura").val();
+    var dataEmissione = $("#dataEmissione").val();
+    var importo = $("#importo").val();
+    var descrizione = $("#descrizione").val();
+    var totale = $("#totale").val();
+    if(singolo == 0){
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "stampaFatturaSingola", dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
+                    residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,nFattura:nFattura,importo:importo,descrizione:descrizione,totale:totale},
+            success: function(response) {
+                window.open(response);
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
+    }else{
+        $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "stampaFatturaMultipla", dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
+                    residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,nFattura:nFattura,importo:importo,descrizione:descrizione,totale:totale},
+            success: function(response) {
+                window.open(response);
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
+    }
 }
 
 // funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 

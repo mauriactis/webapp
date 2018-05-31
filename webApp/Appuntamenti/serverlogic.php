@@ -34,10 +34,10 @@
                 $data = $_POST['data'];
                 caricaAppuntamenti($conn,$data);
                 break;
-            case 'cancellaAppuntamento':
+            case 'eliminaAppuntamento':
                 $idPersona = $_POST['id'];
                 $dataOra = $_POST['data'];
-                cancellaAppuntamento($conn,$idPersona,$dataOra);
+                eliminaAppuntamento($conn,$idPersona,$dataOra);
                 break;
             case 'visualizzaRichiesteAppuntamento':
                 visualizzaRichiesteAppuntamento($conn);
@@ -182,7 +182,7 @@
         echo json_encode(local_encode($ret)); 
     }
 
-    function cancellaAppuntamento($conn,$idPersona,$dataOra){  
+    function eliminaAppuntamento($conn,$idPersona,$dataOra){  
         $query = "DELETE FROM appuntamenti WHERE AnaID=? AND DataOra=?";
         $stmSql = $conn->prepare($query);
         $stmSql ->bindParam(1, $idPersona);
@@ -272,12 +272,4 @@
 
             echo $result;
     }
-
-/*    function eliminaAppuntamento($conn,$idPersona){
-        $query="DELETE FROM appuntamenti WHERE"
-
-
-
-    }
-*/
 ?>
