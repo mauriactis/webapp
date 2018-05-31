@@ -5,70 +5,61 @@
 	</head>
 	<body onload="window.print();">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<div style="margin-left: 100em;">
+		<div style="margin-left: 95em;">
 			<table>
 				<tr>
 					<td>
-						Dott.ssa Elena Prato
+						<b>RICEVUTA N.</b> @nFattura@/@annoEmissione@
 					</td>
 				</tr>
 				<tr>
 					<td>
-						Fisioterapista
+						<div></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						Piazzale della Libertà n.4, 12100 Cuneo
-					</td>
-				</tr>
-				<tr>
-					<td>
-						tel. 349.722143
-					</td>
-				</tr>
-				<tr>
-					<td>
-						cf PRTLNE66L59D205L
-					</td>
-				</tr>
-				<tr>
-					<td>
-						P.I. 03325990046
+						<b  style="font-size: 12px;">Data</b> @dataEmissione@
 					</td>
 				</tr>
 			</table>
 		</div>
 		
-		<div style="margin-top: em;">
+		<div style="margin-top: 2em; margin-left: 49em;">
+			Sig. @nomeCognomePaziente@<br>
+			@indirizzo@ @residenza@ @cap@<br>
+			@cfiscPaziente@
+		</div>
+	
+		<div style="margin-top: 4em; margin-left: 49em;">
 			<table style="border-collapse: collapse; height: 10em; width: 30%;">
 				<tr>
 					<th colspan="2" style="border-bottom: 3px solid black;">
-						Fattura
+						Descrizione della prestazione sanitaria o della cessione
 					</th>
 				</tr>
 				<tr style="border-bottom: 1px solid rgb(215,215,215);">
 					<td>
-						N. Fattura
+						@descrizione@
 					</td>
 					<td>
-						@nFattura@
-					</td>
-				</tr>
-				<tr style="border-bottom: 1px solid rgb(215,215,215);">
-					<td>
-						Data fattura
-					</td>
-					<td>
-						@dataEmissione@
+						@importo@
 					</td>
 				</tr>
 				<tr style="border-bottom: 1px solid rgb(215,215,215);">
 					<td>
-						Data di scadenza
+						Totale
 					</td>
 					<td>
-						@dataScadenza@
+						@totale@
+					</td>
+				</tr>
+				<tr style="border-bottom: 1px solid rgb(215,215,215);">
+					<td>
+						Bollo o iva
+					</td>
+					<td>
+						@bolloIva@
 					</td>
 				</tr>
 				<tr style="border-bottom: 1px solid rgb(215,215,215);">
@@ -81,53 +72,6 @@
 				</tr>
 			</table>
 		</div>
-	
-		<div style="margin-top: 3em;">
-			<table style="border-collapse: collapse;">
-				<tr style="height: 2em;">
-					<th style="background: rgb(128,214,255); color: rgb(100,100,255); border: 1px solid blue;">
-						Descrizione
-					</th>
-					<th style="background: rgb(128,214,255); color: rgb(100,100,255); border: 1px solid blue;">
-						Quantità
-					</th>
-					<th style="background: rgb(128,214,255); color: rgb(100,100,255); border: 1px solid blue;">
-						Unità
-					</th>
-					<th style="background: rgb(128,214,255); color: rgb(100,100,255); border: 1px solid blue;">
-						Prezzo
-					</th>
-					<th style="background: rgb(255,255,147); color: rgb(100,100,255); border: 1px solid blue;">
-						Importo
-					</th>
-				</tr>
-				<tr style="height: 2em;">
-					<td style="width: 70%; border: 1px solid rgb(215,215,215);">
-						Seduta fisioterapica<br>@descrSeduta@
-					</td>
-					<td style="border: 1px solid rgb(215,215,215);">
-						@quanitita@
-					</td>
-					<td style="border: 1px solid rgb(215,215,215);">
-						@unita@
-					</td>
-					<td style="border: 1px solid rgb(215,215,215);">
-						@prezzo@
-					</td>
-					<td style="border: 1px solid rgb(215,215,215);">
-						@importo@ €
-					</td>
-				</tr>
-			</table>
-		</div>
-	
-		<div style="margin-top: 10em; border-top: 3px solid black;">
-			<div style="text-align: center; margin-top: 0.8em;">
-				<b>Dott.ssa Elena Prato</b><div style="display: inline-block; margin-left: 1em;">Piazzale della Libertà n.4, 12100 Cuneo</div><b style="margin-left: 1em;">Tel:</b><div style="display: inline-block; margin-left: 0.2em;">349.722143</div><b style="margin-left: 1em;">Codice fiscale:</b><div style="display: inline-block; margin-left: 0.2em;">PRTLNE66L59D205L</div>
-			</div>
-			<div style="text-align: center; margin-top: 0.2em;">
-				<b style="text-align: center;">Partita IVA: </b><div style="display: inline-block;">03325990046</div><b style="margin-left: 1em;">Banca: </b><div style="display: inline-block;">Nome della banca</div>
-			</div>
-		</div>
+		
 	</body>
 </html>
