@@ -9,6 +9,7 @@
 		} catch(PDOException $ex){
 		   $risposta = "Errore connessione: ".$ex->getMessage();
 	}
+
 	
 	if(isset($_POST['azione']) && !empty($_POST['azione'])) {   //variabili tutte con minuscole con upper su prima lettere della seconda parola
 			$azione = $_POST['azione'];
@@ -197,6 +198,43 @@
 					$data = $_POST['data'];
 					ricevutaPagamentoEsistente($conn, $id, $data);
 					break;
+
+				case 'datiFatturaSingolo' : 
+					$id = $_POST['id'];
+					$data = $_POST['data'];
+					datiFatturaSingolo($conn, $id, $data);
+				}
+				case 'datiFatturaMultipla' : 
+					$id = $_POST['id'];
+					datiFatturaMultipla($conn, $id);
+				}
+				case 'stampaFatturaSingola' : 
+					$dataEmissione = $_POST['dataEmissione'];
+					$cognomeNome = $_POST['cognomeNome'];
+					$indirizzo = $_POST['indirizzo'];
+					$residenza = $_POST['residenza'];
+					$cap = $_POST['cap'];
+					$cfisc = $_POST['cfisc'];
+					$bolloiva = $_POST['bolloiva'];
+					$nFattura = $_POST['nFattura'];
+					$importo = $_POST['importo'];
+					$descrizione = $_POST['descrizione'];
+					$totale = $_POST['totale'];
+					stampaFatturaSingola($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$nFattura,$importo,$descrizione,$totale);
+				}
+				case 'stampaFatturaMultipla' : 
+					$dataEmissione = $_POST['dataEmissione'];
+					$cognomeNome = $_POST['cognomeNome'];
+					$indirizzo = $_POST['indirizzo'];
+					$residenza = $_POST['residenza'];
+					$cap = $_POST['cap'];
+					$cfisc = $_POST['cfisc'];
+					$bolloiva = $_POST['bolloiva'];
+					$nFattura = $_POST['nFattura'];
+					$importo = $_POST['importo'];
+					$descrizione = $_POST['descrizione'];
+					$totale = $_POST['totale'];
+					stampaFatturaMultipla($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$nFattura,$importo,$descrizione,$totale);
 				}
 			}
 		$conn=null;
@@ -565,7 +603,7 @@
 //---------------------------funzioni per visualizzare l'insieme di docs----------------------------//
 
 		function visualizzaDocumenti($conn,$idPersona){  //funzione che permette di visualizzare tutti i documenti di una data persona nella schermata anagrafica
-			$query="SELECT * FROM documenti WHERE AnaID = ?";
+			$query="SELECT ID,AnaID,Data,Descrizione,Allegato FROM documenti WHERE AnaID = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $idPersona);
 			$result = $stmSql ->execute();
@@ -845,5 +883,41 @@
 			echo $ret[0];
 		}
 
+		function datiFatturaSingola($conn, $id, $data){
+			$query = 'SELECT CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
+			FROM anagrafica,comuni,interventi,pagamenti WHERE comuni.ID = anagrafica.Residenza AND interventi.Data = pagamenti.Data AND interventi.AnaID = pagamenti.AnaID AND interventi.AnaID = anagrafica.ID AND 
+			anagrafica.ID = ? AND interventi.Data = ?';
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
 
+			echo json_encode(local_encode($ret));
+		}
+
+		function datiFatturaMultipla($conn, $id){
+			$query = 'SELECT CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
+			FROM anagrafica,comuni,interventi,pagamenti WHERE comuni.ID = anagrafica.Residenza AND interventi.Data = pagamenti.Data AND interventi.AnaID = pagamenti.AnaID AND interventi.AnaID = anagrafica.ID AND 
+			anagrafica.ID = ? AND Pagato = 0';
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			
+			$result = $stmSql ->execute();
+			$ret = $stmSql ->fetch();
+
+			echo json_encode(local_encode($ret));
+		}
+
+		function stampaFatturaSingola($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$nFattura,$importo,$descrizione,$totale){
+			/*
+			compila file 
+			*/ 
+		}
+
+		function stampaFatturaMultipla($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$nFattura,$importo,$descrizione,$totale){
+			
+		}
+		
 ?>
