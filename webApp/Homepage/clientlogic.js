@@ -729,29 +729,29 @@ function salvaIntervento(){
 
         //Se i campi sono stati compilati correttamente compilo la ricevuta
         $.ajax({  
-        type: "GET", 
-        url: "../samples/sampleFattura.html",
-        success: function(response) {
-            var fattura = response;
-            $.ajax({ 
-                type: "POST", 
-                url: "./serverlogic.php",
-                data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
-                        data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
-                success: function(response) {
-                    var risp = JSON.parse (response);
-                    $("#fattura").val(risp[0]);
-                    $("#nFattura").val(risp[1]);
-                },
-                error: function(){
-                    initPopupGenerico("Errore");
-                }
-            });
-        },
-        error: function(){
-            initPopupGenerico("Errore");
-        }
-    });
+            type: "GET", 
+            url: "../samples/sampleFattura.html",
+            success: function(response) {
+                var fattura = response;
+                $.ajax({ 
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
+                            data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
+                    success: function(response) {
+                        var risp = JSON.parse (response);
+                        $("#fattura").val(risp[0]);
+                        $("#nFattura").val(risp[1]);
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
 
         if(pagato){ // se la checkbox è checkata o no
             $('#popupStampaRicevuta').modal('show');
@@ -1361,11 +1361,13 @@ function popupTuttiInterventiCosto(){
 function confermaPagamento(){
     var id = $("#idPagamento").val();
     var data = $("#lblDataIntervento").html();
+    data = giraDataDb(data);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "datiFatturaSingola", id:id, data:data},
         success: function(response) {
+            console.log(response);
             var datiFattura = JSON.parse(response);
             $("#cognomeNome").val(datiFattura.cognomeNome);
             $("#indirizzo").val(datiFattura.Indirizzo);
@@ -1380,6 +1382,7 @@ function confermaPagamento(){
             $("#bolloiva").val("5%");
             $("#daPagare").val(totale*iva);
             $("#dataEmissione").val(giraDataUmano(dataDiOggi()));
+            $("#id").val(id);
             
             $('#pagamentoSingolo').val("0");
             $('#popupStampaRicevuta').modal('show');
@@ -1437,19 +1440,29 @@ function stampaRicevuta(){
     var cap = $("#cap").val();
     var cfisc = $("#cfisc").val();
     var bolloiva = $("#bolloiva").val();
-    var nFattura = $("#nFattura").val();
     var dataEmissione = $("#dataEmissione").val();
     var importo = $("#importo").val();
     var descrizione = $("#descrizione").val();
     var totale = $("#totale").val();
+    var id = $("#id").val();
     if(singolo == 0){
         $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "stampaFatturaSingola", dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
-                    residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,nFattura:nFattura,importo:importo,descrizione:descrizione,totale:totale},
+            type: "GET", 
+            url: "../samples/sampleFattura.html",
             success: function(response) {
-                window.open(response);
+                var fattura = response;
+                $.ajax({  
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "stampaFatturaSingola",id:id, dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
+                            residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,nFattura:nFattura,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
+                    success: function(response) {
+                        window.open(response);
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
             },
             error: function(){
                 initPopupGenerico("Errore");
