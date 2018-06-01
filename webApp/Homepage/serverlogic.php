@@ -199,13 +199,15 @@
 					ricevutaPagamentoEsistente($conn, $id, $data);
 					break;
 
-				case 'datiFatturaSingolo' : 
+				case 'datiFatturaSingola' : 
 					$id = $_POST['id'];
 					$data = $_POST['data'];
-					datiFatturaSingolo($conn, $id, $data);
+					datiFatturaSingola($conn, $id, $data);
+					break;
 				case 'datiFatturaMultipla' : 
 					$id = $_POST['id'];
 					datiFatturaMultipla($conn, $id);
+					break;
 				case 'stampaFatturaSingola' : 
 					$id = $_POST['id'];
 					$dataEmissione = $_POST['dataEmissione'];
@@ -219,7 +221,9 @@
 					$descrizione = $_POST['descrizione'];
 					$totale = $_POST['totale'];
 					$fattura = $_POST['fattura'];
-					stampaFatturaSingola($conn, $id, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$importo,$descrizione,$totale,$fattura);
+					$data = $_POST['data'];
+					stampaFatturaSingola($conn, $id,$data, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$importo,$descrizione,$totale,$fattura);
+					break;
 				case 'stampaFatturaMultipla' : 
 					$dataEmissione = $_POST['dataEmissione'];
 					$cognomeNome = $_POST['cognomeNome'];
@@ -228,11 +232,12 @@
 					$cap = $_POST['cap'];
 					$cfisc = $_POST['cfisc'];
 					$bolloiva = $_POST['bolloiva'];
-					$nFattura = $_POST['nFattura'];
 					$importo = $_POST['importo'];
 					$descrizione = $_POST['descrizione'];
 					$totale = $_POST['totale'];
-					stampaFatturaMultipla($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$nFattura,$importo,$descrizione,$totale);
+					$fattura = $_POST['fattura'];
+					stampaFatturaMultipla($conn, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$importo,$descrizione,$totale,$fattura);
+					break;
 				}
 			}
 		$conn=null;
@@ -882,7 +887,7 @@
 		}
 
 		function datiFatturaSingola($conn, $id, $data){
-			$query = 'SELECT CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
+			$query = 'SELECT NOW() as dataEmissione, CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
 			FROM anagrafica,comuni,interventi,pagamenti WHERE comuni.ID = anagrafica.Residenza AND interventi.Data = pagamenti.Data AND interventi.AnaID = pagamenti.AnaID AND interventi.AnaID = anagrafica.ID AND 
 			anagrafica.ID = ? AND interventi.Data = ?';
 			$stmSql = $conn->prepare($query);
@@ -891,12 +896,11 @@
 			
 			$result = $stmSql ->execute();
 			$ret = $stmSql ->fetch();
-			error_log("ret= ".$ret);
 			echo json_encode(local_encode($ret));
 		}
 
 		function datiFatturaMultipla($conn, $id){
-			$query = 'SELECT CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
+			$query = 'SELECT NOW() as dataEmissione, CONCAT(Cognome," ",Nome) as cognomeNome, Indirizzo, comuni.Comune as residenza, CAP, CodFisc as cfisc, interventi.Descrizione as descrizione, pagamenti.Pagamento as importo 
 			FROM anagrafica,comuni,interventi,pagamenti WHERE comuni.ID = anagrafica.Residenza AND interventi.Data = pagamenti.Data AND interventi.AnaID = pagamenti.AnaID AND interventi.AnaID = anagrafica.ID AND 
 			anagrafica.ID = ? AND Pagato = 0';
 			$stmSql = $conn->prepare($query);
@@ -908,12 +912,7 @@
 			echo json_encode(local_encode($ret));
 		}
 
-		function stampaFatturaSingola($conn, $id, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$importo,$descrizione,$totale,$fattura){
-
-
-
-
-
+		function stampaFatturaSingola($conn, $id,$data, $dataEmissione, $cognomeNome, $indirizzo, $residenza,$cap,$cfisc,$bolloiva,$importo,$descrizione,$totale,$fattura){
 			$query = "start transaction;";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
@@ -933,15 +932,17 @@
 
 			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
 			$fattura = str_replace("@importo@",$importo,$fattura);
-			$fattura = str_replace("@descrSeduta@",$descrizione,$fattura);
-			$fattura = str_replace("@dataEmissione@",$dataFattura,$fattura);
+			$fattura = str_replace("@descrizione@",$descrizione,$fattura);
+			$fattura = str_replace("@dataEmissione@",$dataEmissione,$fattura);
 			$fattura = str_replace("@totale@",$totale,$fattura);
-			$fattura = str_replace("@bolloIva@",$bolloiva,$fattura);
+			$fattura = str_replace("@daPagare@",($totale*$bolloiva)+$totale,$fattura);
+			$fattura = str_replace("@bolloIva@",($bolloiva*100),$fattura);
 			$fattura = str_replace("@cfiscPaziente@",$cfisc,$fattura);
 			$fattura = str_replace("@cap@",$cap,$fattura);
 			$fattura = str_replace("@residenza@",$residenza,$fattura);
 			$fattura = str_replace("@indirizzo@",$indirizzo,$fattura);
-			$fattura = str_replace("@cognomeNome@",$cognomeNome,$fattura);
+			$fattura = str_replace("@nomeCognomePaziente@",$cognomeNome,$fattura);
+			$fattura = str_replace("@annoEmissione@",substr($dataEmissione,0,4),$fattura);
 
 			$fileHtml = fopen("../tmp/tmpFattura.html", "w");
 			fwrite($fileHtml, $fattura);
@@ -959,7 +960,7 @@
 			//linux
 			//$downloadPath = $mainPath . "/foglioPrivacy.html";
 			//windows
-			$downloadPath = $mainPath ."\\". $dataEmissione ."fattura.html";
+			$downloadPath = $mainPath ."\\". substr($dataEmissione,0,10) ."fattura.html";
 
 
 //linux
@@ -986,6 +987,11 @@
 			$stmSql ->bindParam(4, $downloadPath);
 			$stmSql ->bindParam(5, $nFattura);
 			
+			$result = $stmSql ->execute();
+			$query = "UPDATE pagamenti SET pagato = 1 WHERE AnaID = ? AND Data = ?";
+			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $id);
+			$stmSql ->bindParam(2, $data);
 			$result = $stmSql ->execute();
 
 			echo $downloadPath;
