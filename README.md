@@ -31,6 +31,8 @@ che data metto nel db e nella ricevuta per i pagamenti multipli??
 
 sostituire a document.getelementbyid in jquery
 
+se lei inserisce intervento e stampa la fattura, poi paga degli interventi passati della stessa persona la fattura nella cartella viene sovrascritta
+
 -----Appuntamenti-----
 
 --- consegne ---
