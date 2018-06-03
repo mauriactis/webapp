@@ -13,7 +13,7 @@ popupaggiungi nuovo nascondi campi quando apri il popup --> campi aggiuntivi si 
 
 foglioprivacy non lo stampa se è la prima volta ---> abilitare i popup da browser (da scrivere nel manuale utente)
 
-modfica paziente non modifica una cippa
+aggiornare foto manuale utente
 
 -------contabilità-------
 
