@@ -1,0 +1,132 @@
+#divUpper{
+    font-size: 3em;
+}
+
+#btnRichiesteAppuntamento{
+	margin-right: 20em;
+}
+
+#headerTbl{
+	margin-left: 8em;
+}
+
+.headerCol{
+	width: 30%;
+}
+
+#body{
+	align-content: flex-start;
+    display: inline;
+}
+
+#divDatepicker{
+	float: left;
+	margin-left: 20em;
+	margin-right: 4em;
+	margin-top: 5.8em;
+}
+
+#divAppuntamenti{
+	margin-left: 1em;
+	margin-top: 1em;
+	display: inline-block;
+}
+
+#divRispostaMessaggio{
+	margin-right: 0.5em;
+	margin-left: 0.5em;
+}
+
+#giorniAppuntamenti{
+	margin-left: 9.3em;
+}
+
+#tblAppuntamenti{
+	margin-top: 2em;
+	width: 50em;
+}
+
+#txtAppuntiDettagliAppuntamento{
+	resize: none;
+}
+
+#btnSalvaSituazionePaziente{
+	margin-top: 0.25em;
+}
+
+#txtNoteNuovoAppuntamento{
+    resize: none;
+}
+
+#divDettagliAppuntamento{
+    float: right;
+    width: 25%;
+    margin-top: -16.5em;
+    margin-right: 6.8em;
+	box-shadow: 50px 0px 114px 43px rgba(0,0,0,0.18);
+	border: 1px solid rgb(195,195,195);
+	padding-bottom: 1em;
+	padding-top: 0.5em;
+	display: none;
+}
+#divDettagliAppuntamento h3{
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
+
+#dettagliAppuntamentoUltimaVolta{
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.closebtn{
+	margin-left:31.5em;
+	cursor: pointer;
+}
+.closebtn span{
+	font-size:1.5em;
+}
+
+.lblPopupRichieste{
+	margin-left: 1em;
+}
+
+#mainDiv {
+    transition: margin-left 0.5s;
+}
+
+#sidenavBody{
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+#btnEliminaAppuntamento{
+	margin-top: 2em;
+}
+
+#popupRichieste{
+	position: relative;
+	float: left;
+	margin-left: 23em;
+	margin-top: -30em;
+}
+
+#tblDateOreProposte tr td{
+	width: 10em;
+	height: 3em;
+}
+
+.dataRisposta{
+	width: 95%;
+}
+
+.txtOra{
+	width: 50%;
+}
+
+.popupRisposta{
+	position: relative;
+	float: left;
+	margin-left: 75em;
+	margin-top: -32.25em;
+}
