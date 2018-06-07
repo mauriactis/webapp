@@ -800,19 +800,21 @@
 			$query = "start transaction;";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
-
+			$anno = substr($dataEmissione,0,4);
 			//Progressivo che indica il numero della fattura
-			$query = "SELECT * FROM gestionefatture";
+			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
 			$row = $stmSql->fetch();
 
 			$row[0] = $row[0] + 1;
 			$nFattura = $row[0];
 
-			$query = "UPDATE gestionefatture SET numeroFattura=?";
+			$query = "UPDATE gestionefatture SET numeroFattura = ? WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nFattura);
+			$stmSql ->bindParam(2, $anno);
 			$result = $stmSql ->execute();
 
 			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
@@ -947,18 +949,21 @@
 			$query = "start transaction;";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
-
-			$query = "SELECT * FROM gestionefatture";
+			$anno = substr($dataEmissione,0,4);
+			//Progressivo che indica il numero della fattura
+			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
 			$row = $stmSql->fetch();
 
 			$row[0] = $row[0] + 1;
 			$nFattura = $row[0];
 
-			$query = "UPDATE gestionefatture SET numeroFattura=?";
+			$query = "UPDATE gestionefatture SET numeroFattura = ? WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nFattura);
+			$stmSql ->bindParam(2, $anno);
 			$result = $stmSql ->execute();
 
 			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
@@ -1032,18 +1037,21 @@
 			$query = "start transaction;";
 			$stmSql = $conn->prepare($query);
 			$result = $stmSql ->execute();
-
-			$query = "SELECT * FROM gestionefatture";
+			$anno = substr($dataEmissione,0,4);
+			//Progressivo che indica il numero della fattura
+			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
+			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
 			$row = $stmSql->fetch();
 
 			$row[0] = $row[0] + 1;
 			$nFattura = $row[0];
 
-			$query = "UPDATE gestionefatture SET numeroFattura=?";
+			$query = "UPDATE gestionefatture SET numeroFattura = ? WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $nFattura);
+			$stmSql ->bindParam(2, $anno);
 			$result = $stmSql ->execute();
 
 			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
