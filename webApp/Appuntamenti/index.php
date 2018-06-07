@@ -37,7 +37,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                   <tr><td class="headerCol">
                      <button type="button" class="btn btn-primary" id="btnRichiesteAppuntamento" onclick="richiesteAppuntamento();" data-toggle="modal" data-target="#popupRichieste">Richieste appuntamento <span class="badge badge-notify" id="bdgRichieste"></span></button>
                   </td><td class="headerCol">
-                     <label id="lblOraAttuale"></label>
+                    <label id="lblOraAttuale"></label>
                   </td><td class="headerCol">
                      <button type="button" class="btn btn-success" id="btnNuovoAppuntamento" onclick="nuovoAppuntamento();" data-toggle="modal" data-target="#popupNuovoAppuntamento">Nuovo appuntamento</button>
                   </td></tr>
@@ -49,12 +49,11 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                      <div class="form-group">
                          <div class="row">
                              <div class="col-md-8">
-                                 <div id="pckrDataAppuntamento"></div>
+                                 <div style="margin-top: 1.5em;" id="pckrDataAppuntamento"></div>
                              </div>
                          </div>
                      </div>
                   </div>
-                  <button type="button" class="btn btn-default" id="btnDatepickerOk" onclick="visualizzaAppuntamentiData();">Ok</button>
                </div>
                <div id="divAppuntamenti">
                   <ul id="giorniAppuntamenti" class="nav nav-pills">
@@ -72,7 +71,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                   </table>
                </div>
             </div>
-            <div id="divDettagliAppuntamento" style="display: none;">
+            <div id="divDettagliAppuntamento">
               <div id="sidenavBody">
                  <input type="hidden" id="idPaziente">
                  <input type="hidden" id="dataIntervento">
@@ -128,18 +127,16 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       <div class="modal fade" id="popupRichieste" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <label for="txtHeaderPopupRichieste">Richieste in arrivo:</label>
-            </div>
+            <label style="margin-left: 1em; margin-top: 1em;" class="lblPopupRichieste" for="txtHeaderPopupRichieste">Richieste in arrivo:</label>
             <div class="modal-body" id="bodyPopupRichieste">
               <table class="table table-hover table-bordered admin">
                 <tbody id="tblRichiesteBody">
                 </tbody>
               </table>
             </div>
+            <hr>
+            <label class="lblPopupRichieste" for="txtHeaderPopupRichieste">Messaggi in arrivo:</label>
             <div class="modal-body" id="bodyPopupMessaggi">
-              <label for="txtHeaderPopupRichieste">Messaggi in arrivo:</label>
-              <hr>
               <table class="table table-hover table-bordered admin">
                 <tbody id="tblMessaggiBody">
                 </tbody>

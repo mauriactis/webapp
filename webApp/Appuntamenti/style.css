@@ -38,7 +38,7 @@
 }
 
 #giorniAppuntamenti{
-	margin-left: 10.35em;
+	margin-left: 9.3em;
 }
 
 #tblAppuntamenti{
@@ -61,12 +61,13 @@
 #divDettagliAppuntamento{
     float: right;
     width: 25%;
-    margin-top: -18.6em;
+    margin-top: -16.5em;
     margin-right: 6.8em;
 	box-shadow: 50px 0px 114px 43px rgba(0,0,0,0.18);
 	border: 1px solid rgb(195,195,195);
 	padding-bottom: 1em;
 	padding-top: 0.5em;
+	display: none;
 }
 #divDettagliAppuntamento h3{
 	margin-top: 0em;
@@ -86,7 +87,9 @@
 	font-size:1.5em;
 }
 
-
+.lblPopupRichieste{
+	margin-left: 1em;
+}
 
 #mainDiv {
     transition: margin-left 0.5s;

@@ -55,101 +55,56 @@ function initBadge(){
  * @param {int} caricaPagina 
  */
 function initPillsGiorni(caricaPagina = 1){
+    var oggi;
     if(caricaPagina == 1){
-        laDataEOggi();
+        oggi = new Date();
     }else{
-        laDataEStataSelezionata(caricaPagina);
+        oggi = caricaPagina;
     }
-}
 
-/**
- * 
- */
-function laDataEOggi(){
-        var oggi = new Date();
-        $.datepicker.setDefaults($.datepicker.regional['it']);
-        $('#pckrDataAppuntamento').datepicker({minDate: oggi});
-        $('#pckrDataAppuntamento').datepicker({inline: true,sideBySide: true});
-    
-        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-        //permette di vedere anche la domenica
-        var giornoSett = (oggi.getDay() + 6) % 7;
-        var nomeGiorno = giorni[giornoSett];
-        var riga = "";
-        var offsetNeg = giornoSett;
-        var offsetPos = 1;
-        oggi = String(formattaData(oggi));
-        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-        for(var i = 0;i < 7;i++){
-            if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+    $.datepicker.setDefaults($.datepicker.regional['it']);
+    $('#pckrDataAppuntamento').datepicker({minDate: oggi, inline: true,sideBySide: true,
+        onSelect: visualizzaAppuntamentiData});
+
+    var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+    //permette di vedere anche la domenica
+    var giornoSett = (oggi.getDay() + 6) % 7;
+    var nomeGiorno = giorni[giornoSett];
+    var riga = "";
+    var offsetNeg = giornoSett;
+    var offsetPos = 1;
+    oggi = String(formattaData(oggi));
+    //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
+    for(var i = 0;i < 7;i++){
+        if(giorni[i] == nomeGiorno){
+            riga += '<li class="active"><a href="" id="selezionato" style="text-align: center;" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + "<br>" + oggi.substring(8,10) + "/" + oggi.substring(5,7) + '</a></li>';
+        }else{
+            //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
+            //facendo la setDate viene poi sballata il giro dopo
+            var data;
+            if(caricaPagina == 1){
+                data = new Date();
             }else{
-                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
-                //facendo la setDate viene poi sballata il giro dopo
-                var data = new Date();
-                //Siamo in una data precedente ad oggi
-                if(i<giornoSett){
-                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
-                    offsetNeg--;
-                }else{
-                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
-                    offsetPos++;
-                }
-    
-                var anno = id.substring(0,4);
-                var mese= id.substring(5,7);
-                var giorno= id.substring(8,10);
-
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+                data = new Date(caricaPagina);
             }
-            
-        }
-        $("#giorniAppuntamenti").html(riga);
-        $('#selezionato').click();
-}
-
-/**
- * 
- * @param {*} caricaPagina 
- */
-function laDataEStataSelezionata(caricaPagina){
-        var giorni = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-        //permette di vedere anche la domenica
-        //se carica pagina non ha valore allora si sta ricaricando la pagina altrimenti la funzione è stata evocata
-        //da btnOK sotto al datepicker e aggiorna le pills di conseguenza
-        var giornoSett = (caricaPagina.getDay() + 6) % 7;
-        var nomeGiorno = giorni[giornoSett];
-        var riga = "";
-        var offsetNeg = giornoSett;
-        var offsetPos = 1;
-        caricaPagina = String(formattaData(caricaPagina));
-        //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-        for(var i = 0;i < 7;i++){
-            if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + caricaPagina.substring(0,4) + "," + caricaPagina.substring(5,7) + "," + caricaPagina.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+            //Siamo in una data precedente ad oggi
+            if(i<giornoSett){
+                var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
+                offsetNeg--;
             }else{
-                //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
-                //facendo la setDate viene poi sballata il giro dopo
-                var data = new Date(caricaPagina);
-                //Siamo in una data precedente ad oggi
-                if(i<giornoSett){
-                    var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
-                    offsetNeg--;
-                }else{
-                    var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
-                    offsetPos++;
-                }
-    
-                var anno = id.substring(0,4);
-                var mese= id.substring(5,7);
-                var giorno= id.substring(8,10);
-
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+                var id = formattaData(new Date(data.setDate(data.getDate() + offsetPos)));
+                offsetPos++;
             }
-            
+
+            var anno = id.substring(0,4);
+            var mese= id.substring(5,7);
+            var giorno= id.substring(8,10);
+            riga += '<li><a href="" data-toggle="tab" style="text-align: center;" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + "<br>" + giorno + "/" + mese + '</a></li>';
         }
-        $("#giorniAppuntamenti").html(riga);
-        $('#selezionato').click();
+        
+    }
+    $("#giorniAppuntamenti").html(riga);
+    $('#selezionato').click();
 }
 
 /**
