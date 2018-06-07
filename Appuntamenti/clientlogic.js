@@ -334,6 +334,7 @@ function checkfieldNuovoAppuntamento(){
  */
 function caricaAppuntamenti(anno, mese, giorno){
     var data = anno + "-" + mese + "-" + giorno;
+    $("#pckrDataAppuntamento").datepicker("setDate", new Date(data));
 
     $.ajax({  
         type: "POST", 
