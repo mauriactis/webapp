@@ -86,43 +86,43 @@ function trovaAppuntamenti(){
 //svuota il campo nome del popup aggiungi nuovo
 function svuotaNome(){
     $("#txtNomePopupAggiungiNuovo").val("");
-    document.getElementById("txtNomePopupAggiungiNuovo").style.backgroundColor = "white";
+    $("txtNomePopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaCognome(){
     $("#txtCognomePopupAggiungiNuovo").val("");
-    document.getElementById("txtCognomePopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtCognomePopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaDataNascita(){
     $("#txtDataNascitaPopupAggiungiNuovo").val("");
-    document.getElementById("txtDataNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtDataNascitaPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaIndirizzo(){
     $("#txtIndirizzoPopupAggiungiNuovo").val("");
-    document.getElementById("txtIndirizzoPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtIndirizzoPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaResidenza(){
     $("#txtResidenzaPopupAggiungiNuovo").val("");
-    document.getElementById("txtResidenzaPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtResidenzaPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaCap(){
     $("#txtCapPopupAggiungiNuovo").val("");
-    document.getElementById("txtCapPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtCapPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaLuogoNascita(){
     $("#txtLuogoNascitaPopupAggiungiNuovo").val("");
-    document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtLuogoNascitaPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaTelefono(){
     $("#txtTelefonoPopupAggiungiNuovo").val("");
-    document.getElementById("txtTelefonoPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtTelefonoPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaMotivo(){
     $("#txtMotivoPopupAggiungiNuovo").val("");
-    document.getElementById("txtMotivoPopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtMotivoPopupAggiungiNuovo").css("background-color","white");
 }
 function svuotaCodFisc(){
     $("#txtCodiceFiscalePopupAggiungiNuovo").val("");
-    document.getElementById("txtCodiceFiscalePopupAggiungiNuovo").style.backgroundColor = "white";
+    $("#txtCodiceFiscalePopupAggiungiNuovo").css("background-color","white");
 }
 //svuota tutti i campi del popup aggiungiNuovo
 function cancellaCampi(){
@@ -148,22 +148,22 @@ function cancellaCampi(){
 }
 //cambia il comtenuto quando è premuto il bottone campi aggiuntivi
 function changeArrow(){
-	if(document.getElementById("btnAggiungiCampiPopupAggiungiNuovo").value == "Aggiungi"){
+	if($("#btnAggiungiCampiPopupAggiungiNuovo").val() == "Aggiungi"){
 		$("#campiAggiuntiviPopupAggiungiNuovo").toggle('show');
         $("#btnAggiungiCampiPopupAggiungiNuovo").html("Nascondi campi <span class=\"glyphicon glyphicon-chevron-up\">");
-        document.getElementById("btnAggiungiCampiPopupAggiungiNuovo").value = "Nascondi";
+        $("#btnAggiungiCampiPopupAggiungiNuovo").val("Nascondi");
     }else{
     	$("#campiAggiuntiviPopupAggiungiNuovo").toggle('hide');
-    	document.getElementById("btnAggiungiCampiPopupAggiungiNuovo").value = "Aggiungi";
+    	$("#btnAggiungiCampiPopupAggiungiNuovo").val("Aggiungi");
         $("#btnAggiungiCampiPopupAggiungiNuovo").html("Aggiungi campi <span class=\"glyphicon glyphicon-chevron-down\">");
     }
-    if(document.getElementById("btnAggiungiCampiPopupModificaPaziente").value == "Aggiungi"){
+    if($("#btnAggiungiCampiPopupModificaPaziente").val() == "Aggiungi"){
         $("#campiAggiuntiviPopupModificaPaziente").toggle('show');
         $("#btnAggiungiCampiPopupModificaPaziente").html("Nascondi campi <span class=\"glyphicon glyphicon-chevron-up\">");
-        document.getElementById("btnAggiungiCampiPopupModificaPaziente").value = "Nascondi";
+        $("#btnAggiungiCampiPopupModificaPaziente").val("Nascondi");
     }else{
         $("#campiAggiuntiviPopupModificaPaziente").toggle('hide');
-        document.getElementById("btnAggiungiCampiPopupModificaPaziente").value = "Aggiungi";
+        $("#btnAggiungiCampiPopupModificaPaziente").val("Aggiungi");
         $("#btnAggiungiCampiPopupModificaPaziente").html("Aggiungi campi <span class=\"glyphicon glyphicon-chevron-down\">");
     }
 }
@@ -193,6 +193,12 @@ function dataDiOggi(){
 function initPopupAggiungiNuovo(){
     $("#elencoComuni1").html("");
     $("#elencoComuni2").html("");
+    if($("#btnAggiungiCampiPopupAggiungiNuovo").val() == "Nascondi"){
+        $("#campiAggiuntiviPopupAggiungiNuovo").toggle('hide');
+        $("#btnAggiungiCampiPopupAggiungiNuovo").val("Aggiungi");
+        $("#btnAggiungiCampiPopupAggiungiNuovo").html("Aggiungi campi <span class=\"glyphicon glyphicon-chevron-down\">");    
+    }
+    
     $.datepicker.setDefaults($.datepicker.regional['it']); 
     $('#txtDataNascitaPopupAggiungiNuovo').datepicker({ maxDate: new Date, minDate: new Date(1850,04,24) });
     $.ajax({  
@@ -206,6 +212,7 @@ function initPopupAggiungiNuovo(){
                 cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
             }
             cancellaCampi();
+            cmbMotivi.selectedIndex = "0";
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -280,22 +287,22 @@ function caricaComuni(ricerca, chiamante){
 function riportaNome(nome,dove){
     switch(dove){
         case 0:
-        document.getElementById("txtLuogoNascitaPopupAggiungiNuovo").value=nome;
+        $("#txtLuogoNascitaPopupAggiungiNuovo").val(nome);
         $("#elencoComuni1").html("");
         $("#elencoComuni1").hide();
         break;
         case 1:
-        document.getElementById("txtResidenzaPopupAggiungiNuovo").value=nome;
+        $("#txtResidenzaPopupAggiungiNuovo").val(nome);
         $("#elencoComuni2").html("");
         $("#elencoComuni2").hide();
         break;
         case 2:
-        document.getElementById("txtLuogoNascitaPopupModificaPaziente").value=nome;
+        $("#txtLuogoNascitaPopupModificaPaziente").val(nome);
         $("#elencoComuniModifica1").html("");
         $("#elencoComuniModifica1").hide();
         break;
         case 3:
-        document.getElementById("txtResidenzaPopupModificaPaziente").value=nome;
+        $("#txtResidenzaPopupModificaPaziente").val(nome);
         $("#elencoComuniModifica2").html("");
         $("#elencoComuniModifica2").hide();
         break;
@@ -340,7 +347,7 @@ function caricaAnagrafica(){
 
 //cerca persona in base alla casella di ricerca in anagrafica on i9n contabilità a seconda di cosa è mostrato
 function cercaPersona (){
-    var ricerca = document.getElementById ("txtRicercaAnagrafica").value;
+    var ricerca = $("#txtRicercaAnagrafica").val();
     $("#txtResidenzaPopupModificaPaziente").keyup(function(){
         caricaResidenzaModifica();
     });
@@ -349,7 +356,7 @@ function cercaPersona (){
     });
     /*Se è vera è mostrata anagrafica, altrimenti è mostrata contabilità*/
     if(anagraficaShown){
-        if(document.getElementById("situazionePaziente") != null){
+        if($("#situazionePaziente") != null){
             nascondiSituazionePaziente();
         }
         $.ajax({  
@@ -435,8 +442,7 @@ function initPopupModifica(){
                         var cmbMotivi = document.getElementById("txtMotivoPopupModificaPaziente");
                         cmbMotivi.options[a] = new Option(motivi[a].Descrizione, motivi[a].ID);
                     }
-                    document.getElementById("txtMotivoPopupModificaPaziente").selectedIndex = datiPaziente.Motivo-1;
-                    console.log(document.getElementById("txtMotivoPopupModificaPaziente").selectedIndex);
+                    cmbMotivi.selectedIndex = datiPaziente.Motivo-1;
                 },
                 error: function(){
                     initPopupGenerico("Errore");
@@ -511,7 +517,7 @@ function checkfieldsModifiche(){
     var txtCap = $("#txtCapPopupModificaPaziente");
     var txtCodFisc = $("#txtCodiceFiscalePopupModificaPaziente");
     var txtTelefono = $("#txtTelefonoPopupModificaPaziente");
-    var txtMotivo = $("#txtMotivoPopupAggiungiNuovo");
+    var txtMotivo = $("#txtMotivoPopupModificaPaziente");
 
     var regexCap = new RegExp('^[0-9]{5}$');
     var regexCodiceFiscale = new RegExp('^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$');
@@ -669,7 +675,7 @@ function generaCodice() {
 //gestione del sidenav relativo al paziente
 function mostraSituazionePaziente(i, cognome, nome) {
     svuotaCampiSituazionePaziente();
-    if(document.getElementById("situazionePaziente").style.width == "500px"){
+    if($("#situazionePaziente").css("width") == "500px"){
         nascondiSituazionePaziente();
     }else{
         $("#idPersonaSituazionePaziente").val(i);
@@ -679,7 +685,6 @@ function mostraSituazionePaziente(i, cognome, nome) {
             url: "./serverlogic.php",
             data: {azione: "caricaUltimoInterventoAnagrafica", id:i},
             success: function(response) {
-                console.log(response);
                 if(response != 1){
                     var dati = JSON.parse (response);
                     $("#situazionePazienteUltimaVolta").html(dati.Descrizione);
@@ -692,28 +697,29 @@ function mostraSituazionePaziente(i, cognome, nome) {
             }
         });
 
-    	document.getElementById("situazionePaziente").style.width = "500px";
+    	$("#situazionePaziente").css("width","500px");
+        $("#situazionePaziente").css("margin-top","62px");
 	}
 }
 
 //nasconde il sidenav con l'ultimo intervento e le osservazioni
 function nascondiSituazionePaziente() {
 	svuotaCampiSituazionePaziente();
-	document.getElementById ("chkPagato").checked = false;
-    document.getElementById("situazionePaziente").style.width = "0";
+	$("#chkPagato").prop("checked","false");
+    $("#situazionePaziente").css("width","0");
 }
 
 //visualizza il sidenav con i bottoni
 function mostraModifiche(i, cognome, nome) {
     $("#idPersonaModifiche").val(i);
     $("#lblCognomeNomeModifiche").html(cognome + " " + nome);
-    document.getElementById("modifiche").style.width = "500px";
-    document.getElementById("modifiche").style.marginTop = "55px";
+    $("#modifiche").css("width","500px");
+    $("#modifiche").css("margin-top","62px");
 }
 
 //nasconde il sidenav con i bottoni
 function nascondiModifiche() {
-    document.getElementById("modifiche").style.width = "0";
+    $("#modifiche").css("width","0");
 }
 
 //salva importo e osservazioni di cosa è stato fatto oggi
@@ -727,21 +733,78 @@ function salvaIntervento(){
         var id = $("#idPersonaSituazionePaziente").val();
         var oggi = dataDiOggi();
 
-        //Se i campi sono stati compilati correttamente compilo la ricevuta
+        //Intervento come non pagato
+        if(pagato == 0){
+            ricevutaAnagrafica(0,descrizione,importo,id,oggi);
+        }else{
+            $("#stmpRicImporto").val(importo);
+            $("#stmpRicDescrizione").val(descrizione);
+            $("#stmpRicID").val(id);
+            $("#stmpRicData").val(oggi);
+            $('#popupStampaRicevuta').modal('show');
+        }
+    }
+}
+
+function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
+    //Non si vuole stampare la ricevuta
+    if(pagato == 0){
         $.ajax({  
-            type: "GET", 
-            url: "../samples/sampleFattura.html",
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, descrizione:descrizione, 
+                            data:oggi, pagato:pagato},
             success: function(response) {
-                var fattura = response;
-                $.ajax({ 
-                    type: "POST", 
-                    url: "./serverlogic.php",
-                    data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
-                            data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
+                if(response == 1){
+                    initPopupGenerico("Pagamento inserito con successo!");
+                    nascondiSituazionePaziente();
+                }
+            },
+            error: function(){
+                initPopupGenerico("Errore");
+            }
+        });
+    //Si vuole stampare la ricevuta
+    }else{
+        var data = $("#stmpRicData").val();
+        var importo = $("#stmpRicImporto").val();
+        var descrizione = $("#stmpRicDescrizione").val();
+        var id = $("#stmpRicID").val();
+        var totale = importo;
+        var iva = 5/100;
+        var daPagare = totale*iva;
+
+        $.ajax({ 
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "dettagliPaziente", id:id},
+            success: function(response) {
+                response = JSON.parse (response);
+                var cognomeNome = response[0].cognomeNome;
+                var indirizzo = response[0].Indirizzo;
+                var residenza = response[0].residenza;
+                var cap = response[0].CAP;
+                var cfisc = response[0].cfisc;
+                var dataEmissione = response[0].dataEmissione;
+                $.ajax({  
+                    type: "GET", 
+                    url: "../samples/sampleFattura.html",
                     success: function(response) {
-                        var risp = JSON.parse (response);
-                        $("#fattura").val(risp[0]);
-                        $("#nFattura").val(risp[1]);
+                        var fattura = response;
+                        $.ajax({ 
+                            type: "POST", 
+                            url: "./serverlogic.php",
+                            data: {azione: "compilaFattura", id:id, importo:importo, descrizione:descrizione, 
+                                    data:data,dataFattura:data, fattura:fattura, cognomeNome:cognomeNome, indirizzo:indirizzo, residenza:residenza, cap:cap,
+                                 cfisc:cfisc, totale:totale, iva:iva, daPagare:daPagare, dataEmissione:dataEmissione},
+                            success: function(response) {
+                                window.open(response);
+                                nascondiSituazionePaziente();
+                            },
+                            error: function(){
+                                initPopupGenerico("Errore");
+                            }
+                        });
                     },
                     error: function(){
                         initPopupGenerico("Errore");
@@ -751,135 +814,8 @@ function salvaIntervento(){
             error: function(){
                 initPopupGenerico("Errore");
             }
-        });
-
-        if(pagato){ // se la checkbox è checkata o no
-            $('#popupStampaRicevuta').modal('show');
-
-            $("#stmpRicImporto").val(importo);
-            $("#stmpRicDescrizione").val(descrizione);
-            $("#stmpRicID").val(id);
-            $("#stmpRicData").val(oggi);
-        }else{
-            ricevutaAnagrafica(0, descrizione, importo, id, oggi);
-        }
+        }); 
     }
-}
-
-function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
-    if(pagato != 0){
-        //In questo caso arrivo dalla funzione salva intervento
-        var importo = $("#stmpRicImporto").val();
-        var descrizione = $("#stmpRicDescrizione").val();
-        var id = $("#stmpRicID").val();
-        var oggi = $("#stmpRicData").val();
-        var nFattura = $("#nFattura").val();
-        if(pagato == 2){
-            pagato = 0;
-        }
-    }
-
-    if(pagato == 1){
-        var dataTmp = new Date();
-        var ora = dataTmp.getHours() + ":"  
-                        + dataTmp.getMinutes() + ":" 
-                        + dataTmp.getSeconds();
-        var dataEmissione = dataDiOggi() + " " + ora;
-        var fattura = $("#fattura").val();
-        var nFattura = $("#nFattura").val();
-        //Vuole stampare la ricevuta quindi salvo il pagamento come pagato e stampo la ricevuta
-        $.ajax({ 
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "inserisciPagamentoDesc", id:id, data:oggi, importo:importo, pagato:pagato, descrizione:descrizione},
-            success: function(response) {
-                if(response == 1){
-                    $.ajax({ 
-                        type: "POST", 
-                        url: "./serverlogic.php",
-                        data: {azione: "stampaFattura", id:id, dataEmissione:dataEmissione, fattura:fattura, nFattura:nFattura},
-                        success: function(response) {
-                            console.log(response);
-                            window.open(response);
-                            nascondiSituazionePaziente();
-                        },
-                        error: function(){
-                            initPopupGenerico("Errore");
-                        }
-                    });
-                }else{
-                    initPopupGenerico("Questo paziente ha già un intervento registrato nella data odierna...");
-                }
-            },
-            error: function(){
-                initPopupGenerico("Errore");
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-    //Se è diverso da 0 la funzione è richiamata dal popup stampa ricevuta in homepage e prende i valori da lì
-    /*if(pagato != 0){
-        var importo = $("#stmpRicImporto").val();
-        var descrizione = $("#stmpRicDescrizione").val();
-        var id = $("#stmpRicID").val();
-        var oggi = $("#stmpRicData").val();
-        if(pagato == 2){
-            pagato = 0;
-        }
-    }
-    $.ajax({  
-        type: "GET", 
-        url: "../samples/sampleFattura.html",
-        success: function(response) {
-            var fattura = response;
-            $.ajax({ 
-                type: "POST", 
-                url: "./serverlogic.php",
-                data: {azione: "inserisciPagamentoDesc", id:id, importo:importo, pagato:pagato, descrizione:descrizione, 
-                        data:oggi,dataFattura:giraDataUmano(oggi), fattura:fattura},
-                success: function(fattura) {
-                    //if(response){
-                        $.ajax({
-                            type: "POST", 
-                            url: "./serverlogic.php",
-                            data: {azione: "fatturaToHTML", fattura:fattura},
-                            success: function(response) {
-                                
-                                if(pagato == 1){
-                                    $("#fattura").val(response);
-                                }
-                            },
-                            error: function(){
-                                initPopupGenerico("Errore");
-                            }
-                        });
-
-                        nascondiSituazionePaziente();
-                    //}else{
-                    //    initPopupGenerico("L'utente ha già un intervento registrato nella data odierna...");
-                    //    nascondiSituazionePaziente();
-                    //}
-                },
-                error: function(){
-                    initPopupGenerico("Errore");
-                }
-            });
-                
-            
-        },
-        error: function(){
-            initPopupGenerico("Errore");
-        }
-    });*/
 }
 
 /*Restituisce true se qualcosa non è statop completato correttamente*/
@@ -908,12 +844,12 @@ function svuotaCampiSituazionePaziente(){
 
 //svuota il campo nome del popup aggiungi nuovo
 function svuotaOggi(){
-    document.getElementById("txtSituazionePazienteOggi").style.backgroundColor = "white";
+    $("#txtSituazionePazienteOggi").css("background-color","white");
 }
 
 //svuota il campo nome del popup aggiungi nuovo
 function svuotaImporto(){
-    document.getElementById("txtImportoSituazionePaziente").style.backgroundColor = "white";
+    $("#txtImportoSituazionePaziente").css("background-color","white");
 }
 
 /*
@@ -957,7 +893,6 @@ function visualizzaContabilita(){
         url: "./serverlogic.php",
         data: {azione: "visualizzaContabilitaPersona", id:id},
         success: function(response){
-            console.log(response);
             if(response != "-1"){
                 var contabilita = JSON.parse (response);
                 var riga = "";
@@ -1001,19 +936,19 @@ function aggiungiNuovoPaziente(){
     if(!checkfields()){
         initPopupGenerico("Alcuni campi obbligatori non sono stati compilati correttamente.");
     }else{
-        var nome = document.getElementById ("txtNomePopupAggiungiNuovo").value;
-        var cognome = document.getElementById ("txtCognomePopupAggiungiNuovo").value;
-        var luogoNascita = document.getElementById ("txtLuogoNascitaPopupAggiungiNuovo").value;
-        var dataNascita = document.getElementById ("txtDataNascitaPopupAggiungiNuovo").value;
-        var residenza = document.getElementById ("txtResidenzaPopupAggiungiNuovo").value;
-        var indirizzo = document.getElementById ("txtIndirizzoPopupAggiungiNuovo").value;
-        var cap = document.getElementById ("txtCapPopupAggiungiNuovo").value;
-        var telefono1 = document.getElementById ("txtTelefonoPopupAggiungiNuovo").value;
-        var telefono2 = document.getElementById ("txtTelefono2PopupAggiungiNuovo").value;
-        var codfisc = document.getElementById ("txtCodiceFiscalePopupAggiungiNuovo").value;
-        var motivo = document.getElementById ("txtMotivoPopupAggiungiNuovo").value;
-        var osservazioni = document.getElementById ("txtOsservazioniPopupAggiungiNuovo").value;
-        var provenienza = document.getElementById ("txtProvenienzaPopupAggiungiNuovo").value;
+        var nome = $("#txtNomePopupAggiungiNuovo").val();
+        var cognome = $("#txtCognomePopupAggiungiNuovo").val();
+        var luogoNascita = $("#txtLuogoNascitaPopupAggiungiNuovo").val();
+        var dataNascita = $("#txtDataNascitaPopupAggiungiNuovo").val();
+        var residenza = $("#txtResidenzaPopupAggiungiNuovo").val();
+        var indirizzo = $("#txtIndirizzoPopupAggiungiNuovo").val();
+        var cap = $("#txtCapPopupAggiungiNuovo").val();
+        var telefono1 = $("#txtTelefonoPopupAggiungiNuovo").val();
+        var telefono2 = $("#txtTelefono2PopupAggiungiNuovo").val();
+        var codfisc = $("#txtCodiceFiscalePopupAggiungiNuovo").val();
+        var motivo = $("#txtMotivoPopupAggiungiNuovo").val();
+        var osservazioni = $("#txtOsservazioniPopupAggiungiNuovo").val();
+        var provenienza = $("#txtProvenienzaPopupAggiungiNuovo").val();
 
         dataNascitaFP = dataNascita;
         dataNascita = giraDataDb(dataNascita);
@@ -1191,10 +1126,10 @@ function inserisciNuovoFile(){
 */
 function caricaContabilita(nomePersona = ""){
     $("#txtRicercaAnagrafica").val("");
-	if(document.getElementById("situazionePaziente") != null){
+	if($("#situazionePaziente") != null){
 	 	nascondiSituazionePaziente();
 	}
-	if(document.getElementById("pagamento") != null){
+	if($("#pagamento") != null){
 	 	nascondiPagamento();
 	}
 	$.ajax({  
@@ -1246,8 +1181,8 @@ function caricaContabilita(nomePersona = ""){
 * Richiama una funzione ajax e riempie il sidenav contenente le informazioni riguardo un pagamento specifico
 */
 function mostraPagamento(i,anno, mese, giorno) {
-    document.getElementById("sidePagamento").style.width = "500px";
-    document.getElementById("sidePagamento").style.marginTop = "55px";
+    $("#sidePagamento").css("width","500px");
+    $("#sidePagamento").css("margin-top","55px");
     if (mese<10){
         mese = "0" + mese;
     }
@@ -1257,7 +1192,6 @@ function mostraPagamento(i,anno, mese, giorno) {
     var data = anno + "-" + mese + "-" + giorno;
     $("#idPagamento").val(i);
     $("#dataPagamento").val(data);
-    console.log(data);
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -1295,7 +1229,7 @@ function mostraPagamento(i,anno, mese, giorno) {
 /*Fa scomparire il sidenav contente le informazioni del pagamento*/
 function nascondiPagamento() {
 	$("#txtImportoPagamento").val("");
-    document.getElementById("sidePagamento").style.width = "0";
+    $("#sidePagamento").css("width","0");
 }
 
 /*Aggiorna l' importo di un pagamento*/
@@ -1362,12 +1296,12 @@ function confermaPagamento(){
     var id = $("#idPagamento").val();
     var data = $("#lblDataIntervento").html();
     data = giraDataDb(data);
+    var importo = $("#txtImportoPagamento").val();
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
         data: {azione: "datiFatturaSingola", id:id, data:data},
         success: function(response) {
-            console.log(response);
             var datiFattura = JSON.parse(response);
             $("#cognomeNome").val(datiFattura.cognomeNome);
             $("#indirizzo").val(datiFattura.Indirizzo);
@@ -1375,9 +1309,9 @@ function confermaPagamento(){
             $("#cap").val(datiFattura.CAP);
             $("#cfisc").val(datiFattura.cfisc);
             $("#descrizione").val(datiFattura.descrizione);
-            $("#importo").val(datiFattura.importo);
-            $("#totale").val(datiFattura.importo);
-            var totale = datiFattura.importo;
+            $("#importo").val(importo);
+            $("#totale").val(importo);
+            var totale = importo;
             var iva = 5/100;
             $("#bolloIva").val(iva);
             $("#daPagare").val(totale*iva);
@@ -1396,36 +1330,48 @@ function confermaPagamento(){
 /*IOmposta il pagamento multiplo nell' hidden per la ricevuta e stamp'a il popup se si vuiole stampare la ric*/
 function pagaTuttiInterventiPassati(){
     var id = $("#idPagamento").val();
+    var data = $("#dataPagamento").val();
+    var importo = $("#txtImportoPagamento").val();
+    //Aggiorna l'importo del pagamento selezionato
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
-        data: {azione: "datiFatturaMultipla", id:id},
+        data: {azione: "aggiornaPagamento", id:id,data:data,importo:importo},
         success: function(response) {
-            var datiFattura = JSON.parse(response);
-            $("#cognomeNome").val(datiFattura[0].cognomeNome);
-            $("#indirizzo").val(datiFattura[0].indirizzo);
-            $("#residenza").val(datiFattura[0].residenza);
-            $("#cap").val(datiFattura[0].cap);
-            $("#cfisc").val(datiFattura[0].cfisc);
-            var iva = 5/100;
-            $("#bolloIva").val(iva);
-            $("#nFattura").val(datiFattura[0].nFattura);
-            $("#dataEmissione").val(datFattura[0].dataEmissione);
-            var insiemeDescrizioni = [];
-            var insiemeImporti = [];
-            var totale = 0;
-            for(var i = 0; i<datiFattura.length; i++){
-                totale = totale + datiFattura[i].importo;
-                insiemeDescrizioni[i] = datiFattura[i].descrizione;
-                insiemeImporti[i] = datiFattura[i].importo;
+            $.ajax({  
+            type: "POST", 
+            url: "./serverlogic.php",
+            data: {azione: "datiFatturaMultipla", id:id},
+            success: function(response) {
+                var datiFattura = JSON.parse(response);
+                $("#cognomeNome").val(datiFattura[0].cognomeNome);
+                $("#indirizzo").val(datiFattura[0].Indirizzo);
+                $("#residenza").val(datiFattura[0].residenza);
+                $("#cap").val(datiFattura[0].CAP);
+                $("#cfisc").val(datiFattura[0].cfisc);
+                var iva = 5/100;
+                $("#bolloIva").val(iva);
+                $("#dataEmissione").val(datiFattura[0].dataEmissione);
+                var insiemeDescrizioni = [];
+                var insiemeImporti = [];
+                var totale = 0;
+                for(var i = 0; i<datiFattura.length; i++){
+                    totale = parseInt(totale) + parseInt(datiFattura[i].importo);
+                    insiemeDescrizioni[i] = datiFattura[i].descrizione;
+                    insiemeImporti[i] = datiFattura[i].importo;
+                }
+                $("#descrizione").val(insiemeDescrizioni);
+                $("#importo").val(insiemeImporti);
+                
+                $("#totale").val(totale);
+                $("#daPagare").val(totale*iva);
+                $('#pagamentoSingolo').val("1");
+                $('#popupStampaRicevuta').modal('show');
+            },
+            error: function(){
+                initPopupGenerico("Errore");
             }
-            $("#descrizione").val(insiemeDescrizioni);
-            $("#importo").val(insiemeImporti);
-            
-            $("#totale").val(totale);
-            $("#daPagare").val(totale*iva);
-            $('#pagamentoSingolo').val("1");
-            $('#popupStampaRicevuta').modal('show');
+        });
         },
         error: function(){
             initPopupGenerico("Errore");
@@ -1447,47 +1393,47 @@ function stampaRicevuta(){
     var totale = $("#totale").val();
     var id = $("#idPagamento").val();
     var pagamentoSingolo = $("#pagamentoSingolo").val();
-        $.ajax({  
-            type: "GET", 
-            url: "../samples/sampleFattura.html",
-            success: function(response) {
-                var fattura = response;
-                if(pagamentoSingolo == 0){
-                    console.log(id);
-                    $.ajax({  
-                        type: "POST", 
-                        url: "./serverlogic.php",
-                        data: {azione: "stampaFatturaSingola",id:id, dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
-                                residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,data:data,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
-                        success: function(response) {
-                            caricaContabilita();
-                            window.open(response);
-                        },
-                        error: function(){
-                            initPopupGenerico("Errore");
-                        }
-                    });
-                }else{
-                    $.ajax({  
-                        type: "POST", 
-                        url: "./serverlogic.php",
-                        data: {azione: "stampaFatturaMultipla", dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
-                                residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
-                        success: function(response) {
-                            caricaContabilita();
-                            window.open(response);
-                        },
-                        error: function(){
-                            initPopupGenerico("Errore");
-                        }
-                    });
-                }
-            },
-            error: function(){
-                initPopupGenerico("Errore");
+    $.ajax({  
+        type: "GET", 
+        url: "../samples/sampleFattura.html",
+        success: function(response) {
+            var fattura = response;
+            if(pagamentoSingolo == 0){
+                $.ajax({  
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "stampaFatturaSingola",id:id, dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
+                            residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,data:data,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
+                    success: function(response) {
+                        $('#popupStampaRicevuta').modal('hide');
+                        caricaContabilita();
+                        window.open(response);
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
+            }else{
+                $.ajax({  
+                    type: "POST", 
+                    url: "./serverlogic.php",
+                    data: {azione: "stampaFatturaMultipla",id:id, dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
+                            residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
+                    success: function(response) {
+                        $('#popupStampaRicevuta').modal('hide');
+                        caricaContabilita();
+                        window.open(response);
+                    },
+                    error: function(){
+                        initPopupGenerico("Errore");
+                    }
+                });
             }
-        });
-        
+        },
+        error: function(){
+            initPopupGenerico("Errore");
+        }
+    });
 }
 
 // funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 
@@ -1541,7 +1487,6 @@ function stampaRicevutaPagamentoEsistente(){
         url: "./serverlogic.php",
         data: {azione: "ricevutaPagamentoEsistente", id:id, data:String(data)},
         success: function(response) {
-            console.log(response);
             window.open(response);
         },
         error: function(){

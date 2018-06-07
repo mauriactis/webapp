@@ -23,7 +23,7 @@
 </table>
 
 <!-- Sidenav che appare quando viene premuto il tasto "Situazione paziente"-->
-<div id="situazionePaziente" class="sidenav" style="margin-top: 55px">
+<div id="situazionePaziente" class="sidenav" style="margin-top: 62px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiSituazionePaziente();">&times;</a>
    <div class="corpoSidenav">
       <h3><label id="lblCognomeNomeSituazionePaziente"></label></h3>
@@ -55,7 +55,7 @@
 </div>
 
 <!-- Sidenav che appare quando viene premuto il tasto "Info"-->
-<div id="modifiche" class="sidenav" style="margin-top: 55px">
+<div id="modifiche" class="sidenav" style="margin-top: 62px">
    <a href="javascript:void(0)" class="closebtn" onclick="nascondiModifiche();">&times;</a>
    <div class="corpoSidenav" style="display: block;">
       <h3><label id="lblCognomeNomeModifiche"></label></h3>
@@ -292,13 +292,12 @@
          <div id="fattura">
          </div>
          <input type="hidden" id="stmpRicImporto">
-         <input type="hidden" id="nFattura">
          <input type="hidden" id="stmpRicDescrizione">
          <input type="hidden" id="stmpRicID">
          <input type="hidden" id="stmpRicData">
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="ricevutaAnagrafica(1,'','','','');" data-dismiss="modal">Sì</button>
-            <button type="button" class="btn btn-default" onclick="ricevutaAnagrafica(2,'','','','');" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-default" onclick="ricevutaAnagrafica(0,'','','','');" data-dismiss="modal">No</button>
          </div>
       </div>
     </div>

@@ -1,14 +1,8 @@
 <?php
 	 
-     $user = "root"; $pwd = ""; $risposta = ""; $conn = null;
-     try{
-         // connessione
-         $conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
-         // abilita gestione errori tramite try … catch  (Exception)
-         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-     } catch(PDOException $ex){
-        $risposta = "Errore connessione: ".$ex->getMessage();
- }
+    $user = "root"; $pwd = "root"; $risposta = ""; $conn = null;
+
+    $conn = new PDO("mysql:host=localhost;dbname=provadb", $user, $pwd);
 
     if(isset($_POST['azione']) && !empty($_POST['azione'])) {   //variabili tutte con minuscole con upper su prima lettere della seconda parola
         $azione = $_POST['azione'];
@@ -112,15 +106,17 @@
         $stmSql = $conn->prepare($query);
         $result = $stmSql ->execute();
         
-        $ret = $stmSql ->fetch()[0];
+        $ret = $stmSql ->fetch();
+        $risposta = $ret[0];
 
         $query="SELECT count(*) FROM messaggi WHERE Richiesta = 0 AND Letto = 0";
         $stmSql = $conn->prepare($query);
         $result = $stmSql ->execute();
         
-        $ret += $stmSql ->fetch()[0];
+        $ret = $stmSql ->fetch();
+        $risposta += $ret[0];
 
-        echo $ret;
+        echo $risposta;
     }
 
 // #1 funzione che da l'ultimo appuntamento quando si clicca sull'occhietto di un appuntamento gia fissato

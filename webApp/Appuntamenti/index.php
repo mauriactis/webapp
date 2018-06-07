@@ -28,7 +28,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
       <script language="javascript" src="clientlogic.js"></script>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    </head> 
-   <body onload="initForm();">
+   <body>
       
       <div id="mainDiv">
          <div id="vsblPage">
@@ -76,7 +76,7 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
               <div id="sidenavBody">
                  <input type="hidden" id="idPaziente">
                  <input type="hidden" id="dataIntervento">
-                 <a href="javascript:void(0)" class="closebtn" onclick="nascondiDettagliAppuntamento();">&times;</a>
+                 <p class="closebtn" onclick="nascondiDettagliAppuntamento();"><span class="glyphicon glyphicon-remove"></span></p>
                  <h3><label>L' ultima volta...</label></h3>
                  <div id="dettagliAppuntamentoUltimaVolta">
                  </div>
@@ -84,8 +84,8 @@ if(!isset($_SESSION['id']) || $_SESSION['id'] !== "CiSiamo"){
                  <h3><label>Da fare</label></h3>
                  <div id="dettagliAppuntamentoDaFare">
                  </div>
-              </div>
               <button type="button" class="btn btn-danger" id="btnEliminaAppuntamento" onclick="eliminaAppuntamento();">Elimina appuntamento</button>
+              </div>
             </div>
          </div>
       </div>

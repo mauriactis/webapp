@@ -28,7 +28,7 @@
       <table>
          <tr>
             <td>
-               <input type="text" class="form-control" id="txtImportoPagamento">
+               <input type="text" class="form-control" onclick="this.select();" id="txtImportoPagamento">
                <h3 id="divImportoPagamento">
                </h3>
             </td>
@@ -53,7 +53,7 @@
          <div class="modal-body">
             <h3>Il paziente ha degli interventi non pagati. Il costo complessivo è di: <label id="costoComplessivo"></label><b> €</b>.
             Si desidera pagarli tutti adesso?</h3>
-            <input type="hidden" id="idPazientePopupCostoTuttiInterventi" value="">
+            <input type="hidden" id="importoModificato" value="">
          </div>
          <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="pagaTuttiInterventiPassati();" data-dismiss="modal">Paga tutti</button>
@@ -64,11 +64,11 @@
 </div>
 
 <!-- Popup che richiede e i deidera stampare la ricevuta -->
-<div class="modal fade" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal" id="popupStampaRicevuta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-sm">
       <div class="modal-content">
          <div class="modal-body">
-            Si desidera stampare la ricevuta? In caso negativo la procedura varrà interrotta.
+            Si desidera stampare la ricevuta? In caso negativo la procedura verrà interrotta.
             <input type="hidden" id="pagamentoSingolo" value="">
             <input type="hidden" id="cognomeNome" value="">
             <input type="hidden" id="indirizzo" value="">
@@ -83,7 +83,7 @@
             <input type="hidden" id="dataEmissione" value="">
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();" data-dismiss="modal">Sì</button>
+            <button type="button" class="btn btn-primary" onclick="stampaRicevuta();">Sì</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
          </div>
       </div>

@@ -1,4 +1,32 @@
-var options = { twentyFour: true, //Formato delle ore in 24 ore, di default falso
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: clientlogic.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: clientlogic.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var options = { twentyFour: true, //Formato delle ore in 24 ore, di default falso
     title: 'Ora', 
     showSeconds: false, //Mostra i secondi
     minutesInterval: 1, //Intervallo di cambiamento dei minuti (in questo caso di minuto in minuto)
@@ -11,11 +39,6 @@ $(document).ready(function(){
     $("#vsblPage").dblclick(function() {
         nascondiDettagliAppuntamento();
     });
-});
-$(document).keyup(function(e) {
-    if (e.keyCode == 27) { 
-        nascondiDettagliAppuntamento();
-   }
 });
 
 /**
@@ -80,15 +103,15 @@ function laDataEOggi(){
         var offsetPos = 1;
         oggi = String(formattaData(oggi));
         //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-        for(var i = 0;i < 7;i++){
+        for(var i = 0;i &lt; 7;i++){
             if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+                riga += '&lt;li class="active">&lt;a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + oggi.substring(0,4) + "," + oggi.substring(5,7) + "," + oggi.substring(8,10) + ');">' + nomeGiorno + '&lt;/a>&lt;/li>';
             }else{
                 //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
                 //facendo la setDate viene poi sballata il giro dopo
                 var data = new Date();
                 //Siamo in una data precedente ad oggi
-                if(i<giornoSett){
+                if(i&lt;giornoSett){
                     var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
                     offsetNeg--;
                 }else{
@@ -100,7 +123,7 @@ function laDataEOggi(){
                 var mese= id.substring(5,7);
                 var giorno= id.substring(8,10);
 
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+                riga += '&lt;li>&lt;a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '&lt;/a>&lt;/li>';
             }
             
         }
@@ -124,15 +147,15 @@ function laDataEStataSelezionata(caricaPagina){
         var offsetPos = 1;
         caricaPagina = String(formattaData(caricaPagina));
         //Ciclo che scorre i giorni della settimana e imposta come attivo quello di oggi
-        for(var i = 0;i < 7;i++){
+        for(var i = 0;i &lt; 7;i++){
             if(giorni[i] == nomeGiorno){
-                riga += '<li class="active"><a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + caricaPagina.substring(0,4) + "," + caricaPagina.substring(5,7) + "," + caricaPagina.substring(8,10) + ');">' + nomeGiorno + '</a></li>';
+                riga += '&lt;li class="active">&lt;a href="" id="selezionato" data-toggle="tab" onclick="caricaAppuntamenti(' + caricaPagina.substring(0,4) + "," + caricaPagina.substring(5,7) + "," + caricaPagina.substring(8,10) + ');">' + nomeGiorno + '&lt;/a>&lt;/li>';
             }else{
                 //devo dichiararla qua perchè serve tutte le volte la data di oggi, se usassi sempre una variabile dichiarata fuori dal for(es. "oggi")
                 //facendo la setDate viene poi sballata il giro dopo
                 var data = new Date(caricaPagina);
                 //Siamo in una data precedente ad oggi
-                if(i<giornoSett){
+                if(i&lt;giornoSett){
                     var id = formattaData(new Date(data.setDate(data.getDate() - offsetNeg)));
                     offsetNeg--;
                 }else{
@@ -144,7 +167,7 @@ function laDataEStataSelezionata(caricaPagina){
                 var mese= id.substring(5,7);
                 var giorno= id.substring(8,10);
 
-                riga += '<li><a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '</a></li>';
+                riga += '&lt;li>&lt;a href="" data-toggle="tab" onclick="caricaAppuntamenti(' + anno + ", " + mese + ", " + giorno + ');">' + giorni[i] + '&lt;/a>&lt;/li>';
             }
             
         }
@@ -163,8 +186,8 @@ function formattaData(date) {
     day = String(d.getDate()),
     year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
+    if (month.length &lt; 2) month = '0' + month;
+    if (day.length &lt; 2) day = '0' + day;
 
     return [year, month, day].join('-');
 }
@@ -189,10 +212,10 @@ function startTime() {
  * in questo caso la restituisce con uno 0 davanti (così ha due cifre)
  * esempio: 5 minuti --> 05 minuti
  * @param {*} i il dato da controllare
- * @returns "0i" se i<10
+ * @returns "0i" se i&lt;10
  */
 function checkTime(i) {
-    if (i < 10) {i = "0" + i};
+    if (i &lt; 10) {i = "0" + i};
     return i;
 }
 
@@ -223,8 +246,6 @@ function giraDataDb(date){
 function mostraDettagliAppuntamento(id, dataOra){
     $("#idPaziente").val(id);
     $("#dataIntervento").val(String(dataOra));
-    $("#dettagliAppuntamentoUltimaVolta").html("attendi...");
-    $("#dettagliAppuntamentoDaFare").html("attendi...");
     $.ajax({  
         type: "POST", 
         url: "./serverlogic.php",
@@ -275,7 +296,7 @@ function nuovoAppuntamento(){
             var persone = JSON.parse (response);
             var cmbPersone = document.getElementById("txtPersonaNuovoAppuntamento");
             var array=[]; 
-            for (var a = 0; a < persone.length; a ++){
+            for (var a = 0; a &lt; persone.length; a ++){
                 array.push(persone[a].NomeCognome + ", " + persone[a].ID);
             }
             $( "#txtPersonaNuovoAppuntamento" ).autocomplete({source: array});
@@ -388,18 +409,18 @@ function caricaAppuntamenti(anno, mese, giorno){
             var appuntamenti = JSON.parse (response);
             var riga = "";
             var dataOra = "";
-            for (var a = 0; a < appuntamenti.length; a ++)
+            for (var a = 0; a &lt; appuntamenti.length; a ++)
             {
                 dataOra = String(data) + " " + String(appuntamenti[a].Ora);
-                riga += "<tr><td>" + 
-                    appuntamenti[a].Ora.substring(0,5) + "</td><td>" +
-                    appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
+                riga += "&lt;tr>&lt;td>" + 
+                    appuntamenti[a].Ora.substring(0,5) + "&lt;/td>&lt;td>" +
+                    appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "&lt;/td>&lt;td>" +
+                    '&lt;button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');">&lt;span class="glyphicon glyphicon-eye-open">&lt;/span>&lt;/button>' + "&lt;/td>&lt;/tr>";
             }
             if(riga != ""){
                 $("#tblAppuntamentiBody").html(riga);
             }else{
-                $("#tblAppuntamentiBody").html("<tr><td colspan=\"3\">Non sono stati fissati appuntamenti per oggi.</td></tr>");
+                $("#tblAppuntamentiBody").html("&lt;tr>&lt;td colspan=\"3\">Non sono stati fissati appuntamenti per oggi.&lt;/td>&lt;/tr>");
             }
         },
         error: function(){
@@ -431,11 +452,11 @@ function richiesteAppuntamento(){
             var richieste = JSON.parse (response);
             var riga = "";
             var dataInvio = "";
-            for (var a = 0; a < richieste.length; a ++)
+            for (var a = 0; a &lt; richieste.length; a ++)
             {
                 dataInvio = String(richieste[a].DataOraInvio);
-                riga += "<tr style=\"font-weight:bold\"><td>" + richieste[a].Cognome + " " + richieste[a].Nome + "</td><td>" +
-                    '<button class="btn btn-success" onclick="visualizzaRichiesta(\'' + dataInvio + "'," + richieste[a].AnaID + ',\'' + richieste[a].Cognome + '\',\'' + richieste[a].Nome + '\',\'' + richieste[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>'; 
+                riga += "&lt;tr style=\"font-weight:bold\">&lt;td>" + richieste[a].Cognome + " " + richieste[a].Nome + "&lt;/td>&lt;td>" +
+                    '&lt;button class="btn btn-success" onclick="visualizzaRichiesta(\'' + dataInvio + "'," + richieste[a].AnaID + ',\'' + richieste[a].Cognome + '\',\'' + richieste[a].Nome + '\',\'' + richieste[a].Note +'\');">&lt;span class="glyphicon glyphicon-share-alt">&lt;/span>&lt;/button>'; 
             }
             if(riga != ""){
                 $("#tblRichiesteBody").html(riga);
@@ -455,11 +476,11 @@ function richiesteAppuntamento(){
             var messaggi = JSON.parse (response);
             var riga = "";
             var dataInvio = "";
-            for (var a = 0; a < messaggi.length; a ++)
+            for (var a = 0; a &lt; messaggi.length; a ++)
             {
                 dataInvio = String(messaggi[a].DataOraInvio);
-                riga += "<tr style=\"font-weight:bold\"><td>" + messaggi[a].Cognome + " " + messaggi[a].Nome + "</td><td>" +
-                    '<button class="btn btn-info" onclick="visualizzaMessaggio(\'' + dataInvio + "'," + messaggi[a].AnaID + ',\'' + messaggi[a].Cognome + '\',\'' + messaggi[a].Nome + '\',\'' + messaggi[a].Note +'\');"><span class="glyphicon glyphicon-share-alt"></span></button>'; 
+                riga += "&lt;tr style=\"font-weight:bold\">&lt;td>" + messaggi[a].Cognome + " " + messaggi[a].Nome + "&lt;/td>&lt;td>" +
+                    '&lt;button class="btn btn-info" onclick="visualizzaMessaggio(\'' + dataInvio + "'," + messaggi[a].AnaID + ',\'' + messaggi[a].Cognome + '\',\'' + messaggi[a].Nome + '\',\'' + messaggi[a].Note +'\');">&lt;span class="glyphicon glyphicon-share-alt">&lt;/span>&lt;/button>'; 
             }
             if(riga != ""){
                 $("#tblMessaggiBody").html(riga);
@@ -524,7 +545,7 @@ function visualizzaMessaggio(dataInvio, id, cognome, nome, note){
  */
 function inviaRisposta(){
     var succ = checkfieldRisposta();
-    if(succ != false && succ != 2){
+    if(succ != false &amp;&amp; succ != 2){
         var id = $("#idPazientePopupRisposta").val();
         var dataOra = $("#data").val();
         var data1 = $("#txtData1Risposta").val();
@@ -613,20 +634,20 @@ function checkfieldRisposta(){
     if(ora1 == ""){
         ret = false;
     }
-    if((ora2 == "" && data2 != "") || (ora2 != "" && data2 == "")){
+    if((ora2 == "" &amp;&amp; data2 != "") || (ora2 != "" &amp;&amp; data2 == "")){
         ret = false;
     }
-    if((ora3 == "" && data3 != "") || (ora3 != "" && data3 == "")){
+    if((ora3 == "" &amp;&amp; data3 != "") || (ora3 != "" &amp;&amp; data3 == "")){
         ret = false;
     }
-    if(data1 == data2 && ora1 == ora2){
+    if(data1 == data2 &amp;&amp; ora1 == ora2){
         ret = 2;
     }
-    if(data1 == data3 && ora1 == ora3){
+    if(data1 == data3 &amp;&amp; ora1 == ora3){
         ret = 2;
     }
     if(data2 != ""){
-        if(data2 == data3 && ora2 == ora3){
+        if(data2 == data3 &amp;&amp; ora2 == ora3){
             ret = 2;
         }
     }
@@ -647,4 +668,26 @@ function svuotaInviaRisposta(){
 function initPopupGenerico(msg){
     $("#bodyPopupGenerico").html(msg);
     $("#popupGenerico").modal('show');
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#caricaAppuntamenti">caricaAppuntamenti</a></li><li><a href="global.html#checkfieldNuovoAppuntamento">checkfieldNuovoAppuntamento</a></li><li><a href="global.html#checkfieldRisposta">checkfieldRisposta</a></li><li><a href="global.html#checkInviaRisposta">checkInviaRisposta</a></li><li><a href="global.html#checkTime">checkTime</a></li><li><a href="global.html#eliminaAppuntamento">eliminaAppuntamento</a></li><li><a href="global.html#formattaData">formattaData</a></li><li><a href="global.html#giraDataDb">giraDataDb</a></li><li><a href="global.html#giraDataUmano">giraDataUmano</a></li><li><a href="global.html#initBadge">initBadge</a></li><li><a href="global.html#initForm">initForm</a></li><li><a href="global.html#initPillsGiorni">initPillsGiorni</a></li><li><a href="global.html#inviaRisposta">inviaRisposta</a></li><li><a href="global.html#inviaRispostaMessaggio">inviaRispostaMessaggio</a></li><li><a href="global.html#laDataEOggi">laDataEOggi</a></li><li><a href="global.html#laDataEStataSelezionata">laDataEStataSelezionata</a></li><li><a href="global.html#mostraDettagliAppuntamento">mostraDettagliAppuntamento</a></li><li><a href="global.html#nuovoAppuntamento">nuovoAppuntamento</a></li><li><a href="global.html#richiesteAppuntamento">richiesteAppuntamento</a></li><li><a href="global.html#salvaAppuntamento">salvaAppuntamento</a></li><li><a href="global.html#startTime">startTime</a></li><li><a href="global.html#svuotaNuovoAppuntamento">svuotaNuovoAppuntamento</a></li><li><a href="global.html#visualizzaAppuntamentiData">visualizzaAppuntamentiData</a></li><li><a href="global.html#visualizzaMessaggio">visualizzaMessaggio</a></li><li><a href="global.html#visualizzaRichiesta">visualizzaRichiesta</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 01 2018 15:44:30 GMT+0200 (ora legale Europa occidentale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

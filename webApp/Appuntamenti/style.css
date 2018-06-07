@@ -61,10 +61,32 @@
 #divDettagliAppuntamento{
     float: right;
     width: 25%;
-    margin-top: -18em;
+    margin-top: -18.6em;
     margin-right: 6.8em;
-    background: rgb(240,240,240);
+	box-shadow: 50px 0px 114px 43px rgba(0,0,0,0.18);
+	border: 1px solid rgb(195,195,195);
+	padding-bottom: 1em;
+	padding-top: 0.5em;
 }
+#divDettagliAppuntamento h3{
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
+
+#dettagliAppuntamentoUltimaVolta{
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.closebtn{
+	margin-left:31.5em;
+	cursor: pointer;
+}
+.closebtn span{
+	font-size:1.5em;
+}
+
+
 
 #mainDiv {
     transition: margin-left 0.5s;
