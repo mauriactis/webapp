@@ -535,8 +535,6 @@
 			$stmSql ->bindParam(2, $idPersona);
 			
 			$result = $stmSql ->execute();
-			
-		echo $result;          //faccio restituire solo vero o falso se riesce eseguire la query da come risultato echo = true
 		}		
 
 //--------------------------fine funzioni pagamento--------------------------------//
@@ -891,7 +889,7 @@
 			$result = $stmSql ->execute();
 			$anno = substr($dataEmissione,0,4);
 			//Progressivo che indica il numero della fattura
-			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
+			$query = "SELECT numeroFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
@@ -1040,7 +1038,7 @@
 			$result = $stmSql ->execute();
 			$anno = substr($dataEmissione,0,4);
 			//Progressivo che indica il numero della fattura
-			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
+			$query = "SELECT numeroFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
@@ -1128,7 +1126,7 @@
 			$result = $stmSql ->execute();
 			$anno = substr($dataEmissione,0,4);
 			//Progressivo che indica il numero della fattura
-			$query = "SELECT numerFattura FROM gestionefatture WHERE Anno = ?";
+			$query = "SELECT numeroFattura FROM gestionefatture WHERE Anno = ?";
 			$stmSql = $conn->prepare($query);
 			$stmSql ->bindParam(1, $anno);
 			$result = $stmSql ->execute();
@@ -1142,6 +1140,9 @@
 			$stmSql ->bindParam(1, $nFattura);
 			$stmSql ->bindParam(2, $anno);
 			$result = $stmSql ->execute();
+
+			$descrizione = str_replace(",","<br>", $descrizione);
+			$importo = str_replace(","," €<br>", $importo);
 
 			$fattura = str_replace("@nFattura@",$nFattura,$fattura);
 			$fattura = str_replace("@importo@",$importo,$fattura);

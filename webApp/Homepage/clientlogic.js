@@ -1419,10 +1419,12 @@ function stampaRicevuta(){
                     url: "./serverlogic.php",
                     data: {azione: "stampaFatturaMultipla",id:id, dataEmissione:dataEmissione, cognomeNome:cognomeNome, indirizzo:indirizzo,
                             residenza:residenza,cap:cap,cfisc:cfisc,bolloiva:bolloiva,importo:importo,descrizione:descrizione,totale:totale, fattura:fattura},
-                    success: function(response) {
+                    success: function(response1) {
+                        console.log("response 1 " + response1);
+                        console.log("response " + response);
                         $('#popupStampaRicevuta').modal('hide');
                         caricaContabilita();
-                        window.open(response);
+                        window.open(response1);
                     },
                     error: function(){
                         initPopupGenerico("Errore");
@@ -1436,46 +1438,6 @@ function stampaRicevuta(){
     });
 }
 
-// funzione che aggiorna il pagamento nel db a seconda che sia singolo o multiplo 
-function aggiornaImporti(){
-    var pagamentoMultiplo = $("#pagamentoSingolo").val();
-    var id = $("#idPagamento").val();
-
-    if(pagamentoMultiplo != 0){
-        $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "aggiornaPagatoFatturaMultipla", id:id},
-            success: function(response) {
-                caricaContabilita();
-                if(response){
-                    initPopupGenerico("Pagamento confermato!");
-                }
-            },
-            error: function(){
-                initPopupGenerico("Errore");
-            }
-        });
-    }else{
-        var data = $("#dataPagamento").val();
-        var importo = $("#txtImportoPagamento").val();
-        aggiornaPagamento();
-        $.ajax({  
-            type: "POST", 
-            url: "./serverlogic.php",
-            data: {azione: "aggiornaPagatoFatturaSingolo", id:id, importo:importo, dataIntervento:data},
-            success: function(response) {
-                caricaContabilita();
-                if(response){
-                    initPopupGenerico("Pagamento confermato!");
-                }
-            },
-            error: function(){
-                initPopupGenerico("Errore");
-            }
-        });
-    }
-}
 
 //Funzione che stampa la ricevuta con gli importi aggiornati
 function stampaRicevutaPagamentoEsistente(){

@@ -2,10 +2,48 @@
 <html>
 	<head>
 		<title>Fattura</title>
+		<style>
+			@page { margin: 2cm }
+		@media print {
+			#datiPaziente{
+				top: 3cm;
+				position: relative;
+
+			}
+			#dataRicevuta{
+				position: relative;
+				margin:0%;
+				float:right;
+			}
+			#tabella{
+				position: relative;
+				top:4cm;
+			}
+			#firma{
+				margin-top: 3cm;
+				padding-top: 2cm;
+			}
+
+		}
+
+		@media screen {
+			#datiPaziente{
+				margin-top: 2em;
+				margin-left: 25em;
+			}
+			#dataRicevuta{
+				margin-left: 49em;
+			}
+			#tabella{
+				margin-top: 4em;
+				margin-left: 6em;
+			}
+		}
+		</style>
 	</head>
 	<body onload="window.print();">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<div style="margin-left: 49em;">
+		<div id="dataRicevuta">
 			<table>
 				<tr>
 					<td>
@@ -25,14 +63,14 @@
 			</table>
 		</div>
 		
-		<div style="margin-top: 2em; margin-left: 25em;">
+		<div id="datiPaziente">
 			Sig. @nomeCognomePaziente@<br>
 			@indirizzo@ @residenza@ @cap@<br>
 			@cfiscPaziente@
 		</div>
 	
-		<div style="margin-top: 4em; margin-left: 6em;">
-			<table style="border-collapse: collapse; height: 10em; width: 90%;">
+		<div id="tabella">
+			<table style="border-collapse: collapse; height: 10em; width: 100%;">
 				<tr>
 					<th colspan="2" style="border-bottom: 3px solid green;">
 						<div style="color: green;">Descrizione della prestazione sanitaria o della cessione</div>
@@ -71,8 +109,8 @@
 					</td>
 				</tr>
 			</table>
-		</div><br><br>
-		<br>Firma: ___________________
+		</div>
+		<div id="firma">Firma: ___________________</div>
 		
 	</body>
 </html>
