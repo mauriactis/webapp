@@ -16,7 +16,3 @@ aggiornare foto manuale utente
 -------contabilità-------
 
 ------Aggiuntivi-------
-
-numero ricevuta deve essere azzerata ogni anno
-
-sostituire a document.getelementbyid in jquery
