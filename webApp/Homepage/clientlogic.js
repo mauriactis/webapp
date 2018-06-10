@@ -58,7 +58,7 @@ function trovaAppuntamenti(){
             
             var totale = nome + " (" + data + ora + ")";
             if(nome == "Nessuno "){
-                totale = "Nessuno.";
+                totale = "Nessuno";
             }
             $("#lblAppuntamento").html(totale);
             nome = appuntamenti[1].Nome + " " + appuntamenti[1].Cognome;
@@ -607,7 +607,7 @@ function visualizzaDocumenti(idPersona = 0) {
                 riga += "<tr><td>" + 
                     giraDataUmano(documenti[a].Data) + "</td><td>" +
                     documenti[a].Descrizione + "</td><td>" +
-                    '<button class="btn btn-danger" style="margin-right: 5px;" onclick="mostraDocumento(String(\'' + path + '\'));"><span class="glyphicon glyphicon-eye-open"></span></button>' +
+                    '<button class="btn btn-info" style="margin-right: 5px;" onclick="mostraDocumento(String(\'' + path + '\'));"><span class="glyphicon glyphicon-eye-open"></span></button>' +
                     '<button class="btn btn-danger" onclick="eliminaDocumento(' + documenti[a].ID + "," + documenti[a].AnaID + ');"><span class="glyphicon glyphicon-trash"></span></button>' + "</td><tr>"; 
             }
             if(response != "[]"){
@@ -726,7 +726,7 @@ function nascondiModifiche() {
 function salvaIntervento(){
     var descrizione = $("#txtSituazionePazienteOggi").val();
     var importo = $("#txtImportoSituazionePaziente").val();
-    if(checkfieldsIntervento(descrizione, importo)){
+    if(!checkfieldsIntervento(descrizione, importo)){
         initPopupGenerico("Alcuni campi non sono stati compilati correttamente.");
     }else{
         var pagato = $("#chkPagato").is(':checked');
@@ -818,18 +818,18 @@ function ricevutaAnagrafica(pagato, descrizione, importo, id, oggi){
     }
 }
 
-/*Restituisce true se qualcosa non è statop completato correttamente*/
+/*Restituisce false se qualcosa non è statop completato correttamente*/
 function checkfieldsIntervento(descrizione, importo){
     var regexImporto = new RegExp("^[0-9]+$");
-    var ret = false;
+    var ret = true;
 
     if(descrizione == ""){
         $("#txtSituazionePazienteOggi").css("background-color", "rgb(255,147,147)");
-        ret = true;
+        ret = false;
     }
     if(!regexImporto.test(importo)){
         $("#txtImportoSituazionePaziente").css("background-color", "rgb(255,147,147)");
-        ret = true;
+        ret = false;
     }
 
     return ret;
