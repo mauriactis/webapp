@@ -9,10 +9,6 @@ legenda:
 
 -------homepage-------
 
-foglioprivacy non lo stampa se è la prima volta ---> abilitare i popup da browser (da scrivere nel manuale utente)
-
-aggiornare foto manuale utente
-
 -------contabilità-------
 
 ------Aggiuntivi-------
