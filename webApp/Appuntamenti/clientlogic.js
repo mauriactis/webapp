@@ -350,7 +350,7 @@ function caricaAppuntamenti(anno, mese, giorno){
                 riga += "<tr><td>" + 
                     appuntamenti[a].Ora.substring(0,5) + "</td><td>" +
                     appuntamenti[a].Cognome + " " + appuntamenti[a].Nome + "</td><td>" +
-                    '<button class="btn btn-danger" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
+                    '<button class="btn btn-info" onclick="mostraDettagliAppuntamento(' + appuntamenti[a].ID + ",'" + String(dataOra) + '\');"><span class="glyphicon glyphicon-eye-open"></span></button>' + "</td></tr>";
             }
             if(riga != ""){
                 $("#tblAppuntamentiBody").html(riga);
