@@ -31,7 +31,7 @@ if(isset($_SESSION['id']) && $_SESSION['id'] === "CiSiamo"){
         <div class="form-group">
           <label class="col-md-4 control-label" for="password">Password</label>
           <div class="col-md-5">
-            <input id="password" name="password" placeholder="password" class="form-control input-md" required="" type="password">
+            <input id="password" name="password" placeholder="Password" class="form-control input-md" required="" type="password">
           </div>
         </div>
         <br><br>
