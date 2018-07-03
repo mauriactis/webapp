@@ -19,4 +19,5 @@
         android:id="@+id/navbar_esercizi"
         android:icon="@drawable/ic_directions_run_black_24dp"
         android:title="Esercizi" />
+
 </menu>

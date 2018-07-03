@@ -39,6 +39,8 @@
     <string name="TXT_btnContatta">Contatta</string>
     <string name="TXT_titoloRichieste">Richieste appuntamenti</string>
     <string name="TXT_ComingSoon">Coming Soon!</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

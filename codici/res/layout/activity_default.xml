@@ -3,22 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context="com.example.mauri.fisioapp.ActivityDefault">
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityDefault">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -28,67 +15,67 @@
         android:fillViewport="true"
         android:id="@+id/homeContenitore">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/lblHomeAppuntamento"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="67dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/lblHomeAppuntamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="67dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/lblData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblHomeAppuntamento"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="36sp" />
+            <TextView
+                android:id="@+id/lblData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblHomeAppuntamento"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="36sp" />
 
-        <TextView
-            android:id="@+id/lblHomeOra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblData"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/lblHomeOra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblData"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/lblora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblHomeOra"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="36sp" />
+            <TextView
+                android:id="@+id/lblora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblHomeOra"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="36sp" />
 
-        <TextView
-            android:id="@+id/lblNotifiche"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lblora"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="95dp"
-            android:layout_marginHorizontal="20dp"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/lblNotifiche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblora"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="90dp"
+                android:layout_marginHorizontal="20dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
     </ScrollView>
 
@@ -169,64 +156,67 @@
         android:fadingEdge="none"
         android:fillViewport="true"
         android:id="@+id/richiesteContenitore" >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/lblRichieste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/TXT_titoloRichieste"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:textSize="30sp" />
-        <TextView
-            android:id="@+id/lblDescrizioneRichieste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/lblRichieste"
-            android:layout_below="@id/lblRichieste"
-            android:layout_marginEnd="40dp"
-            android:text=""
-            android:textSize="18sp" />
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lblDescrizioneRichieste"
-            android:orientation="horizontal"
-            android:id="@+id/linearLayout"
-            style= "?android:attr/buttonBarStyle">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btnPrimaData"
+            <TextView
+                android:id="@+id/lblRichieste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                style= "?android:attr/buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btnSecondaData"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/TXT_titoloRichieste"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:textSize="30sp" />
+            <TextView
+                android:id="@+id/lblDescrizioneRichieste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_alignStart="@id/lblRichieste"
+                android:layout_below="@id/lblRichieste"
+                android:layout_marginEnd="40dp"
                 android:text=""
-                style= "?android:attr/buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/btnTerzaData"
-                android:layout_width="wrap_content"
+                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                style= "?android:attr/buttonBarButtonStyle"/>
-        </LinearLayout>
+                android:layout_below="@id/lblDescrizioneRichieste"
+                android:orientation="horizontal"
+                android:id="@+id/linearLayout"
+               >
 
-    </RelativeLayout>
+                <Button
+                    android:id="@+id/btnPrimaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:visibility="gone"
+                   />
+
+                <Button
+                    android:id="@+id/btnSecondaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:visibility="gone"
+                    />
+
+                <Button
+                    android:id="@+id/btnTerzaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
     </ScrollView>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -234,23 +224,36 @@
         android:fadingEdge="none"
         android:fillViewport="true"
         android:id="@+id/eserciziContenitore" >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/lblEserciziComingSoon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="40dp"
-            android:text="@string/TXT_ComingSoon"
-            android:textSize="38sp" />
+            <TextView
+                android:id="@+id/lblEserciziComingSoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:text="@string/TXT_ComingSoon"
+                android:textSize="38sp" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
     </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
+
 </android.support.constraint.ConstraintLayout>
