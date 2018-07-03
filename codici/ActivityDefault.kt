@@ -1,4 +1,4 @@
-package com.example.mauri.fisioapp
+package com.example.mauri.myfisio
 
 import android.content.Intent
 import android.os.Bundle
@@ -91,7 +91,7 @@ class ActivityDefault : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 },
-                Response.ErrorListener { toast("ciao") }) {
+                Response.ErrorListener { toast("Errore di connessione") }) {
             override fun getParams(): Map<String, String> {
                 val params = HashMap<String, String>()
                 params["id"] = anaID.toString()
@@ -214,10 +214,12 @@ class ActivityDefault : AppCompatActivity() {
                             var dataTemp = temp[0].substring(8, 10) + "/" + temp[0].substring(5, 7) + "/" + temp[0].substring(0, 4)
                             data1 = dataTemp + "\n" + temp[1].substring(0,5)
                             btnPrimaData.text = data1
+                            btnPrimaData.visibility = View.VISIBLE
                             lblDescrizioneRichieste.text = getString(R.string.TXT_RichiestaAppuntamentoPiena)
                             if(dataDb2 == "null"){
                                 btnSecondaData.visibility = View.GONE
                             }else{
+                                btnSecondaData.visibility = View.VISIBLE
                                 temp = dataDb2.split(" ")
                                 dataTemp = temp[0].substring(8, 10) + "/" + temp[0].substring(5, 7) + "/" + temp[0].substring(0, 4)
                                 data2 = dataTemp + "\n" + temp[1].substring(0,5)
@@ -227,6 +229,7 @@ class ActivityDefault : AppCompatActivity() {
                             if(dataDb3 == "null"){
                                 btnTerzaData.visibility = View.GONE
                             }else{
+                                btnTerzaData.visibility = View.VISIBLE
                                 temp = dataDb3.split(" ")
                                 dataTemp = temp[0].substring(8, 10) + "/" + temp[0].substring(5, 7) + "/" + temp[0].substring(0, 4)
                                 data3 = dataTemp + "\n" + temp[1].substring(0,5)
@@ -282,6 +285,7 @@ class ActivityDefault : AppCompatActivity() {
                             try {
                                 val obj = JSONObject(response)
                                 longToast(obj.getString("message"))
+                                caricaRichieste()
                             } catch (e: JSONException) {
                                 e.printStackTrace()
                             }

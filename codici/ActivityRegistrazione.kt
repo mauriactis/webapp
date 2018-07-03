@@ -1,4 +1,4 @@
-package com.example.mauri.fisioapp
+package com.example.mauri.myfisio
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity

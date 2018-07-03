@@ -1,15 +1,15 @@
-package com.example.mauri.fisioapp
+package com.example.mauri.myfisio
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import kotlinx.android.synthetic.main.activity_login.*
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
@@ -50,10 +50,7 @@ class ActivityLogin : AppCompatActivity() {
                                 e.printStackTrace()
                             }
                         },
-                        Response.ErrorListener {
-                            dialog.cancel()
-                            longToast(R.string.TXT_erroreConnessione)
-                        }) {
+                        Response.ErrorListener { volleyError -> toast(volleyError.message!!) }) {
                     override fun getParams(): Map<String, String> {
                         val params = HashMap<String, String>()
                         params["username"] = username
